@@ -304,9 +304,7 @@ export default function SoYeuLyLich() {
                     <label htmlFor='soTruongCongTac'>Sở trường công tác:</label>
                     <input id="soTruongCongTac" name="soTruongCongTac" type="text" />
                 </div>
-                <div className="next">
-                    <button className="SoYeuLyLich__btn">Tiếp theo</button>
-                </div>
+                
             </div>
         </div>
     )

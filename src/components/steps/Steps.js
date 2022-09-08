@@ -8,7 +8,7 @@ export default function StepsAntd() {
     const { Step } = Steps;
     const [current, setCurrent] = useState(0);
 
-  const onChange = (value) => {
+  const onChangeSteps = (value) => {
     setCurrent(value);
   };
 
@@ -52,15 +52,29 @@ export default function StepsAntd() {
 ];
 
   return (
-    <div className={style.steps}>
-        <Steps className={style.editWidth} current={current} onChange={onChange} direction="vertical">
-            {
-                steps.map((item,index)=>{
-                    return <Step key={index} title={item.title} />
-                })
-            }
-        </Steps>
-        <div className="steps-content">{steps[current].content}</div>
+    <div className={style.alignCenter}>
+        <div className={style.steps}>
+            <Steps className={style.editWidth} current={current} onChange={onChangeSteps} direction="vertical">
+                {
+                    steps.map((item,index)=>{
+                        return <Step key={index} title={item.title} />
+                    })
+                }
+            </Steps>
+            <div className="steps-content">{steps[current].content}</div>
+            <div className="next">
+                {current <= 7
+                ?
+                <button className="SoYeuLyLich__btn" onClick={()=>{
+                    onChangeSteps(current + 1)
+                }}>Tiếp theo</button>
+                :
+                <button className="SoYeuLyLich__btn" onClick={()=>{
+                    console.log("Hoàn thành.");
+                }}>Hoàn thành</button>
+                }
+            </div>
+        </div>
     </div>
   )
 }

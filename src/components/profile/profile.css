@@ -271,6 +271,9 @@ div.next {
     border-style: none;
     transition: background-color 1s;
     line-height: 44px;
+    position: absolute;
+    bottom: 31.5px;
+    right: 34px;
 }
 
 .SoYeuLyLich__btn:hover {
