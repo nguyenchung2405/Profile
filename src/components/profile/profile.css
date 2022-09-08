@@ -1,0 +1,278 @@
+.SoYeuLyLich {
+    padding-top: 27px;
+    width: 100%;
+    margin-left: 26px;
+    display: flex;
+}
+
+.SoYeuLyLich .SoYeuLyLich__left, .SoYeuLyLich .SoYeuLyLich__right {
+    width: 380px;
+}
+
+.SoYeuLyLich .SoYeuLyLich__left {
+    margin-right: 81px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field,.SoYeuLyLich__right .SYLL__right__field {
+    margin-bottom: 20px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field:last-child, .SoYeuLyLich__right .SYLL__right__field:last-child {
+    margin: 0;
+}
+
+.SoYeuLyLich__left .SYLL__left__field > label, .SoYeuLyLich__right .SYLL__right__field > label  {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field > input, .SoYeuLyLich__right .SYLL__right__field > input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+}
+
+.SYLL__left__field .ant-select {
+    width: 105px;
+    height: 40px;
+    border-radius: 3px;
+    margin-right: 32.5px;
+    text-align: center;
+    border-style: none;
+}
+
+.SYLL__right__field .ant-select {
+    width: 204px;
+    height: 40px;
+    border-radius: 3px;
+    margin-right: 41px;
+    text-align: center;
+    border-style: none;
+}
+
+.SYLL__right__field .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.SYLL__left__field .ant-select:last-child {
+    margin-right: 0;
+}
+
+.SYLL__left__field .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.SYLL__left__field .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__left__field .ant-select .ant-select-arrow, .SYLL__right__field .ant-select .ant-select-arrow {
+    color: #3699FF;
+}
+
+.SYLL__left__field .ant-radio-group .ant-radio {
+    margin-right: 14px;
+}
+
+.SYLL__left__field .ant-radio-group .ant-radio-wrapper {
+    margin-right: 40px;
+}
+
+.SYLL__left__field.noiOHienTai input#NoiOHienTai {
+    margin-bottom: 18px;
+}
+
+.fisrt__content > label, .second__content > label, .third__content > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.fisrt__content > input, .second__content > input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 170px;
+    height: 40px;
+}
+
+ .fisrt__content > input {
+    margin-right: 40px;
+}
+
+.two__content {
+    display: flex;
+}
+
+input#maSo::placeholder {
+    padding-left: 22px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+    font-weight: 300;
+}
+
+.maSo {
+    display: flex;
+    align-items: flex-end;
+}
+
+ .second__content.maSo input {
+    width: 138px;
+}
+
+ .fisrt__content.thanhPhanXuatThan input {
+    width: 203px;
+    margin-right: 39px;
+}
+
+.chuyenMon {
+    display: flex;
+    align-items: flex-end;
+}
+
+input#hocVan::placeholder, input#chuyenMon::placeholder {
+    padding-left: 13px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+    font-weight: 300;
+}
+
+.SYLL__right__field .fisrt__content.ngayThamGiaCM .ant-picker {
+    width: 170px;
+    margin-right: 40px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.SYLL__right__field .date__picker .ant-picker {
+    width: 170px;
+    margin-right: 40px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+ 
+.SYLL__right__field .second__content.date__picker .ant-picker {
+    margin-right: 0;
+}
+
+.three__content {
+    display: flex;
+}
+
+.three__content .third__content > input {
+    width: 92px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.three__content .fisrt__content .ant-picker, .three__content .second__content .ant-picker {
+    width: 111px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.three__content .fisrt__content {
+    margin-right: 34px;
+}
+
+.three__content .second__content {
+    margin-right:32px;
+}
+
+.SYLL__right__field .chucVuHienTai input {
+    width: 204px;
+    height: 40px;
+    margin-right: 41px;
+}
+
+.maSo input::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    padding-left: 15px;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .maSo input {
+    width:135px;
+}
+
+.SYLL__right__field.ngayVaoDang .maSo input {
+    width:170px;
+}
+
+.SYLL__right__field .two__content {
+    margin-top: 18px;
+}
+
+.SYLL__right__field .two__content input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 170px;
+    height: 40px;
+}
+
+.SYLL__right__field .two__content input::placeholder{
+    padding: 19px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .two__content input:first-child {
+    margin-right: 40px;
+}
+
+.ant-radio-group.ant-radio-group-outline {
+    margin-top: 15px;
+}
+
+.hocVan {
+    margin-top: 2px;
+}
+
+div.next {
+    text-align: right;
+}
+
+.SoYeuLyLich__btn {
+    border-radius: 3px;
+    background-color: #4794ff;
+    height: 44px;
+    width: 151px;
+    color: white;
+    font-size: 18px;
+    border-style: none;
+    transition: background-color 1s;
+    line-height: 44px;
+}
+
+.SoYeuLyLich__btn:hover {
+    background-color: #1476ff;   
+}

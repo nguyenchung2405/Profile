@@ -1,0 +1,15 @@
+.steps {
+    margin: 50px 0 50px 300px;
+    display:flex;
+    border-radius: 10px;
+    background-color: lemonchiffon;
+    width: 1175px;
+    height: 1310px;
+}
+
+.editWidth {
+    width: 274px;
+    border-right: 1px solid #EBEDF3;
+    padding: 19px 0px 0 20px ;
+}
+
