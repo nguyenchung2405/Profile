@@ -279,3 +279,88 @@ div.next {
 .SoYeuLyLich__btn:hover {
     background-color: #1476ff;   
 }
+
+.steps_steps__UOUsf .steps-content {
+    width: calc(100% - 274px);
+}
+
+.steps_steps__UOUsf .alignCenter {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.step3 .step3__field {
+    margin-bottom: 20px;
+}
+
+.step3 .step3__field:last-child {
+    margin-bottom: 0;
+}
+
+.step3 .step3__field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.step3 .step3__field label span {
+    font-size: 12px;
+}
+
+.step3 .step3__field .ant-picker {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field .content__left {
+    margin-right: 26px;
+}
+
+.step3 .step3__field.two__content .content__left input {
+    width: 213px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.two__content .content__right input {
+    width: 211px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.three__content input {
+    width: 135px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.three__content .ant-picker {
+    width: 135px;
+}
+
+.step3 .step3__field.three__content .content__first {
+    margin-right: 23px;
+}
+
+.step3 .step3__field.three__content .content__second {
+    margin-right: 22px;
+}

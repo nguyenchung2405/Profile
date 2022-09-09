@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Steps } from 'antd';
 import SoYeuLyLich from '../profile/step1';
 import style from "./steps.module.css"
+import Step3_GNĐCSVN from '../profile/step3';
 
 export default function StepsAntd() {
 
@@ -23,7 +24,7 @@ export default function StepsAntd() {
     },
     {
       title: 'Gia nhập Đảng Cộng Sản Việt Nam',
-      content: 'Last-content',
+      content: <Step3_GNĐCSVN />,
     },
     {
         title: 'Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp',
