@@ -40,10 +40,17 @@
     width: 105px;
     height: 40px;
     border-radius: 3px;
-    margin-right: 32.5px;
     text-align: center;
     border-style: none;
 }
+
+.ant-select +  .ant-select{
+    margin-left: 32.5px;
+}
+
+/* .SYLL__left__field.birthday > div:last-child {
+    margin-right: 0px;
+} */
 
 .SYLL__right__field .ant-select {
     width: 204px;
@@ -61,9 +68,9 @@
     background-color: #F0F5FA;
 }
 
-.SYLL__left__field .ant-select:last-child {
+/* .SYLL__left__field .ant-select:last-child {
     margin-right: 0;
-}
+} */
 
 .SYLL__left__field .ant-select .ant-select-selector {
     height: 100%;
@@ -115,7 +122,7 @@
     height: 40px;
 }
 
- .fisrt__content > input {
+ .fisrt__content {
     margin-right: 40px;
 }
 
@@ -139,7 +146,7 @@ input#maSo::placeholder {
     width: 138px;
 }
 
- .fisrt__content.thanhPhanXuatThan input {
+ .fisrt__content.thanhPhanXuatThan {
     width: 203px;
     margin-right: 39px;
 }
@@ -259,6 +266,9 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
 
 div.next {
     text-align: right;
+    padding-right: 33px;
+    margin-top: 49px;
+    margin-bottom: 68px;
 }
 
 .SoYeuLyLich__btn {
@@ -271,9 +281,6 @@ div.next {
     border-style: none;
     transition: background-color 1s;
     line-height: 44px;
-    position: absolute;
-    bottom: 31.5px;
-    right: 34px;
 }
 
 .SoYeuLyLich__btn:hover {
@@ -363,4 +370,53 @@ div.next {
 
 .step3 .step3__field.three__content .content__second {
     margin-right: 22px;
+}
+
+.required__field {
+    color: red;
+    margin-bottom: 0;
+}
+
+.SYLL__left__field .ant-radio-checked .ant-radio-inner:after {
+    transform: scale(1);
+}
+
+.three__content .fisrt__content label:first-child {
+    font-size: 14.3px;
+}
+
+.thanhPhanXuatThan {
+    margin-right: 0;
+}
+
+.ngayThamGiaCM {
+    margin-right: 0;
+}
+
+.date__picker {
+    margin-right: 0;
+}
+
+.chucVuHienTai {
+    margin-right: 0;
+}
+
+.xuatThan {
+    display: block;
+}
+
+.xuatThan > div {
+    display: flex;
+}
+
+#chuyenMon__content {
+    margin-top: 36.56px;
+}
+
+.maSo__ChucVu {
+    margin-top: 36.56px;
+}
+
+.maSo__ChucVu .maSo {
+    display:block;
 }

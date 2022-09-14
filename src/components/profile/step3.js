@@ -1,7 +1,7 @@
 import React from 'react'
 import {DatePicker } from 'antd';
 
-export default function Step3_GNĐCSVN() {
+export default function Step3Component() {
 
     const handleChangDatePicker = (date,dateString)=>{
         console.log("date picker");

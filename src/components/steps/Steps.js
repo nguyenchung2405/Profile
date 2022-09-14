@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Steps } from 'antd';
 import SoYeuLyLich from '../profile/step1';
 import style from "./steps.module.css"
-import Step3_GNĐCSVN from '../profile/step3';
+import Step3Component from '../profile/step3';
 
 export default function StepsAntd() {
 
@@ -13,10 +13,12 @@ export default function StepsAntd() {
     setCurrent(value);
   };
 
+  let [isSubmitted,setIsSubmitted] = useState(false);
+
   const steps = [
     {
       title: 'Sơ yếu lý lịch',
-      content: <SoYeuLyLich />,
+      content: <SoYeuLyLich submit={isSubmitted} />,
     },
     {
       title: 'Lịch sử bản thân',
@@ -24,7 +26,7 @@ export default function StepsAntd() {
     },
     {
       title: 'Gia nhập Đảng Cộng Sản Việt Nam',
-      content: <Step3_GNĐCSVN />,
+      content: <Step3Component />,
     },
     {
         title: 'Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp',
@@ -54,26 +56,29 @@ export default function StepsAntd() {
 
   return (
     <div className={style.alignCenter}>
-        <div className={style.steps}>
-            <Steps className={style.editWidth} current={current} onChange={onChangeSteps} direction="vertical">
+        <div className={style["steps__noflex"]}>
+            <section className={style.steps}>
+                <Steps className={style.editWidth} current={current} onChange={onChangeSteps} direction="vertical">
                 {
                     steps.map((item,index)=>{
                         return <Step key={index} title={item.title} />
                     })
                 }
-            </Steps>
-            <div className="steps-content">{steps[current].content}</div>
+                </Steps>
+                <div className="steps-content">{steps[current].content}</div>
+            </section>
             <div className="next">
-                {current <= 7
-                ?
-                <button className="SoYeuLyLich__btn" onClick={()=>{
-                    onChangeSteps(current + 1)
-                }}>Tiếp theo</button>
-                :
-                <button className="SoYeuLyLich__btn" onClick={()=>{
-                    console.log("Hoàn thành.");
-                }}>Hoàn thành</button>
-                }
+                    {current <= 7
+                    ?
+                    <button className="SoYeuLyLich__btn" onClick={()=>{
+                      setIsSubmitted(true);
+                        // onChangeSteps(current + 1)
+                    }}>Tiếp theo</button>
+                    :
+                    <button className="SoYeuLyLich__btn" onClick={()=>{
+                        console.log("Hoàn thành.");
+                    }}>Hoàn thành</button>
+                    }
             </div>
         </div>
     </div>
