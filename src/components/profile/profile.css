@@ -53,10 +53,10 @@
 } */
 
 .SYLL__right__field .ant-select {
-    width: 204px;
+    width: 170px;
     height: 40px;
     border-radius: 3px;
-    margin-right: 41px;
+    /* margin-right: 41px; */
     text-align: center;
     border-style: none;
 }
@@ -122,7 +122,7 @@
     height: 40px;
 }
 
- .fisrt__content {
+.SoYeuLyLich .fisrt__content {
     margin-right: 40px;
 }
 
@@ -174,7 +174,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
 
 .SYLL__right__field .date__picker .ant-picker {
     width: 170px;
-    margin-right: 40px;
+    /* margin-right: 40px; */
     height: 40px;
     background-color: #F0F5FA;
     border-radius: 3px;
@@ -389,7 +389,7 @@ div.next {
     margin-right: 0;
 }
 
-.ngayThamGiaCM {
+.SYLL__right__field .ngayThamGiaCM {
     margin-right: 0;
 }
 
@@ -419,4 +419,210 @@ div.next {
 
 .maSo__ChucVu .maSo {
     display:block;
+}
+
+.Step2 {
+    margin-left: 37px;
+}
+
+.Step2 .Step2__header {
+    width: 816px;
+    border-bottom: 1px solid #EBEDF3;
+    margin-top: 29px;
+}
+
+.Step2 .Step2__header p {
+    color:#3699FF;
+}
+
+.Step2 .Step2__header p:first-child {
+    font-size: 16px;
+    margin-bottom: 14px;
+}
+
+.Step2 .Step2__header p:last-child {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    text-transform: capitalize;
+}
+
+.Step2 .Step2__content {
+    margin-top: 22px;
+}
+
+.steps_steps__UOUsf .Step2__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step2__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.steps_steps__UOUsf .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-steps-icon-dot{
+    width: 9px;
+    height: 9px;
+}
+
+.Step2 .Step2__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.SYLL__right__field  .phongBanCV__list div {
+    display: flex;
+}
+
+.SYLL__right__field  .phongBanCV__list div p {
+    height: 100%;
+}
+
+.SYLL__right__field  .phongBanCV__list div p:first-child {
+    width: 160px;
+    margin-right: 40px;
+}
+
+.SYLL__right__field  .phongBanCV__list div p:nth-child(2){
+    width: 160px;
+}
+
+.SYLL__right__field  .phongBanCV__list div svg {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.Step2__footer button, .Step4__footer button, .Step5__footer button,
+.Step6__footer button {
+    background-color: transparent;
+    border: 1px solid #3699FF;
+    color: #3699FF;
+    display: flex;
+    align-items: center;
+    width: 124px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.Step2__footer, .Step4__footer, .Step5__footer, .Step6__footer {
+    margin-left: 12px;
+    margin-top: 39px;
+}
+
+.Step2__footer button svg, .Step4__footer button svg, .Step5__footer button svg, 
+.Step6__footer button svg{
+    width: 21px;
+    height: 21px;
+    margin-right: 7px;
+}
+
+.Step2__content .ant-steps, .Step4__content .ant-steps, .Step5__content .ant-steps,
+.Step6__content .ant-steps{
+    padding-left: 12px;
+}
+
+.Step4 {
+    margin-left: 31px;
+    margin-top: 30px;
+}
+
+.steps_steps__UOUsf .Step4__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step4__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step4 .Step4__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.ant-steps-vertical>.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail:after {
+    height: 145%;
+    background-color: #EBEDF3;
+}
+
+.ant-steps-vertical.ant-steps-dot .ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail {
+    top:0;
+    left: -8.5px;
+}
+
+.steps_steps__UOUsf .Step5__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step5__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step5 {
+    margin: 25px 0 0 23px;
+}
+
+.Step5 .Step5__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step5 .Step5__first__content .Step5__content .ant-steps-item-title .ant-steps-item-subtitle {
+    display: block;
+    margin-left: 0px;
+    text-transform: uppercase;
+    color:red;
+    font-size: 10px;
+    margin: 4px 0 0px 0;
+}
+
+.Step5 .Step5__first__content {
+    margin-bottom: 48px;
+}
+
+.steps_steps__UOUsf .Step6__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step6__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step6 .Step6__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step6 {
+    margin-left: 19px;
+}
+
+.Step6 .Step6__first__content {
+    margin-bottom: 56px;
+}
+
+.Step7 {
+    padding-left: 27px;
+}
+
+.Step7 .Step7__left, .Step7 .Step7__right {
+    width: 380px;
+}
+
+.Step7 .Step7__left .banThan textarea {
+    resize: none;
+    width: 380px;
+    height: 177px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .Step7__left .banThan p:first-child {
+    font-weight: bold;
+    margin-bottom: 21px;
+}
+
+.Step7 .Step7__left .banThan p:nth-child(2) {
+    margin-bottom: 14px;
 }
