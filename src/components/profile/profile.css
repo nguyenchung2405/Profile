@@ -493,7 +493,7 @@ div.next {
 }
 
 .Step2__footer button, .Step4__footer button, .Step5__footer button,
-.Step6__footer button {
+.Step6__footer button, .Step7__footer button {
     background-color: transparent;
     border: 1px solid #3699FF;
     color: #3699FF;
@@ -511,14 +511,14 @@ div.next {
 }
 
 .Step2__footer button svg, .Step4__footer button svg, .Step5__footer button svg, 
-.Step6__footer button svg{
+.Step6__footer button svg, .Step7__footer button svg{
     width: 21px;
     height: 21px;
     margin-right: 7px;
 }
 
 .Step2__content .ant-steps, .Step4__content .ant-steps, .Step5__content .ant-steps,
-.Step6__content .ant-steps{
+.Step6__content .ant-steps, .Step7__content .ant-steps{
     padding-left: 12px;
 }
 
@@ -603,6 +603,7 @@ div.next {
 
 .Step7 {
     padding-left: 27px;
+    display: flex;
 }
 
 .Step7 .Step7__left, .Step7 .Step7__right {
@@ -625,4 +626,128 @@ div.next {
 
 .Step7 .Step7__left .banThan p:nth-child(2) {
     margin-bottom: 14px;
+}
+
+.Step7 .Step7__left .banThan {
+    margin-bottom: 33px;
+}
+
+.Step7 .vo > p {
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+.Step7 .field input {
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+}
+
+.Step7 .vo .field.two__content input {
+    width: 173px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .vo .field.two__content .fisrt__content {
+    margin-right: 34px;
+}
+
+.Step7 .vo .birthday .ant-select, .Step7 .vo .queQuan .ant-select, 
+.Step7 .Step7__right .birthday .ant-select, .Step7 .Step7__right .diaChi .ant-select {
+    width: 105px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step7 .vo .birthday .ant-select .ant-select-selector,
+.Step7 .vo .queQuan .ant-select .ant-select-selector,
+.Step7 .Step7__right .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step7 .field > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.Step7 .field {
+    margin-bottom: 20px;
+}
+
+.steps_steps__UOUsf .Step7__quaTrinh .Step7__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step7__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step7 .Step7__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step7__footer {
+    margin-left: 12px;
+    margin-top: 31px;
+}
+
+.Step7__quaTrinh {
+    margin-bottom: 30px;
+}
+
+.Step7__right > p {
+    font-weight: bold;
+    margin-bottom: 21px;
+}
+
+.Step7__left {
+    margin-right: 85px;
+}
+
+input#diaChi {
+    margin-bottom: 22px;
+}
+
+.Step7 .Step7__right .field:last-child, .Step7 .Step7__left .field:last-child{
+    margin-bottom: 0px;
+}
+
+.Step7__footer button {
+    width: 172px;
+}
+
+.btn__ThemCon {
+    margin-top: 26px;
+}
+
+.btn__ThemCon button {
+    /* border: 1px solid #3699FF; */
+    /* color: #3699FF; */
+    display: flex;
+    align-items: center;
+    width: 107px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+    background-color: #3699FF;
+    color: white;
+}
+
+.btn__ThemCon button svg {
+    width: 21px;
+    height: 21px;
+    margin-right: 7px;
 }
