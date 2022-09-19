@@ -810,11 +810,111 @@ input#diaChi {
 
 .Step8 .birthday .ant-select, .noiCuTru .ant-select {
     margin-left: 23px;
+}.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
 }
 
 .steps_steps__UOUsf .Step8__quaTrinh .Step8__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
     display: block;
     padding-top: 9px;
+}.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
 }
 
 .Step8 .Step8__content .ant-steps .ant-steps-item-description {
