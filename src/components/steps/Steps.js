@@ -8,6 +8,9 @@ import Step4 from "../profile/step4"
 import Step5 from '../profile/step5';
 import Step6 from '../profile/step6';
 import Step7 from '../profile/step7';
+import Step8 from '../profile/step8';
+import Step9 from '../profile/step9';
+
 
 export default function StepsAntd() {
 
@@ -51,11 +54,11 @@ export default function StepsAntd() {
       },
       {
           title: 'Quan hệ gia đình, thân tộc',
-          content: 'Last-content',
+          content: <Step8 />,
       },
       {
           title: 'Quan hệ xã hội',
-          content: 'Last-content',
+          content: <Step9 />,
       },
     ];
 

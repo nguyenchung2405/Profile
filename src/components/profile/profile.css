@@ -751,3 +751,155 @@ input#diaChi {
     height: 21px;
     margin-right: 7px;
 }
+
+.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday > div.ant-select:nth-child(2), .noiCuTru > div.ant-select:nth-child(3){
+    margin-left: 0;
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    margin-left: 23px;
+}
+
+.steps_steps__UOUsf .Step8__quaTrinh .Step8__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.Step8 .Step8__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.App .steps_steps__UOUsf .Step8__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step8__content .ant-steps {
+    padding-left: 12px;
+}
+
+.Step8__footer button {
+    background-color: transparent;
+    border: 1px solid #3699FF;
+    color: #3699FF;
+    display: flex;
+    align-items: center;
+    width: 172px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.Step8__footer {
+    margin-left: 12px;
+    margin-top: 31px;
+}
+
+.Step8__quaTrinh {
+    margin-bottom: 20px;
+}
+
+.noiCuTru > input {
+    display: block;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 450px;
+    height: 40px;
+}
+
+.noiCuTru > input {
+    margin-bottom: 20px;
+}
+
+.ant-select-arrow span svg {
+    color: #3699FF;
+}
+
+.quanHeGiaDinh .ant-select {
+    width: 197px;
+    height: 44px;
+    
+}
+
+.quanHeGiaDinh .ant-select .ant-select-selector{
+    background-color: #4794ff;
+    color: white;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.quanHeGiaDinh .ant-select-arrow span svg{
+    color:white;
+}
+
+.quanHeList .rc-virtual-list-holder-inner .ant-select-item {
+    padding-left: 22px;
+}
+
+.quanHeList .rc-virtual-list-holder-inner .ant-select-item .ant-select-item-option-content {
+    border-bottom: 1px solid #b7d6fd;
+    max-width: 230px;
+    padding-bottom: 11px;
+}
+
+.Step8__content p {
+    font-size: 15px;
+}
+
+.Step8__content p span {
+    font-size: 11px;
+}
