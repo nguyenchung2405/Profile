@@ -1,21 +1,17 @@
 import React from 'react'
 import { Modal, DatePicker, Button } from 'antd';
-import { useDispatch } from 'react-redux';
-import {showModal} from "../../redux/Modal/ModalSlice"
 import "./modal.css"
 import { daoTao, khenThuong, kyLuat } from '../../title/title';
 
 export default function ModalComponent(props) {
 
     let {title, isShowModal, closeModal} = props;
-    const dispatch = useDispatch();
   
     const handleOk = () => {
-        dispatch(showModal());
+
     };
   
     const handleCancel = () => {
-        // dispatch(showModal());
         closeModal()
     };
 
