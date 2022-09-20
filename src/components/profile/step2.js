@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Steps, Button } from 'antd';
 import {AiOutlinePlusCircle} from "react-icons/ai"
+import ModalComponent from '../modal/modal';
+import { quaTrinhLVHT } from '../../title/title';
 
 export default function Step2() {
 
     const { Step } = Steps;
-    
+    let [isShowModal, setIsShowModal] = useState(false)
 
     const quaTrinh = [
         {
@@ -17,6 +19,10 @@ export default function Step2() {
             description: "Học sinh trường trung học cơ sở Toàn Quyết B"
         },
     ]
+
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
 
     return (
         <div className="Step2">
@@ -36,8 +42,16 @@ export default function Step2() {
             </div>
             <div className="Step2__footer">
                 <Button type="default"
-                icon={<AiOutlinePlusCircle />}>Thêm</Button>
+                icon={<AiOutlinePlusCircle />}
+                onClick={()=>{
+                    setIsShowModal(true)
+                }}
+                >Thêm</Button>
             </div>
+            <ModalComponent 
+            title={quaTrinhLVHT} 
+            isShowModal={isShowModal}
+            closeModal={closeModal} />
         </div>
     )
 }

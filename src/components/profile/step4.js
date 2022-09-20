@@ -1,10 +1,13 @@
 import { Steps,Button } from 'antd'
-import React from 'react'
-import {AiOutlinePlusCircle} from "react-icons/ai"
+import React, { useState } from 'react'
+import {AiOutlinePlusCircle} from "react-icons/ai";
+import { thamGiaToChucCT } from '../../title/title';
+import ModalComponent from '../modal/modal';
 
 export default function Step4() {
 
     const {Step} = Steps;
+    let [isShowModal, setIsShowModal] = useState(false)
 
     const quaTrinhThamGiaCacToChuc = [
         {
@@ -15,7 +18,11 @@ export default function Step4() {
             title: '10/05/2005 - 10/05/2008',
             description: "Nhân viên công ty FPT"
         },
-    ]
+    ];
+
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
 
   return (
     <div className="Step4">
@@ -30,9 +37,17 @@ export default function Step4() {
                 </Steps>
         </div>
         <div className="Step4__footer">
-            <Button type="default"
+            <Button 
+            onClick={()=>{
+                setIsShowModal(true)
+            }}
+            type="default"
             icon={<AiOutlinePlusCircle />}>Thêm</Button>
         </div>
+        <ModalComponent 
+            title={thamGiaToChucCT} 
+            isShowModal={isShowModal}
+            closeModal={closeModal} />
     </div>
   )
 }

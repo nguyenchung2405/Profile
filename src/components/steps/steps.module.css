@@ -9,7 +9,8 @@
     border-radius: 10px;
     background-color: white;
     width: 1175px;
-    min-height: 1310px;
+    /* min-height: 1310px; */
+    height: auto;
     position: relative;
 }
 

@@ -1,11 +1,14 @@
 import { Button, Select, Steps } from 'antd';
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { lichSuBanThan } from '../../title/title';
+import ModalComponent from '../modal/modal';
 
 export default function Step7() {
 
     const {Option} = Select;
     const {Step} = Steps;
+    let [isShowModal, setIsShowModal] = useState(false)
 
     const dacDiemLichSu = [
         {
@@ -16,7 +19,11 @@ export default function Step7() {
             title: '10/05/2005 - 10/05/2008',
             description: "Quản lý B"
         },
-    ]
+    ];
+
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
 
     const renderDay = ()=>{
         let htmlRendered = [];
@@ -221,9 +228,18 @@ export default function Step7() {
                             </Steps>
                     </div>
                     <div className="Step7__footer">
-                        <Button type="default"
-                        icon={<AiOutlinePlusCircle />}>Thêm lịch sử</Button>
+                        <Button 
+                        onClick={()=>{
+                            setIsShowModal(true)
+                        }}
+                        type="default"
+                        icon={<AiOutlinePlusCircle />}
+                        >Thêm lịch sử</Button>
                     </div>
+                    <ModalComponent 
+                    title={lichSuBanThan}
+                    isShowModal={isShowModal}
+                    closeModal={closeModal} />
                 </div>
                 <div className="field">
                     <label htmlFor='thaiDoCT'>Thái độ chính trị:</label>

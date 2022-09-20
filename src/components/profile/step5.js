@@ -1,10 +1,14 @@
 import { Button, Steps } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import ModalComponent from '../modal/modal';
+import {daoTao as daoTaoTitle, boiDuong as boiDuongTitle} from "../../title/title"
 
 export default function Step5() {
 
     const {Step} = Steps;
+    let [isShowModal, setIsShowModal] = useState(false)
+    let [isShowModal2, setIsShowModal2] = useState(false)
 
     const daoTao = [
         {
@@ -30,6 +34,15 @@ export default function Step5() {
         },
     ]
 
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
+
+    const closeModal2 = ()=>{
+        setIsShowModal2(false)
+    }
+
+
   return (
     <div className="Step5">
         <div className="Step5__first__content">
@@ -47,9 +60,17 @@ export default function Step5() {
                     </Steps>
             </div>
             <div className="Step5__footer daoTao">
-                <Button type="default"
+                <Button 
+                onClick={()=>{
+                    setIsShowModal(true)
+                }}
+                type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <ModalComponent 
+            title={daoTaoTitle} 
+            isShowModal={isShowModal}
+            closeModal={closeModal} />
         </div>
         <div className="Step5__second__content">
             <div className="Step5__content daoTao">
@@ -63,9 +84,17 @@ export default function Step5() {
                     </Steps>
             </div>
             <div className="Step5__footer daoTao">
-                <Button type="default"
+                <Button 
+                onClick={()=>{
+                    setIsShowModal2(true)
+                }}
+                type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <ModalComponent 
+            title={boiDuongTitle} 
+            isShowModal={isShowModal2}
+            closeModal={closeModal2} />
         </div>
     </div>
   )

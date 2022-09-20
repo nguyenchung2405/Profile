@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { Button, Steps } from 'antd'
+import ModalComponent from '../modal/modal';
+import {khenThuong as khenThuongTitle, kyLuat as kyLuatTitle} from "../../title/title"
 
 export default function Step6() {
 
     const {Step} = Steps;
+    let [isShowModal, setIsShowModal] = useState(false)
+    let [isShowModal2, setIsShowModal2] = useState(false)
 
     const khenThuong = [
         {
@@ -34,7 +38,15 @@ export default function Step6() {
             title: '05/04/2010',
             description: "Kỷ luật 3"
         },
-    ]
+    ];
+
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
+
+    const closeModal2 = ()=>{
+        setIsShowModal2(false)
+    }
 
   return (
     <div className="Step6">
@@ -52,9 +64,17 @@ export default function Step6() {
                     </Steps>
             </div>
             <div className="Step6__footer khenThuong">
-                <Button type="default"
+                <Button 
+                onClick={()=>{
+                    setIsShowModal(true)
+                }}
+                type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <ModalComponent 
+            title={khenThuongTitle} 
+            isShowModal={isShowModal}
+            closeModal={closeModal} />
         </div>
         <div className="Step6__second__content">
             <div className="Step6__content kyLuat">
@@ -68,9 +88,17 @@ export default function Step6() {
                     </Steps>
             </div>
             <div className="Step6__footer kyLuat">
-                <Button type="default"
+                <Button 
+                onClick={()=>{
+                    setIsShowModal2(true)
+                }}
+                type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <ModalComponent 
+            title={kyLuatTitle} 
+            isShowModal={isShowModal2}
+            closeModal={closeModal2} />
         </div>
     </div>
   )

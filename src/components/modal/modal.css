@@ -1,0 +1,89 @@
+div .ant-modal-root .ant-modal {
+    height: 474px;
+}
+
+.ant-modal-body div.content {
+    text-align: center;
+}
+
+.ant-modal-body .content .ant-picker{
+    width: 135px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.ant-modal-body .content span {
+    margin-right: 12px;
+}
+
+.ant-modal-body .content .ant-picker:nth-child(2) {
+    margin-right: 31px;
+}
+
+.ant-modal-body .content textarea {
+    width: 524px;
+    height: 183px;
+    resize: none;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    margin-top: 36px;
+}
+
+.ant-modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ant-modal-header {
+    border-bottom: none;
+}
+
+.ant-modal-footer {
+    border-top: none;
+}
+
+.ant-modal-close .ant-modal-close-x svg {
+    width: 13px;
+    height: 20px;
+}
+
+.ant-modal-title {
+    margin-top: 13px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ant-modal-body {
+    padding-bottom: 0;
+}
+
+.ant-modal-footer button {
+    width: 127px;
+    height: 44px;
+    font-size: 18px;
+}
+
+.ant-modal-footer {
+    margin: 31px 41px 31px 0;
+    padding: 0;
+}
+
+.bangCap {
+    margin-top: 20px;
+}
+
+.bangCap label {
+    margin-right: 12px;
+}
+
+.bangCap input {
+    width: calc(100% - 180px);
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
