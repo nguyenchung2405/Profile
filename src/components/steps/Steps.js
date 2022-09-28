@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Steps } from 'antd';
 import SoYeuLyLich from '../profile/step1';
 import style from "./steps.module.css"
@@ -10,23 +10,38 @@ import Step6 from '../profile/step6';
 import Step7 from '../profile/step7';
 import Step8 from '../profile/step8';
 import Step9 from '../profile/step9';
+import { useDispatch, useSelector } from 'react-redux';
+import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 
 export default function StepsAntd() {
 
     const { Step } = Steps;
     const [current, setCurrent] = useState(0);
+    let {nextStep, isNextStep} = useSelector(state => state.stepsReducer);
+    const dispatch = useDispatch();
 
     const onChangeSteps = (value) => {
-      setCurrent(value);
+      dispatch(moveToNextStep(value));
     };
 
-    let [isSubmitted,setIsSubmitted] = useState(false);
+    useEffect(()=>{
+      if(isNextStep < current){
+        setCurrent(nextStep);
+      }
+    },[nextStep])
+
+    useEffect(()=>{
+      if(isNextStep){
+        setCurrent(nextStep);
+        dispatch(setIsNextStep(false))
+      }
+    },[isNextStep])
 
     const steps = [
       {
         title: 'Sơ yếu lý lịch',
-        content: <SoYeuLyLich submit={isSubmitted} />,
+        content: <SoYeuLyLich />,
       },
       {
         title: 'Lịch sử bản thân',
@@ -79,8 +94,7 @@ export default function StepsAntd() {
                       {current <= 7
                       ?
                       <button className="SoYeuLyLich__btn" onClick={()=>{
-                        setIsSubmitted(true);
-                          onChangeSteps(current + 1)
+                          dispatch(moveToNextStep(current + 1));
                       }}>Tiếp theo</button>
                       :
                       <button className="SoYeuLyLich__btn" onClick={()=>{

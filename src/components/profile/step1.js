@@ -2,47 +2,46 @@ import React, { useEffect, useState } from 'react';
 import "./profile.css";
 import { Radio, Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPBCV } from '../../redux/Steps/step1/step1Slice';
+import { addPBCV, removePBCV, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen, setValues} from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
+import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
+import moment from 'moment';
+import { GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PROVINCES } from '../../title/title';
 
 export default function SoYeuLyLich(props) {
 
     const {Option} = Select;
     const dispatch = useDispatch();
-    let {phongBanChucVuArr} = useSelector(state => state.step1Reducer);
+    let {nextStep} = useSelector(state => state.stepsReducer);
+    let {phongBanChucVuArr, values, noiSinhTinh, 
+    noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
+    noiOTinh, noiOQuan, noiOHuyen} = useSelector(state => state.steps1Reducer);
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
-    // console.log(phongBanCVOb)
+    
     useEffect(()=>{
-        // checkValueForm()
-    },[])
+        if(nextStep !== 0){
+           let isNextStep = checkValueForm();
+           if(!isNextStep){
+            dispatch(moveToNextStep(0))
+           }
+        //    console.log(isNextStep)
+        //    console.log(validateForm)
+           if(isNextStep){
+            // console.log(nextStep)
+                dispatch(setValues(valueForm))
+                dispatch(moveToNextStep(nextStep))
+                dispatch(setIsNextStep(true))
+           }
+        }
+    },[nextStep])
 
-    const [valueForm, setValueForm] = useState({
-        hoTen: "",
-        ngaySinh: "",
-        chieuCao: "",
-        canNang: "",
-        thangSinh: "",
-        namSinh: "",
-        danToc: "",
-        tonGiao: "",
-        hocVan: "",
-        chuyenMon: "",
-        lyLuanCT:"",
-        ngayDuocTuyenDung: "",
-        ngayVaoDangCSVN: "",
-        ngayChinhThuc: "",
-        ngachVienChuc: "",
-        coQuanTuyenDung:"",
-        bacLuong: "",
-        tinhHinhSK: "",
-        gioiTinh: "Nam",
-        tuNgayThangNam: "",
-        phongBanCVObj: {chucVu:"", phongBan: ""},
-        xuatThan: {thanhPhanXuatThan:"", maSo: ""},
-        noiSinh: {huyen: "",quan:"",tinh:""},
-        queQuan: {huyen: "",quan:"",tinh:""},
-        noiOHienTai: {diaChi: "",huyen: "",quan:"",tinh:""},
-    });
+    useEffect(()=>{
+        dispatch({
+            type: GET_PROVINCES
+        })
+    },[dispatch])
+
+    const [valueForm, setValueForm] = useState({...values});
 
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
@@ -69,13 +68,81 @@ export default function SoYeuLyLich(props) {
         noiOHienTai: {diaChi:false,huyen: false,quan:false,tinh:false},
     });
 
+    const renderTinh =  (fieldName = "noiSinh") => {
+        if(fieldName === "noiSinh"){
+            if(noiSinhTinh.length > 0){
+                return noiSinhTinh.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "queQuan") {
+            if(queQuanTinh.length > 0){
+                return queQuanTinh.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else {
+            if(noiOTinh.length > 0){
+                return noiOTinh.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        }
+    }
+
+    const renderQuan =  (fieldName = "noiSinh") => {
+        if(fieldName === "noiSinh"){
+            if(noiSinhQuan.length > 0){
+                return noiSinhQuan.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "queQuan") {
+            if(queQuanQuan.length > 0){
+                return queQuanQuan.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else {
+            if(noiOQuan.length > 0){
+                return noiOQuan.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        }
+    }
+    
+    const renderHuyen =  (fieldName = "noiSinh") => {
+        if(fieldName === "noiSinh"){
+            if(noiSinhHuyen.length > 0){
+                return noiSinhHuyen.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "queQuan") {
+            if(queQuanHuyen.length > 0){
+                return queQuanHuyen.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else {
+            if(noiOHuyen.length > 0){
+                return noiOHuyen.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        }
+    }
+
     const renderPhongBanCV = ()=>{
         if(phongBanChucVuArr.length >= 1){
             return phongBanChucVuArr.map((infor,index)=>{
                 return <div key={index}>
                     <p>{infor.phongBan}</p>
                     <p>{infor.chucVu}</p>
-                    <AiOutlineMinus />
+                    <AiOutlineMinus onClick={()=>{
+                        dispatch(removePBCV(index))
+                    }} />
                 </div>
             })
         }
@@ -83,36 +150,49 @@ export default function SoYeuLyLich(props) {
 
     const checkValueForm = ()=>{
         let newValueForm = {};
+        let isNextStep = true;
         for(let value in valueForm){
-            if(value === "noiSinh" || value === "queQuan"){
+            if(value === "noiSinh" ){
                 if(valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
                     newValueForm = {...newValueForm,[value]: {huyen: true}}
+                    isNextStep = false
+                }
+            } else if(value === "queQuan"){
+                if(valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
+                    newValueForm = {...newValueForm,[value]: {huyen: true}}
+                    isNextStep = false
                 }
             } else if(value === "noiOHienTai"){
                 if(valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
                     newValueForm = {...newValueForm,[value]: {huyen: true}}
+                    isNextStep = false
                 }
             } else if(value === "xuatThan"){
                 if(valueForm[value].thanhPhanXuatThan === "" || valueForm[value].maSo === ""){
                     newValueForm = {...newValueForm,[value]: {thanhPhanXuatThan: true}}
+                    isNextStep = false
                 }
             } else if(value === "phongBanCVObj"){
                 if(valueForm[value].phongBan === "" ){
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], phongBan: true}}
+                    isNextStep = false
                 }
                 if(valueForm[value].chucVu === ""){
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], chucVu: true}}
+                    isNextStep = false
                 }
             } else {
                 if(valueForm[value] === ""){
                     newValueForm = {...newValueForm,[value]: true}
+                    isNextStep = false
                 }
             }
             setValidateForm({
                 ...newValueForm
-            })
+            });
             // console.log(newValueForm)
         }
+        return isNextStep
     }
 
     const renderDay = ()=>{
@@ -217,6 +297,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_NoiSinh_Quan_TP = (value)=>{
+        dispatch(setNoiSinhHuyen(value))
         let {noiSinh} = valueForm;
         let noiSinhNew = {...noiSinh, quan: value};
         setValueForm({
@@ -226,6 +307,11 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_NoiSinh_Tinh_TP = (value)=>{
+        let tinhSelected = noiSinhTinh.find(tinh => tinh.name === value);
+        dispatch({
+            type: GET_DISTRICTS_BIRTH_PLACE,
+            code: tinhSelected.code
+        })
         let {noiSinh} = valueForm;
         let noiSinhNew = {...noiSinh, tinh: value};
         setValueForm({
@@ -244,6 +330,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_QueQuan_Quan_TP = (value)=>{
+        dispatch(setQueQuanHuyen(value))
         let {queQuan} = valueForm;
         let queQuanNew = {...queQuan, quan: value};
         setValueForm({
@@ -253,6 +340,11 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_QueQuan_Tinh_TP = (value)=>{
+        let tinhSelected = noiSinhTinh.find(tinh => tinh.name === value);
+        dispatch({
+            type: GET_DISTRICTS_HOME_TOWN,
+            code: tinhSelected.code
+        })
         let {queQuan} = valueForm;
         let queQuanNew = {...queQuan, tinh: value};
         setValueForm({
@@ -271,6 +363,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_NoiO_Quan_TP = (value)=>{
+        dispatch(setNoiOHuyen(value))
         let {noiOHienTai} = valueForm;
         let noiOHienTaiNew = {...noiOHienTai, quan: value};
         setValueForm({
@@ -280,6 +373,11 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_NoiO_Tinh_TP = (value)=>{
+        let tinhSelected = noiOTinh.find(tinh => tinh.name === value);
+        dispatch({
+            type: GET_DISTRICTS_ADDRESS,
+            code: tinhSelected.code
+        })
         let {noiOHienTai} = valueForm;
         let noiOHienTaiNew = {...noiOHienTai, tinh: value};
         setValueForm({
@@ -287,11 +385,6 @@ export default function SoYeuLyLich(props) {
             noiOHienTai: {...noiOHienTaiNew}
         });
     }
-
-    
-
-    // console.log(phongBanChucVuArr)
-    // console.log(phongBanCVOb)
 
     const getValueSelect_ChucVu = (value)=>{
         if(phongBanCVOb.phongBan !== ""){
@@ -326,6 +419,12 @@ export default function SoYeuLyLich(props) {
         }
     }
 
+    const setValueIntoForm = (name)=>{
+        if(valueForm.name !== ""){
+            return valueForm[name]
+        }
+    }
+
     return (
         <div className="SoYeuLyLich">
             <div className="SoYeuLyLich__left">
@@ -333,7 +432,8 @@ export default function SoYeuLyLich(props) {
                     <label htmlFor='hoTen'>Họ và tên khai sinh:
                         <span className="required__field"> *</span>
                     </label>
-                    <input required id="hoTen" name="hoTen" type="text" 
+                    <input id="hoTen" name="hoTen" type="text"
+                    value={setValueIntoForm("hoTen")} 
                     onBlur={validateField}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e);
@@ -349,6 +449,7 @@ export default function SoYeuLyLich(props) {
                 <div className="SYLL__left__field">
                     <label htmlFor='tenThuongGoi'>Tên thường gọi:</label>
                     <input id="tenThuongGoi" name="tenThuongGoi" type="text" 
+                    value={setValueIntoForm("tenThuongGoi")}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e);
                     }} />
@@ -356,7 +457,7 @@ export default function SoYeuLyLich(props) {
                 <div className="SYLL__left__field">
                     <label htmlFor='tenKhac'>Các tên gọi khác:</label>
                     <input id="tenKhac" name="tenKhac" type="text" 
-                    value={valueForm.tenKhac}
+                    value={setValueIntoForm("tenKhac")}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e);
                     }} />
@@ -364,6 +465,7 @@ export default function SoYeuLyLich(props) {
                 <div className="SYLL__left__field birthday">
                     <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
                     <Select defaultValue="Ngày"
+                    value={setValueIntoForm("ngaySinh")}
                     onBlur={()=>{
                         if(valueForm.ngaySinh === ""){
                             setValidateForm({...validateForm,ngaySinh: true})
@@ -375,6 +477,7 @@ export default function SoYeuLyLich(props) {
                         {renderDay()}
                     </Select>
                     <Select defaultValue="Tháng" 
+                    value={setValueIntoForm("thangSinh")}
                     onBlur={()=>{
                         if(valueForm.thangSinh === ""){
                             setValidateForm({...validateForm,thangSinh: true})
@@ -386,6 +489,7 @@ export default function SoYeuLyLich(props) {
                         {renderMonth()}
                     </Select>
                     <Select defaultValue="Năm" 
+                    value={setValueIntoForm("namSinh")}
                     onBlur={()=>{
                         if(valueForm.namSinh === ""){
                             setValidateForm({...validateForm,namSinh: true})
@@ -402,15 +506,19 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__left__field">
                     <label>Giới tính:</label>
-                    <Radio.Group onChange={handleChangeValueRadio} value={valueForm.gioiTinh}>
-                        <Radio value="Nam">Nam</Radio>
-                        <Radio value="Nữ">Nữ</Radio>
+                    <Radio.Group onChange={handleChangeValueRadio} value={setValueIntoForm("gioiTinh")}>
+                        <Radio value="1">Nam</Radio>
+                        <Radio value="2">Nữ</Radio>
                         <Radio value="Khác">Khác</Radio>
                     </Radio.Group>
                 </div>
                 <div className="SYLL__left__field noiSinh">
                     <label>Nơi sinh:<span className="required__field"> *</span></label>
-                    <Select defaultValue="Tỉnh (Thành phố)" 
+                    <Select 
+                    value={valueForm.noiSinh.tinh !== ""
+                        ? valueForm.noiSinh.tinh
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiSinh.tinh === ""){
                             setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,tinh:true}})
@@ -420,9 +528,14 @@ export default function SoYeuLyLich(props) {
                     }}
                     onChange={getValueSelect_NoiSinh_Tinh_TP}
                     >
-                        {renderYear()}
+                        <Option value="">Tỉnh (thành phố)</Option>
+                        {renderTinh()}
                     </Select>
-                    <Select defaultValue="Quận (Thành phố)" 
+                    <Select
+                    value={valueForm.noiSinh.quan !== ""
+                        ? valueForm.noiSinh.quan
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiSinh.quan === ""){
                             setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,quan:true}})
@@ -432,9 +545,14 @@ export default function SoYeuLyLich(props) {
                     }}
                     onChange={getValueSelect_NoiSinh_Quan_TP}
                     >
-                        {renderMonth()}
+                        <Option value="">Quận (Thành phố)</Option>
+                        {renderQuan()}
                     </Select>
-                    <Select defaultValue="Huyện" 
+                    <Select 
+                    value={valueForm.noiSinh.huyen !== ""
+                        ? valueForm.noiSinh.huyen
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiSinh.huyen === ""){
                             setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,huyen:true}})
@@ -444,15 +562,20 @@ export default function SoYeuLyLich(props) {
                     }}
                     onChange={getValueSelect_NoiSinh_Huyen}
                     >
-                        {renderDay()}
+                        <Option value="">Huyện (Xã)</Option>
+                        {renderHuyen()}
                     </Select>
-                    {validateForm.noiSinh.huyen || validateForm.noiSinh.quan || validateForm.noiSinh.tinh
+                    {validateForm.noiSinh?.huyen || validateForm.noiSinh?.quan || validateForm.noiSinh?.tinh
                         ? showRequiredAlert() 
                         : ""}
                 </div>
                 <div className="SYLL__left__field queQuan">
                     <label>Quê quán:<span className="required__field"> *</span></label>
-                    <Select defaultValue="Tỉnh (Thành phố)" 
+                    <Select
+                    value={valueForm.queQuan.tinh !== ""
+                        ? valueForm.queQuan.tinh
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.queQuan.tinh === ""){
                             setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,tinh:true}})
@@ -461,9 +584,14 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_QueQuan_Tinh_TP}>
-                        {renderYear()}
+                        <Option value="">Tỉnh (thành phố)</Option>
+                        {renderTinh("queQuan")}
                     </Select>
                     <Select defaultValue="Quận (Thành phố)" 
+                    value={valueForm.queQuan.quan !== ""
+                        ? valueForm.queQuan.quan
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.queQuan.quan === ""){
                             setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,quan:true}})
@@ -472,9 +600,14 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_QueQuan_Quan_TP}>
-                        {renderMonth()}
+                        <Option value="">Quận (Thành phố)</Option>
+                        {renderQuan("queQuan")}
                     </Select>
-                    <Select defaultValue="Huyện" 
+                    <Select
+                    value={valueForm.queQuan.huyen !== ""
+                        ? valueForm.queQuan.huyen
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.queQuan.huyen === ""){
                             setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,huyen:true}})
@@ -483,9 +616,10 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_QueQuan_Huyen}>
-                        {renderDay()}
+                        <Option value="">Huyện (Xã)</Option>
+                        {renderHuyen("queQuan")}
                     </Select>
-                    {validateForm.queQuan.huyen || validateForm.queQuan.quan || validateForm.queQuan.tinh
+                    {validateForm.queQuan?.huyen || validateForm.queQuan?.quan || validateForm.queQuan?.tinh
                         ? showRequiredAlert() 
                         : ""}
                 </div>
@@ -494,6 +628,10 @@ export default function SoYeuLyLich(props) {
                         <span className="required__field"> *</span>
                     </label>
                     <input id="NoiOHienTai" name="diaChi" type="text" 
+                    value={valueForm.noiOHienTai.diaChi !== "" 
+                        ? valueForm.noiOHienTai.diaChi
+                        : ""
+                    }
                     onBlur={(e)=>{
                         let {value} = e.target;
                         if(value === ""){
@@ -515,7 +653,11 @@ export default function SoYeuLyLich(props) {
                             noiOHienTai : {...noiOHienTaiNew}
                         })
                     }} />
-                    <Select defaultValue="Tỉnh (Thành phố)" 
+                    <Select
+                    value={valueForm.noiOHienTai.tinh !== ""
+                        ? valueForm.noiOHienTai.tinh
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiOHienTai.tinh === ""){
                             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,tinh:true}})
@@ -524,9 +666,14 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_NoiO_Tinh_TP}>
-                        {renderYear()}
+                        <Option value="">Tỉnh (Thành phố)</Option>
+                        {renderTinh("noiO")}
                     </Select>
-                    <Select defaultValue="Quận (Thành phố)" 
+                    <Select
+                    value={valueForm.noiOHienTai.quan !== ""
+                        ? valueForm.noiOHienTai.quan
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiOHienTai.quan === ""){
                             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,quan:true}})
@@ -535,9 +682,14 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_NoiO_Quan_TP}>
-                        {renderMonth()}
+                        <Option value="">Quận (Thành phố)</Option>
+                        {renderQuan("noiO")}
                     </Select>
-                    <Select defaultValue="Huyện" 
+                    <Select
+                    value={valueForm.noiOHienTai.huyen !== ""
+                        ? valueForm.noiOHienTai.huyen
+                        : ""
+                    }
                     onBlur={()=>{
                         if(valueForm.noiOHienTai.huyen === ""){
                             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,huyen:true}})
@@ -546,10 +698,11 @@ export default function SoYeuLyLich(props) {
                         }
                     }}
                     onChange={getValueSelect_NoiO_Huyen}>
-                        {renderDay()}
+                        <Option value="">Huyện (Xã)</Option>
+                        {renderHuyen("noiO")}
                     </Select>
-                    {validateForm.noiOHienTai.huyen || validateForm.noiOHienTai.quan 
-                        || validateForm.noiOHienTai.tinh || validateForm.noiOHienTai.diaChi
+                    {validateForm.noiOHienTai?.huyen || validateForm.noiOHienTai?.quan 
+                        || validateForm.noiOHienTai?.tinh || validateForm.noiOHienTai?.diaChi
                         ? showRequiredAlert() 
                         : ""}
                 </div>
@@ -559,6 +712,7 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span> 
                         </label>
                         <input id="danToc" name="danToc" type="text" 
+                        value={setValueIntoForm("danToc")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -569,6 +723,7 @@ export default function SoYeuLyLich(props) {
                         <label htmlFor="tonGiao">Tôn giáo:
                         </label>
                         <input id="tonGiao" name="tonGiao" type="text" 
+                        value={setValueIntoForm("tonGiao")}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
                         }} />
@@ -580,7 +735,12 @@ export default function SoYeuLyLich(props) {
                         <label htmlFor="thanhPhanXuatThan">Thành phần xuất thân:
                             <span className="required__field"> *</span>
                         </label>
-                        <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" type="text" 
+                        <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" 
+                        type="text"
+                        value={valueForm.xuatThan.thanhPhanXuatThan !==""
+                            ? valueForm.xuatThan.thanhPhanXuatThan
+                            : ""
+                        }
                         onBlur={(e)=>{
                             let {value} = e.target;
                             if(value === ""){
@@ -604,7 +764,12 @@ export default function SoYeuLyLich(props) {
                         }} />
                         </div>
                         <div className="second__content maSo">
-                            <input placeholder="Mã Số" id="maSo" name="maSo" type="text" 
+                            <input placeholder="Mã Số" id="maSo" name="maSo" 
+                            type="text" 
+                            value={valueForm.xuatThan.maSo !==""
+                            ? valueForm.xuatThan.maSo
+                            : ""
+                        }
                             onBlur={(e)=>{
                                 let {value} = e.target;
                                 if(value === ""){
@@ -628,13 +793,15 @@ export default function SoYeuLyLich(props) {
                             }} />
                         </div>
                     </div>
-                    {validateForm.xuatThan.thanhPhanXuatThan || validateForm.xuatThan.maSo 
+                    {validateForm.xuatThan?.thanhPhanXuatThan || validateForm.xuatThan?.maSo 
                         ? showRequiredAlert() 
                         : ""}
                 </div>
                 <div className="SYLL__left__field">
                     <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
-                    <input id="ngheNghiep" name="ngheNghiep" type="text" onChange={(e)=>{
+                    <input id="ngheNghiep" name="ngheNghiep" type="text" 
+                    value={setValueIntoForm("ngheNghiep")}
+                    onChange={(e)=>{
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
@@ -644,6 +811,7 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <input placeholder='Văn hóa phổ thông' id="hocVan" name="hocVan" type="text"
+                        value={setValueIntoForm("hocVan")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -654,8 +822,10 @@ export default function SoYeuLyLich(props) {
                     </div>
                     <div id="chuyenMon__content">
                         <div className="second__content">
-                        <input placeholder='Chuyên môn kỹ thuật' id="chuyenMon" name="chuyenMon" 
+                        <input placeholder='Chuyên môn kỹ thuật' id="chuyenMon" 
+                        name="chuyenMon" 
                         type="text" 
+                        value={setValueIntoForm("chuyenMon")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -673,6 +843,7 @@ export default function SoYeuLyLich(props) {
                         <span className="required__field"> *</span>
                     </label>
                     <input id="lyLuanCT" name="lyLuanCT" type="text" 
+                    value={setValueIntoForm("lyLuanCT")}
                     onBlur={validateField}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e)
@@ -681,14 +852,21 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__right__field">
                     <label htmlFor='ngoaiNgu'>Ngoại ngữ:</label>
-                    <input id="ngoaiNgu" name="ngoaiNgu" type="text" onChange={(e)=>{
+                    <input id="ngoaiNgu" name="ngoaiNgu" type="text" 
+                    value={setValueIntoForm("ngoaiNgu")}
+                    onChange={(e)=>{
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content ngayThamGiaCM">
                         <label >Ngày tham gia cách mạng:</label>
-                        <DatePicker onChange={(date,dateString)=>{
+                        <DatePicker 
+                        value={
+                            valueForm.ngayThamGiaCM !== "" && valueForm.ngayThamGiaCM !== undefined
+                            ? moment(valueForm.ngayThamGiaCM, "DD-MM-YYYY")
+                            : ""}
+                        onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
                                 ngayThamGiaCM: dateString
@@ -704,7 +882,9 @@ export default function SoYeuLyLich(props) {
                     <div className="second__content toChuc">
                         <label htmlFor="toChucLamViec">Làm việc gì, tổ chức nào:
                         </label>
-                        <input id="toChucLamViec" name="toChucLamViec" type="text" onChange={(e)=>{
+                        <input id="toChucLamViec" name="toChucLamViec" type="text" 
+                        value={setValueIntoForm("toChucLamViec")}
+                        onChange={(e)=>{
                             handleChangeGetValueInput(e)
                         }}/>
                     </div>
@@ -712,7 +892,11 @@ export default function SoYeuLyLich(props) {
                 <div className="SYLL__right__field three__content">
                     <div className="fisrt__content">
                         <label>Ngày nhập ngũ:</label>
-                        <DatePicker onChange={(date,dateString)=>{
+                        <DatePicker 
+                        value={valueForm.ngayNhapNgu !== "" && valueForm.ngayNhapNgu !== undefined
+                        ? moment(valueForm.ngayNhapNgu, "DD-MM-YYYY")
+                        : ""}
+                        onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
                                 ngayNhapNgu: dateString
@@ -727,7 +911,11 @@ export default function SoYeuLyLich(props) {
                     </div>
                     <div className="second__content">
                         <label>Ngày xuất ngũ:</label>
-                        <DatePicker onChange={(date,dateString)=>{
+                        <DatePicker 
+                        value={valueForm.ngayXuatNgu !== "" && valueForm.ngayXuatNgu !== undefined
+                        ? moment(valueForm.ngayXuatNgu, "DD-MM-YYYY")
+                        : ""}
+                        onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
                                 ngayXuatNgu: dateString
@@ -743,7 +931,9 @@ export default function SoYeuLyLich(props) {
                     <div className="third__content">
                         <label htmlFor='capBac'>Cấp bậc:
                         </label>
-                        <input id="capBac" name="capBac" type="text" onChange={(e)=>{
+                        <input id="capBac" name="capBac" type="text" 
+                        value={setValueIntoForm("capBac")}
+                        onChange={(e)=>{
                             handleChangeGetValueInput(e)
                         }} />
                     </div>
@@ -754,6 +944,9 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
+                        value={valueForm.ngayDuocTuyenDung !== ""
+                        ? moment(valueForm.ngayDuocTuyenDung, "DD-MM-YYYY")
+                        : ""}
                         onBlur={()=>{
                             if(valueForm.ngayDuocTuyenDung === ""){
                                 setValidateForm({
@@ -786,6 +979,7 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <input id="coQuanTuyenDung" name="coQuanTuyenDung" type="text" 
+                        value={setValueIntoForm("coQuanTuyenDung")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -799,6 +993,9 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
+                        value={valueForm.ngayVaoDangCSVN !== ""
+                        ? moment(valueForm.ngayVaoDangCSVN, "DD-MM-YYYY")
+                        : ""}
                         onBlur={()=>{
                             if(valueForm.ngayVaoDangCSVN === ""){
                                 setValidateForm({
@@ -831,6 +1028,9 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
+                        value={valueForm.ngayChinhThuc !== ""
+                        ? moment(valueForm.ngayChinhThuc, "DD-MM-YYYY")
+                        : ""}
                         onBlur={()=>{
                             if(valueForm.ngayChinhThuc === ""){
                                 setValidateForm({
@@ -883,7 +1083,7 @@ export default function SoYeuLyLich(props) {
                             onChange={getValueSelect_PhongBan}>
                                 {renderPhongBan()}
                             </Select>
-                            {validateForm.phongBanCVObj.phongBan && phongBanChucVuArr.length < 1 
+                            {validateForm.phongBanCVObj?.phongBan && phongBanChucVuArr.length < 1 
                                 ? showRequiredAlert() 
                                 : ""}
                         </div>
@@ -909,7 +1109,7 @@ export default function SoYeuLyLich(props) {
                             onChange={getValueSelect_ChucVu}>
                                 {renderChucVu()}
                             </Select>
-                            {validateForm.phongBanCVObj.chucVu && phongBanChucVuArr.length < 1 
+                            {validateForm.phongBanCVObj?.chucVu && phongBanChucVuArr.length < 1 
                                 ? showRequiredAlert() 
                                 : ""}
                         </div>
@@ -924,6 +1124,7 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <input id="ngachVienChuc" name="ngachVienChuc" type="text" 
+                        value={setValueIntoForm("ngachVienChuc")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -935,6 +1136,7 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <input id="bacLuong" name="bacLuong" type="text" 
+                        value={setValueIntoForm("bacLuong")}
                         onBlur={validateField}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
@@ -948,6 +1150,9 @@ export default function SoYeuLyLich(props) {
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
+                        value={valueForm.tuNgayThangNam !== ""
+                        ? moment(valueForm.tuNgayThangNam, "DD-MM-YYYY")
+                        : ""}
                         onBlur={()=>{
                             if(valueForm.tuNgayThangNam === ""){
                                 setValidateForm({
@@ -978,17 +1183,18 @@ export default function SoYeuLyLich(props) {
                     <div className="maSo__ChucVu">
                         <div className="second__content maSo">
                             <input placeholder='Mã Số' name="maSoFake" type="text" 
-                            onBlur={validateField}
+                            value={setValueIntoForm("maSoFake")}
                             onChange={(e)=>{
                                 handleChangeGetValueInput(e)
                             }} />
-                            {validateForm.maSoFake ? showRequiredAlert() : ""}
                         </div>
                     </div>
                 </div>
                 <div className="SYLL__right__field">
                     <label htmlFor='danhHieuDuocPhong'>Danh hiệu được phong:</label>
-                    <input id="danhHieuDuocPhong" name="danhHieuDuocPhong" type="text" onChange={(e)=>{
+                    <input id="danhHieuDuocPhong" name="danhHieuDuocPhong" type="text" 
+                    value={setValueIntoForm("danhHieuDuocPhong")}
+                    onChange={(e)=>{
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
@@ -997,6 +1203,7 @@ export default function SoYeuLyLich(props) {
                         <span className="required__field"> *</span>
                     </label>
                     <input id="tinhHinhSK" name="tinhHinhSK" type="text" 
+                    value={setValueIntoForm("tinhHinhSK")}
                     onBlur={validateField}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e)
@@ -1005,6 +1212,7 @@ export default function SoYeuLyLich(props) {
                     <div className="two__content">
                         <div className="chieuCao">
                             <input placeholder='Chiều cao (m)' name="chieuCao" type="text" 
+                            value={setValueIntoForm("chieuCao")}
                             onBlur={validateField}
                             onChange={(e)=>{
                                 handleChangeGetValueInput(e)
@@ -1013,6 +1221,7 @@ export default function SoYeuLyLich(props) {
                         </div>
                         <div className="canNang">
                             <input placeholder='Cân nặng (kg)' name="canNang" type="text" 
+                            value={setValueIntoForm("canNang")}
                             onBlur={validateField}
                             onChange={(e)=>{
                                 handleChangeGetValueInput(e)
