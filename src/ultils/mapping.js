@@ -3,6 +3,7 @@ import moment from "moment"
 export const mappingProfileStep1 = (formValues)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const birthDay = `${formValues.ngaySinh}-${formValues.thangSinh}-${formValues.namSinh}`;
+    const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
 
     return {
         "user_id": "",
@@ -13,7 +14,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "pro_birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "pro_home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
         "pro_local_phone": "test thêm",
-        "pro_resident": "test thêm",
+        "pro_resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
         "pro_ethnic": formValues.danToc,
         "pro_religion": formValues.tonGiao,
         "pro_background_origin": "test thêm",

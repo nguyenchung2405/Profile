@@ -37,6 +37,7 @@ const initialState = {
     noiOTinh: "",
     noiOQuan: "",
     noiOHuyen: "",
+    isCreateProfile: false,
 }
 
 const step1Slice = createSlice({
@@ -89,11 +90,14 @@ const step1Slice = createSlice({
             let quanSelected = state.noiOQuan.find(quan => quan.name === action.payload);
             state.noiOHuyen = quanSelected.wards;
         },
+        setIsCreateProfile: (state,action)=>{
+            state.isCreateProfile = action.payload
+        }
     }
 })
 
 export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
-setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen } = step1Slice.actions;
+setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile } = step1Slice.actions;
 
 export default step1Slice.reducer;

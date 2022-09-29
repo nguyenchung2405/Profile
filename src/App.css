@@ -12,16 +12,16 @@ div.App {
 .sidebar {
     width: 265px;
     min-height: 100%;
-    /* display: flex;
-    flex-direction: column; */
     background-color: #3b9cff;
     position: fixed;
     top: 0;
     left: 0;
+    background-color: #459C60;
+
 }
 
 .sidebar .bg_pri_blue {
-    background-color: #2c94ff;
+    background-color: #35794a;
 }
 
 .sidebar .sidebar__logo {
@@ -69,7 +69,6 @@ div.App {
 .sidebar__infor .sidebar__infor__employee p:nth-child(2) {
     font-size: 14px;
     font-weight: 400;
-    color: #ABD5FF;
 }
 
 .sidebar .sidebar__personal__information {
@@ -93,6 +92,7 @@ div.App {
 
 .sidebar .sidebar__sub__menu {
     padding: 10px 0;
+    background-color: #459C60;
 }
 
 .sidebar .sidebar__sub__menu ul {
@@ -106,7 +106,7 @@ div.App {
 }
 
 .sidebar .sidebar__sub__menu ul li a {
-    color: #ABD5FF;
+    color: white;
     font-size: 16px;
     font-weight: 400;
 }
@@ -152,15 +152,24 @@ div.App {
 }
 
 .App .steps_steps__UOUsf .ant-steps-item-process.ant-steps-item-active>div.ant-steps-item-container div span {
-    color: #3699FF;
+    color: #35794a;
     font-weight: 500;
     font-size: 18px;
 }
 
 .App .steps_steps__UOUsf .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
-    color: #3699FF;
+    color: #35794a;
     font-weight: bold;
     font-size: 13px;
+}
+
+.App .steps_steps__UOUsf .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon span.ant-steps-icon,
+.App .steps_steps__UOUsf .ant-steps-item > div.ant-steps-item-container[role=button]:hover div.ant-steps-item-title{
+    color: #35794a;
+}
+
+.App .steps_steps__UOUsf .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon {
+    border-color: #35794a;
 }
 
 .App .steps_steps__UOUsf .ant-steps-item div.ant-steps-item-container .ant-steps-item-title {

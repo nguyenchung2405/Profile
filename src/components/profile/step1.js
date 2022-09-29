@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import "./profile.css";
 import { Radio, Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPBCV, removePBCV, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen, setValues} from '../../redux/Steps/step1/step1Slice';
+import { addPBCV, removePBCV, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen} from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
-import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PROVINCES } from '../../title/title';
+import { CREATE_PROFILE, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PROFILE_BY_ID, GET_PROVINCES, UPDATE_PROFILE } from '../../title/title';
 
 export default function SoYeuLyLich(props) {
 
@@ -15,7 +15,7 @@ export default function SoYeuLyLich(props) {
     let {nextStep} = useSelector(state => state.stepsReducer);
     let {phongBanChucVuArr, values, noiSinhTinh, 
     noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
-    noiOTinh, noiOQuan, noiOHuyen} = useSelector(state => state.steps1Reducer);
+    noiOTinh, noiOQuan, noiOHuyen, isCreateProfile} = useSelector(state => state.steps1Reducer);
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     
     useEffect(()=>{
@@ -28,9 +28,17 @@ export default function SoYeuLyLich(props) {
         //    console.log(validateForm)
            if(isNextStep){
             // console.log(nextStep)
-                dispatch(setValues(valueForm))
-                dispatch(moveToNextStep(nextStep))
-                dispatch(setIsNextStep(true))
+                if(!isCreateProfile){
+                    dispatch({
+                        type: UPDATE_PROFILE,
+                        valuesUpdate: valueForm
+                    })
+                } else if(isCreateProfile) {
+                    dispatch({
+                        type: CREATE_PROFILE,
+                        valuesCreate: valueForm
+                    })
+                }
            }
         }
     },[nextStep])
@@ -39,7 +47,15 @@ export default function SoYeuLyLich(props) {
         dispatch({
             type: GET_PROVINCES
         })
+        dispatch({
+            type: GET_PROFILE_BY_ID,
+            user_id: "400"
+        })
     },[dispatch])
+
+    useEffect(()=>{
+        setValueForm({...values})
+    },[values])
 
     const [valueForm, setValueForm] = useState({...values});
 
@@ -439,7 +455,6 @@ export default function SoYeuLyLich(props) {
                         handleChangeGetValueInput(e);
                         window.addEventListener("beforeunload", function (e) {
                             var confirmationMessage = "\o/";
-                          
                             (e || window.event).returnValue = confirmationMessage; //Gecko + IE
                             return confirmationMessage;                            //Webkit, Safari, Chrome
                         });

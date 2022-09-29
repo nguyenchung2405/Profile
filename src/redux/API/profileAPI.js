@@ -6,14 +6,30 @@ const tthr = "192.168.61.116"
 
 export async function getProfileByID_API(user_id){
     try {
-        const res = axios({
-            url: `${tthr}/api/fe/profiles/users/${user_id}`,
+        const res = await axios({
+            url: `http://${tthr}/api/fe/profiles/users/${user_id}`,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
             }
         })
-        return res.data;
+        return res;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function updateProfile_API(user_id,valuesUpdate){
+    try {
+        const res = await axios({
+            url: `${tthr}/api/profiles/${user_id}`,
+            method: "PUT",
+            Authorization: "Bearer " + TOKEN,
+            data: {
+                valuesUpdate
+            }
+        })
+        return res;
     } catch (error) {
         console.log(error)
     }
