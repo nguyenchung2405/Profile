@@ -1,6 +1,7 @@
 import React from 'react'
 import {FaRegUser} from "react-icons/fa";
 import {BiBriefcase} from "react-icons/bi";
+import SubMenu from './SubMenu';
 
 export default function Sidebar() {
   return (
@@ -64,6 +65,7 @@ export default function Sidebar() {
                 
             </ul>
         </div>
+        <SubMenu />
       </div>
   )
 }

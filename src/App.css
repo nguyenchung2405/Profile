@@ -12,7 +12,6 @@ div.App {
 .sidebar {
     width: 265px;
     min-height: 100%;
-    background-color: #3b9cff;
     position: fixed;
     top: 0;
     left: 0;
@@ -92,7 +91,6 @@ div.App {
 
 .sidebar .sidebar__sub__menu {
     padding: 10px 0;
-    background-color: #459C60;
 }
 
 .sidebar .sidebar__sub__menu ul {
@@ -177,4 +175,79 @@ div.App {
     font-weight: bold;
     font-size: 13px;
     line-height: 15px;
+}
+
+.sidebar_SubMenu__XZeb6 ul.ant-menu {
+    background-color: #35794a;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
+    color: #8bc34a;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-submenu-arrow {
+    color: white;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-light .ant-menu-item-active, .sidebar_SubMenu__XZeb6 .ant-menu-light .ant-menu-item:hover {
+    background-color: white;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content, 
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected span.ant-menu-title-content{
+    color: black;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item span {
+    padding-left: 5px;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu div svg {
+    color: white;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu div span {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-inline .ant-menu-item:after {
+    border-right: 3px solid #35796C;
+}
+
+.notFound > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.notFound > div h1 {
+    margin-right: 15px;
+}
+
+.notFound h1, .notFound h2 {
+    font-size: 40px;
+}
+
+.App > div:nth-child(2) {
+    position: relative;
+    left: 265px;
+    width: calc(100% - 265px);
 }

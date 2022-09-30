@@ -24,7 +24,9 @@ export async function updateProfile_API(user_id,valuesUpdate){
         const res = await axios({
             url: `${tthr}/api/profiles/${user_id}`,
             method: "PUT",
-            Authorization: "Bearer " + TOKEN,
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
             data: {
                 valuesUpdate
             }

@@ -1,12 +1,18 @@
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import StepsAntd from './components/steps/Steps';
+import {Routes, Route} from "react-router-dom"
+import PageNotFound from './components/PageNotFound';
+import TableProfiles from './components/profile/tableProfiles';
 
 function App() {
   return (
     <div className="App">
         <Sidebar />
-        <StepsAntd />
+        <Routes>
+          <Route path="/hr/profile" element={<TableProfiles /> } />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
     </div>
   );
 }

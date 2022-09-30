@@ -44,6 +44,16 @@
     border-style: none;
 }
 
+.SYLL__left__field.noiSinh .ant-select, .SYLL__left__field.queQuan .ant-select {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 18px;
+}
+
+.SYLL__left__field.noiSinh .ant-select:last-child, .SYLL__left__field.queQuan .ant-select:last-child {
+    margin-bottom: 0;
+}
+
 .ant-select +  .ant-select{
     margin-left: 32.5px;
 }
@@ -89,10 +99,6 @@
     font-size: 16px;
     font-weight: 300;
     color: rgba(102, 102, 102, 0.5);
-}
-
-.SYLL__left__field .ant-select .ant-select-arrow, .SYLL__right__field .ant-select .ant-select-arrow {
-    color: #3699FF;
 }
 
 .SYLL__left__field .ant-radio-group .ant-radio {
@@ -273,7 +279,7 @@ div.next {
 
 .SoYeuLyLich__btn {
     border-radius: 3px;
-    background-color: #4794ff;
+    background-color: #35794a;
     height: 44px;
     width: 151px;
     color: white;
@@ -284,7 +290,7 @@ div.next {
 }
 
 .SoYeuLyLich__btn:hover {
-    background-color: #1476ff;   
+    background-color: #47a363;   
 }
 
 .steps_steps__UOUsf .steps-content {
@@ -964,13 +970,12 @@ input#diaChi {
 }
 
 .ant-select-arrow span svg {
-    color: #3699FF;
+    color: #35794a;
 }
 
 .quanHeGiaDinh .ant-select {
     width: 197px;
     height: 44px;
-    
 }
 
 .quanHeGiaDinh .ant-select .ant-select-selector{
@@ -1002,4 +1007,9 @@ input#diaChi {
 
 .Step8__content p span {
     font-size: 11px;
+}
+
+.tableProfiles > div.ant-table-wrapper {
+    width: 100%;
+    padding: 0 18px;
 }

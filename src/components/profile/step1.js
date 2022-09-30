@@ -7,7 +7,7 @@ import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
 import { CREATE_PROFILE, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PROFILE_BY_ID, GET_PROVINCES, UPDATE_PROFILE } from '../../title/title';
-
+import axios from "axios"
 export default function SoYeuLyLich(props) {
 
     const {Option} = Select;
@@ -27,7 +27,7 @@ export default function SoYeuLyLich(props) {
         //    console.log(isNextStep)
         //    console.log(validateForm)
            if(isNextStep){
-            // console.log(nextStep)
+            console.log(isCreateProfile)
                 if(!isCreateProfile){
                     dispatch({
                         type: UPDATE_PROFILE,
@@ -58,6 +58,7 @@ export default function SoYeuLyLich(props) {
     },[values])
 
     const [valueForm, setValueForm] = useState({...values});
+    const valuesNeedValidate = [ "hoTen", "ngaySinh","chieuCao","canNang","thangSinh","namSinh","danToc","hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayVaoDangCSVN","ngayChinhThuc","ngachVienChuc","coQuanTuyenDung","bacLuong","tinhHinhSK","gioiTinh","tuNgayThangNam","phongBanCVObj","xuatThan","noiSinh","queQuan","noiOHienTai"]
 
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
@@ -163,11 +164,11 @@ export default function SoYeuLyLich(props) {
             })
         }
     }
-
+    
     const checkValueForm = ()=>{
         let newValueForm = {};
         let isNextStep = true;
-        for(let value in valueForm){
+        for(let value of valuesNeedValidate){
             if(value === "noiSinh" ){
                 if(valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
                     newValueForm = {...newValueForm,[value]: {huyen: true}}
