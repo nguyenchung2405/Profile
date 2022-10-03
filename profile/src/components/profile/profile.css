@@ -1013,3 +1013,89 @@ input#diaChi {
     width: 100%;
     padding: 0 18px;
 }
+
+.tableProfiles .tableProfiles__hoTen {
+    width: 250px;
+}
+
+.tableProfiles__avatar {
+    width: 220px;
+}
+
+.tableProfiles__phongBan {
+    width: 350px;
+}
+
+.tableProfiles__chucVu {
+    width: 380px;
+}
+
+.tableProfiles__thaoTac {
+    width: 250px;
+}
+
+td.tableProfiles__thaoTac {
+    display: flex;
+    justify-content: center;
+}
+
+.tableProfiles__thaoTac button {
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    background-color: #459C60;
+}
+
+.tableProfiles__thaoTac svg {
+    color: white;
+    width: 20px;
+    height: 100%;
+}
+
+.tableProfiles ul li.ant-pagination-total-text {
+    position: absolute;
+    right: 0;
+    margin-right: 0px;
+}
+
+.tableProfiles ul li.ant-pagination-options {
+    position: absolute;
+    right: 160px;
+}
+
+.tableProfiles li.ant-pagination-item:hover, .tableProfiles .ant-pagination-item-active:hover {
+    border-color: #459C60;
+    transition: all .3s;
+}
+
+.tableProfiles li.ant-pagination-item-active {
+    font-weight: 500;
+    background: #fff;
+    border-color: #459C60;
+}
+
+.tableProfiles li.ant-pagination-item-active a {
+    color: #459C60;
+}
+
+.tableProfiles li.ant-pagination-item:hover a {
+    color: #459C60;
+}
+
+.tableProfiles span.anticon svg {
+    color: #459C60;
+}
+
+.tableProfiles .ant-pagination-next:hover button.ant-pagination-item-link,
+.tableProfiles .ant-pagination-prev:hover .ant-pagination-item-link {
+    color: #459C60;
+    border-color: #459C60;
+}
+
+.tableProfiles .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #459C60;
+}
+
+.tableProfiles .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    box-shadow: 0 0 0 2px rgba(69,156,96,0.2);
+}

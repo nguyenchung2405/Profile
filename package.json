@@ -1,0 +1,27 @@
+{
+  "name": "tthr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm run start --prefix profile",
+    "server": "nodemon profile_proxy/index.js",
+    "dev": "concurrently \"yarn client\" \"yarn server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenchung2405/TT_Profile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyenchung2405/TT_Profile/issues"
+  },
+  "homepage": "https://github.com/nguyenchung2405/TT_Profile#readme",
+  "devDependencies": {
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20"
+  }
+}

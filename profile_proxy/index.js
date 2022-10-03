@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/api",rootRouter)
+app.use("/api",rootRouter)
 
 
 const port = process.env.PORT || 3001;
