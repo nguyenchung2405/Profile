@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     values: {
         hoTen: "",
+        email:"",
+        to: "",
+        soDienThoai:"",
         ngaySinh: "",
         chieuCao: "",
         canNang: "",
@@ -19,7 +22,7 @@ const initialState = {
         coQuanTuyenDung:"",
         bacLuong: "",
         tinhHinhSK: "",
-        gioiTinh: "1",
+        gioiTinh: 1,
         tuNgayThangNam: "",
         phongBanCVObj: {chucVu:"", phongBan: ""},
         xuatThan: {thanhPhanXuatThan:"", maSo: ""},
@@ -38,6 +41,10 @@ const initialState = {
     noiOQuan: "",
     noiOHuyen: "",
     isCreateProfile: false,
+    isNavigateTo404: false,
+    phongBan: [],
+    chucVu:[],
+    to: []
 }
 
 const step1Slice = createSlice({
@@ -53,8 +60,12 @@ const step1Slice = createSlice({
             state.phongBanChucVuArr.push(action.payload)
         },
         removePBCV: (state,action)=>{
-            console.log(action.payload)
-            state.phongBanChucVuArr.splice(action.payload,1)
+            let {payload}= action;
+            if(payload !== "all" && typeof payload === 'number'){
+                state.phongBanChucVuArr.splice(action.payload,1)
+            } else {
+                state.phongBanChucVuArr = []
+            }
         },
         setValues: (state,action)=>{
             state.values = {...action.payload};
@@ -92,12 +103,24 @@ const step1Slice = createSlice({
         },
         setIsCreateProfile: (state,action)=>{
             state.isCreateProfile = action.payload
+        },
+        setIsNavigate: (state,action)=>{
+            state.isNavigateTo404 = action.payload
+        },
+        setPB_CV: (state,action)=>{
+            let {depList, posList} = action.payload;
+            state.phongBan = depList;
+            state.chucVu = posList
+        },
+        setTo: (state,action)=>{
+            state.to = action.payload;
         }
     }
 })
 
 export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
-setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile } = step1Slice.actions;
+setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
+setPB_CV, setTo } = step1Slice.actions;
 
 export default step1Slice.reducer;

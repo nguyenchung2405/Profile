@@ -1,12 +1,12 @@
 import moment from "moment"
 
-export const mappingProfileStep1 = (formValues)=>{
+export const mappingProfileStep1 = (formValues,user_id)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const birthDay = `${formValues.ngaySinh}-${formValues.thangSinh}-${formValues.namSinh}`;
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
-
+    console.log(moment(birthDay, "DD-MM-YYYY"))
     return {
-        "user_id": "",
+        "user_id": user_id,
         "pro_name": formValues.hoTen,
         "pro_pen_name": formValues.tenThuongGoi,
         "pro_birth_day": moment(birthDay, "DD-MM-YYYY"),
@@ -17,7 +17,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "pro_resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
         "pro_ethnic": formValues.danToc,
         "pro_religion": formValues.tonGiao,
-        "pro_background_origin": "test thêm",
+        "pro_background_origin": formValues.xuatThan.thanhPhanXuatThan,
         "pro_occupation": formValues.ngheNghiep,
         "pro_identity_card": "test thêm",
         "pro_identity_card_when": "123123",
@@ -25,9 +25,65 @@ export const mappingProfileStep1 = (formValues)=>{
     }
 }
 
+export const mappingDepartmentPosition = (data,pro_id,user_id)=>{
+    return {
+        "pro_id": pro_id,
+        "user_id": user_id,
+        "dep_id": data.phongBan,
+        "pos_id": data.chucVu,
+        "part_id":"123",
+        "appointment_date":"123123"
+    }
+}
+
+export const mappingUserDegree = (data,pro_id,user_id)=>{
+    return {
+        "pro_id": pro_id,
+        "user_id": user_id,
+        "deg_begin_study": null,
+        "deg_diploma": "",
+        "deg_education": data.hocVan,
+        "deg_end_study": null,
+        "deg_foreign_language": data.ngoaiNgu,
+        "deg_majors": data.chuyenMon,
+        "deg_note": "",
+        "deg_permanent_residence": "",
+        "deg_politic": data.lyLuanCT,
+        "deg_school_name": "",
+        "deg_type": ""
+    }
+}
+
+export const mappingParty = (data,pro_id,user_id)=>{
+    return {
+        "pro_id": pro_id,
+        "user_id": user_id,
+        "par_admission_date":"123111",
+        "par_branch":"test par_branch",
+        "par_committee":"test par_committee",
+        "par_first_full_name":"test par_first_full_name",
+        "par_first_position":"test par_first_position",
+        "par_first_workplace":"test par_first_workplace",
+        "par_first_residence":"test par_first_residence",
+        "par_second_full_name":"test par_second_full_name",
+        "par_second_position":"test par_second_position",
+        "par_second_workplace":"test par_second_workplace",
+        "par_second_residence":"test par_second_residence",
+        "par_announcement_date":"123123",
+        "par_announcement_branch":"test par_announcement_branch",
+        "par_announcement_committee":"test par_announcement_committee",
+        "par_member_id":"123123",
+        "par_issue_date":"1213",
+        "par_issue_committee":"123123"
+    }
+}
+
 export const mappingProfileAPI = (values)=>{
     return {
         bacLuong: "4",
+        email: "",
+        to: "",
+        soDienThoai: "",
         canNang: "80",
         capBac: "Đại tướng",
         chieuCao: "1,71",
@@ -49,7 +105,7 @@ export const mappingProfileAPI = (values)=>{
         ngayThamGiaCM: "01-09-2022",
         ngayVaoDangCSVN: "05-09-2022",
         ngayXuatNgu: "03-09-2022",
-        ngheNghiep: "CEO",
+        ngheNghiep: values.pro_occupation,
         ngoaiNgu: "Anh",
         noiOHienTai: {diaChi: '82/17 nguyen hong dao', huyen: 3, quan: 3, tinh: 1943},
         noiSinh: {huyen: 1, quan: 1, tinh: 1941},

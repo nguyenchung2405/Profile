@@ -12,18 +12,35 @@ import Step8 from '../profile/step8';
 import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
 import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
-
+import { useParams } from 'react-router-dom';
+import { GET_PROFILE_BY_ID } from '../../title/title';
+import Loading from "../Loading"
+import { setIsLoading } from '../../redux/Slice/loading';
+import { removePBCV } from '../../redux/Steps/step1/step1Slice';
 
 export default function StepsAntd() {
 
     const { Step } = Steps;
     const [current, setCurrent] = useState(0);
     let {nextStep, isNextStep} = useSelector(state => state.stepsReducer);
+    const {isLoading} = useSelector(state => state.loadingReducer);
+    let {userId} = useParams();
     const dispatch = useDispatch();
 
     const onChangeSteps = (value) => {
       dispatch(moveToNextStep(value));
     };
+
+    useEffect(()=>{
+      // lấy user_id từ param trên URL => call API lấy profile
+      if(userId){
+        dispatch({
+          type: GET_PROFILE_BY_ID,
+          user_id: userId
+        });
+        dispatch(setIsLoading(true));
+      }
+    },[userId])
 
     useEffect(()=>{
       if(isNextStep < current){
@@ -32,11 +49,24 @@ export default function StepsAntd() {
     },[nextStep])
 
     useEffect(()=>{
+      return () => {
+        dispatch(moveToNextStep(0))
+        dispatch(removePBCV())
+      }
+    },[])
+
+    useEffect(()=>{
       if(isNextStep){
         setCurrent(nextStep);
         dispatch(setIsNextStep(false))
       }
     },[isNextStep])
+
+    const showLoading = ()=>{
+      if(isLoading){
+        return <Loading />
+      }
+    }
 
     const steps = [
       {
@@ -103,6 +133,7 @@ export default function StepsAntd() {
                       }
               </div>
           </div>
+          {showLoading()}
       </div>
     )
 }

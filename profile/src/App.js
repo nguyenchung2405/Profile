@@ -11,6 +11,8 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/hr/profile" element={<TableProfiles /> } />
+          <Route path="/hr/profile/:userId" element={<StepsAntd />} />
+          <Route path="/hr/profile/create" element={<StepsAntd />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
     </div>

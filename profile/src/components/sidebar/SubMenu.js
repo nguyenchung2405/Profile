@@ -29,7 +29,6 @@ export default function SubMenu() {
          mode='inline'
          items={items}
          onClick={(e)=>{
-            console.log(e)
             if(e.key === "1"){
                 navigate("/hr/profile")
             }

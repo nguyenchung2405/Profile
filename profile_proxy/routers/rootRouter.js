@@ -1,12 +1,17 @@
 const express = require("express");
 const { userRouter } = require("./userRouter");
 const rootRouter = express.Router();
-const {checkQuery} = require("../middleware/user.middleware")
+const {checkQuery} = require("../middleware/user.middleware");
+const { profileRouter } = require("./profileRouter");
+const { depRouter } = require("./depRouter");
+const { positionRouter } = require("./positionRouter");
+const { partRouter } = require("./partRouter");
 
 rootRouter.use("/user",checkQuery,userRouter);
-
-// Lấy danh sách người dùng để render table
-// rootRouter.get("/user",checkQuery)
+rootRouter.use("/fe/profiles/users", profileRouter)
+rootRouter.use("/departments",depRouter)
+rootRouter.use("/positions",positionRouter)
+rootRouter.use("/parts",partRouter)
 
 module.exports = {
     rootRouter

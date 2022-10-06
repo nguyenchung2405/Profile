@@ -253,5 +253,9 @@ div.App {
     position: relative;
     left: 265px;
     width: calc(100% - 265px);
+    height: auto;
+}
+
+.App div.notFound {
     height: 100vh;
 }

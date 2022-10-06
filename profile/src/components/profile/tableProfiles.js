@@ -3,13 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_USER_LIST } from '../../title/title';
 import {MdOutlineModeEditOutline} from "react-icons/md";
+import {AiOutlineUserAdd} from "react-icons/ai"
+import { setIsLoading } from '../../redux/Slice/loading';
+import Loading from '../Loading';
+import { useNavigate } from 'react-router-dom';
+import { removePBCV, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
+import { userInforEmpty } from '../../ultils/defaultUserInfor';
 
 export default function TableProfiles() {
 
     const [page, setPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(10);
     const {userList, total} = useSelector(state => state.userListReducer)
-
+    const {isLoading} = useSelector(state => state.loadingReducer);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {Column} = Table;
 
@@ -19,10 +26,28 @@ export default function TableProfiles() {
             type: GET_USER_LIST,
             table: {page,pageNumber}
         })
+        dispatch(setIsLoading(true));
     },[page,pageNumber])
+
+    const showLoading = ()=>{
+      if(isLoading){
+        return <Loading />
+      }
+    }
 
   return (
     <div className="tableProfiles">
+        <div className="tools">
+          <button className="create_acc_profile" onClick={()=>{
+            dispatch(setIsCreateProfile(true))
+            dispatch(removePBCV("all"))
+            dispatch(setValues(userInforEmpty))
+            navigate("/hr/profile/create")
+          }}>
+            <AiOutlineUserAdd />
+            Tạo
+          </button>
+        </div>
         <Table 
         dataSource={userList.length > 0 ? userList : ""}
         pagination={{
@@ -63,13 +88,17 @@ export default function TableProfiles() {
           <Column className="tableProfiles__thaoTac" key="thaoTac"
           render={(text,record,index)=>{
             let {id} = record;
-            return <button onClick={()=>{
-                dispatch({});
-            }}>
-                <MdOutlineModeEditOutline/>
-            </button>
+            return <div>
+                <button onClick={()=>{
+                  dispatch(setIsCreateProfile(false))
+                  navigate(`/hr/profile/${id}`)
+              }}>
+                  <MdOutlineModeEditOutline/>
+              </button>
+            </div>
           }} />
         </Table>
+        {showLoading()}
     </div>
   )
 }

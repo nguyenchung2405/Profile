@@ -37,17 +37,11 @@
 }
 
 .SYLL__left__field .ant-select {
-    width: 105px;
+    width: 100%;
     height: 40px;
     border-radius: 3px;
     text-align: center;
     border-style: none;
-}
-
-.SYLL__left__field.noiSinh .ant-select, .SYLL__left__field.queQuan .ant-select {
-    width: 100%;
-    margin-left: 0;
-    margin-bottom: 18px;
 }
 
 .SYLL__left__field.noiSinh .ant-select:last-child, .SYLL__left__field.queQuan .ant-select:last-child {
@@ -55,12 +49,8 @@
 }
 
 .ant-select +  .ant-select{
-    margin-left: 32.5px;
+    margin-top: 18px;
 }
-
-/* .SYLL__left__field.birthday > div:last-child {
-    margin-right: 0px;
-} */
 
 .SYLL__right__field .ant-select {
     width: 170px;
@@ -77,10 +67,6 @@
     align-items: center;
     background-color: #F0F5FA;
 }
-
-/* .SYLL__left__field .ant-select:last-child {
-    margin-right: 0;
-} */
 
 .SYLL__left__field .ant-select .ant-select-selector {
     height: 100%;
@@ -129,7 +115,20 @@
 }
 
 .SoYeuLyLich .fisrt__content {
-    margin-right: 40px;
+    width: 100%;
+}
+
+.SoYeuLyLich .fisrt__content.phongBan {
+    margin-bottom: 18px;
+}
+
+#chieuCao__CanNang {
+    display: flex;
+    margin-top: 18px;
+}
+
+.SoYeuLyLich .fisrt__content .ant-select {
+    width: 100%;
 }
 
 .two__content {
@@ -241,7 +240,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
 }
 
 .SYLL__right__field .two__content {
-    margin-top: 18px;
+    display: block;
 }
 
 .SYLL__right__field .two__content input{
@@ -407,6 +406,18 @@ div.next {
     margin-right: 0;
 }
 
+.chucVuHienTai div.ant-select {
+    width: 100%;
+}
+
+.phongBanCV__list {
+    margin-top: 18px;
+}
+
+.phongBanCV__list div p {
+    margin-bottom: 0px;
+}
+
 .xuatThan {
     display: block;
 }
@@ -477,6 +488,15 @@ div.next {
 
 .SYLL__right__field  .phongBanCV__list div {
     display: flex;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.SYLL__right__field  .phongBanCV__list div:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0px;
+    border-bottom: none;
 }
 
 .SYLL__right__field  .phongBanCV__list div p {
@@ -485,10 +505,11 @@ div.next {
 
 .SYLL__right__field  .phongBanCV__list div p:first-child {
     width: 160px;
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 .SYLL__right__field  .phongBanCV__list div p:nth-child(2){
+    margin-right: 20px;
     width: 160px;
 }
 
@@ -1034,7 +1055,7 @@ input#diaChi {
     width: 250px;
 }
 
-td.tableProfiles__thaoTac {
+td.tableProfiles__thaoTac div {
     display: flex;
     justify-content: center;
 }
@@ -1098,4 +1119,46 @@ td.tableProfiles__thaoTac {
 
 .tableProfiles .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
     box-shadow: 0 0 0 2px rgba(69,156,96,0.2);
+}
+
+.App div.ant-spin{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* background-color: rgba(0, 0, 0, 0.9); */
+    z-index: 999;
+}
+
+.App div.ant-spin svg {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tableProfiles .tools {
+    margin: 20px 0;
+    padding: 0 18px;
+}
+
+.tableProfiles .tools button.create_acc_profile {
+    background-color: #459C60;
+    padding: 5px 18px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.tableProfiles .tools button.create_acc_profile:hover {
+    border: 1px solid #459C60;
+    background-color: white;
+    color: #459C60;
 }
