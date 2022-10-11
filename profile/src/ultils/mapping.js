@@ -2,14 +2,12 @@ import moment from "moment"
 
 export const mappingProfileStep1 = (formValues,user_id)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
-    const birthDay = `${formValues.ngaySinh}-${formValues.thangSinh}-${formValues.namSinh}`;
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
-    console.log(moment(birthDay, "DD-MM-YYYY"))
     return {
         "user_id": user_id,
         "pro_name": formValues.hoTen,
         "pro_pen_name": formValues.tenThuongGoi,
-        "pro_birth_day": moment(birthDay, "DD-MM-YYYY"),
+        "pro_birth_day": Date.parse(moment(formValues.ngayThangNamSinh, "DD-MM-YYYY")),
         "pro_gender": formValues.gioiTinh,
         "pro_birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "pro_home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
@@ -96,12 +94,10 @@ export const mappingProfileAPI = (values)=>{
         hocVan: "Đại học",
         lyLuanCT: "OK",
         maSoFake: "2",
-        namSinh: moment(values.pro_birth_day, "DD-MM-YYYY")["_d"].getFullYear(),
-        ngachVienChuc: "123",
+        ngayThangNamSinh: "",
         ngayChinhThuc: "06-09-2022",
         ngayDuocTuyenDung: "04-09-2022",
         ngayNhapNgu: "02-09-2022",
-        ngaySinh: moment(values.pro_birth_day, "DD-MM-YYYY")["_d"].getDate(),
         ngayThamGiaCM: "01-09-2022",
         ngayVaoDangCSVN: "05-09-2022",
         ngayXuatNgu: "03-09-2022",
@@ -114,7 +110,6 @@ export const mappingProfileAPI = (values)=>{
         soTruongCongTac: "Chơi game",
         tenKhac: "Chung",
         tenThuongGoi: values.pro_pen_name,
-        thangSinh: moment(values.pro_birth_day, "DD-MM-YYYY")["_d"].getMonth() + 1,
         tinhHinhSK: "Tốt",
         toChucLamViec: "Ban chỉ huy",
         tonGiao: "Công Giáo",

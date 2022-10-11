@@ -118,6 +118,10 @@
     width: 100%;
 }
 
+.SoYeuLyLich .fisrt__content.to {
+    margin-bottom: 18px;
+}
+
 .SoYeuLyLich .fisrt__content.phongBan {
     margin-bottom: 18px;
 }
@@ -486,17 +490,27 @@ div.next {
     color: black;
 }
 
-.SYLL__right__field  .phongBanCV__list div {
+.SYLL__right__field  .phongBanCV__list > div {
     display: flex;
     padding-bottom: 5px;
     border-bottom: 1px solid black;
     margin-bottom: 5px;
+    align-items: center;
+}
+
+.SYLL__right__field  .phongBanCV__list > div > div {
+    width: calc(100% - 20px);
 }
 
 .SYLL__right__field  .phongBanCV__list div:last-child {
+    width: 100%;
     padding-bottom: 0;
     margin-bottom: 0px;
     border-bottom: none;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #459C60;
 }
 
 .SYLL__right__field  .phongBanCV__list div p {
@@ -504,13 +518,14 @@ div.next {
 }
 
 .SYLL__right__field  .phongBanCV__list div p:first-child {
-    width: 160px;
-    margin-right: 20px;
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 5px;
 }
 
 .SYLL__right__field  .phongBanCV__list div p:nth-child(2){
-    margin-right: 20px;
-    width: 160px;
+    height: fit-content;
+    width: 100%;
 }
 
 .SYLL__right__field  .phongBanCV__list div svg {
@@ -684,16 +699,6 @@ div.next {
     margin-right: 34px;
 }
 
-.Step7 .vo .birthday .ant-select, .Step7 .vo .queQuan .ant-select, 
-.Step7 .Step7__right .birthday .ant-select, .Step7 .Step7__right .diaChi .ant-select {
-    width: 105px;
-    height: 40px;
-    border-radius: 3px;
-    text-align: center;
-    border-style: none;
-}
-
-.Step7 .vo .birthday .ant-select .ant-select-selector,
 .Step7 .vo .queQuan .ant-select .ant-select-selector,
 .Step7 .Step7__right .ant-select .ant-select-selector {
     height: 100%;
@@ -1161,4 +1166,67 @@ td.tableProfiles__thaoTac div {
     border: 1px solid #459C60;
     background-color: white;
     color: #459C60;
+}
+
+.SoYeuLyLich__left .image {
+    display: flex;
+}
+
+.SoYeuLyLich__left .image .image-3x4 {
+    width: 118px;
+    height: 157px;
+    border: 1px solid orange;
+    overflow: hidden;
+    margin: 0 20px 18px 0;
+}
+
+.SoYeuLyLich__left .image .image-3x4 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.SoYeuLyLich__left .image label {
+    padding: 10px 12px;
+    height: 40px;
+    background-color: #35794a;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.SoYeuLyLich__left .image label svg {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.SoYeuLyLich__left .image input {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.SYLL__left__field.birthday .ant-picker {
+    width: 100%;
+    /* margin-right: 40px; */
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.SYLL__left__field.noiSinh, .SYLL__left__field.queQuan {
+    position: relative;
+}
+
+.SYLL__left__field.noiSinh svg, .SYLL__left__field.queQuan svg{
+    position: absolute;
+    top: 3px;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
 }

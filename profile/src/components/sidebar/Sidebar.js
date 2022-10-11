@@ -2,8 +2,12 @@ import React from 'react'
 import {FaRegUser} from "react-icons/fa";
 import {BiBriefcase} from "react-icons/bi";
 import SubMenu from './SubMenu';
+import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
+
+    const {avatar} = useSelector(state => state.steps1Reducer)
+
   return (
     <div className="sidebar">
         <div className="sidebar__logo bg_pri_blue">
@@ -22,11 +26,11 @@ export default function Sidebar() {
         </div>
         <div className="sidebar__infor">
             <div className="sidebar__infor__img">
-                <img src={require("../../img/Ellipse 7.png")} alt="anh_nhan_vien" />
+                <img src={ avatar !== "" ? `data:image/jpeg;base64,${avatar}` : "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"} alt="anh_nhan_vien" />
             </div>
             <div className="sidebar__infor__employee">
-                <p>Ngọc Lan</p>
-                <p>Nhân viên</p>
+                <p>Dương Mai Hoàng Lan</p>
+                <p>Vợ anh Chung</p>
             </div>
         </div>
         <div className="sidebar__personal__information bg_pri_blue">

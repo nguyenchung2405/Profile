@@ -1,10 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PROFILE, GET_PROFILE_BY_ID, UPDATE_PROFILE } from "../title/title";
+import { CREATE_PROFILE, GET_AVATAR, GET_PROFILE_BY_ID, UPDATE_PROFILE } from "../title/title";
 import { userInforEmpty } from "../ultils/defaultUserInfor";
 import { mappingProfileAPI } from "../ultils/mapping";
-import { getProfileByID_API, updateProfile_API } from "./API/profileAPI";
+import { getAvatar_API, getProfileByID_API, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
+import { setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload){
@@ -18,9 +18,8 @@ function* getProfileByID(payload){
         yield put(setValues(profile));
         yield put(setIsLoading(false))
     } else {
-        // failed thì put dữ liệu rỗng lên reducer + set biến tạo profile => tạo profile mới
-        // yield put(setValues(userInforEmpty))
-        // yield put(setIsCreateProfile(true))
+        // failed thì chuyển trang đến 404 Page (url fail: /api/profile/:id
+        // id trên url này không tồn tại trên DB )
         yield put(setIsNavigate(true))
     }
 }
@@ -41,8 +40,24 @@ function* createProfile(payload){
     yield put(setIsNextStep(true))
 }
 
+function* getAvatar(payload){
+    let {user_id} = payload
+    const res = yield call(getAvatar_API, user_id);
+    if(res.length > 0){
+        let avatarArr = res.find(type => type.resource_type === "3x4")
+        let index = avatarArr.resource_content.length - 1;
+        let {content} = avatarArr.resource_content[index];
+        // console.log(content)
+        yield put(setAvatar(content));
+    } else {
+        yield put(setAvatar(""))
+    }
+    // console.log(content)
+}
+
 export default function* Profile(){
     yield takeLatest(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
     yield takeLatest(CREATE_PROFILE, createProfile)
+    yield takeLatest(GET_AVATAR, getAvatar)
 }

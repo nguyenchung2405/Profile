@@ -1,17 +1,19 @@
-import axios from "axios";
-import {TOKEN} from "../TOKEN";
+const axios = require("axios");
+const local =  "http://192.168.61.116";
 
-const getUserList = async (req,res)=>{
+const getAvatar = async (req,res)=>{
     try {
-        const {page, per_page} = req.query;
-        const res = axios({
-            url: `http://192.168.61.116/api/user?page=${page}&per_page=${per_page}`,
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + TOKEN
-            }
-        });
+        let {id} = req.params;
+        const result = await axios({
+            url: `${local}/api/user/resources/${id}`,
+            method: "GET"
+        })
+        res.send(result.data)
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
+}
+
+module.exports = {
+    getAvatar
 }

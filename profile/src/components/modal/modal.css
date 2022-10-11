@@ -14,8 +14,9 @@ div .ant-modal-root .ant-modal {
     border-style: none;
 }
 
-.ant-modal-body .content span {
+.ant-modal-body .content span.ant-select-arrow {
     margin-right: 12px;
+    transform: translateY(-50%);
 }
 
 .ant-modal-body .content .ant-picker:nth-child(2) {
@@ -86,4 +87,21 @@ div .ant-modal-root .ant-modal {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
+}
+
+button.btn-green {
+    border-radius: 3px;
+    background-color: #35794a;
+    height: 44px;
+    width: 151px;
+    color: white;
+    font-size: 18px;
+    border-style: none;
+    transition: background-color 1s;
+    color: white;
+}
+
+button.btn-green:hover {
+    background-color: #47a363;
+    color: white;
 }

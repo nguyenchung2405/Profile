@@ -11,12 +11,12 @@ import Step7 from '../profile/step7';
 import Step8 from '../profile/step8';
 import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
-import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep, setIsNextStep, setUserProfileID } from '../../redux/Steps/stepsSlice';
 import { useParams } from 'react-router-dom';
-import { GET_PROFILE_BY_ID } from '../../title/title';
+import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAvatar } from '../../redux/Steps/step1/step1Slice';
 
 export default function StepsAntd() {
 
@@ -39,6 +39,10 @@ export default function StepsAntd() {
           user_id: userId
         });
         dispatch(setIsLoading(true));
+        dispatch({
+          type: GET_AVATAR,
+          user_id: userId
+        })
       }
     },[userId])
 
@@ -52,6 +56,8 @@ export default function StepsAntd() {
       return () => {
         dispatch(moveToNextStep(0))
         dispatch(removePBCV())
+        dispatch(setUserProfileID({}))
+        dispatch(setAvatar(""))
       }
     },[])
 

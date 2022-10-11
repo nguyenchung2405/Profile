@@ -46,3 +46,15 @@ export async function createProfile_API(data){
         
     }
 }
+
+export async function getAvatar_API(userID){
+    try {
+        const res = await axios({
+            url: `${local}/api/user/resources/${userID}`,
+            method: "GET"
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error)
+    }
+}

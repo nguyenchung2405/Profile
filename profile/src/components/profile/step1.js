@@ -6,8 +6,12 @@ import { addPBCV, removePBCV, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQ
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, UPDATE_PROFILE } from '../../title/title';
+import { CREATE_PROFILE, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
+import Image from './image';
+import Modal_Step1 from '../modal/modal_step1';
+import {FcPlus} from "react-icons/fc";
+
 export default function SoYeuLyLich(props) {
 
     const {Option} = Select;
@@ -19,6 +23,16 @@ export default function SoYeuLyLich(props) {
     noiOTinh, noiOQuan, noiOHuyen, isCreateProfile , isNavigateTo404, phongBan :
     depList, chucVu : posList, to : toList} = useSelector(state => state.steps1Reducer);
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
+    let [isShowModal, setIsShowModal] = useState(false)
+    let [isShowModal2, setIsShowModal2] = useState(false)
+        
+    const closeModal = ()=>{
+        setIsShowModal(false)
+    }
+
+    const closeModal2 = ()=>{
+        setIsShowModal2(false)
+    }
     
     useEffect(()=>{
         if(isNavigateTo404){
@@ -68,7 +82,7 @@ export default function SoYeuLyLich(props) {
 
     const [valueForm, setValueForm] = useState({...values});
     // field nào cần check validate thì cho vào mảng bên dưới
-    const valuesNeedValidate = [ "hoTen", "ngaySinh","chieuCao","canNang","thangSinh","namSinh","danToc"
+    const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","chieuCao","canNang","danToc"
     ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayVaoDangCSVN","ngayChinhThuc",
     "ngachVienChuc","coQuanTuyenDung","bacLuong","tinhHinhSK","gioiTinh","tuNgayThangNam",
     "phongBanCVObj","xuatThan","noiSinh","queQuan","noiOHienTai","email","soDienThoai", "to"]
@@ -76,11 +90,8 @@ export default function SoYeuLyLich(props) {
         hoTen: false,
         email: false,
         to: false,
+        ngayThangNamSinh: false,
         soDienThoai: false,
-        ngaySinh: false,
-        thangSinh: false,
-        namSinh: false,
-        danToc: false,
         tonGiao: false,
         hocVan: false,
         chuyenMon: false,
@@ -183,18 +194,18 @@ export default function SoYeuLyLich(props) {
             // console.log(phongBanChucVuArr)
             return newPBCVArr.map((infor,index)=>{
                 return <div key={index}>
-                    <p>{infor.phongBan}</p>
-                    <p>{infor.chucVu}</p>
-                    <AiOutlineMinus onClick={()=>{
-                        dispatch(removePBCV(index))
-                    }} />
+                            <div>
+                                <p>{infor.phongBan}</p>
+                                <p>{infor.chucVu}</p>
+                            </div>
+                            <AiOutlineMinus onClick={()=>{
+                                dispatch(removePBCV(index))
+                            }} />
                 </div>
             })
         }
     }
 
-    console.log(valueForm)
-    
     const checkValueForm = ()=>{
         let newValueForm = {};
         let isNextStep = true;
@@ -274,27 +285,6 @@ export default function SoYeuLyLich(props) {
         setValueForm({
             ...valueForm,
             [name]:value
-        });
-    }
-
-    const getValueSelect_Day = (value)=>{
-        setValueForm({
-            ...valueForm,
-            ngaySinh: value
-        });
-    }
-
-    const getValueSelect_Month = (value)=>{
-        setValueForm({
-            ...valueForm,
-            thangSinh: value
-        });
-    }
-
-    const getValueSelect_Year = (value)=>{
-        setValueForm({
-            ...valueForm,
-            namSinh: value
         });
     }
 
@@ -483,10 +473,11 @@ export default function SoYeuLyLich(props) {
         }
         return htmlRendered
     }
-
+    
     return (
         <div className="SoYeuLyLich">
             <div className="SoYeuLyLich__left">
+                <Image />
                 <div className="SYLL__left__field">
                     <label htmlFor='hoTen'>Họ và tên khai sinh:
                         <span className="required__field"> *</span>
@@ -546,43 +537,37 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__left__field birthday">
                     <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
-                    <Select defaultValue="Ngày"
-                    value={setValueIntoForm("ngaySinh")}
-                    onBlur={()=>{
-                        if(valueForm.ngaySinh === ""){
-                            setValidateForm({...validateForm,ngaySinh: true})
-                        } else {
-                            setValidateForm({...validateForm,ngaySinh: false})
-                        }
-                    }}
-                    onChange={getValueSelect_Day}>
-                        {renderDay()}
-                    </Select>
-                    <Select defaultValue="Tháng" 
-                    value={setValueIntoForm("thangSinh")}
-                    onBlur={()=>{
-                        if(valueForm.thangSinh === ""){
-                            setValidateForm({...validateForm,thangSinh: true})
-                        } else {
-                            setValidateForm({...validateForm,thangSinh: false})
-                        }
-                    }}
-                    onChange={getValueSelect_Month}>
-                        {renderMonth()}
-                    </Select>
-                    <Select defaultValue="Năm" 
-                    value={setValueIntoForm("namSinh")}
-                    onBlur={()=>{
-                        if(valueForm.namSinh === ""){
-                            setValidateForm({...validateForm,namSinh: true})
-                        } else {
-                            setValidateForm({...validateForm,namSinh: false})
-                        }
-                    }}
-                    onChange={getValueSelect_Year}>
-                        {renderYear()}
-                    </Select>
-                    {validateForm.ngaySinh || validateForm.thangSinh || validateForm.namSinh
+                    <DatePicker 
+                        value={
+                            valueForm.ngayThangNamSinh !== ""
+                            ? moment(valueForm.ngayThangNamSinh, "DD-MM-YYYY")
+                            : ""}
+                            onBlur={()=>{
+                                if(valueForm.ngayThangNamSinh === ""){
+                                    setValidateForm({
+                                        ...validateForm,
+                                        ngayThangNamSinh: true
+                                    })
+                                } else {
+                                    setValidateForm({
+                                        ...validateForm,
+                                        ngayThangNamSinh: false
+                                    })
+                                }
+                            }}
+                        onChange={(date,dateString)=>{
+                            setValueForm({
+                                ...valueForm,
+                                ngayThangNamSinh: dateString
+                            })
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
+                        />
+                    {validateForm.ngayThangNamSinh
                      ? showRequiredAlert() 
                      : ""}
                 </div>
@@ -596,111 +581,48 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__left__field noiSinh">
                     <label>Nơi sinh:<span className="required__field"> *</span></label>
-                    <Select 
-                    value={valueForm.noiSinh.tinh !== ""
-                        ? valueForm.noiSinh.tinh
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiSinh.tinh === ""){
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,tinh:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,tinh:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiSinh_Tinh_TP}
-                    >
-                        <Option value="">Tỉnh (thành phố)</Option>
-                        {renderTinh()}
-                    </Select>
-                    <Select
-                    value={valueForm.noiSinh.quan !== ""
-                        ? valueForm.noiSinh.quan
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiSinh.quan === ""){
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,quan:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,quan:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiSinh_Quan_TP}
-                    >
-                        <Option value="">Quận (Thành phố)</Option>
-                        {renderQuan()}
-                    </Select>
-                    <Select 
-                    value={valueForm.noiSinh.huyen !== ""
-                        ? valueForm.noiSinh.huyen
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiSinh.huyen === ""){
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,huyen:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiSinh: {...validateForm.noiSinh,huyen:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiSinh_Huyen}
-                    >
-                        <Option value="">Huyện (Xã)</Option>
-                        {renderHuyen()}
-                    </Select>
+                    <FcPlus onClick={()=>{
+                        setIsShowModal(true)
+                    }} />
+                    <Modal_Step1 
+                    title= {noiSinh_Step1}
+                    isShowModal = {isShowModal}
+                    closeModal= {closeModal}
+                    valueForm= {valueForm}
+                    setValidateForm= {setValidateForm}
+                    validateForm= {validateForm}
+                    getValueSelect_NoiSinh_Tinh_TP={getValueSelect_NoiSinh_Tinh_TP}
+                    getValueSelect_NoiSinh_Quan_TP={getValueSelect_NoiSinh_Quan_TP}
+                    getValueSelect_NoiSinh_Huyen={getValueSelect_NoiSinh_Huyen}
+                    renderTinh={renderTinh}
+                    renderQuan={renderQuan}
+                    renderHuyen={renderHuyen}
+                    showRequiredAlert={showRequiredAlert}
+                    />
                     {validateForm.noiSinh?.huyen || validateForm.noiSinh?.quan || validateForm.noiSinh?.tinh
                         ? showRequiredAlert() 
                         : ""}
                 </div>
                 <div className="SYLL__left__field queQuan">
                     <label>Quê quán:<span className="required__field"> *</span></label>
-                    <Select
-                    value={valueForm.queQuan.tinh !== ""
-                        ? valueForm.queQuan.tinh
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.queQuan.tinh === ""){
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,tinh:true}})
-                        } else {
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,tinh:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_QueQuan_Tinh_TP}>
-                        <Option value="">Tỉnh (thành phố)</Option>
-                        {renderTinh("queQuan")}
-                    </Select>
-                    <Select defaultValue="Quận (Thành phố)" 
-                    value={valueForm.queQuan.quan !== ""
-                        ? valueForm.queQuan.quan
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.queQuan.quan === ""){
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,quan:true}})
-                        } else {
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,quan:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_QueQuan_Quan_TP}>
-                        <Option value="">Quận (Thành phố)</Option>
-                        {renderQuan("queQuan")}
-                    </Select>
-                    <Select
-                    value={valueForm.queQuan.huyen !== ""
-                        ? valueForm.queQuan.huyen
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.queQuan.huyen === ""){
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,huyen:true}})
-                        } else {
-                            setValidateForm({...validateForm,queQuan: {...validateForm.queQuan,huyen:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_QueQuan_Huyen}>
-                        <Option value="">Huyện (Xã)</Option>
-                        {renderHuyen("queQuan")}
-                    </Select>
+                    <FcPlus onClick={()=>{
+                        setIsShowModal2(true)
+                    }} />
+                    <Modal_Step1 
+                    title= {queQuan_Step1}
+                    isShowModal = {isShowModal2}
+                    closeModal= {closeModal2}
+                    valueForm= {valueForm}
+                    setValidateForm= {setValidateForm}
+                    validateForm= {validateForm}
+                    renderTinh={renderTinh}
+                    renderQuan={renderQuan}
+                    renderHuyen={renderHuyen}
+                    getValueSelect_QueQuan_Tinh_TP={getValueSelect_QueQuan_Tinh_TP}
+                    getValueSelect_QueQuan_Quan_TP={getValueSelect_QueQuan_Quan_TP}
+                    getValueSelect_QueQuan_Huyen={getValueSelect_QueQuan_Huyen}
+                    showRequiredAlert={showRequiredAlert}
+                    />
                     {validateForm.queQuan?.huyen || validateForm.queQuan?.quan || validateForm.queQuan?.tinh
                         ? showRequiredAlert() 
                         : ""}

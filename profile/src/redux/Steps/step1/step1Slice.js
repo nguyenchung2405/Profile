@@ -6,11 +6,9 @@ const initialState = {
         email:"",
         to: "",
         soDienThoai:"",
-        ngaySinh: "",
         chieuCao: "",
         canNang: "",
-        thangSinh: "",
-        namSinh: "",
+        ngayThangNamSinh:"",
         danToc: "",
         hocVan: "",
         chuyenMon: "",
@@ -44,7 +42,8 @@ const initialState = {
     isNavigateTo404: false,
     phongBan: [],
     chucVu:[],
-    to: []
+    to: [],
+    avatar: "",
 }
 
 const step1Slice = createSlice({
@@ -114,6 +113,9 @@ const step1Slice = createSlice({
         },
         setTo: (state,action)=>{
             state.to = action.payload;
+        },
+        setAvatar: (state,action)=>{
+            state.avatar = action.payload;
         }
     }
 })
@@ -121,6 +123,6 @@ const step1Slice = createSlice({
 export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
-setPB_CV, setTo } = step1Slice.actions;
+setPB_CV, setTo, setAvatar } = step1Slice.actions;
 
 export default step1Slice.reducer;
