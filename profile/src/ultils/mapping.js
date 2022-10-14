@@ -1,78 +1,68 @@
 import moment from "moment"
 
-export const mappingProfileStep1 = (formValues,user_id)=>{
+export const mappingProfileStep1 = (formValues)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
     return {
-        "user_id": user_id,
+        "user_id": "",
         "pro_name": formValues.hoTen,
         "pro_pen_name": formValues.tenThuongGoi,
-        "pro_birth_day": Date.parse(moment(formValues.ngayThangNamSinh, "DD-MM-YYYY")),
+        "pro_birth_day": Date.parse(moment(formValues.ngayThangNamSinh, "DD-MM-YYYY")) / 10000,
         "pro_gender": formValues.gioiTinh,
         "pro_birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "pro_home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
-        "pro_local_phone": "test thêm",
+        "pro_local_phone": formValues.soDienThoaiNoiBo,
         "pro_resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
         "pro_ethnic": formValues.danToc,
         "pro_religion": formValues.tonGiao,
         "pro_background_origin": formValues.xuatThan.thanhPhanXuatThan,
         "pro_occupation": formValues.ngheNghiep,
-        "pro_identity_card": "test thêm",
-        "pro_identity_card_when": "123123",
-        "pro_identity_card_where": "test thêm"
+        "pro_identity_card": formValues.canCuocCD,
+        "pro_identity_card_when": Date.parse(moment(formValues.ngayCapCCCD, "DD-MM-YYYY")) / 10000,
+        "pro_identity_card_where": formValues.noiCapCCCD
     }
 }
 
-export const mappingDepartmentPosition = (data,pro_id,user_id)=>{
+export const mappingDepartmentPosition = (data)=>{
     return {
-        "pro_id": pro_id,
-        "user_id": user_id,
-        "dep_id": data.phongBan,
-        "pos_id": data.chucVu,
-        "part_id":"123",
-        "appointment_date":"123123"
+        "user_id": "",
+        "dep_id": data.phongBanCVObj.phongBan,
+        "pos_id": data.phongBanCVObj.chucVu,
+        "part_id": data.to,
+        "appointment_date":Date.parse(moment(data.ngayBoNhiem, "DD-MM-YYYY")) / 10000,
+        "expire_date": Date.parse(moment(data.ngayHetHanBoNhiem, "DD-MM-YYYY")) / 10000,
+        "note":"",
+        "is_primary":"1"
     }
 }
 
-export const mappingUserDegree = (data,pro_id,user_id)=>{
+export const mappingUserDegree = (data)=>{
     return {
-        "pro_id": pro_id,
-        "user_id": user_id,
+        "pro_id": "",
+        "user_id": "",
         "deg_begin_study": null,
-        "deg_diploma": "",
+        "deg_diploma": data.chuyenMon,
         "deg_education": data.hocVan,
         "deg_end_study": null,
         "deg_foreign_language": data.ngoaiNgu,
-        "deg_majors": data.chuyenMon,
+        "deg_majors": "",
         "deg_note": "",
-        "deg_permanent_residence": "",
+        "deg_permanent_residence": `${data.hoKhauThuongTru.diaChi}, ${data.hoKhauThuongTru.huyen}, ${data.hoKhauThuongTru.quan},${data.hoKhauThuongTru.tinh}`,
         "deg_politic": data.lyLuanCT,
         "deg_school_name": "",
         "deg_type": ""
     }
 }
 
-export const mappingParty = (data,pro_id,user_id)=>{
+export const mappingJournalistCard = (data)=>{
     return {
-        "pro_id": pro_id,
-        "user_id": user_id,
-        "par_admission_date":"123111",
-        "par_branch":"test par_branch",
-        "par_committee":"test par_committee",
-        "par_first_full_name":"test par_first_full_name",
-        "par_first_position":"test par_first_position",
-        "par_first_workplace":"test par_first_workplace",
-        "par_first_residence":"test par_first_residence",
-        "par_second_full_name":"test par_second_full_name",
-        "par_second_position":"test par_second_position",
-        "par_second_workplace":"test par_second_workplace",
-        "par_second_residence":"test par_second_residence",
-        "par_announcement_date":"123123",
-        "par_announcement_branch":"test par_announcement_branch",
-        "par_announcement_committee":"test par_announcement_committee",
-        "par_member_id":"123123",
-        "par_issue_date":"1213",
-        "par_issue_committee":"123123"
+        "pro_id": "",
+        "user_id": "",
+        "car_number": data.soTheNhaBao,
+        "car_number_day": Date.parse(moment(data.ngayCapTheNhaBao, "DD-MM-YYYY")) / 10000,
+        "car_begin": Date.parse(moment(data.theCoHieuLucTu, "DD-MM-YYYY")) / 10000,
+        "car_end": Date.parse(moment(data.theCoHieuLucDen, "DD-MM-YYYY")) / 10000,
+        "car_note":""
     }
 }
 
@@ -82,11 +72,10 @@ export const mappingProfileAPI = (values)=>{
         email: "",
         to: "",
         soDienThoai: "",
-        canNang: "80",
         capBac: "Đại tướng",
-        chieuCao: "1,71",
         chuyenMon: "Lập trình",
         coQuanTuyenDung: "BTT",
+        canCuocCD: "",
         danToc: "Kinh",
         danhHieuDuocPhong: "BOSS",
         gioiTinh: values.pro_gender,
@@ -95,25 +84,25 @@ export const mappingProfileAPI = (values)=>{
         lyLuanCT: "OK",
         maSoFake: "2",
         ngayThangNamSinh: "",
-        ngayChinhThuc: "06-09-2022",
+        ngayHetHanBoNhiem: "06-09-2022",
         ngayDuocTuyenDung: "04-09-2022",
         ngayNhapNgu: "02-09-2022",
         ngayThamGiaCM: "01-09-2022",
-        ngayVaoDangCSVN: "05-09-2022",
+        ngayBoNhiem: "05-09-2022",
         ngayXuatNgu: "03-09-2022",
         ngheNghiep: values.pro_occupation,
         ngoaiNgu: "Anh",
         noiOHienTai: {diaChi: '82/17 nguyen hong dao', huyen: 3, quan: 3, tinh: 1943},
         noiSinh: {huyen: 1, quan: 1, tinh: 1941},
+        hoKhauThuongTru: {huyen: 1, quan: 1, tinh: 1941},
         phongBanCVObj: {chucVu: 'Giám đốc Nhà in', phongBan: 'Nhân viên khoán'},
         queQuan: {huyen: 2, quan: 2, tinh: 1942},
         soTruongCongTac: "Chơi game",
-        tenKhac: "Chung",
         tenThuongGoi: values.pro_pen_name,
-        tinhHinhSK: "Tốt",
         toChucLamViec: "Ban chỉ huy",
         tonGiao: "Công Giáo",
-        tuNgayThangNam: "07-09-2022",
+        theCoHieuLucTu: "07-09-2022",
+        theCoHieuLucDen:"",
         xuatThan: {thanhPhanXuatThan: 'Con ông cháu cha', maSo: '1'}
     }
 }

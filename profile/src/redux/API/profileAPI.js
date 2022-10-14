@@ -39,11 +39,16 @@ export async function updateProfile_API(user_id,valuesUpdate){
 
 export async function createProfile_API(data){
     try {
+        console.log(data)
         const res = await axios({
+            url: `${local}/api/create`,
+            method: "POST",
+            data: data
             
         });
+        return res;
     } catch (error) {
-        
+        console.log(error);
     }
 }
 

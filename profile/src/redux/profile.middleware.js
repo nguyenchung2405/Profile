@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { CREATE_PROFILE, GET_AVATAR, GET_PROFILE_BY_ID, UPDATE_PROFILE } from "../title/title";
 import { userInforEmpty } from "../ultils/defaultUserInfor";
-import { mappingProfileAPI } from "../ultils/mapping";
-import { getAvatar_API, getProfileByID_API, updateProfile_API } from "./API/profileAPI";
+import { mappingDepartmentPosition, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
+import { createProfile_API, getAvatar_API, getProfileByID_API, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import { setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
@@ -36,6 +36,14 @@ function* updateProfile(payload){
 
 function* createProfile(payload){
     const {valuesCreate} = payload;
+    console.log(valuesCreate)
+    let profile = mappingProfileStep1(valuesCreate);
+    let depPos = mappingDepartmentPosition(valuesCreate);
+    let userDegree = mappingUserDegree(valuesCreate);
+    let jourCard = mappingJournalistCard(valuesCreate);
+    let dataToCreate = {profile, depPos, userDegree, jourCard, email: valuesCreate.email, soDienThoai: valuesCreate.soDienThoai}
+    yield call(createProfile_API, dataToCreate)
+    // console.log(profile,depPos,userDegree,jourCard)
     yield put(setValues(valuesCreate))
     yield put(setIsNextStep(true))
 }
