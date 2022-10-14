@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV, setAvatar } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAvatar, setIsCreateProfile } from '../../redux/Steps/step1/step1Slice';
 
 export default function StepsAntd() {
 
@@ -43,6 +43,8 @@ export default function StepsAntd() {
           type: GET_AVATAR,
           user_id: userId
         })
+      } else {
+        dispatch(setIsCreateProfile(true))
       }
     },[userId])
 

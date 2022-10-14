@@ -25,7 +25,7 @@ export default function SoYeuLyLich(props) {
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
-        
+
     const closeModal = ()=>{
         setIsShowModal(false)
     }
@@ -44,10 +44,11 @@ export default function SoYeuLyLich(props) {
     useEffect(()=>{
         if(nextStep !== 0){
            let isNextStep = checkValueForm();
+        //    console.log(isNextStep)
            if(!isNextStep){
                 dispatch(moveToNextStep(0))
            } else if(isNextStep){
-            // console.log(isCreateProfile)
+            console.log(isCreateProfile)
                 if(!isCreateProfile){
                     dispatch({
                         type: UPDATE_PROFILE,
@@ -82,10 +83,11 @@ export default function SoYeuLyLich(props) {
 
     const [valueForm, setValueForm] = useState({...values});
     // field nào cần check validate thì cho vào mảng bên dưới
-    const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","chieuCao","canNang","danToc"
-    ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayVaoDangCSVN","ngayChinhThuc",
-    "ngachVienChuc","coQuanTuyenDung","bacLuong","tinhHinhSK","gioiTinh","tuNgayThangNam",
-    "phongBanCVObj","xuatThan","noiSinh","queQuan","noiOHienTai","email","soDienThoai", "to"]
+    const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","danToc"
+    ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayBoNhiem","ngayHetHanBoNhiem",
+    "ngachVienChuc","coQuanTuyenDung","bacLuong","gioiTinh","theCoHieuLucTu",
+    "phongBanCVObj","xuatThan","noiSinh","queQuan","noiOHienTai","email","soDienThoai", "to"
+    , "hoKhauThuongTru", "theCoHieuLucDen"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         email: false,
@@ -94,21 +96,19 @@ export default function SoYeuLyLich(props) {
         soDienThoai: false,
         tonGiao: false,
         hocVan: false,
+        ngayDuocTuyenDung: false,
         chuyenMon: false,
         lyLuanCT:false,
-        ngayDuocTuyenDung: false,
-        coQuanTuyenDung : false,
-        ngayVaoDangCSVN: false,
-        ngayChinhThuc: false,
-        ngachVienChuc: false,
-        bacLuong: false,
-        tuNgayThangNam: false,
-        tinhHinhSK: false,
+        ngayBoNhiem: false,
+        ngayHetHanBoNhiem: false,
+        theCoHieuLucTu: false,
+        theCoHieuLucDen: false,
         phongBanCVObj: false,
         xuatThan: {thanhPhanXuatThan:false, maSo: false},
         noiSinh: {huyen: false,quan:false,tinh:false},
         queQuan: {huyen: false,quan:false,tinh:false},
         noiOHienTai: {diaChi:false,huyen: false,quan:false,tinh:false},
+        hoKhauThuongTru: {diaChi:false,huyen: false,quan:false,tinh:false},
     });
 
     const renderTinh =  (fieldName = "noiSinh") => {
@@ -221,6 +221,11 @@ export default function SoYeuLyLich(props) {
                     isNextStep = false
                 }
             } else if(value === "noiOHienTai"){
+                if(valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
+                    newValueForm = {...newValueForm,[value]: {huyen: true}}
+                    isNextStep = false
+                }
+            }else if(value === "hoKhauThuongTru"){
                 if(valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""){
                     newValueForm = {...newValueForm,[value]: {huyen: true}}
                     isNextStep = false
@@ -417,6 +422,39 @@ export default function SoYeuLyLich(props) {
         });
     }
 
+    const getValueSelect_HoKhau_Tinh_TP = (value)=>{
+        let tinhSelected = noiOTinh.find(tinh => tinh.name === value);
+        dispatch({
+            type: GET_DISTRICTS_ADDRESS,
+            code: tinhSelected.code
+        })
+        let {hoKhauThuongTru} = valueForm;
+        let hoKhauThuongTruNew = {...hoKhauThuongTru, tinh: value};
+        setValueForm({
+            ...valueForm,
+            hoKhauThuongTru: {...hoKhauThuongTruNew}
+        });
+    }
+
+    const getValueSelect_HoKhau_Huyen = (value)=>{
+        let {hoKhauThuongTru} = valueForm;
+        let hoKhauThuongTruNew = {...hoKhauThuongTru, huyen: value};
+        setValueForm({
+            ...valueForm,
+            hoKhauThuongTru: {...hoKhauThuongTruNew}
+        });
+    }
+
+    const getValueSelect_HoKhau_Quan_TP = (value)=>{
+        dispatch(setNoiOHuyen(value))
+        let {hoKhauThuongTru} = valueForm;
+        let hoKhauThuongTruNew = {...hoKhauThuongTru, quan: value};
+        setValueForm({
+            ...valueForm,
+            hoKhauThuongTru: {...hoKhauThuongTruNew}
+        });
+    }
+
     const getValueSelect_ChucVu = (value)=>{
         if(phongBanCVOb.phongBan !== ""){
             dispatch(addPBCV({...phongBanCVOb, chucVu: value}));
@@ -504,14 +542,6 @@ export default function SoYeuLyLich(props) {
                     }} />
                 </div>
                 <div className="SYLL__left__field">
-                    <label htmlFor='tenKhac'>Các tên gọi khác:</label>
-                    <input id="tenKhac" name="tenKhac" type="text" 
-                    value={setValueIntoForm("tenKhac")}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                </div>
-                <div className="SYLL__left__field">
                     <label htmlFor='email'>Email:
                         <span className="required__field"> *</span>
                     </label>
@@ -534,6 +564,15 @@ export default function SoYeuLyLich(props) {
                         handleChangeGetValueInput(e);
                     }} />
                     {validateForm.soDienThoai ? showRequiredAlert() : ""}
+                </div>
+                <div className="SYLL__left__field">
+                    <label htmlFor='soDienThoaiNoiBo'>Số điện thoại nội bộ:</label>
+                    <input id="soDienThoaiNoiBo" name="soDienThoaiNoiBo" type="text"
+                    value={setValueIntoForm("soDienThoaiNoiBo")} 
+                    onBlur={validateField}
+                    onChange={(e)=>{
+                        handleChangeGetValueInput(e);
+                    }} />
                 </div>
                 <div className="SYLL__left__field birthday">
                     <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
@@ -710,30 +749,116 @@ export default function SoYeuLyLich(props) {
                         ? showRequiredAlert() 
                         : ""}
                 </div>
-                <div className="SYLL__left__field two__content">
-                    <div className="fisrt__content danToc">
-                        <label htmlFor="danToc">Dân tộc:
-                            <span className="required__field"> *</span> 
-                        </label>
-                        <input id="danToc" name="danToc" type="text" 
-                        value={setValueIntoForm("danToc")}
-                        onBlur={validateField}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }} />
-                        {validateForm.danToc ? showRequiredAlert() : ""}
-                    </div>
-                    <div className="second__content tonGiao">
-                        <label htmlFor="tonGiao">Tôn giáo:
-                        </label>
-                        <input id="tonGiao" name="tonGiao" type="text" 
-                        value={setValueIntoForm("tonGiao")}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }} />
-                    </div>
+                <div className="SYLL__left__field hoKhauThuongTru">
+                    <label htmlFor='diaChi'>Hộ khẩu thường trú:
+                        <span className="required__field"> *</span>
+                    </label>
+                    <input id="hoKhauThuongTru" name="diaChi" type="text" 
+                    value={valueForm.hoKhauThuongTru.diaChi !== "" 
+                        ? valueForm.hoKhauThuongTru.diaChi
+                        : ""
+                    }
+                    onBlur={(e)=>{
+                        let {value} = e.target;
+                        if(value === ""){
+                            setValidateForm({
+                                ...validateForm,
+                                hoKhauThuongTru: {...validateForm.hoKhauThuongTru,diaChi:true}})
+                        } else {
+                            setValidateForm({
+                                ...validateForm,
+                                hoKhauThuongTru: {...validateForm.hoKhauThuongTru,diaChi:false}})
+                        }
+                    }}
+                    onChange={(e)=>{
+                        let {value} = e.target;
+                        let {hoKhauThuongTru} = valueForm;
+                        let hoKhauThuongTruNew = {...hoKhauThuongTru,diaChi: value}
+                        setValueForm({
+                            ...valueForm,
+                            hoKhauThuongTru : {...hoKhauThuongTruNew}
+                        })
+                    }} />
+                    <Select
+                    value={valueForm.hoKhauThuongTru.tinh !== ""
+                        ? valueForm.hoKhauThuongTru.tinh
+                        : ""
+                    }
+                    onBlur={()=>{
+                        if(valueForm.hoKhauThuongTru.tinh === ""){
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,tinh:true}})
+                        } else {
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,tinh:false}})
+                        }
+                    }}
+                    onChange={getValueSelect_HoKhau_Tinh_TP}>
+                        <Option value="">Tỉnh (Thành phố)</Option>
+                        {renderTinh("noiO")}
+                    </Select>
+                    <Select
+                    value={valueForm.hoKhauThuongTru.quan !== ""
+                        ? valueForm.hoKhauThuongTru.quan
+                        : ""
+                    }
+                    onBlur={()=>{
+                        if(valueForm.hoKhauThuongTru.quan === ""){
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,quan:true}})
+                        } else {
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,quan:false}})
+                        }
+                    }}
+                    onChange={getValueSelect_HoKhau_Quan_TP}>
+                        <Option value="">Quận (Thành phố)</Option>
+                        {renderQuan("noiO")}
+                    </Select>
+                    <Select
+                    value={valueForm.hoKhauThuongTru.huyen !== ""
+                        ? valueForm.hoKhauThuongTru.huyen
+                        : ""
+                    }
+                    onBlur={()=>{
+                        if(valueForm.hoKhauThuongTru.huyen === ""){
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,huyen:true}})
+                        } else {
+                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,huyen:false}})
+                        }
+                    }}
+                    onChange={getValueSelect_HoKhau_Huyen}>
+                        <Option value="">Huyện (Xã)</Option>
+                        {renderHuyen("noiO")}
+                    </Select>
+                    {validateForm.hoKhauThuongTru?.huyen || validateForm.hoKhauThuongTru?.quan 
+                        || validateForm.hoKhauThuongTru?.tinh || validateForm.hoKhauThuongTru?.diaChi
+                        ? showRequiredAlert() 
+                        : ""}
                 </div>
-                <div className="SYLL__left__field two__content xuatThan">
+                
+            </div>
+            <div className="SoYeuLyLich__right">
+                <div className="SYLL__right__field two__content">
+                        <div className="fisrt__content danToc">
+                            <label htmlFor="danToc">Dân tộc:
+                                <span className="required__field"> *</span> 
+                            </label>
+                            <input id="danToc" name="danToc" type="text" 
+                            value={setValueIntoForm("danToc")}
+                            onBlur={validateField}
+                            onChange={(e)=>{
+                                handleChangeGetValueInput(e)
+                            }} />
+                            {validateForm.danToc ? showRequiredAlert() : ""}
+                        </div>
+                        <div className="second__content tonGiao">
+                            <label htmlFor="tonGiao">Tôn giáo:
+                            </label>
+                            <input id="tonGiao" name="tonGiao" type="text" 
+                            value={setValueIntoForm("tonGiao")}
+                            onChange={(e)=>{
+                                handleChangeGetValueInput(e)
+                            }} />
+                        </div>
+                </div>
+                <div className="SYLL__right__field two__content xuatThan">
                     <div>
                         <div className="fisrt__content thanhPhanXuatThan">
                         <label htmlFor="thanhPhanXuatThan">Thành phần xuất thân:
@@ -801,7 +926,7 @@ export default function SoYeuLyLich(props) {
                         ? showRequiredAlert() 
                         : ""}
                 </div>
-                <div className="SYLL__left__field">
+                <div className="SYLL__right__field">
                     <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
                     <input id="ngheNghiep" name="ngheNghiep" type="text" 
                     value={setValueIntoForm("ngheNghiep")}
@@ -809,8 +934,42 @@ export default function SoYeuLyLich(props) {
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
+                <div className="SYLL__right__field ngayTuyenDung">
+                <label>Ngày được tuyển dụng:<span className="required__field"> *</span></label>
+                <DatePicker 
+                    value={
+                        valueForm.ngayDuocTuyenDung !== ""
+                        ? moment(valueForm.ngayDuocTuyenDung, "DD-MM-YYYY")
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.ngayDuocTuyenDung === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayDuocTuyenDung: true
+                                })
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayDuocTuyenDung: false
+                                })
+                            }
+                        }}
+                    onChange={(date,dateString)=>{
+                        setValueForm({
+                            ...valueForm,
+                            ngayDuocTuyenDung: dateString
+                        })
+                    }}
+                    placeholder=""
+                    suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                    </svg>}
+                    format="DD-MM-YYYY"
+                    />
+                {validateForm.ngayDuocTuyenDung
+                 ? showRequiredAlert() 
+                 : ""}
             </div>
-            <div className="SoYeuLyLich__right">
                 <div className="SYLL__right__field two__content">
                 <div className="fisrt__content hocVan">
                     <label htmlFor="hocVan">Trình độ học vấn:
@@ -862,18 +1021,26 @@ export default function SoYeuLyLich(props) {
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
+                <div className="SYLL__right__field">
+                    <label htmlFor='canCuocCD'>Số căn cước công dân:</label>
+                    <input id="canCuocCD" name="canCuocCD" type="text" 
+                    value={setValueIntoForm("canCuocCD")}
+                    onChange={(e)=>{
+                        handleChangeGetValueInput(e)
+                    }} />
+                </div>
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content ngayThamGiaCM">
-                        <label >Ngày tham gia cách mạng:</label>
+                        <label >Ngày cấp:</label>
                         <DatePicker 
                         value={
-                            valueForm.ngayThamGiaCM !== "" && valueForm.ngayThamGiaCM !== undefined
-                            ? moment(valueForm.ngayThamGiaCM, "DD-MM-YYYY")
+                            valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
+                            ? moment(valueForm.ngayCapCCCD, "DD-MM-YYYY")
                             : ""}
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                ngayThamGiaCM: dateString
+                                ngayCapCCCD: dateString
                             })
                         }}
                         placeholder=""
@@ -884,90 +1051,41 @@ export default function SoYeuLyLich(props) {
                         />
                     </div>
                     <div className="second__content toChuc">
-                        <label htmlFor="toChucLamViec">Làm việc gì, tổ chức nào:
+                        <label htmlFor="noiCapCCCD">Nơi cấp:
                         </label>
-                        <input id="toChucLamViec" name="toChucLamViec" type="text" 
-                        value={setValueIntoForm("toChucLamViec")}
+                        <input id="noiCapCCCD" name="noiCapCCCD" type="text" 
+                        value={setValueIntoForm("noiCapCCCD")}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
                         }}/>
                     </div>
                 </div>
-                <div className="SYLL__right__field three__content">
-                    <div className="fisrt__content">
-                        <label>Ngày nhập ngũ:</label>
-                        <DatePicker 
-                        value={valueForm.ngayNhapNgu !== "" && valueForm.ngayNhapNgu !== undefined
-                        ? moment(valueForm.ngayNhapNgu, "DD-MM-YYYY")
-                        : ""}
-                        onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayNhapNgu: dateString
-                            })
-                        }}
-                        placeholder="" 
-                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                        </svg>}
-                        format="DD-MM-YYYY"
-                        />
-                    </div>
-                    <div className="second__content">
-                        <label>Ngày xuất ngũ:</label>
-                        <DatePicker 
-                        value={valueForm.ngayXuatNgu !== "" && valueForm.ngayXuatNgu !== undefined
-                        ? moment(valueForm.ngayXuatNgu, "DD-MM-YYYY")
-                        : ""}
-                        onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayXuatNgu: dateString
-                            })
-                        }}
-                        placeholder=""
-                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                        </svg>}
-                        format="DD-MM-YYYY"
-                        />
-                    </div>
-                    <div className="third__content">
-                        <label htmlFor='capBac'>Cấp bậc:
-                        </label>
-                        <input id="capBac" name="capBac" type="text" 
-                        value={setValueIntoForm("capBac")}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }} />
-                    </div>
-                </div>
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content date__picker">
-                        <label >Ngày được tuyển dụng:
+                        <label>Ngày bổ nhiệm:
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
-                        value={valueForm.ngayDuocTuyenDung !== ""
-                        ? moment(valueForm.ngayDuocTuyenDung, "DD-MM-YYYY")
+                        value={valueForm.ngayBoNhiem !== ""
+                        ? moment(valueForm.ngayBoNhiem, "DD-MM-YYYY")
                         : ""}
                         onBlur={()=>{
-                            if(valueForm.ngayDuocTuyenDung === ""){
+                            if(valueForm.ngayBoNhiem === ""){
                                 setValidateForm({
                                     ...validateForm,
-                                    ngayDuocTuyenDung: true
+                                    ngayBoNhiem: true
                                 })
                             } else {
                                 setValidateForm({
                                     ...validateForm,
-                                    ngayDuocTuyenDung: false
+                                    ngayBoNhiem: false
                                 })
                             }
                         }}
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                ngayDuocTuyenDung: dateString
+                                ngayBoNhiem: dateString
                             })
                         }}
                         placeholder=""
@@ -976,82 +1094,33 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.ngayDuocTuyenDung ? showRequiredAlert() : ""}
-                    </div>
-                    <div className="second__content">
-                        <label htmlFor="coQuanTuyenDung">Cơ quan tuyển dụng:
-                            <span className="required__field"> *</span>
-                        </label>
-                        <input id="coQuanTuyenDung" name="coQuanTuyenDung" type="text" 
-                        value={setValueIntoForm("coQuanTuyenDung")}
-                        onBlur={validateField}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }} />
-                        {validateForm.coQuanTuyenDung ? showRequiredAlert() : ""}
-                    </div>
-                </div>
-                <div className="SYLL__right__field two__content">
-                    <div className="fisrt__content date__picker">
-                        <label >Ngày vào ĐCSVN:
-                            <span className="required__field"> *</span>
-                        </label>
-                        <DatePicker 
-                        value={valueForm.ngayVaoDangCSVN !== ""
-                        ? moment(valueForm.ngayVaoDangCSVN, "DD-MM-YYYY")
-                        : ""}
-                        onBlur={()=>{
-                            if(valueForm.ngayVaoDangCSVN === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayVaoDangCSVN: true
-                                })
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayVaoDangCSVN: false
-                                })
-                            }
-                        }}
-                        onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayVaoDangCSVN: dateString
-                            })
-                        }}
-                        placeholder=""
-                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                        </svg>}
-                        format="DD-MM-YYYY"
-                        />
-                        {validateForm.ngayVaoDangCSVN ? showRequiredAlert() : ""}
+                        {validateForm.ngayBoNhiem ? showRequiredAlert() : ""}
                     </div>
                     <div className="second__content date__picker">
-                        <label>Ngày chính thức:
+                        <label>Ngày hết hạn bổ nhiệm:
                             <span className="required__field"> *</span>
                         </label>
                         <DatePicker 
-                        value={valueForm.ngayChinhThuc !== ""
-                        ? moment(valueForm.ngayChinhThuc, "DD-MM-YYYY")
+                        value={valueForm.ngayHetHanBoNhiem !== ""
+                        ? moment(valueForm.ngayHetHanBoNhiem, "DD-MM-YYYY")
                         : ""}
                         onBlur={()=>{
-                            if(valueForm.ngayChinhThuc === ""){
+                            if(valueForm.ngayHetHanBoNhiem === ""){
                                 setValidateForm({
                                     ...validateForm,
-                                    ngayChinhThuc: true
+                                    ngayHetHanBoNhiem: true
                                 })
                             } else {
                                 setValidateForm({
                                     ...validateForm,
-                                    ngayChinhThuc: false
+                                    ngayHetHanBoNhiem: false
                                 })
                             }
                         }}
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                ngayChinhThuc: dateString
+                                ngayHetHanBoNhiem: dateString
                             })
                         }}
                         placeholder=""
@@ -1060,7 +1129,7 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.ngayChinhThuc ? showRequiredAlert() : ""}
+                        {validateForm.ngayHetHanBoNhiem ? showRequiredAlert() : ""}
                     </div>
                 </div>
                 <div className="SYLL__right__field ">
@@ -1146,57 +1215,26 @@ export default function SoYeuLyLich(props) {
                     </div>    
                 </div>
                 <div className="SYLL__right__field two__content">
-                    <div className="fisrt__content">
-                        <label htmlFor="ngachVienChuc">Ngạch Viên Chức:
-                            <span className="required__field"> *</span>
+                    <div className="fisrt__content toChuc">
+                        <label htmlFor="soTheNhaBao">Số thẻ nhà báo:
                         </label>
-                        <input id="ngachVienChuc" name="ngachVienChuc" type="text" 
-                        value={setValueIntoForm("ngachVienChuc")}
-                        onBlur={validateField}
+                        <input id="soTheNhaBao" name="soTheNhaBao" type="text" 
+                        value={setValueIntoForm("soTheNhaBao")}
                         onChange={(e)=>{
                             handleChangeGetValueInput(e)
-                        }} />
-                        {validateForm.ngachVienChuc ? showRequiredAlert() : ""}
+                        }}/>
                     </div>
-                    <div className="second__content">
-                        <label htmlFor="bacLuong">Bậc lương:
-                            <span className="required__field"> *</span>
-                        </label>
-                        <input id="bacLuong" name="bacLuong" type="text" 
-                        value={setValueIntoForm("bacLuong")}
-                        onBlur={validateField}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }} />
-                        {validateForm.bacLuong ? showRequiredAlert() : ""}
-                    </div>
-                </div>
-                <div className="SYLL__right__field two__content ngayVaoDang">
-                    <div className="fisrt__content date__picker">
-                        <label >Từ ngày tháng năm:
-                            <span className="required__field"> *</span>
-                        </label>
+                    <div className="second__content date__picker">
+                        <label >Ngày cấp thẻ nhà báo:</label>
                         <DatePicker 
-                        value={valueForm.tuNgayThangNam !== ""
-                        ? moment(valueForm.tuNgayThangNam, "DD-MM-YYYY")
-                        : ""}
-                        onBlur={()=>{
-                            if(valueForm.tuNgayThangNam === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    tuNgayThangNam: true
-                                })
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    tuNgayThangNam: false
-                                })
-                            }
-                        }}
+                        value={
+                            valueForm.ngayCapTheNhaBao !== "" && valueForm.ngayCapTheNhaBao !== undefined
+                            ? moment(valueForm.ngayCapTheNhaBao, "DD-MM-YYYY")
+                            : ""}
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                tuNgayThangNam: dateString
+                                ngayCapTheNhaBao: dateString
                             })
                         }}
                         placeholder=""
@@ -1205,64 +1243,79 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.tuNgayThangNam ? showRequiredAlert() : ""}
-                    </div>
-                    <div className="maSo__ChucVu">
-                        <div className="second__content maSo">
-                            <input placeholder='Mã Số' name="maSoFake" type="text" 
-                            value={setValueIntoForm("maSoFake")}
-                            onChange={(e)=>{
-                                handleChangeGetValueInput(e)
-                            }} />
-                        </div>
                     </div>
                 </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='danhHieuDuocPhong'>Danh hiệu được phong:</label>
-                    <input id="danhHieuDuocPhong" name="danhHieuDuocPhong" type="text" 
-                    value={setValueIntoForm("danhHieuDuocPhong")}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
-                </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='tinhHinhSK'>Tình hình sức khỏe:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="tinhHinhSK" name="tinhHinhSK" type="text" 
-                    value={setValueIntoForm("tinhHinhSK")}
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
-                    {validateForm.tinhHinhSK ? showRequiredAlert() : ""}
-                    <div id="chieuCao__CanNang" className="two__content">
-                        <div className="chieuCao">
-                            <input placeholder='Chiều cao (m)' name="chieuCao" type="text" 
-                            value={setValueIntoForm("chieuCao")}
-                            onBlur={validateField}
-                            onChange={(e)=>{
-                                handleChangeGetValueInput(e)
-                            }} />
-                            {validateForm.chieuCao ? showRequiredAlert() : ""}
-                        </div>
-                        <div className="canNang">
-                            <input placeholder='Cân nặng (kg)' name="canNang" type="text" 
-                            value={setValueIntoForm("canNang")}
-                            onBlur={validateField}
-                            onChange={(e)=>{
-                                handleChangeGetValueInput(e)
-                            }} />
-                            {validateForm.canNang ? showRequiredAlert() : ""}
-                        </div>
+                <div className="SYLL__right__field two__content theCoHieuLuc">
+                    <div className="fisrt__content date__picker">
+                        <label >Thẻ có hiệu lực từ:
+                            <span className="required__field"> *</span>
+                        </label>
+                        <DatePicker 
+                        value={valueForm.theCoHieuLucTu !== ""
+                        ? moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY")
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.theCoHieuLucTu === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucTu: true
+                                })
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucTu: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            setValueForm({
+                                ...valueForm,
+                                theCoHieuLucTu: dateString
+                            })
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
+                        />
+                        {validateForm.theCoHieuLucTu ? showRequiredAlert() : ""}
                     </div>
-                </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='soTruongCongTac'>Sở trường công tác:</label>
-                    <input id="soTruongCongTac" name="soTruongCongTac" type="text" 
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
+                    <div className="second__content date__picker">
+                        <label >Thẻ có hiệu lực đến:
+                            <span className="required__field"> *</span>
+                        </label>
+                        <DatePicker 
+                        value={valueForm.theCoHieuLucDen !== ""
+                        ? moment(valueForm.theCoHieuLucDen, "DD-MM-YYYY")
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.theCoHieuLucDen === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucDen: true
+                                })
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucDen: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            setValueForm({
+                                ...valueForm,
+                                theCoHieuLucDen: dateString
+                            })
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
+                        />
+                        {validateForm.theCoHieuLucDen ? showRequiredAlert() : ""}
+                    </div>
                 </div>
             </div>
         </div>

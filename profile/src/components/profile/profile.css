@@ -3,6 +3,7 @@
     width: 100%;
     margin-left: 26px;
     display: flex;
+    justify-content: space-evenly;
 }
 
 .SoYeuLyLich .SoYeuLyLich__left, .SoYeuLyLich .SoYeuLyLich__right {
@@ -124,11 +125,6 @@
 
 .SoYeuLyLich .fisrt__content.phongBan {
     margin-bottom: 18px;
-}
-
-#chieuCao__CanNang {
-    display: flex;
-    margin-top: 18px;
 }
 
 .SoYeuLyLich .fisrt__content .ant-select {
@@ -582,19 +578,17 @@ div.next {
     color: black;
 }
 
-.ant-steps-vertical>.ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail:after {
-    height: 145%;
-    background-color: #EBEDF3;
-}
-
-.ant-steps-vertical.ant-steps-dot .ant-steps-item>.ant-steps-item-container>.ant-steps-item-tail {
-    top:0;
-    left: -8.5px;
-}
-
 .steps_steps__UOUsf .Step5__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
     display: block;
     padding-top: 9px;
+}
+
+#hoKhauThuongTru {
+    margin-bottom: 18px;
+}
+
+.theCoHieuLuc {
+    justify-content: space-between;
 }
 
 .App .steps_steps__UOUsf .Step5__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
@@ -1209,7 +1203,7 @@ td.tableProfiles__thaoTac div {
     position: absolute;
 }
 
-.SYLL__left__field.birthday .ant-picker {
+.SYLL__left__field.birthday .ant-picker, .SYLL__right__field.ngayTuyenDung .ant-picker {
     width: 100%;
     /* margin-right: 40px; */
     height: 40px;
@@ -1229,4 +1223,9 @@ td.tableProfiles__thaoTac div {
     width: 18px;
     height: 18px;
     cursor: pointer;
+}
+
+.steps-content div.ant-steps div.ant-steps-item .ant-steps-item-icon {
+    width: 0;
+    height: 0;
 }

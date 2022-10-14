@@ -1,6 +1,5 @@
 import React from 'react'
 import {Menu} from "antd"
-import style from "./sidebar.module.css";
 import {MdPeopleOutline} from "react-icons/md"
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +23,7 @@ export default function SubMenu() {
     ]
 
   return (
-    <div className={style.SubMenu}>
+    <div className="sidebar_SubMenu__XZeb6">
         <Menu
          mode='inline'
          items={items}

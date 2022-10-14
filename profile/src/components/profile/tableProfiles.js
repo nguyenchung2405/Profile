@@ -39,7 +39,6 @@ export default function TableProfiles() {
     <div className="tableProfiles">
         <div className="tools">
           <button className="create_acc_profile" onClick={()=>{
-            dispatch(setIsCreateProfile(true))
             dispatch(removePBCV("all"))
             dispatch(setValues(userInforEmpty))
             navigate("/hr/profile/create")

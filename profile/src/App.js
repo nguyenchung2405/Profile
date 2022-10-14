@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import StepsAntd from './components/steps/Steps';

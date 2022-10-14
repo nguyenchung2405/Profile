@@ -66,7 +66,7 @@ export async function getUserList_API(page,pageSize){
     }
 }
 
-export async function getDepPosList_API(){
+export function getDepPosList_API(){
     try {
         const res_dep =  axios({
             url: `${proxy}/api/departments?per_page=150`,
