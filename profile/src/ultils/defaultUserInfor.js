@@ -17,7 +17,7 @@ export const userInforEmpty = {
         ngoaiNgu: "",
         noiOHienTai: {diaChi: "", huyen: "", quan: "", tinh: ""},
         noiSinh: {huyen: "", quan: "", tinh: ""},
-        phongBanCVObj: {chucVu: "", phongBan: ""},
+        phongBanCVObj: [],
         queQuan: {huyen: "", quan: "", tinh: ""},
         soTruongCongTac: "",
         tenThuongGoi: "",
@@ -25,6 +25,7 @@ export const userInforEmpty = {
         tonGiao: "",
         theCoHieuLucTu: "",
         theCoHieuLucDen:"",
-        xuatThan: {thanhPhanXuatThan: "", maSo: ""},
+        thanhPhanXuatThan: "",
+        to: "",
         hoKhauThuongTru: {diaChi: "",huyen: "",quan:"",tinh:""},
  }

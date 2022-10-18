@@ -26,7 +26,7 @@ export default function Sidebar() {
         </div>
         <div className="sidebar__infor">
             <div className="sidebar__infor__img">
-                <img src={ avatar !== "" ? `data:image/jpeg;base64,${avatar}` : "https://cdn-icons-png.flaticon.com/512/1177/1177568.png"} alt="anh_nhan_vien" />
+                <img src={"https://cdn-icons-png.flaticon.com/512/1177/1177568.png"} alt="anh_nhan_vien" />
             </div>
             <div className="sidebar__infor__employee">
                 <p>Dương Mai Hoàng Lan</p>

@@ -1,20 +1,22 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { CREATE_PROFILE, GET_AVATAR, GET_PROFILE_BY_ID, UPDATE_PROFILE } from "../title/title";
 import { userInforEmpty } from "../ultils/defaultUserInfor";
 import { mappingDepartmentPosition, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
 import { createProfile_API, getAvatar_API, getProfileByID_API, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
+import { removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload){
     const {status, data: {data, message}} = yield call(getProfileByID_API,payload.user_id);
+    console.log(status,message )
     if(status === 200 && message === "Successfully"){
         let {id, user_id} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({pro_id: id, user_id}))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
+        console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))
     } else {
@@ -42,10 +44,9 @@ function* createProfile(payload){
     let userDegree = mappingUserDegree(valuesCreate);
     let jourCard = mappingJournalistCard(valuesCreate);
     let dataToCreate = {profile, depPos, userDegree, jourCard, email: valuesCreate.email, soDienThoai: valuesCreate.soDienThoai}
-    yield call(createProfile_API, dataToCreate)
-    // console.log(profile,depPos,userDegree,jourCard)
     yield put(setValues(valuesCreate))
     yield put(setIsNextStep(true))
+    yield call(createProfile_API, dataToCreate)  
 }
 
 function* getAvatar(payload){
@@ -64,7 +65,7 @@ function* getAvatar(payload){
 }
 
 export default function* Profile(){
-    yield takeLatest(GET_PROFILE_BY_ID, getProfileByID)
+    yield takeEvery(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
     yield takeLatest(CREATE_PROFILE, createProfile)
     yield takeLatest(GET_AVATAR, getAvatar)

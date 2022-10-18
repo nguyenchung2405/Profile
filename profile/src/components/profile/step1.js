@@ -35,6 +35,7 @@ export default function SoYeuLyLich(props) {
     }
     
     useEffect(()=>{
+        console.log("is navigate")
         if(isNavigateTo404){
             navigate("/notFound");
             dispatch(setIsNavigate(false))
@@ -42,9 +43,10 @@ export default function SoYeuLyLich(props) {
     },[isNavigateTo404])
 
     useEffect(()=>{
+        console.log("is next step")
         if(nextStep !== 0){
            let isNextStep = checkValueForm();
-        //    console.log(isNextStep)
+           console.log(isNextStep)
            if(!isNextStep){
                 dispatch(moveToNextStep(0))
            } else if(isNextStep){
@@ -78,33 +80,39 @@ export default function SoYeuLyLich(props) {
     },[dispatch])
 
     useEffect(()=>{
+        console.log("values")
         setValueForm({...values})
     },[values])
 
+    useEffect(()=>{
+        console.log("PBCV Arr")
+        setValueForm({...valueForm, phongBanCVObj: [...phongBanChucVuArr]})
+    },[phongBanChucVuArr.length])
+
     const [valueForm, setValueForm] = useState({...values});
+    console.log(valueForm)
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","danToc"
-    ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayBoNhiem","ngayHetHanBoNhiem",
-    "ngachVienChuc","coQuanTuyenDung","bacLuong","gioiTinh","theCoHieuLucTu",
-    "phongBanCVObj","xuatThan","noiSinh","queQuan","noiOHienTai","email","soDienThoai", "to"
+    ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayBoNhiem","ngayHetHanBoNhiem"
+    ,"gioiTinh","theCoHieuLucTu", "phongBanCVObj","thanhPhanXuatThan","noiSinh","queQuan","noiOHienTai","email","soDienThoai"
     , "hoKhauThuongTru", "theCoHieuLucDen"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         email: false,
-        to: false,
         ngayThangNamSinh: false,
         soDienThoai: false,
         tonGiao: false,
         hocVan: false,
         ngayDuocTuyenDung: false,
         chuyenMon: false,
+        to: false,
         lyLuanCT:false,
         ngayBoNhiem: false,
         ngayHetHanBoNhiem: false,
         theCoHieuLucTu: false,
         theCoHieuLucDen: false,
         phongBanCVObj: false,
-        xuatThan: {thanhPhanXuatThan:false, maSo: false},
+        thanhPhanXuatThan: false,
         noiSinh: {huyen: false,quan:false,tinh:false},
         queQuan: {huyen: false,quan:false,tinh:false},
         noiOHienTai: {diaChi:false,huyen: false,quan:false,tinh:false},
@@ -230,18 +238,11 @@ export default function SoYeuLyLich(props) {
                     newValueForm = {...newValueForm,[value]: {huyen: true}}
                     isNextStep = false
                 }
-            } else if(value === "xuatThan"){
-                if(valueForm[value].thanhPhanXuatThan === "" || valueForm[value].maSo === ""){
-                    newValueForm = {...newValueForm,[value]: {thanhPhanXuatThan: true}}
-                    isNextStep = false
-                }
             } else if(value === "phongBanCVObj"){
-                if(valueForm[value].phongBan === "" ){
+                if(valueForm[value].length === 0 ){
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], phongBan: true}}
-                    isNextStep = false
-                }
-                if(valueForm[value].chucVu === ""){
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], chucVu: true}}
+                    newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
                     isNextStep = false
                 }
             } else {
@@ -256,33 +257,6 @@ export default function SoYeuLyLich(props) {
             // console.log(newValueForm)
         }
         return isNextStep
-    }
-
-    const renderDay = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="" Selected>Ngày</Option>)
-        for(let i = 1; i<=31; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
-    }
-
-    const renderMonth = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="">Tháng</Option>)
-        for(let i = 1; i<=12; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
-    }
-
-    const renderYear = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="">Năm</Option>)
-        for(let i = 1940; i<=2002; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
     }
 
     const handleChangeGetValueInput = (e)=>{
@@ -456,23 +430,22 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_ChucVu = (value)=>{
-        if(phongBanCVOb.phongBan !== ""){
+        if(phongBanCVOb.phongBan !== "" && phongBanCVOb.to !== ""){
             dispatch(addPBCV({...phongBanCVOb, chucVu: value}));
-            setValueForm({
-                ...valueForm,
-                phongBanCVObj: {...valueForm.phongBanCVObj,chucVu: value}
-            })
-            let newPhongBanCVObj = {phongBan : "", chucVu: ""}
+            let newPhongBanCVObj = {phongBan : "", chucVu: "", to: ""}
             setPhongBanCVOb({...newPhongBanCVObj})
         }
     }
 
     const getValueSelect_PhongBan = (value)=>{
         setPhongBanCVOb({...phongBanCVOb, phongBan: value});
-        setValueForm({
-        ...valueForm,
-        phongBanCVObj: {...valueForm.phongBanCVObj,phongBan: value}
-        })
+    }
+
+    const getValueSelect_To = (value)=>{
+        setPhongBanCVOb({
+            ...phongBanCVOb,
+            to: value
+        });
     }
 
     const showRequiredAlert = ()=>{
@@ -492,13 +465,6 @@ export default function SoYeuLyLich(props) {
         if(valueForm.name !== ""){
             return valueForm[name]
         }
-    }
-
-    const getValueSelect_To = (value)=>{
-        setValueForm({
-            ...valueForm,
-            to: value
-        });
     }
 
     const renderTo = ()=>{
@@ -638,6 +604,9 @@ export default function SoYeuLyLich(props) {
                     renderHuyen={renderHuyen}
                     showRequiredAlert={showRequiredAlert}
                     />
+                    {valueForm.noiSinh?.huyen && valueForm.noiSinh?.quan && valueForm.noiSinh?.tinh
+                        ? <p>{`${valueForm.noiSinh.huyen}, ${valueForm.noiSinh.quan}, ${valueForm.noiSinh.tinh}`}</p>
+                        : ""}
                     {validateForm.noiSinh?.huyen || validateForm.noiSinh?.quan || validateForm.noiSinh?.tinh
                         ? showRequiredAlert() 
                         : ""}
@@ -662,6 +631,9 @@ export default function SoYeuLyLich(props) {
                     getValueSelect_QueQuan_Huyen={getValueSelect_QueQuan_Huyen}
                     showRequiredAlert={showRequiredAlert}
                     />
+                    {valueForm.queQuan?.huyen && valueForm.queQuan?.quan && valueForm.queQuan?.tinh
+                        ? <p>{`${valueForm.queQuan.huyen}, ${valueForm.queQuan.quan}, ${valueForm.queQuan.tinh}`}</p>
+                        : ""}
                     {validateForm.queQuan?.huyen || validateForm.queQuan?.quan || validateForm.queQuan?.tinh
                         ? showRequiredAlert() 
                         : ""}
@@ -858,73 +830,17 @@ export default function SoYeuLyLich(props) {
                             }} />
                         </div>
                 </div>
-                <div className="SYLL__right__field two__content xuatThan">
-                    <div>
-                        <div className="fisrt__content thanhPhanXuatThan">
-                        <label htmlFor="thanhPhanXuatThan">Thành phần xuất thân:
-                            <span className="required__field"> *</span>
-                        </label>
-                        <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" 
-                        type="text"
-                        value={valueForm.xuatThan.thanhPhanXuatThan !==""
-                            ? valueForm.xuatThan.thanhPhanXuatThan
-                            : ""
-                        }
-                        onBlur={(e)=>{
-                            let {value} = e.target;
-                            if(value === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    xuatThan: {...validateForm.xuatThan,thanhPhanXuatThan:true}})
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    xuatThan: {...validateForm.xuatThan,thanhPhanXuatThan:false}})
-                            }
-                        }}
-                        onChange={(e)=>{
-                            let {value,name} = e.target;
-                            let {xuatThan} = valueForm;
-                            let xuatThanNew = {...xuatThan, [name]: value};
-                            setValueForm({
-                                ...valueForm,
-                                xuatThan: {...xuatThanNew}
-                            })
-                        }} />
-                        </div>
-                        <div className="second__content maSo">
-                            <input placeholder="Mã Số" id="maSo" name="maSo" 
-                            type="text" 
-                            value={valueForm.xuatThan.maSo !==""
-                            ? valueForm.xuatThan.maSo
-                            : ""
-                        }
-                            onBlur={(e)=>{
-                                let {value} = e.target;
-                                if(value === ""){
-                                    setValidateForm({
-                                        ...validateForm,
-                                        xuatThan: {...validateForm.xuatThan,maSo:true}})
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        xuatThan: {...validateForm.xuatThan,maSo:false}})
-                                }
-                            }}
-                            onChange={(e)=>{
-                                let {value,name} = e.target;
-                                let {xuatThan} = valueForm;
-                                let xuatThanNew = {...xuatThan, [name]: value};
-                                setValueForm({
-                                    ...valueForm,
-                                    xuatThan: {...xuatThanNew}
-                                })
-                            }} />
-                        </div>
-                    </div>
-                    {validateForm.xuatThan?.thanhPhanXuatThan || validateForm.xuatThan?.maSo 
-                        ? showRequiredAlert() 
-                        : ""}
+                <div className="SYLL__right__field">
+                    <label htmlFor='thanhPhanXuatThan'>Thành phần xuất thân:
+                        <span className="required__field"> *</span>
+                    </label>
+                    <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" type="text"
+                    value={setValueIntoForm("thanhPhanXuatThan")} 
+                    onBlur={validateField}
+                    onChange={(e)=>{
+                        handleChangeGetValueInput(e);
+                    }} />
+                    {validateForm.thanhPhanXuatThan ? showRequiredAlert() : ""}
                 </div>
                 <div className="SYLL__right__field">
                     <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
@@ -1139,21 +1055,27 @@ export default function SoYeuLyLich(props) {
                                     <span className="required__field"> *</span>
                                 </label>
                                 <Select defaultValue= "Tổ"
-                                value={valueForm.to !== ""
-                                ? valueForm.to
+                                value={phongBanCVOb.to !== ""
+                                ? phongBanCVOb.to
                                 : ""
                                 }
                                 onBlur={()=>{
-                                    if(valueForm.to === ""){
-                                        setValidateForm({...validateForm, to: true})
+                                    if(phongBanCVOb.to === "" || phongBanCVOb.to === undefined){
+                                        setValidateForm({
+                                            ...validateForm,
+                                            phongBanCVObj: {...validateForm.phongBanCVObj,to: true}
+                                        })
                                     } else {
-                                        setValidateForm({...validateForm,to : false})
+                                        setValidateForm({
+                                            ...validateForm,
+                                            phongBanCVObj: {...validateForm.phongBanCVObj,to: false}
+                                        })
                                     }
                                 }}
                                 onChange={getValueSelect_To}>
                                     {renderTo()}
                                 </Select>
-                                {validateForm.to 
+                                {validateForm.phongBanCVObj.to 
                                     ? showRequiredAlert() 
                                     : ""}
                         </div>
@@ -1164,7 +1086,7 @@ export default function SoYeuLyLich(props) {
                             <Select defaultValue= "Phòng ban"
                             value={phongBanCVOb.phongBan === "" ? "" : phongBanCVOb.phongBan }
                             onBlur={()=>{
-                                if(valueForm.phongBanCVObj.phongBan === ""){
+                                if(phongBanCVOb.phongBan === ""){
                                     setValidateForm({
                                         ...validateForm,
                                         phongBanCVObj: {...validateForm.phongBanCVObj,phongBan: true}
@@ -1190,7 +1112,7 @@ export default function SoYeuLyLich(props) {
                             <Select defaultValue="Chức vụ" 
                             value={phongBanCVOb.chucVu === "" ? "" : phongBanCVOb.chucVu }
                             onBlur={()=>{
-                                if(valueForm.phongBanCVObj.chucVu === ""){
+                                if(phongBanCVOb.chucVu === ""){
                                     setValidateForm({
                                         ...validateForm,
                                         phongBanCVObj: {...validateForm.phongBanCVObj,chucVu: true}
