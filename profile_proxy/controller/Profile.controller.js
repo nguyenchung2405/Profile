@@ -47,6 +47,19 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
         jourCard["user_id"] =user_id;
         userDegree["pro_id"] =pro_id;
         jourCard["pro_id"] =pro_id;
+        let promiseArr = [];
+        for(let i = 0; i < depPos.length; i++){
+            depPos[i].user_id = user_id
+            promiseArr.push(axios({
+                url: `${local}/api/profiles/departments`,
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + TOKEN
+                },
+                data: depPos[i]
+            }))
+        }
+        console.log(promiseArr)
         const result_dep_pos = axios({
             url: `${local}/api/profiles/departments`,
             method: "POST",
@@ -71,7 +84,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             },
             data: jourCard
         })
-        Promise.all([result_dep_pos, result_user_degree, result_jour_card])
+        Promise.all([ ...promiseArr, result_user_degree, result_jour_card])
         .then((resolve)=>{
             console.log(resolve[0].data)
             console.log(resolve[1].data)

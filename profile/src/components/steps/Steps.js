@@ -64,6 +64,8 @@ export default function StepsAntd() {
     },[])
 
     useEffect(()=>{
+      console.log(nextStep)
+      console.log(isNextStep)
       if(isNextStep){
         setCurrent(nextStep);
         dispatch(setIsNextStep(false))

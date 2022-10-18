@@ -15,7 +15,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "pro_resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
         "pro_ethnic": formValues.danToc,
         "pro_religion": formValues.tonGiao,
-        "pro_background_origin": formValues.xuatThan.thanhPhanXuatThan,
+        "pro_background_origin": formValues.thanhPhanXuatThan,
         "pro_occupation": formValues.ngheNghiep,
         "pro_identity_card": formValues.canCuocCD,
         "pro_identity_card_when": Date.parse(moment(formValues.ngayCapCCCD, "DD-MM-YYYY")) / 10000,
@@ -24,16 +24,20 @@ export const mappingProfileStep1 = (formValues)=>{
 }
 
 export const mappingDepartmentPosition = (data)=>{
-    return {
-        "user_id": "",
-        "dep_id": data.phongBanCVObj.phongBan,
-        "pos_id": data.phongBanCVObj.chucVu,
-        "part_id": data.to,
-        "appointment_date":Date.parse(moment(data.ngayBoNhiem, "DD-MM-YYYY")) / 10000,
-        "expire_date": Date.parse(moment(data.ngayHetHanBoNhiem, "DD-MM-YYYY")) / 10000,
-        "note":"",
-        "is_primary":"1"
+    let depPosArr = [];
+    for(let depPos of data.phongBanCVObj){
+        depPosArr.push({
+            "user_id": "",
+            "dep_id": depPos.phongBan,
+            "pos_id": depPos.chucVu,
+            "part_id": depPos.to,
+            "appointment_date": Date.parse(moment(data.ngayBoNhiem, "DD-MM-YYYY")) / 10000,
+            "expire_date": Date.parse(moment(data.ngayHetHanBoNhiem, "DD-MM-YYYY")) / 10000,
+            "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
+            "is_primary":"1"
+        })
     }
+    return depPosArr;
 }
 
 export const mappingUserDegree = (data)=>{
@@ -66,43 +70,83 @@ export const mappingJournalistCard = (data)=>{
     }
 }
 
+function tachDuLieu(string, capDuLieu = 3) {
+    let diaChi, huyen, quan, tinh, String;
+    console.log(string)
+    if(string === "" || string === undefined || string === null){
+      return ""
+    }
+    if (capDuLieu === 3) {
+      for (let i = 0; i <= 2; i++) {
+        if (i === 0) {
+          let index = string.indexOf(",");
+          huyen = string.slice(0, index);
+          String = string.slice(index + 1);
+          // console.log(String);
+        } else if (i === 1) {
+          let index = String.indexOf(",");
+          quan = String.slice(0, index);
+          tinh = String.slice(index + 1);
+          // console.log(String);
+        }
+      }
+      // console.log(huyen, quan, tinh);
+      return {huyen, quan, tinh}
+    } else if (capDuLieu !== 3) {
+      for (let i = 0; i <= 2; i++) {
+        if (i === 0) {
+          let index = string.indexOf(",");
+          diaChi = string.slice(0, index);
+          String = string.slice(index + 1);
+          // console.log(String);
+        } else if (i === 1) {
+          let index = String.indexOf(",");
+          // console.log(index)
+          huyen = String.slice(0, index);
+          String = String.slice(index + 1);
+        } else if (i === 2) {
+          let index = String.indexOf(",");
+          quan = String.slice(0, index);
+          tinh = String.slice(index + 1);
+        }
+      }
+      // console.log(diaChi, huyen, quan, tinh);
+      return {diaChi, huyen, quan, tinh}
+    }
+  }
+
 export const mappingProfileAPI = (values)=>{
+
     return {
-        bacLuong: "4",
-        email: "",
-        to: "",
-        soDienThoai: "",
-        capBac: "Đại tướng",
-        chuyenMon: "Lập trình",
-        coQuanTuyenDung: "BTT",
-        canCuocCD: "",
-        danToc: "Kinh",
-        danhHieuDuocPhong: "BOSS",
+        canCuocCD: values.pro_identity_card,
+        chuyenMon: values?.userDegree?.data.deg_diploma,
+        danToc: values.pro_ethnic,
+        email: "doannguyenchung@gmail.com",
         gioiTinh: values.pro_gender,
+        hoKhauThuongTru: tachDuLieu(values?.userDegree?.data.deg_permanent_residence, 4),
         hoTen: values.pro_name,
-        hocVan: "Đại học",
-        lyLuanCT: "OK",
-        maSoFake: "2",
-        ngayThangNamSinh: "",
-        ngayHetHanBoNhiem: "06-09-2022",
-        ngayDuocTuyenDung: "04-09-2022",
-        ngayNhapNgu: "02-09-2022",
-        ngayThamGiaCM: "01-09-2022",
-        ngayBoNhiem: "05-09-2022",
-        ngayXuatNgu: "03-09-2022",
+        hocVan: values?.userDegree?.data.deg_education,
+        lyLuanCT: values?.userDegree?.data.deg_politic,
+        ngayBoNhiem: "01-10-2022",
+        ngayCapCCCD: moment(new Date((values.pro_identity_card_when * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        ngayCapTheNhaBao: moment(new Date((values?.journalistCard?.data.car_number_day * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        ngayDuocTuyenDung: "21-07-2022",
+        ngayHetHanBoNhiem: "03-10-2022",
+        ngayThangNamSinh: moment(new Date((values.pro_birth_day * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
         ngheNghiep: values.pro_occupation,
-        ngoaiNgu: "Anh",
-        noiOHienTai: {diaChi: '82/17 nguyen hong dao', huyen: 3, quan: 3, tinh: 1943},
-        noiSinh: {huyen: 1, quan: 1, tinh: 1941},
-        hoKhauThuongTru: {huyen: 1, quan: 1, tinh: 1941},
-        phongBanCVObj: {chucVu: 'Giám đốc Nhà in', phongBan: 'Nhân viên khoán'},
-        queQuan: {huyen: 2, quan: 2, tinh: 1942},
-        soTruongCongTac: "Chơi game",
+        ngoaiNgu: values?.userDegree?.data.deg_foreign_language,
+        noiCapCCCD: values.pro_identity_card_where,
+        noiOHienTai: tachDuLieu(values.pro_resident, 4),
+        noiSinh: tachDuLieu(values.pro_birth_place, 3),
+        phongBanCVObj: {chucVu: 209, phongBan: 105},
+        queQuan: tachDuLieu(values.pro_home_town, 3),
+        soDienThoai: "0327572323",
+        soDienThoaiNoiBo: values.pro_local_phone,
+        soTheNhaBao: values?.journalistCard?.data.car_number,
         tenThuongGoi: values.pro_pen_name,
-        toChucLamViec: "Ban chỉ huy",
-        tonGiao: "Công Giáo",
-        theCoHieuLucTu: "07-09-2022",
-        theCoHieuLucDen:"",
-        xuatThan: {thanhPhanXuatThan: 'Con ông cháu cha', maSo: '1'}
+        thanhPhanXuatThan: values.pro_background_origin,
+        theCoHieuLucDen: moment(new Date((values?.journalistCard?.data.car_end * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        theCoHieuLucTu: moment(new Date((values?.journalistCard?.data.car_begin * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        tonGiao: values.pro_religion,
     }
 }
