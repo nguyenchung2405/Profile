@@ -1,6 +1,6 @@
 const axios = require("axios")
 
-const local =  "http://192.168.61.116";
+const local =  "http://dev.profilebe.tuoitre.vn";
 // Muốn tạo tài khoản hay tạo bất kỳ thứ gì phaỉ dùng TOKEN của admin
 const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC42MS4xMTYvYXBpL2xvZ2luIiwiaWF0IjoxNjY1NzE1MDg4LCJleHAiOjc3MTM3MTUwODgsIm5iZiI6MTY2NTcxNTA4OCwianRpIjoiRUtFeUU5RzYzR0FBbWJtRiIsInN1YiI6MSwicHJ2IjoiOTA0ZjZkMmQ4NzI1ZjJjNWI0OThiYTg1Yzk5YTE4ZGNiY2ZjMmQ4NSJ9.VgQCn6oLxl4pV9u2iw2oMLVcTEYOcnH4flIJrmDi6B8";
 
@@ -10,7 +10,7 @@ const getProfile = async (req,res)=>{
         let {headers: {authorization}} = req;
         // lấy thông tin cá nhân
         const result_pro = await axios({
-            url: `http://192.168.61.116/api/fe/profiles/users/${id}`,
+            url: `http://dev.profilebe.tuoitre.vn/profiles/9`,
             method: "GET",
             headers: {
                 Authorization: authorization
@@ -18,7 +18,7 @@ const getProfile = async (req,res)=>{
         });
         // lấy thông tin bằng cấp
         // const result_degree = await axios({
-        //     url: `http://192.168.61.116/api/user-degrees/users/${id}`,
+        //     url: `http://dev.profilebe.tuoitre.vn/api/user-degrees/users/${id}`,
         //     method: "GET",
         //     headers: {
         //         Authorization: authorization
@@ -26,7 +26,7 @@ const getProfile = async (req,res)=>{
         // });
         // lấy thông tin phòng ban, chức vụ
         // const result_dep_pos = await axios({
-        //     url: `http://192.168.61.116/api/departments/positions/users/${id}`,
+        //     url: `http://dev.profilebe.tuoitre.vn/api/departments/positions/users/${id}`,
         //     method: "GET",
         //     headers: {
         //         Authorization: authorization
@@ -42,16 +42,16 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
     try {
         let {depPos, userDegree, jourCard} = req.body;
         let {user_id, pro_id} = req;
-        depPos["user_id"] = user_id;
-        userDegree["user_id"] =user_id;
-        jourCard["user_id"] =user_id;
+        // userDegree["user_id"] =user_id;
+        // jourCard["user_id"] =user_id;
         userDegree["pro_id"] =pro_id;
         jourCard["pro_id"] =pro_id;
         let promiseArr = [];
+        // console.log(depPos)
         for(let i = 0; i < depPos.length; i++){
             depPos[i].user_id = user_id
             promiseArr.push(axios({
-                url: `${local}/api/profiles/departments`,
+                url: `${local}/user-dep-pos`,
                 method: "POST",
                 headers: {
                     Authorization: "Bearer " + TOKEN
@@ -60,16 +60,8 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             }))
         }
         console.log(promiseArr)
-        const result_dep_pos = axios({
-            url: `${local}/api/profiles/departments`,
-            method: "POST",
-            headers: {
-                Authorization: "Bearer " + TOKEN
-            },
-            data: depPos
-        })
         const result_user_degree = axios({
-            url: `${local}/api/user-degrees`,
+            url: `${local}/user-degree`,
             method: "POST",
             headers: {
                 Authorization: "Bearer " + TOKEN
@@ -77,7 +69,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             data: userDegree
         })
         const result_jour_card = axios({
-            url: `${local}/api/journalist-cards`,
+            url: `${local}/journalist-card`,
             method: "POST",
             headers: {
                 Authorization: "Bearer " + TOKEN
@@ -96,7 +88,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             })
         })
         .catch((err)=>{
-            res.send(err)
+            console.log(err)
         })
     } catch (error) {
         res.send(error)

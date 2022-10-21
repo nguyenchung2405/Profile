@@ -78,9 +78,9 @@ export function getDepPosList_API(){
         });
         return Promise.all([res_dep, res_pos])
         .then((values)=>{
+            // console.log(values);
             let depList = values[0];
             let posList = values[1];
-            // console.log(depList, posList)
             return {depList, posList}
         })
     } catch (error) {

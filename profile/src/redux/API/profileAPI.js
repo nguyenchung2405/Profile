@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC42MS4xMTYvYXBpL2xvZ2luIiwiaWF0IjoxNjY0MjY2NjQxLCJleHAiOjc3MTIyNjY2NDEsIm5iZiI6MTY2NDI2NjY0MSwianRpIjoiRW9FeWZOdmFlZUptTUdXdSIsInN1YiI6MSwicHJ2IjoiOTA0ZjZkMmQ4NzI1ZjJjNWI0OThiYTg1Yzk5YTE4ZGNiY2ZjMmQ4NSJ9.A0XvucOy1LdNZO_OvDMcUvKHErrN2rS18dX_RqiQeR0";
+const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC42MS4xMTYvYXBpL2xvZ2luIiwiaWF0IjoxNjY2MzE2NzQ1LCJleHAiOjc3MTQzMTY3NDUsIm5iZiI6MTY2NjMxNjc0NSwianRpIjoibnM0YWt2NllKb01KNVlKTSIsInN1YiI6MSwicHJ2IjoiOTA0ZjZkMmQ4NzI1ZjJjNWI0OThiYTg1Yzk5YTE4ZGNiY2ZjMmQ4NSJ9.S8J6cOmcJDPiF_cHXYT0EufoetzKuakKmAMuI78Qh4U";
 const local = "http://localhost:3001"
 
 export async function getProfileByID_API(user_id){
@@ -43,6 +43,9 @@ export async function createProfile_API(data){
         const res = await axios({
             url: `${local}/api/create`,
             method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
             data: data
             
         });
