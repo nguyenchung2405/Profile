@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./profile.css";
-import { Radio, Select, DatePicker } from 'antd';
+import { Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPBCV, removePBCV, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen} from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
 import {FcPlus} from "react-icons/fc";
+import ThongTinCoBan from './ThongTinCoBan';
+import DiaChiLienHe from './DiaChiLienHe';
+import ThongTinCaNhan from './ThongTinCaNhan';
 
 export default function SoYeuLyLich(props) {
 
@@ -25,7 +28,7 @@ export default function SoYeuLyLich(props) {
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
-
+        
     const closeModal = ()=>{
         setIsShowModal(false)
     }
@@ -35,7 +38,7 @@ export default function SoYeuLyLich(props) {
     }
     
     useEffect(()=>{
-        console.log("is navigate")
+        // console.log("is navigate")
         if(isNavigateTo404){
             navigate("/notFound");
             dispatch(setIsNavigate(false))
@@ -43,14 +46,13 @@ export default function SoYeuLyLich(props) {
     },[isNavigateTo404])
 
     useEffect(()=>{
-        console.log("is next step")
         if(nextStep !== 0){
            let isNextStep = checkValueForm();
-           console.log(isNextStep)
+        //    console.log(isNextStep)
            if(!isNextStep){
                 dispatch(moveToNextStep(0))
            } else if(isNextStep){
-            console.log(isCreateProfile)
+            // console.log(isCreateProfile)
                 if(!isCreateProfile){
                     dispatch({
                         type: UPDATE_PROFILE,
@@ -74,23 +76,23 @@ export default function SoYeuLyLich(props) {
         dispatch({
             type: GET_DEP_POS
         });
-        dispatch({
-            type: GET_PART
-        })
+        // dispatch({
+        //     type: GET_PART
+        // })
     },[dispatch])
 
     useEffect(()=>{
-        console.log("values")
+        // console.log("values")
         setValueForm({...values})
     },[values])
 
     useEffect(()=>{
-        console.log("PBCV Arr")
+        // console.log("PBCV Arr")
         setValueForm({...valueForm, phongBanCVObj: [...phongBanChucVuArr]})
     },[phongBanChucVuArr.length])
 
     const [valueForm, setValueForm] = useState({...values});
-    console.log(valueForm)
+    // console.log(valueForm)
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","danToc"
     ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayBoNhiem","ngayHetHanBoNhiem"
@@ -195,7 +197,7 @@ export default function SoYeuLyLich(props) {
                 let {phongBan, chucVu} = PB_CV;
                 let phongBanOb = depList.find(PB => PB.id === phongBan)
                 let chucVuOb = posList.find(CV => CV.id === chucVu)
-                newPBCVArr.push({phongBan: phongBanOb.dep_name, chucVu: chucVuOb.pos_name})
+                newPBCVArr.push({phongBan: phongBanOb.name, chucVu: chucVuOb.position.name})
             }
             /* Sau khi bóc ra được name của PB, CV rồi thì lấy Array mới có chứa tên cua PB, CV
             render ra */
@@ -272,7 +274,7 @@ export default function SoYeuLyLich(props) {
         htmlRendered.push(<Option value="">Chức vụ</Option>)
         if(posList.length > 0){
             for(let chucVu of posList){
-                htmlRendered.push(<Option value={chucVu.id}>{chucVu.pos_name}</Option>) 
+                htmlRendered.push(<Option value={chucVu.id}>{chucVu.position.name}</Option>) 
             }
         }
         return htmlRendered
@@ -283,7 +285,7 @@ export default function SoYeuLyLich(props) {
         htmlRendered.push(<Option value="">Phòng ban</Option>)
         if(depList.length > 0){
             for(let phongBan of depList){
-                htmlRendered.push(<Option value={phongBan.id}>{phongBan.dep_name}</Option>) 
+                htmlRendered.push(<Option value={phongBan.id}>{phongBan.name}</Option>) 
             }
         }
         return htmlRendered
@@ -430,7 +432,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_ChucVu = (value)=>{
-        if(phongBanCVOb.phongBan !== "" && phongBanCVOb.to !== ""){
+        if(phongBanCVOb.phongBan !== ""){
             dispatch(addPBCV({...phongBanCVOb, chucVu: value}));
             let newPhongBanCVObj = {phongBan : "", chucVu: "", to: ""}
             setPhongBanCVOb({...newPhongBanCVObj})
@@ -482,108 +484,17 @@ export default function SoYeuLyLich(props) {
         <div className="SoYeuLyLich">
             <div className="SoYeuLyLich__left">
                 <Image />
-                <div className="SYLL__left__field">
-                    <label htmlFor='hoTen'>Họ và tên khai sinh:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="hoTen" name="hoTen" type="text"
-                    value={setValueIntoForm("hoTen")} 
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                        window.addEventListener("beforeunload", function (e) {
-                            var confirmationMessage = "\o/";
-                            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-                            return confirmationMessage;                            //Webkit, Safari, Chrome
-                        });
-                    }} />
-                    {validateForm.hoTen ? showRequiredAlert() : ""}
-                </div>
-                <div className="SYLL__left__field">
-                    <label htmlFor='tenThuongGoi'>Tên thường gọi:</label>
-                    <input id="tenThuongGoi" name="tenThuongGoi" type="text" 
-                    value={setValueIntoForm("tenThuongGoi")}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                </div>
-                <div className="SYLL__left__field">
-                    <label htmlFor='email'>Email:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="email" name="email" type="text"
-                    value={setValueIntoForm("email")} 
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                    {validateForm.email ? showRequiredAlert() : ""}
-                </div>
-                <div className="SYLL__left__field">
-                    <label htmlFor='soDienThoai'>Số điện thoại:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="soDienThoai" name="soDienThoai" type="text"
-                    value={setValueIntoForm("soDienThoai")} 
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                    {validateForm.soDienThoai ? showRequiredAlert() : ""}
-                </div>
-                <div className="SYLL__left__field">
-                    <label htmlFor='soDienThoaiNoiBo'>Số điện thoại nội bộ:</label>
-                    <input id="soDienThoaiNoiBo" name="soDienThoaiNoiBo" type="text"
-                    value={setValueIntoForm("soDienThoaiNoiBo")} 
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                </div>
-                <div className="SYLL__left__field birthday">
-                    <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
-                    <DatePicker 
-                        value={
-                            valueForm.ngayThangNamSinh !== ""
-                            ? moment(valueForm.ngayThangNamSinh, "DD-MM-YYYY")
-                            : ""}
-                            onBlur={()=>{
-                                if(valueForm.ngayThangNamSinh === ""){
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayThangNamSinh: true
-                                    })
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayThangNamSinh: false
-                                    })
-                                }
-                            }}
-                        onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayThangNamSinh: dateString
-                            })
-                        }}
-                        placeholder=""
-                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                        </svg>}
-                        format="DD-MM-YYYY"
-                        />
-                    {validateForm.ngayThangNamSinh
-                     ? showRequiredAlert() 
-                     : ""}
-                </div>
-                <div className="SYLL__left__field">
-                    <label>Giới tính:</label>
-                    <Radio.Group onChange={handleChangeValueRadio} value={setValueIntoForm("gioiTinh")}>
-                        <Radio value={1}>Nam</Radio>
-                        <Radio value={2}>Nữ</Radio>
-                        <Radio value="Khác">Khác</Radio>
-                    </Radio.Group>
-                </div>
+                <ThongTinCoBan
+                setValueIntoForm={setValueIntoForm}
+                validateField={validateField}
+                handleChangeGetValueInput={handleChangeGetValueInput}
+                validateForm={validateForm}
+                showRequiredAlert={showRequiredAlert}
+                valueForm={valueForm}
+                setValidateForm={setValidateForm}
+                setValueForm={setValueForm}
+                handleChangeValueRadio={handleChangeValueRadio}
+                 />
                 <div className="SYLL__left__field noiSinh">
                     <label>Nơi sinh:<span className="required__field"> *</span></label>
                     <FcPlus onClick={()=>{
@@ -638,218 +549,31 @@ export default function SoYeuLyLich(props) {
                         ? showRequiredAlert() 
                         : ""}
                 </div>
-                <div className="SYLL__left__field noiOHienTai">
-                    <label htmlFor='diaChi'>Nơi ở hiện tại:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="NoiOHienTai" name="diaChi" type="text" 
-                    value={valueForm.noiOHienTai.diaChi !== "" 
-                        ? valueForm.noiOHienTai.diaChi
-                        : ""
-                    }
-                    onBlur={(e)=>{
-                        let {value} = e.target;
-                        if(value === ""){
-                            setValidateForm({
-                                ...validateForm,
-                                noiOHienTai: {...validateForm.noiOHienTai,diaChi:true}})
-                        } else {
-                            setValidateForm({
-                                ...validateForm,
-                                noiOHienTai: {...validateForm.noiOHienTai,diaChi:false}})
-                        }
-                    }}
-                    onChange={(e)=>{
-                        let {value} = e.target;
-                        let {noiOHienTai} = valueForm;
-                        let noiOHienTaiNew = {...noiOHienTai,diaChi: value}
-                        setValueForm({
-                            ...valueForm,
-                            noiOHienTai : {...noiOHienTaiNew}
-                        })
-                    }} />
-                    <Select
-                    value={valueForm.noiOHienTai.tinh !== ""
-                        ? valueForm.noiOHienTai.tinh
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiOHienTai.tinh === ""){
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,tinh:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,tinh:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiO_Tinh_TP}>
-                        <Option value="">Tỉnh (Thành phố)</Option>
-                        {renderTinh("noiO")}
-                    </Select>
-                    <Select
-                    value={valueForm.noiOHienTai.quan !== ""
-                        ? valueForm.noiOHienTai.quan
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiOHienTai.quan === ""){
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,quan:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,quan:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiO_Quan_TP}>
-                        <Option value="">Quận (Thành phố)</Option>
-                        {renderQuan("noiO")}
-                    </Select>
-                    <Select
-                    value={valueForm.noiOHienTai.huyen !== ""
-                        ? valueForm.noiOHienTai.huyen
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.noiOHienTai.huyen === ""){
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,huyen:true}})
-                        } else {
-                            setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,huyen:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_NoiO_Huyen}>
-                        <Option value="">Huyện (Xã)</Option>
-                        {renderHuyen("noiO")}
-                    </Select>
-                    {validateForm.noiOHienTai?.huyen || validateForm.noiOHienTai?.quan 
-                        || validateForm.noiOHienTai?.tinh || validateForm.noiOHienTai?.diaChi
-                        ? showRequiredAlert() 
-                        : ""}
-                </div>
-                <div className="SYLL__left__field hoKhauThuongTru">
-                    <label htmlFor='diaChi'>Hộ khẩu thường trú:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="hoKhauThuongTru" name="diaChi" type="text" 
-                    value={valueForm.hoKhauThuongTru.diaChi !== "" 
-                        ? valueForm.hoKhauThuongTru.diaChi
-                        : ""
-                    }
-                    onBlur={(e)=>{
-                        let {value} = e.target;
-                        if(value === ""){
-                            setValidateForm({
-                                ...validateForm,
-                                hoKhauThuongTru: {...validateForm.hoKhauThuongTru,diaChi:true}})
-                        } else {
-                            setValidateForm({
-                                ...validateForm,
-                                hoKhauThuongTru: {...validateForm.hoKhauThuongTru,diaChi:false}})
-                        }
-                    }}
-                    onChange={(e)=>{
-                        let {value} = e.target;
-                        let {hoKhauThuongTru} = valueForm;
-                        let hoKhauThuongTruNew = {...hoKhauThuongTru,diaChi: value}
-                        setValueForm({
-                            ...valueForm,
-                            hoKhauThuongTru : {...hoKhauThuongTruNew}
-                        })
-                    }} />
-                    <Select
-                    value={valueForm.hoKhauThuongTru.tinh !== ""
-                        ? valueForm.hoKhauThuongTru.tinh
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.hoKhauThuongTru.tinh === ""){
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,tinh:true}})
-                        } else {
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,tinh:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_HoKhau_Tinh_TP}>
-                        <Option value="">Tỉnh (Thành phố)</Option>
-                        {renderTinh("noiO")}
-                    </Select>
-                    <Select
-                    value={valueForm.hoKhauThuongTru.quan !== ""
-                        ? valueForm.hoKhauThuongTru.quan
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.hoKhauThuongTru.quan === ""){
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,quan:true}})
-                        } else {
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,quan:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_HoKhau_Quan_TP}>
-                        <Option value="">Quận (Thành phố)</Option>
-                        {renderQuan("noiO")}
-                    </Select>
-                    <Select
-                    value={valueForm.hoKhauThuongTru.huyen !== ""
-                        ? valueForm.hoKhauThuongTru.huyen
-                        : ""
-                    }
-                    onBlur={()=>{
-                        if(valueForm.hoKhauThuongTru.huyen === ""){
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,huyen:true}})
-                        } else {
-                            setValidateForm({...validateForm,hoKhauThuongTru: {...validateForm.hoKhauThuongTru,huyen:false}})
-                        }
-                    }}
-                    onChange={getValueSelect_HoKhau_Huyen}>
-                        <Option value="">Huyện (Xã)</Option>
-                        {renderHuyen("noiO")}
-                    </Select>
-                    {validateForm.hoKhauThuongTru?.huyen || validateForm.hoKhauThuongTru?.quan 
-                        || validateForm.hoKhauThuongTru?.tinh || validateForm.hoKhauThuongTru?.diaChi
-                        ? showRequiredAlert() 
-                        : ""}
-                </div>
-                
+                <DiaChiLienHe
+                valueForm={valueForm}
+                setValidateForm={setValidateForm}
+                validateForm={validateForm}
+                setValueForm={setValueForm}
+                getValueSelect_NoiO_Tinh_TP={getValueSelect_NoiO_Tinh_TP}
+                renderTinh={renderTinh}
+                getValueSelect_NoiO_Quan_TP={getValueSelect_NoiO_Quan_TP}
+                renderQuan={renderQuan}
+                getValueSelect_NoiO_Huyen={getValueSelect_NoiO_Huyen}
+                renderHuyen={renderHuyen}
+                showRequiredAlert={showRequiredAlert}
+                getValueSelect_HoKhau_Tinh_TP={getValueSelect_HoKhau_Tinh_TP}
+                getValueSelect_HoKhau_Quan_TP={getValueSelect_HoKhau_Quan_TP}
+                getValueSelect_HoKhau_Huyen={getValueSelect_HoKhau_Huyen} />
             </div>
             <div className="SoYeuLyLich__right">
-                <div className="SYLL__right__field two__content">
-                        <div className="fisrt__content danToc">
-                            <label htmlFor="danToc">Dân tộc:
-                                <span className="required__field"> *</span> 
-                            </label>
-                            <input id="danToc" name="danToc" type="text" 
-                            value={setValueIntoForm("danToc")}
-                            onBlur={validateField}
-                            onChange={(e)=>{
-                                handleChangeGetValueInput(e)
-                            }} />
-                            {validateForm.danToc ? showRequiredAlert() : ""}
-                        </div>
-                        <div className="second__content tonGiao">
-                            <label htmlFor="tonGiao">Tôn giáo:
-                            </label>
-                            <input id="tonGiao" name="tonGiao" type="text" 
-                            value={setValueIntoForm("tonGiao")}
-                            onChange={(e)=>{
-                                handleChangeGetValueInput(e)
-                            }} />
-                        </div>
-                </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='thanhPhanXuatThan'>Thành phần xuất thân:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" type="text"
-                    value={setValueIntoForm("thanhPhanXuatThan")} 
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e);
-                    }} />
-                    {validateForm.thanhPhanXuatThan ? showRequiredAlert() : ""}
-                </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
-                    <input id="ngheNghiep" name="ngheNghiep" type="text" 
-                    value={setValueIntoForm("ngheNghiep")}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
-                </div>
+                <ThongTinCaNhan
+                setValueIntoForm={setValueIntoForm}
+                handleChangeGetValueInput={handleChangeGetValueInput}
+                valueForm={valueForm}
+                setValueForm={setValueForm}
+                validateField={validateField}
+                validateForm={validateForm}
+                showRequiredAlert={showRequiredAlert} />
                 <div className="SYLL__right__field ngayTuyenDung">
                 <label>Ngày được tuyển dụng:<span className="required__field"> *</span></label>
                 <DatePicker 
@@ -937,45 +661,7 @@ export default function SoYeuLyLich(props) {
                         handleChangeGetValueInput(e)
                     }} />
                 </div>
-                <div className="SYLL__right__field">
-                    <label htmlFor='canCuocCD'>Số căn cước công dân:</label>
-                    <input id="canCuocCD" name="canCuocCD" type="text" 
-                    value={setValueIntoForm("canCuocCD")}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
-                </div>
-                <div className="SYLL__right__field two__content">
-                    <div className="fisrt__content ngayThamGiaCM">
-                        <label >Ngày cấp:</label>
-                        <DatePicker 
-                        value={
-                            valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
-                            ? moment(valueForm.ngayCapCCCD, "DD-MM-YYYY")
-                            : ""}
-                        onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayCapCCCD: dateString
-                            })
-                        }}
-                        placeholder=""
-                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                        </svg>}
-                        format="DD-MM-YYYY"
-                        />
-                    </div>
-                    <div className="second__content toChuc">
-                        <label htmlFor="noiCapCCCD">Nơi cấp:
-                        </label>
-                        <input id="noiCapCCCD" name="noiCapCCCD" type="text" 
-                        value={setValueIntoForm("noiCapCCCD")}
-                        onChange={(e)=>{
-                            handleChangeGetValueInput(e)
-                        }}/>
-                    </div>
-                </div>
+                
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content date__picker">
                         <label>Ngày bổ nhiệm:

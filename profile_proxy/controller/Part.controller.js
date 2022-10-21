@@ -1,5 +1,5 @@
 const axios = require("axios");
-const local =  "http://192.168.61.116";
+const local =  "http://dev.profilebe.tuoitre.vn";
 
 const getParts = async (req,res)=>{
     try {

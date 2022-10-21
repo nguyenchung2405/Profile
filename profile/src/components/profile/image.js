@@ -7,7 +7,8 @@ export default function Image() {
 
     const [path, setPath] = useState("");
     let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
-    let {avatar} = useSelector(state => state.steps1Reducer);
+    let {avatar, isCreateProfile} = useSelector(state => state.steps1Reducer);
+    let {isNextStep} = useSelector(state => state.stepsReducer);
     // console.log(user_id)
     const dispatch = useDispatch();
 
@@ -29,26 +30,27 @@ export default function Image() {
         <input type="file" id="img-input" onChange={ async (e)=>{
             // console.dir(e.target.files[0])
             const form = new FormData();
+            console.log(isCreateProfile, user_id, isNextStep)
             form.append("image3x4",e.target.files[0]);
             if(user_id){
                 form.append("user_id", user_id)
-            }
-            // POST ảnh lên
-            const result = await axios({
-                url: "http://localhost:3001/api/upload",
-                method: "POST",
-                data: form
-            });
-            console.log(result.data)
-            let { path } = result.data;
-            if(path){
-                setPath(`http://localhost:3001/${path}`)
-            } else {
-                let index = result.data[0].resource_content.length - 1;
-                let {content} = result.data[0].resource_content[index];
-                // console.log(Base64.decode(content));
-                setPath(`data:image/jpeg;base64,${content}`)
-            }
+                // POST ảnh lên
+                const result = await axios({
+                    url: "http://localhost:3001/api/upload",
+                    method: "POST",
+                    data: form
+                });
+                // console.log(result.data)
+                let { path } = result.data;
+                if(path){
+                    setPath(`http://localhost:3001/${path}`)
+                } else {
+                    let index = result.data[0].resource_content.length - 1;
+                    let {content} = result.data[0].resource_content[index];
+                    // console.log(Base64.decode(content));
+                    setPath(`data:image/jpeg;base64,${content}`)
+                }
+            } 
         }} />
         <label class="file-input__label" for="img-input">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload" 

@@ -9,14 +9,14 @@ import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload){
     const {status, data: {data, message}} = yield call(getProfileByID_API,payload.user_id);
-    console.log(status,message )
-    if(status === 200 && message === "Successfully"){
+    // console.log(data)
+    if(status === 200 && message === "Success"){
         let {id, user_id} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({pro_id: id, user_id}))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
-        console.log(profile)
+        // console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))
     } else {
@@ -38,12 +38,13 @@ function* updateProfile(payload){
 
 function* createProfile(payload){
     const {valuesCreate} = payload;
-    console.log(valuesCreate)
+    // console.log(valuesCreate)
     let profile = mappingProfileStep1(valuesCreate);
     let depPos = mappingDepartmentPosition(valuesCreate);
     let userDegree = mappingUserDegree(valuesCreate);
     let jourCard = mappingJournalistCard(valuesCreate);
     let dataToCreate = {profile, depPos, userDegree, jourCard, email: valuesCreate.email, soDienThoai: valuesCreate.soDienThoai}
+    console.log(dataToCreate)
     yield put(setValues(valuesCreate))
     yield put(setIsNextStep(true))
     yield call(createProfile_API, dataToCreate)  
