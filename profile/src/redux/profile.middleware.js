@@ -17,7 +17,9 @@ function* getProfileByID(payload){
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
         let {phongBanCVObj} = profile;
-        yield put(addPBCV(phongBanCVObj))
+        if(phongBanCVObj.length > 0){
+            yield put(addPBCV(phongBanCVObj))
+        }
         // console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))

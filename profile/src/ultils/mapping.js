@@ -3,11 +3,15 @@ import moment from "moment"
 export const mappingProfileStep1 = (formValues)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
+    let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
+    console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
+    console.log(moment(new Date(a)).format("DD/MM/YYYY"))
+    
     return {
         "user_id": "",
         "full_name": formValues.hoTen,
         "pen_name": formValues.tenThuongGoi,
-        "birth_day": Date.parse(moment(formValues.ngayThangNamSinh, "DD-MM-YYYY")) / 10000,
+        "birth_day": moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString(),
         "gender": formValues.gioiTinh,
         "birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
@@ -18,7 +22,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "background_origin": formValues.thanhPhanXuatThan,
         "occupation": formValues.ngheNghiep,
         "identity_card": formValues.canCuocCD,
-        "identity_card_when": Date.parse(moment(formValues.ngayCapCCCD, "DD-MM-YYYY")) / 10000,
+        "identity_card_when": moment(formValues.ngayCapCCCD, "DD/MM/YYYY").toISOString(),
         "identity_card_where": formValues.noiCapCCCD
     }
 }
@@ -30,8 +34,8 @@ export const mappingDepartmentPosition = (data)=>{
             "user_id": "",
             "dep_id": depPos.phongBan,
             "pos_man_id": depPos.chucVu,
-            "appointment_date": Date.parse(moment(data.ngayBoNhiem, "DD-MM-YYYY")) / 10000,
-            "expire_date": Date.parse(moment(data.ngayHetHanBoNhiem, "DD-MM-YYYY")) / 10000,
+            "appointment_date": moment(data.ngayBoNhiem, "DD/MM/YYYY").toISOString(),
+            "expire_date": moment(data.ngayHetHanBoNhiem, "DD/MM/YYYY").toISOString(),
             "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
             "is_primary":"1"
         })
@@ -63,8 +67,8 @@ export const mappingJournalistCard = (data)=>{
         "user_id": "",
         "number": data.soTheNhaBao,
         "number_day": Date.parse(moment(data.ngayCapTheNhaBao, "DD-MM-YYYY")) / 10000,
-        "begin": Date.parse(moment(data.theCoHieuLucTu, "DD-MM-YYYY")) / 10000,
-        "end": Date.parse(moment(data.theCoHieuLucDen, "DD-MM-YYYY")) / 10000,
+        "begin": moment(data.theCoHieuLucTu, "DD/MM/YYYY").toISOString(),
+        "end": moment(data.theCoHieuLucDen, "DD/MM/YYYY").toISOString(),
         "note":""
     }
 }
@@ -115,21 +119,24 @@ function tachDuLieu(string, capDuLieu = 3) {
 }
 
 function tachDuLieuPhongBan_ChucVu(data){
-  // console.log(data)
+  // console.log(data.user_dep_pos)
     let PB_CV_Arr = [];
-    for(let dep_pos of data.user_dep_pos){
-      let {department: {id : dep_id}, position_management: {position : {id : pos_id}}} = dep_pos;
-      PB_CV_Arr.push({
-        phongBan: dep_id,
-        chucVu: pos_id
-      })
+    if(data.user_dep_pos.length > 0){
+      for(let dep_pos of data.user_dep_pos){
+        // console.log(dep_pos)
+        let {department: {id : dep_id}, position_management: {id : pos_id}} = dep_pos;
+        PB_CV_Arr.push({
+          phongBan: dep_id,
+          chucVu: pos_id
+        })
+      }
     }
     // console.log(PB_CV_Arr)
     return PB_CV_Arr;
 }
 
 export const mappingProfileAPI = (values)=>{
-  // console.log(values)
+  // console.log(moment(new Date(values.identity_card_when)).format("DD/MM/YYYY"))
     return {
         canCuocCD: values.identity_card,
         chuyenMon: values?.user_degree[0]?.diploma,
@@ -140,12 +147,12 @@ export const mappingProfileAPI = (values)=>{
         hoTen: values.full_name,
         hocVan: values?.user_degree[0]?.education,
         lyLuanCT: values?.user_degree[0]?.politic,
-        ngayBoNhiem: "01-10-2022",
-        ngayCapCCCD: moment(new Date((values.identity_card_when * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
-        ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
-        ngayDuocTuyenDung: "21-07-2022",
-        ngayHetHanBoNhiem: "03-10-2022",
-        ngayThangNamSinh: moment(new Date((values.birth_day * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        ngayBoNhiem: moment(new Date(values?.user_dep_pos[0]?.appointment_date)).format("DD/MM/YYYY"),
+        ngayCapCCCD: moment(new Date(values.identity_card_when)).format("DD/MM/YYYY"),
+        ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY"),
+        ngayDuocTuyenDung: "",
+        ngayHetHanBoNhiem: moment(new Date(values?.user_dep_pos[0]?.expire_date)).format("DD/MM/YYYY"),
+        ngayThangNamSinh: moment(new Date(values.birth_day)).format("DD/MM/YYYY"),
         ngheNghiep: values.occupation,
         ngoaiNgu: values?.user_degree[0]?.foreign_language,
         noiCapCCCD: values.identity_card_where,
@@ -153,13 +160,13 @@ export const mappingProfileAPI = (values)=>{
         noiSinh: tachDuLieu(values.birth_place, 3),
         phongBanCVObj: tachDuLieuPhongBan_ChucVu(values),
         queQuan: tachDuLieu(values.home_town, 3),
-        soDienThoai: "0327572323",
+        soDienThoai: "",
         soDienThoaiNoiBo: values.local_phone,
         soTheNhaBao: values?.journalist_card[0]?.number,
         tenThuongGoi: values.pen_name,
         thanhPhanXuatThan: values.background_origin,
-        theCoHieuLucDen: moment(new Date((values?.journalist_card[0]?.end * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
-        theCoHieuLucTu: moment(new Date((values?.journalist_card[0]?.begin * 10000)).toLocaleDateString(), "MM-DD-YYYY"),
+        theCoHieuLucDen: moment(new Date(values?.journalist_card[0]?.end)).format("DD/MM/YYYY"),
+        theCoHieuLucTu: moment(new Date(values?.journalist_card[0]?.begin)).format("DD/MM/YYYY"),
         tonGiao: values.religion,
     }
 }

@@ -52,21 +52,20 @@ export default function SoYeuLyLich(props) {
            if(!isNextStep){
                 dispatch(moveToNextStep(0))
            } else if(isNextStep){
-            console.log(isOnLyCreateProfile, isCreateProfile)
+            // console.log(isOnLyCreateProfile, isCreateProfile)
                 if(!isCreateProfile && !isOnLyCreateProfile){
-                    console.log("1")
+                    console.log("Cập nhật profile")
                     // dispatch({
                     //     type: UPDATE_PROFILE,
                     //     valuesUpdate: valueForm
                     // })
                 } else if(isCreateProfile) {
-                    console.log("2")
                     dispatch({
                         type: CREATE_PROFILE,
                         valuesCreate: valueForm
                     })
                 } else if(isOnLyCreateProfile && !isCreateProfile && user_id){
-                    console.log("isOnLyCreateProfile")
+                    // console.log("isOnLyCreateProfile")
                     dispatch({
                         type: ONLY_CREATE_PROFILE,
                         valuesCreate: {valueForm, user_id}
@@ -95,7 +94,7 @@ export default function SoYeuLyLich(props) {
     },[values])
 
     useEffect(()=>{
-        // console.log("PBCV Arr")
+        // console.log(phongBanChucVuArr)
         setValueForm({...valueForm, phongBanCVObj: [...phongBanChucVuArr]})
     },[phongBanChucVuArr.length])
 
