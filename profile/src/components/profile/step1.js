@@ -6,7 +6,7 @@ import { addPBCV, removePBCV, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQ
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
+import { CREATE_PROFILE, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
@@ -20,11 +20,11 @@ export default function SoYeuLyLich(props) {
     const {Option} = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    let {nextStep} = useSelector(state => state.stepsReducer);
+    let {nextStep, user_profile_id: {user_id}} = useSelector(state => state.stepsReducer);
     let {phongBanChucVuArr, values, noiSinhTinh, 
     noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
-    noiOTinh, noiOQuan, noiOHuyen, isCreateProfile , isNavigateTo404, phongBan :
-    depList, chucVu : posList, to : toList} = useSelector(state => state.steps1Reducer);
+    noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile , isNavigateTo404, 
+    phongBan : depList, chucVu : posList, to : toList} = useSelector(state => state.steps1Reducer);
     let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
@@ -52,16 +52,24 @@ export default function SoYeuLyLich(props) {
            if(!isNextStep){
                 dispatch(moveToNextStep(0))
            } else if(isNextStep){
-            // console.log(isCreateProfile)
-                if(!isCreateProfile){
-                    dispatch({
-                        type: UPDATE_PROFILE,
-                        valuesUpdate: valueForm
-                    })
+            console.log(isOnLyCreateProfile, isCreateProfile)
+                if(!isCreateProfile && !isOnLyCreateProfile){
+                    console.log("1")
+                    // dispatch({
+                    //     type: UPDATE_PROFILE,
+                    //     valuesUpdate: valueForm
+                    // })
                 } else if(isCreateProfile) {
+                    console.log("2")
                     dispatch({
                         type: CREATE_PROFILE,
                         valuesCreate: valueForm
+                    })
+                } else if(isOnLyCreateProfile && !isCreateProfile && user_id){
+                    console.log("isOnLyCreateProfile")
+                    dispatch({
+                        type: ONLY_CREATE_PROFILE,
+                        valuesCreate: {valueForm, user_id}
                     })
                 }
            }
@@ -193,12 +201,18 @@ export default function SoYeuLyLich(props) {
             /* Vì value của Option là id của phòng ban , chức vụ nên phải tìm ra Object của phòng ban
             , chức vụ đó từ đó lấy name của PB, CV đó để render ra cho user xem */
             let newPBCVArr = [];
+            // console.log(phongBanChucVuArr)
             for(let PB_CV of phongBanChucVuArr){
                 let {phongBan, chucVu} = PB_CV;
-                let phongBanOb = depList.find(PB => PB.id === phongBan)
-                let chucVuOb = posList.find(CV => CV.id === chucVu)
-                newPBCVArr.push({phongBan: phongBanOb.name, chucVu: chucVuOb.position.name})
+                // console.log(PB_CV)
+                // console.log(phongBan, chucVu)
+                // console.log(depList, posList)
+                let phongBanCanTim = depList.find(PB => PB.id === phongBan)
+                let chucVuCanTim = posList.find(CV => CV.id === chucVu)
+                // console.log(phongBanCanTim, chucVuCanTim)
+                newPBCVArr.push({phongBan: phongBanCanTim?.name, chucVu: chucVuCanTim?.position?.name})
             }
+            // console.log(newPBCVArr)
             /* Sau khi bóc ra được name của PB, CV rồi thì lấy Array mới có chứa tên cua PB, CV
             render ra */
             // console.log(phongBanChucVuArr)
@@ -741,8 +755,8 @@ export default function SoYeuLyLich(props) {
                                     <span className="required__field"> *</span>
                                 </label>
                                 <Select defaultValue= "Tổ"
-                                value={phongBanCVOb.to !== ""
-                                ? phongBanCVOb.to
+                                value={phongBanCVOb?.to !== ""
+                                ? phongBanCVOb?.to
                                 : ""
                                 }
                                 onBlur={()=>{
@@ -761,7 +775,7 @@ export default function SoYeuLyLich(props) {
                                 onChange={getValueSelect_To}>
                                     {renderTo()}
                                 </Select>
-                                {validateForm.phongBanCVObj.to 
+                                {validateForm.phongBanCVObj?.to 
                                     ? showRequiredAlert() 
                                     : ""}
                         </div>

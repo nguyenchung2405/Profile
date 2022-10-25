@@ -112,7 +112,21 @@ function tachDuLieu(string, capDuLieu = 3) {
       // console.log(diaChi, huyen, quan, tinh);
       return {diaChi, huyen, quan, tinh}
     }
-  }
+}
+
+function tachDuLieuPhongBan_ChucVu(data){
+  // console.log(data)
+    let PB_CV_Arr = [];
+    for(let dep_pos of data.user_dep_pos){
+      let {department: {id : dep_id}, position_management: {position : {id : pos_id}}} = dep_pos;
+      PB_CV_Arr.push({
+        phongBan: dep_id,
+        chucVu: pos_id
+      })
+    }
+    // console.log(PB_CV_Arr)
+    return PB_CV_Arr;
+}
 
 export const mappingProfileAPI = (values)=>{
   // console.log(values)
@@ -137,7 +151,7 @@ export const mappingProfileAPI = (values)=>{
         noiCapCCCD: values.identity_card_where,
         noiOHienTai: tachDuLieu(values.resident, 4),
         noiSinh: tachDuLieu(values.birth_place, 3),
-        phongBanCVObj: {chucVu: 209, phongBan: 105},
+        phongBanCVObj: tachDuLieuPhongBan_ChucVu(values),
         queQuan: tachDuLieu(values.home_town, 3),
         soDienThoai: "0327572323",
         soDienThoaiNoiBo: values.local_phone,

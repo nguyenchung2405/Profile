@@ -1,10 +1,10 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { CREATE_PROFILE, GET_AVATAR, GET_PROFILE_BY_ID, UPDATE_PROFILE } from "../title/title";
+import { CREATE_PROFILE, GET_AVATAR, GET_PROFILE_BY_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE } from "../title/title";
 import { userInforEmpty } from "../ultils/defaultUserInfor";
 import { mappingDepartmentPosition, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
-import { createProfile_API, getAvatar_API, getProfileByID_API, updateProfile_API } from "./API/profileAPI";
+import { createProfile_API, getAvatar_API, getProfileByID_API, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
+import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload){
@@ -16,6 +16,8 @@ function* getProfileByID(payload){
         yield put(setUserProfileID({pro_id: id, user_id}))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
+        let {phongBanCVObj} = profile;
+        yield put(addPBCV(phongBanCVObj))
         // console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))
@@ -44,7 +46,7 @@ function* createProfile(payload){
     let userDegree = mappingUserDegree(valuesCreate);
     let jourCard = mappingJournalistCard(valuesCreate);
     let dataToCreate = {profile, depPos, userDegree, jourCard, email: valuesCreate.email, soDienThoai: valuesCreate.soDienThoai}
-    console.log(dataToCreate)
+    // console.log(dataToCreate)
     yield put(setValues(valuesCreate))
     yield put(setIsNextStep(true))
     yield call(createProfile_API, dataToCreate)  
@@ -65,9 +67,24 @@ function* getAvatar(payload){
     // console.log(content)
 }
 
+function* onlyCreateProfile(payload){
+    let {valueForm, user_id} = payload.valuesCreate;
+    // console.log(valueForm, user_id)
+    let profile = mappingProfileStep1(valueForm);
+    let depPos = mappingDepartmentPosition(valueForm);
+    let userDegree = mappingUserDegree(valueForm);
+    let jourCard = mappingJournalistCard(valueForm);
+    let dataToCreate = {profile, depPos, userDegree, jourCard, user_id}
+    console.log(dataToCreate)
+    yield put(setValues(valueForm))
+    yield put(setIsNextStep(true))
+    yield call(onlyCreateProfileAPI, dataToCreate)  
+}
+
 export default function* Profile(){
     yield takeEvery(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
     yield takeLatest(CREATE_PROFILE, createProfile)
     yield takeLatest(GET_AVATAR, getAvatar)
+    yield takeLatest(ONLY_CREATE_PROFILE, onlyCreateProfile)
 }

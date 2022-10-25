@@ -1,7 +1,7 @@
 const FormData = require("form-data");
 const path = require("path")
 const axios = require("axios");
-const local =  "http://dev.profilebe.tuoitre.vn";
+const local =  "http://192.168.61.116";
 const fs = require("fs")
 
 const uploadUserAvatar = async (req,res)=>{
@@ -27,6 +27,7 @@ const uploadUserAvatar = async (req,res)=>{
                 method: "POST",
                 data: formData
             })
+            console.log(result.data)
             // console.log(result)
             let {message} = result.data;
             if(message === 'Successfully'){
@@ -35,6 +36,7 @@ const uploadUserAvatar = async (req,res)=>{
                     url: `${local}/api/user/resources/${user_id}`,
                     method: "GET"
                 })
+                
                 res.send(result_getIMG.data);
             } else {
                 // Nếu post ảnh fail thì trả về  kết quả báo lỗi gì đó

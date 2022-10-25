@@ -1032,6 +1032,7 @@ input#diaChi {
 .tableProfiles > div.ant-table-wrapper {
     width: 100%;
     padding: 0 18px;
+    background-color: white;
 }
 
 .tableProfiles .tableProfiles__hoTen {
@@ -1140,7 +1141,6 @@ td.tableProfiles__thaoTac div {
 
 .tableProfiles .tools {
     margin: 20px 0;
-    padding: 0 18px;
 }
 
 .tableProfiles .tools button.create_acc_profile {

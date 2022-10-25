@@ -258,6 +258,7 @@ div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) 
     width: calc(100% - 265px);
     height: auto;
     padding: 30px;
+    min-height: 100vh;
 }
 
 .App div.notFound {
