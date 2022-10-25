@@ -7,6 +7,8 @@ const createProfile = async (req,res,next)=>{
         let {headers: {authorization}} = req;
         // console.log(authorization)
         profile["user_id"] = user_id;
+        // console.log(profile)
+
         const result = await axios({
             url: `http://dev.profilebe.tuoitre.vn/profiles`,
             method: "POST",
@@ -15,8 +17,8 @@ const createProfile = async (req,res,next)=>{
             },
             data: profile
         });
-        let { data: {code, data: {id}}} = result;
         // console.log(result)
+        let { data: {code, data: {id}}} = result;
         console.log({pro_id: id})
         if(code == 200){
             req.pro_id = id
@@ -29,6 +31,18 @@ const createProfile = async (req,res,next)=>{
     }
 }
 
+const checkUserID = (req,res,next)=>{
+    let {user_id} = req.body;
+    console.log(user_id)
+    if(user_id){
+        req.user_id = user_id
+        next()
+    } else {
+        res.send("user_id không tồn tại")
+    }
+}
+
 module.exports = {
-    createProfile
+    createProfile,
+    checkUserID
 }

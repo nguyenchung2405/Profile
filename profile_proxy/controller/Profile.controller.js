@@ -10,28 +10,12 @@ const getProfile = async (req,res)=>{
         let {headers: {authorization}} = req;
         // lấy thông tin cá nhân
         const result_pro = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/9`,
+            url: `http://dev.profilebe.tuoitre.vn/profiles/${id}`,
             method: "GET",
             headers: {
                 Authorization: authorization
             }
         });
-        // lấy thông tin bằng cấp
-        // const result_degree = await axios({
-        //     url: `http://dev.profilebe.tuoitre.vn/api/user-degrees/users/${id}`,
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: authorization
-        //     }
-        // });
-        // lấy thông tin phòng ban, chức vụ
-        // const result_dep_pos = await axios({
-        //     url: `http://dev.profilebe.tuoitre.vn/api/departments/positions/users/${id}`,
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: authorization
-        //     }
-        // });
         res.send(result_pro?.data)
     } catch (error) {
         res.send(error)

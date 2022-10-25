@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_USER_LIST } from '../../title/title';
 import {MdOutlineModeEditOutline} from "react-icons/md";
+import {AiFillFileAdd} from "react-icons/ai";
 import {AiOutlineUserAdd} from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
@@ -73,28 +74,44 @@ export default function TableProfiles() {
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex= "full_name" key= "hoTen" />
           <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
             render={(text,record,index)=>{
-                if(record.departments !== undefined && typeof record.departments === "object"){
-                    return record.departments.data[0].dep_name;
+              // console.log(record)
+                if(record.primaryDepartment?.data !== undefined && typeof record.primaryDepartment === "object"){
+                    return record.primaryDepartment.data.department.name;
                 }
             }} />
           <Column className="tableProfiles__chucVu" title= "Chức vụ" key= "chucVu"
           render={(text,record,index)=>{
-            if(record.departments !== undefined && typeof record.departments === "object"){
-                return record.departments.data[0].pos_name;
+            if(record.primaryDepartment !== undefined && typeof record.primaryDepartment === "object"){
+                return record.primaryDepartment?.data.position_management.position.name;
             }
             }} />
           <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />
           <Column className="tableProfiles__thaoTac" key="thaoTac"
           render={(text,record,index)=>{
-            let {id} = record;
-            return <div>
+            if(record.profiles !== null){
+              let {id} = record?.profiles?.data;
+              if(id && typeof id === "number"){
+                return <div>
                 <button onClick={()=>{
                   dispatch(setIsCreateProfile(false))
                   navigate(`/hr/profile/${id}`)
-              }}>
-                  <MdOutlineModeEditOutline/>
-              </button>
-            </div>
+                }}>
+                    <MdOutlineModeEditOutline/>
+                </button>
+              </div>
+              } 
+            } else {
+              let {id} = record;
+              return <div>
+                <button onClick={()=>{
+                  dispatch(setIsCreateProfile(false))
+                  navigate(`/hr/profile/create/${id}`)
+                }}>
+                    <AiFillFileAdd />
+                </button>
+              </div>
+              
+            }
           }} />
         </Table>
         {showLoading()}

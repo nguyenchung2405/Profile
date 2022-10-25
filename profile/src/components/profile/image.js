@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
-import { setAvatar } from '../../redux/Steps/step1/step1Slice';
 
 export default function Image() {
 
     const [path, setPath] = useState("");
     let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
-    let {avatar, isCreateProfile} = useSelector(state => state.steps1Reducer);
-    let {isNextStep} = useSelector(state => state.stepsReducer);
-    // console.log(user_id)
+    let {avatar} = useSelector(state => state.steps1Reducer);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -30,7 +27,6 @@ export default function Image() {
         <input type="file" id="img-input" onChange={ async (e)=>{
             // console.dir(e.target.files[0])
             const form = new FormData();
-            console.log(isCreateProfile, user_id, isNextStep)
             form.append("image3x4",e.target.files[0]);
             if(user_id){
                 form.append("user_id", user_id)

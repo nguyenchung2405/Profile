@@ -11,6 +11,7 @@ const userListSlice = createSlice({
     reducers: {
         setUserList: (state, action)=>{
             let {userList, total} = action.payload;
+            // console.log(userList)
             state.userList = userList;
             state.total = total;
         }

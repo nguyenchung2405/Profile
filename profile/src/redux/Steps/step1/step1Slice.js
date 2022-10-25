@@ -45,6 +45,7 @@ const initialState = {
     noiOHuyen: "",
     isCreateProfile: false,
     isNavigateTo404: false,
+    isOnLyCreateProfile: false,
     phongBan: [],
     chucVu:[],
     to: [],
@@ -57,11 +58,12 @@ const step1Slice = createSlice({
     reducers: {
         addPBCV: (state,action)=>{
             let {payload} = action;
-            console.log("reducer",payload)
-            if(payload.chucVu === "" || payload.phongBan ===""){
-                return
+            // console.log("reducer",payload)
+            if(payload.length > 0){
+                state.phongBanChucVuArr = payload;
+            } else {
+                state.phongBanChucVuArr.push(payload)
             }
-            state.phongBanChucVuArr.push(action.payload)
         },
         removePBCV: (state,action)=>{
             let {payload}= action;
@@ -108,6 +110,9 @@ const step1Slice = createSlice({
         setIsCreateProfile: (state,action)=>{
             state.isCreateProfile = action.payload
         },
+        setIsOnLyCreateProfile: (state,action)=>{
+            state.isOnLyCreateProfile = action.payload
+        },
         setIsNavigate: (state,action)=>{
             state.isNavigateTo404 = action.payload
         },
@@ -128,6 +133,6 @@ const step1Slice = createSlice({
 export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
-setPB_CV, setTo, setAvatar } = step1Slice.actions;
+setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile } = step1Slice.actions;
 
 export default step1Slice.reducer;

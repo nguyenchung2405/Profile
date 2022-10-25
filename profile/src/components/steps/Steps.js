@@ -16,15 +16,17 @@ import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV, setAvatar, setIsCreateProfile } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAvatar, setIsCreateProfile, setIsOnLyCreateProfile } from '../../redux/Steps/step1/step1Slice';
 
 export default function StepsAntd() {
 
     const { Step } = Steps;
     const [current, setCurrent] = useState(0);
     let {nextStep, isNextStep} = useSelector(state => state.stepsReducer);
+    let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
     const {isLoading} = useSelector(state => state.loadingReducer);
-    let {userId} = useParams();
+    let {proID, userID} = useParams();
+    // console.log(proID, user_id)
     const dispatch = useDispatch();
 
     const onChangeSteps = (value) => {
@@ -33,20 +35,37 @@ export default function StepsAntd() {
 
     useEffect(()=>{
       // lấy user_id từ param trên URL => call API lấy profile
-      if(userId){
+      if(proID){
         dispatch({
           type: GET_PROFILE_BY_ID,
-          user_id: userId
+          // user_id này là API cũ cần để lấy profile nhưng do API mới cần là pro_id 
+          // nên truyền vào pro_id còn tên user_id thì giư để khỏi thay đổi code ở redux, saga
+          user_id: proID
         });
+        dispatch(setIsOnLyCreateProfile(false))
         dispatch(setIsLoading(true));
-        dispatch({
-          type: GET_AVATAR,
-          user_id: userId
-        })
       } else {
         dispatch(setIsCreateProfile(true))
       }
-    },[userId])
+    },[proID])
+
+    useEffect(()=>{
+      if(userID){
+        console.log(userID)
+        dispatch(setIsCreateProfile(false))
+        dispatch(setIsOnLyCreateProfile(true))
+        dispatch(setUserProfileID({user_id: userID}))
+      }
+    },[userID])
+
+    useEffect(()=>{
+      if(user_id){
+        dispatch({
+          type: GET_AVATAR,
+          user_id: user_id
+        })
+      }
+    },[user_id])
 
     useEffect(()=>{
       if(isNextStep < current){
