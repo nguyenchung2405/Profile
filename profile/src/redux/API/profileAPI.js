@@ -57,7 +57,7 @@ export async function createProfile_API(data){
 
 export async function getAvatar_API(userID){
     try {
-        console.log(userID)
+        // console.log(userID)
         const res = await axios({
             url: `${local}/api/user/resources/${userID}`,
             method: "GET"
