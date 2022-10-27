@@ -34,7 +34,7 @@ const createProfile = async (req,res,next)=>{
 
 const checkUserID = (req,res,next)=>{
     let {user_id} = req.body;
-    console.log(user_id)
+    // console.log("check user id: ",user_id)
     if(user_id){
         req.user_id = user_id
         next()
@@ -43,7 +43,33 @@ const checkUserID = (req,res,next)=>{
     }
 }
 
+const updateProfile = async (req,res,next)=>{
+    try {
+        console.log("updateProfile")
+        let {profile , pro_id} = req.body;
+        let {user_id, ...rest} = profile;
+        // console.log(rest)
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: rest
+        });
+        let { data: {code}} = result;
+        console.log(code)
+        if(code == 200){
+            next();
+        }
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     createProfile,
-    checkUserID
+    checkUserID,
+    updateProfile
 }

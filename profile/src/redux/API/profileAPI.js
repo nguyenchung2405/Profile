@@ -19,17 +19,18 @@ export async function getProfileByID_API(user_id){
     }
 }
 
-export async function updateProfile_API(user_id,valuesUpdate){
+export async function updateProfile_API(valuesUpdate){
     try {
+        // let {user_id, jour_card_id, user_degree_id, pro_id} = valuesUpdate;
+        // console.log(user_id, jour_card_id, user_degree_id, pro_id)
         const res = await axios({
-            url: `${local}/api/profiles/${user_id}`,
+            url: `${local}/api/profiles/update`,
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + TOKEN
             },
-            data: {
-                valuesUpdate
-            }
+            data: valuesUpdate
+            
         })
         return res;
     } catch (error) {
@@ -78,6 +79,20 @@ export async function onlyCreateProfileAPI(data){
                 Authorization: "Bearer " + TOKEN
             },
             data
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function deleteDepPosAPI(dep_pos_id){
+    try {
+        const res = await axios({
+            url: `${local}/api/user-dep-pos/${dep_pos_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
         });
     } catch (error) {
         console.log(error)

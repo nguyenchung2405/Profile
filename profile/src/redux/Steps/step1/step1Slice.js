@@ -14,7 +14,7 @@ const initialState = {
         ngayBoNhiem: "01-10-2022",
         ngayCapCCCD: "24-12-2021",
         ngayCapTheNhaBao: "30-09-2022",
-        ngayDuocTuyenDung: "21-07-2022",
+        // ngayDuocTuyenDung: "21-07-2022",
         ngayHetHanBoNhiem: "03-10-2022",
         ngayThangNamSinh: "24-05-1998",
         ngheNghiep: "Lập trình viên",
@@ -43,6 +43,9 @@ const initialState = {
     noiOTinh: "",
     noiOQuan: "",
     noiOHuyen: "",
+    hoKhauTinh: "",
+    hoKhauQuan: "",
+    hoKhauHuyen: "",
     isCreateProfile: false,
     isNavigateTo404: false,
     isOnLyCreateProfile: false,
@@ -107,6 +110,18 @@ const step1Slice = createSlice({
             let quanSelected = state.noiOQuan.find(quan => quan.name === action.payload);
             state.noiOHuyen = quanSelected.wards;
         },
+        setHoKhauHuyen: (state,action)=>{
+            console.log(action.payload)
+            console.log(state.hoKhauQuan)
+            let quanSelected = state.hoKhauQuan.find(quan => quan.name === action.payload);
+            state.hoKhauHuyen = quanSelected.wards;
+        },
+        setHoKhauTinh: (state,action)=>{
+            state.hoKhauTinh = [...action.payload];
+        },
+        setHoKhauQuan: (state,action)=>{
+            state.hoKhauQuan = [...action.payload];
+        },
         setIsCreateProfile: (state,action)=>{
             state.isCreateProfile = action.payload
         },
@@ -133,6 +148,7 @@ const step1Slice = createSlice({
 export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
-setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile } = step1Slice.actions;
+setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
+setHoKhauQuan } = step1Slice.actions;
 
 export default step1Slice.reducer;

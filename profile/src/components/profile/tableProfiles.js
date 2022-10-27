@@ -10,6 +10,9 @@ import Loading from '../Loading';
 import { useNavigate } from 'react-router-dom';
 import { removePBCV, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
+import maleIMG from "../../img/user-male.png"
+import femaleIMG from "../../img/user-female.png"
+import unknownGenderIMG from "../../img/unknownGender.png"
 
 export default function TableProfiles() {
 
@@ -34,6 +37,18 @@ export default function TableProfiles() {
       if(isLoading){
         return <Loading />
       }
+    }
+
+    const femaleAvatar = () => {
+      return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
+    }
+
+    const maleAvatar = () => {
+      return <img src={maleIMG} alt="avatar male" />
+    }
+
+    const unknownSexAvatar = () => {
+      return <img className="avatarUser" src={unknownGenderIMG} alt="avatar unknown gender" />
     }
 
   return (
@@ -70,7 +85,23 @@ export default function TableProfiles() {
             },
           }}
         >
-          <Column className="tableProfiles__avatar" title="" dataIndex={""} key="avatar" />
+          <Column className="tableProfiles__avatar" title="" key="avatar" 
+          render={(text,record,index)=>{
+            if(record?.userResource?.data.length > 0){
+              let avatar = record?.userResource.data.find(type => type.type === "3x4");
+              let index = avatar.content.length - 1;
+              let avatarRender = avatar.content[index].content;
+              return <img src={`data:image/png;base64,${avatarRender}`} alt="avatar of user" />
+            } else {
+              if(record.profiles?.data.gender === 1){
+                return maleAvatar()
+              } else if(record.profiles?.data.gender === 2){
+                return femaleAvatar()
+              } else {
+                return unknownSexAvatar()
+              }
+            }
+          }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex= "full_name" key= "hoTen" />
           <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
             render={(text,record,index)=>{

@@ -3,9 +3,9 @@ import moment from "moment"
 export const mappingProfileStep1 = (formValues)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
-    let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
-    console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
-    console.log(moment(new Date(a)).format("DD/MM/YYYY"))
+    // let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
+    // console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
+    // console.log(moment(new Date(a)).format("DD/MM/YYYY"))
     
     return {
         "user_id": "",
@@ -36,7 +36,7 @@ export const mappingDepartmentPosition = (data)=>{
             "pos_man_id": depPos.chucVu,
             "appointment_date": moment(data.ngayBoNhiem, "DD/MM/YYYY").toISOString(),
             "expire_date": moment(data.ngayHetHanBoNhiem, "DD/MM/YYYY").toISOString(),
-            "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
+            // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
             "is_primary":"1"
         })
     }
@@ -124,10 +124,11 @@ function tachDuLieuPhongBan_ChucVu(data){
     if(data.user_dep_pos.length > 0){
       for(let dep_pos of data.user_dep_pos){
         // console.log(dep_pos)
-        let {department: {id : dep_id}, position_management: {id : pos_id}} = dep_pos;
+        let {department: {id : dep_id}, position_management: {id : pos_id}, id} = dep_pos;
         PB_CV_Arr.push({
           phongBan: dep_id,
-          chucVu: pos_id
+          chucVu: pos_id,
+          id
         })
       }
     }
@@ -150,7 +151,7 @@ export const mappingProfileAPI = (values)=>{
         ngayBoNhiem: moment(new Date(values?.user_dep_pos[0]?.appointment_date)).format("DD/MM/YYYY"),
         ngayCapCCCD: moment(new Date(values.identity_card_when)).format("DD/MM/YYYY"),
         ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY"),
-        ngayDuocTuyenDung: "",
+        // ngayDuocTuyenDung: "",
         ngayHetHanBoNhiem: moment(new Date(values?.user_dep_pos[0]?.expire_date)).format("DD/MM/YYYY"),
         ngayThangNamSinh: moment(new Date(values.birth_day)).format("DD/MM/YYYY"),
         ngheNghiep: values.occupation,

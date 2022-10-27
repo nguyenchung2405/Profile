@@ -51,6 +51,18 @@ export async function getDistricts_Wards_ADDRESS_API(codeProvince){
     }
 }
 
+export async function getDistricts_Wards_HoKhau_API(codeProvince){
+    try {
+        const res = await axios({
+            url: `https://provinces.open-api.vn/api/p/${codeProvince}?depth=3`,
+            method: "GET"
+        })
+        return res.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function getUserList_API(page,pageSize){
     try {
         const res = await axios({
