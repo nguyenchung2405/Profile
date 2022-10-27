@@ -79,7 +79,65 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
     }
 }
 
+const update_dep_pos_degress_jourCard = async (req,res)=>{
+    try {
+        console.log("update_dep_pos_degress_jourCard")
+        let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id} = req.body;
+        let {headers: {authorization}} = req;
+        let promiseArr = [];
+        // console.log(depPos)
+        for(let i = 0; i < depPos.length; i++){
+            depPos[i].user_id = user_id
+            promiseArr.push(axios({
+                url: `${local}/user-dep-pos`,
+                method: "POST",
+                headers: {
+                    Authorization: authorization
+                },
+                data: depPos[i]
+            }))
+        }
+        // Chỉnh sửa thuộc tính của user degree rồi mới gắn vô API
+        userDegree["pro_id"] = pro_id;
+        let {user_id : userID, ...rest} =  userDegree;
+        const updateDegree = await axios({
+            url: `${local}/user-degree/${user_degree_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: rest
+        });
+        // Chỉnh sửa thuộc tính của journalist card rồi mới gắn vô API
+        jourCard["pro_id"] = pro_id;
+        let {user_id : joucardUserID, ...restJourCard} =  jourCard;
+        const updateJourCard = await axios({
+            url: `http://dev.profilebe.tuoitre.vn/journalist-card/${jour_card_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: restJourCard
+        });
+        Promise.all([ ...promiseArr,updateDegree,updateJourCard ])
+        .then((resolve)=>{
+            let result = [];
+            for(let i = 0; i < resolve.length; i++){
+                // console.log(resolve[i].data)
+                result.push(resolve[i].data)
+            }
+            res.send(result)
+        })
+        .catch((err)=>{
+            res.send(err)
+        })
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getProfile,
-    create_dep_pos_degree_jourCard
+    create_dep_pos_degree_jourCard,
+    update_dep_pos_degress_jourCard
 }

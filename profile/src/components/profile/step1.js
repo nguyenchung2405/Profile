@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import "./profile.css";
 import { Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPBCV, removePBCV, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen} from '../../redux/Steps/step1/step1Slice';
+import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen} from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
@@ -20,15 +20,17 @@ export default function SoYeuLyLich(props) {
     const {Option} = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    let {nextStep, user_profile_id: {user_id}} = useSelector(state => state.stepsReducer);
+    let {nextStep, user_profile_id: {user_id, jour_card_id, user_degree_id, pro_id}} = useSelector(state => state.stepsReducer);
     let {phongBanChucVuArr, values, noiSinhTinh, 
-    noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
-    noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile , isNavigateTo404, 
-    phongBan : depList, chucVu : posList, to : toList} = useSelector(state => state.steps1Reducer);
-    let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
+        noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
+        noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile , isNavigateTo404, 
+        phongBan : depList, chucVu : posList, hoKhauTinh, hoKhauQuan ,hoKhauHuyen} = useSelector(state => state.steps1Reducer);
+        const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState([]);
+        let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
-        
+    const [valueForm, setValueForm] = useState({...values});
+
     const closeModal = ()=>{
         setIsShowModal(false)
     }
@@ -36,6 +38,34 @@ export default function SoYeuLyLich(props) {
     const closeModal2 = ()=>{
         setIsShowModal2(false)
     }
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            noiSinh: { ...valueForm.noiSinh, quan: "", huyen: "" }
+        });
+    },[noiSinhQuan])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            queQuan: { ...valueForm.queQuan, quan: "", huyen: "" }
+        });
+    },[queQuanQuan])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
+        });
+    },[noiOQuan])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            hoKhauThuongTru: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
+        });
+    },[hoKhauQuan])
     
     useEffect(()=>{
         // console.log("is navigate")
@@ -55,10 +85,11 @@ export default function SoYeuLyLich(props) {
             // console.log(isOnLyCreateProfile, isCreateProfile)
                 if(!isCreateProfile && !isOnLyCreateProfile){
                     console.log("Cập nhật profile")
-                    // dispatch({
-                    //     type: UPDATE_PROFILE,
-                    //     valuesUpdate: valueForm
-                    // })
+                    valueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+                    dispatch({
+                        type: UPDATE_PROFILE,
+                        valuesUpdate: {valueForm, user_id, jour_card_id, user_degree_id, pro_id}
+                    })
                 } else if(isCreateProfile) {
                     dispatch({
                         type: CREATE_PROFILE,
@@ -98,8 +129,7 @@ export default function SoYeuLyLich(props) {
         setValueForm({...valueForm, phongBanCVObj: [...phongBanChucVuArr]})
     },[phongBanChucVuArr.length])
 
-    const [valueForm, setValueForm] = useState({...values});
-    // console.log(valueForm)
+    
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = [ "hoTen", "ngayThangNamSinh","danToc"
     ,"hocVan","chuyenMon","lyLuanCT","ngayDuocTuyenDung","ngayBoNhiem","ngayHetHanBoNhiem"
@@ -114,7 +144,6 @@ export default function SoYeuLyLich(props) {
         hocVan: false,
         ngayDuocTuyenDung: false,
         chuyenMon: false,
-        to: false,
         lyLuanCT:false,
         ngayBoNhiem: false,
         ngayHetHanBoNhiem: false,
@@ -141,9 +170,15 @@ export default function SoYeuLyLich(props) {
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
-        } else {
+        } else if(fieldName === "noiO") {
             if(noiOTinh.length > 0){
                 return noiOTinh.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "hoKhau") {
+            if(hoKhauTinh.length > 0){
+                return hoKhauTinh.map((tinh,index)=>{
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
@@ -163,9 +198,15 @@ export default function SoYeuLyLich(props) {
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
-        } else {
+        } else if(fieldName === "noiO") {
             if(noiOQuan.length > 0){
                 return noiOQuan.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "hoKhau") {
+            if(hoKhauQuan.length > 0){
+                return hoKhauQuan.map((tinh,index)=>{
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
@@ -185,9 +226,15 @@ export default function SoYeuLyLich(props) {
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
-        } else {
+        } else if(fieldName === "noiO") {
             if(noiOHuyen.length > 0){
                 return noiOHuyen.map((tinh,index)=>{
+                    return <Option value={tinh.name}>{tinh.name}</Option>
+                }) 
+            }
+        } else if(fieldName === "hoKhau") {
+            if(hoKhauHuyen.length > 0){
+                return hoKhauHuyen.map((tinh,index)=>{
                     return <Option value={tinh.name}>{tinh.name}</Option>
                 }) 
             }
@@ -201,15 +248,16 @@ export default function SoYeuLyLich(props) {
             , chức vụ đó từ đó lấy name của PB, CV đó để render ra cho user xem */
             let newPBCVArr = [];
             // console.log(phongBanChucVuArr)
+            // console.log(isCreateProfile, isOnLyCreateProfile)
             for(let PB_CV of phongBanChucVuArr){
-                let {phongBan, chucVu} = PB_CV;
+                let {phongBan, chucVu, id} = PB_CV;
                 // console.log(PB_CV)
                 // console.log(phongBan, chucVu)
                 // console.log(depList, posList)
                 let phongBanCanTim = depList.find(PB => PB.id === phongBan)
                 let chucVuCanTim = posList.find(CV => CV.id === chucVu)
                 // console.log(phongBanCanTim, chucVuCanTim)
-                newPBCVArr.push({phongBan: phongBanCanTim?.name, chucVu: chucVuCanTim?.position?.name})
+                newPBCVArr.push({phongBan: phongBanCanTim?.name, chucVu: chucVuCanTim?.position?.name, id})
             }
             // console.log(newPBCVArr)
             /* Sau khi bóc ra được name của PB, CV rồi thì lấy Array mới có chứa tên cua PB, CV
@@ -223,6 +271,12 @@ export default function SoYeuLyLich(props) {
                             </div>
                             <AiOutlineMinus onClick={()=>{
                                 dispatch(removePBCV(index))
+                                if(!isCreateProfile && !isOnLyCreateProfile){
+                                    dispatch({
+                                        type: DELETE_DEP_POS,
+                                        dep_pos_id: infor.id
+                                    })
+                                }
                             }} />
                 </div>
             })
@@ -257,7 +311,7 @@ export default function SoYeuLyLich(props) {
                 if(valueForm[value].length === 0 ){
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], phongBan: true}}
                     newValueForm = {...newValueForm, [value]: {...newValueForm[value], chucVu: true}}
-                    newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
+                    // newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
                     isNextStep = false
                 }
             } else {
@@ -412,9 +466,10 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_HoKhau_Tinh_TP = (value)=>{
-        let tinhSelected = noiOTinh.find(tinh => tinh.name === value);
+        let tinhSelected = hoKhauTinh.find(tinh => tinh.name === value);
+        // console.log(tinhSelected)
         dispatch({
-            type: GET_DISTRICTS_ADDRESS,
+            type: GET_DISTRICTS_HOKHAU,
             code: tinhSelected.code
         })
         let {hoKhauThuongTru} = valueForm;
@@ -435,7 +490,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const getValueSelect_HoKhau_Quan_TP = (value)=>{
-        dispatch(setNoiOHuyen(value))
+        dispatch(setHoKhauHuyen(value))
         let {hoKhauThuongTru} = valueForm;
         let hoKhauThuongTruNew = {...hoKhauThuongTru, quan: value};
         setValueForm({
@@ -446,21 +501,19 @@ export default function SoYeuLyLich(props) {
 
     const getValueSelect_ChucVu = (value)=>{
         if(phongBanCVOb.phongBan !== ""){
+            let newPBCV_Ob = {...phongBanCVOb, chucVu: value}
             dispatch(addPBCV({...phongBanCVOb, chucVu: value}));
-            let newPhongBanCVObj = {phongBan : "", chucVu: "", to: ""}
+            // console.log(newPBCV_Ob)
+            if(!isCreateProfile && !isOnLyCreateProfile){
+                setDepPosArrCreateWhenUpdate([...depPosArrCreateWhenUpdate, newPBCV_Ob])
+            }
+            let newPhongBanCVObj = {phongBan : "", chucVu: ""}
             setPhongBanCVOb({...newPhongBanCVObj})
         }
     }
 
     const getValueSelect_PhongBan = (value)=>{
         setPhongBanCVOb({...phongBanCVOb, phongBan: value});
-    }
-
-    const getValueSelect_To = (value)=>{
-        setPhongBanCVOb({
-            ...phongBanCVOb,
-            to: value
-        });
     }
 
     const showRequiredAlert = ()=>{
@@ -480,17 +533,6 @@ export default function SoYeuLyLich(props) {
         if(valueForm.name !== ""){
             return valueForm[name]
         }
-    }
-
-    const renderTo = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="">Tổ</Option>)
-        if(toList.length > 0){
-            for(let To of toList){
-                htmlRendered.push(<Option value={To.id}>{To.part_name}</Option>) 
-            }
-        }
-        return htmlRendered
     }
     
     return (
@@ -587,72 +629,37 @@ export default function SoYeuLyLich(props) {
                 validateField={validateField}
                 validateForm={validateForm}
                 showRequiredAlert={showRequiredAlert} />
-                <div className="SYLL__right__field ngayTuyenDung">
-                <label>Ngày được tuyển dụng:<span className="required__field"> *</span></label>
-                <DatePicker 
-                    value={
-                        valueForm.ngayDuocTuyenDung !== ""
-                        ? moment(valueForm.ngayDuocTuyenDung, "DD-MM-YYYY")
-                        : ""}
-                        onBlur={()=>{
-                            if(valueForm.ngayDuocTuyenDung === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayDuocTuyenDung: true
-                                })
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayDuocTuyenDung: false
-                                })
-                            }
-                        }}
-                    onChange={(date,dateString)=>{
-                        setValueForm({
-                            ...valueForm,
-                            ngayDuocTuyenDung: dateString
-                        })
-                    }}
-                    placeholder=""
-                    suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
-                    </svg>}
-                    format="DD-MM-YYYY"
-                    />
-                {validateForm.ngayDuocTuyenDung
-                 ? showRequiredAlert() 
-                 : ""}
-            </div>
+                
                 <div className="SYLL__right__field two__content">
-                <div className="fisrt__content hocVan">
-                    <label htmlFor="hocVan">Trình độ học vấn:
-                        <span className="required__field"> *</span>
-                    </label>
-                    <input placeholder='Văn hóa phổ thông' id="hocVan" name="hocVan" type="text"
-                    value={setValueIntoForm("hocVan")}
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
-                    {validateForm.hocVan 
-                        ? showRequiredAlert() 
-                        : ""}
-                </div>
-                <div id="chuyenMon__content">
-                    <div className="second__content">
-                    <input placeholder='Chuyên môn kỹ thuật' id="chuyenMon" 
-                    name="chuyenMon" 
-                    type="text" 
-                    value={setValueIntoForm("chuyenMon")}
-                    onBlur={validateField}
-                    onChange={(e)=>{
-                        handleChangeGetValueInput(e)
-                    }} />
+                    <div className="fisrt__content hocVan">
+                        <label htmlFor="hocVan">Trình độ học vấn:
+                            <span className="required__field"> *</span>
+                        </label>
+                        <input placeholder='Văn hóa phổ thông' id="hocVan" name="hocVan" type="text"
+                        value={setValueIntoForm("hocVan")}
+                        onBlur={validateField}
+                        onChange={(e)=>{
+                            handleChangeGetValueInput(e)
+                        }} />
+                        {validateForm.hocVan 
+                            ? showRequiredAlert() 
+                            : ""}
                     </div>
-                    {validateForm.chuyenMon 
-                        ? showRequiredAlert() 
-                        : ""}
-                </div>
+                    <div id="chuyenMon__content">
+                        <div className="second__content">
+                        <input placeholder='Chuyên môn kỹ thuật' id="chuyenMon" 
+                        name="chuyenMon" 
+                        type="text" 
+                        value={setValueIntoForm("chuyenMon")}
+                        onBlur={validateField}
+                        onChange={(e)=>{
+                            handleChangeGetValueInput(e)
+                        }} />
+                        </div>
+                        {validateForm.chuyenMon 
+                            ? showRequiredAlert() 
+                            : ""}
+                    </div>
                 </div>
                 <div className="SYLL__right__field">
                     <label htmlFor='lyLuanCT'>Lý luận chính trị:
@@ -749,35 +756,6 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__right__field ">
                     <div className="two__content">
-                        <div className="fisrt__content to">
-                                <label htmlFor="to">Tổ:
-                                    <span className="required__field"> *</span>
-                                </label>
-                                <Select defaultValue= "Tổ"
-                                value={phongBanCVOb?.to !== ""
-                                ? phongBanCVOb?.to
-                                : ""
-                                }
-                                onBlur={()=>{
-                                    if(phongBanCVOb.to === "" || phongBanCVOb.to === undefined){
-                                        setValidateForm({
-                                            ...validateForm,
-                                            phongBanCVObj: {...validateForm.phongBanCVObj,to: true}
-                                        })
-                                    } else {
-                                        setValidateForm({
-                                            ...validateForm,
-                                            phongBanCVObj: {...validateForm.phongBanCVObj,to: false}
-                                        })
-                                    }
-                                }}
-                                onChange={getValueSelect_To}>
-                                    {renderTo()}
-                                </Select>
-                                {validateForm.phongBanCVObj?.to 
-                                    ? showRequiredAlert() 
-                                    : ""}
-                        </div>
                         <div className="fisrt__content phongBan">
                             <label htmlFor="phongBan">Phòng ban:
                                 <span className="required__field"> *</span>

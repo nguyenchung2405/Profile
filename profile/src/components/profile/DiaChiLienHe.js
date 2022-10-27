@@ -137,7 +137,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
     }}
     onChange={getValueSelect_HoKhau_Tinh_TP}>
         <Option value="">Tỉnh (Thành phố)</Option>
-        {renderTinh("noiO")}
+        {renderTinh("hoKhau")}
     </Select>
     <Select
     value={valueForm.hoKhauThuongTru.quan !== ""
@@ -153,7 +153,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
     }}
     onChange={getValueSelect_HoKhau_Quan_TP}>
         <Option value="">Quận (Thành phố)</Option>
-        {renderQuan("noiO")}
+        {renderQuan("hoKhau")}
     </Select>
     <Select
     value={valueForm.hoKhauThuongTru.huyen !== ""
@@ -169,7 +169,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
     }}
     onChange={getValueSelect_HoKhau_Huyen}>
         <Option value="">Huyện (Xã)</Option>
-        {renderHuyen("noiO")}
+        {renderHuyen("hoKhau")}
     </Select>
     {validateForm.hoKhauThuongTru?.huyen || validateForm.hoKhauThuongTru?.quan 
         || validateForm.hoKhauThuongTru?.tinh || validateForm.hoKhauThuongTru?.diaChi

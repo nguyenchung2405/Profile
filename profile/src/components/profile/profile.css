@@ -1040,7 +1040,7 @@ input#diaChi {
 }
 
 .tableProfiles__avatar {
-    width: 220px;
+    width: 200px;
 }
 
 .tableProfiles__phongBan {
@@ -1048,7 +1048,7 @@ input#diaChi {
 }
 
 .tableProfiles__chucVu {
-    width: 380px;
+    width: 350px;
 }
 
 .tableProfiles__thaoTac {
@@ -1228,4 +1228,13 @@ td.tableProfiles__thaoTac div {
 .steps-content div.ant-steps div.ant-steps-item .ant-steps-item-icon {
     width: 0;
     height: 0;
+}
+
+td.ant-table-cell.tableProfiles__avatar {
+    text-align: center;
+}
+
+td.ant-table-cell.tableProfiles__avatar > img {
+    height: 70px;
+    width: 70px;
 }

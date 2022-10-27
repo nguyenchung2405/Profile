@@ -1,13 +1,14 @@
 import { call, takeLatest, put } from "redux-saga/effects";
-import { GET_PROVINCES, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_DISTRICTS_ADDRESS, GET_DEP_POS, GET_PART } from "../../title/title";
-import { getProvinces_API, getDistricts_Wards_API, getDistricts_Wards_HT_API, getDistricts_Wards_ADDRESS_API, getDepPosList_API, getPart_API } from "../API/step1API";
-import { setNoiOQuan, setNoiOTinh, setNoiSinhQuan, setNoiSinhTinh, setPB_CV, setQueQuanQuan, setQueQuanTinh, setTo } from "../Steps/step1/step1Slice";
+import { GET_PROVINCES, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_DISTRICTS_ADDRESS, GET_DEP_POS, GET_PART, GET_DISTRICTS_HOKHAU } from "../../title/title";
+import { getProvinces_API, getDistricts_Wards_API, getDistricts_Wards_HT_API, getDistricts_Wards_ADDRESS_API, getDepPosList_API, getPart_API, getDistricts_Wards_HoKhau_API } from "../API/step1API";
+import { setHoKhauQuan, setHoKhauTinh, setNoiOQuan, setNoiOTinh, setNoiSinhQuan, setNoiSinhTinh, setPB_CV, setQueQuanQuan, setQueQuanTinh, setTo } from "../Steps/step1/step1Slice";
 
 function* getProvinces_ByAPI(){
     let provinces = yield call(getProvinces_API);
     yield put(setNoiSinhTinh(provinces));
     yield put(setQueQuanTinh(provinces));
     yield put(setNoiOTinh(provinces))
+    yield put(setHoKhauTinh(provinces))
 }
 
 function* getDistrict_Ward_ByAPI(payload){
@@ -21,8 +22,13 @@ function* getDistrict_HomeTown_Ward_ByAPI(payload){
 }
 
 function* getDistrict_Ward_Address_ByAPI(payload){
-    let {districts} = yield call(getDistricts_Wards_ADDRESS_API,payload.code);
+    let {districts} = yield call(getDistricts_Wards_HoKhau_API,payload.code);
     yield put(setNoiOQuan(districts));
+}
+
+function* getDistrict_Ward_HoKhau_ByAPI(payload){
+    let {districts} = yield call(getDistricts_Wards_ADDRESS_API,payload.code);
+    yield put(setHoKhauQuan(districts));
 }
 
 function* getDepPos(){
@@ -45,6 +51,7 @@ export default function* step1(){
     yield takeLatest(GET_DISTRICTS_BIRTH_PLACE, getDistrict_Ward_ByAPI)
     yield takeLatest(GET_DISTRICTS_HOME_TOWN, getDistrict_HomeTown_Ward_ByAPI)
     yield takeLatest(GET_DISTRICTS_ADDRESS, getDistrict_Ward_Address_ByAPI)
+    yield takeLatest(GET_DISTRICTS_HOKHAU, getDistrict_Ward_HoKhau_ByAPI)
     yield takeLatest(GET_DEP_POS, getDepPos)
     yield takeLatest(GET_PART, getPart)
 }
