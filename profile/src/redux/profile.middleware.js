@@ -7,7 +7,8 @@ import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setV
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload){
-    const {status, data: {data, message}} = yield call(getProfileByID_API,payload.user_id);
+    let {proID, email, soDienThoai} = payload.data;
+    const {status, data: {data, message}} = yield call(getProfileByID_API,proID);
     // console.log(data)
     if(status === 200 && message === "Success"){
         // console.log(data)
@@ -18,6 +19,8 @@ function* getProfileByID(payload){
         yield put(setUserProfileID({pro_id: id, user_id, jour_card_id, user_degree_id}))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
+        profile["email"] = email;
+        profile["soDienThoai"] = soDienThoai;
         let {phongBanCVObj} = profile;
         if(phongBanCVObj.length > 0){
             yield put(addPBCV(phongBanCVObj))

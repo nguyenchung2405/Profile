@@ -8,7 +8,7 @@ import {AiOutlineUserAdd} from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
 import { useNavigate } from 'react-router-dom';
-import { removePBCV, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
@@ -120,11 +120,14 @@ export default function TableProfiles() {
           <Column className="tableProfiles__thaoTac" key="thaoTac"
           render={(text,record,index)=>{
             if(record.profiles !== null){
+              // console.log(record)
+              let {email, phone} = record;
               let {id} = record?.profiles?.data;
               if(id && typeof id === "number"){
                 return <div>
                 <button onClick={()=>{
                   dispatch(setIsCreateProfile(false))
+                  dispatch(setEmailPhone({email, soDienThoai: phone}))
                   navigate(`/hr/profile/${id}`)
                 }}>
                     <MdOutlineModeEditOutline/>
@@ -132,9 +135,16 @@ export default function TableProfiles() {
               </div>
               } 
             } else {
+              // console.log(record)
+              let {email, phone, full_name} = record;
               let {id} = record;
+              let newData = {...userInforEmpty}
+              newData.hoTen = full_name;
+              newData.email = email;
+              newData.soDienThoai = phone;
               return <div>
                 <button onClick={()=>{
+                  dispatch(setValues(newData))
                   dispatch(setIsCreateProfile(false))
                   navigate(`/hr/profile/create/${id}`)
                 }}>

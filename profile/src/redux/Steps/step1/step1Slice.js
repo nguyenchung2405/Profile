@@ -2,36 +2,36 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     values: {
-        canCuocCD: "272697007",
-        chuyenMon: "Lập trình",
-        danToc: "Kinh",
-        email: "doannguyenchung@gmail.com",
+        canCuocCD: "",
+        chuyenMon: "",
+        danToc: "",
+        // email: "doannguyenchung@gmail.com",
         gioiTinh: 1,
-        hoKhauThuongTru: {diaChi: '82/17 nguyen hong mai', huyen: 'Phường Lạc Viên', quan: 'Quận Ngô Quyền', tinh: 'Thành phố Hải Phòng'},
-        hoTen: "Đoàn Nguyễn Chung",
-        hocVan: "Đại học",
-        lyLuanCT: "OK",
-        ngayBoNhiem: "01-10-2022",
-        ngayCapCCCD: "24-12-2021",
-        ngayCapTheNhaBao: "30-09-2022",
+        hoKhauThuongTru: {diaChi: '', huyen: '', quan: '', tinh: ''},
+        hoTen: "",
+        hocVan: "",
+        lyLuanCT: "O",
+        ngayBoNhiem: "",
+        ngayCapCCCD: "",
+        ngayCapTheNhaBao: "",
         // ngayDuocTuyenDung: "21-07-2022",
-        ngayHetHanBoNhiem: "03-10-2022",
-        ngayThangNamSinh: "24-05-1998",
-        ngheNghiep: "Lập trình viên",
-        ngoaiNgu: "Anh",
-        noiCapCCCD: "CA  biên hòa",
-        noiOHienTai: {diaChi: '82/17 nguyen hong dao', huyen: 'Phường Tân Hòa', quan: 'Thành phố Hòa Bình', tinh: 'Tỉnh Hoà Bình'},
-        noiSinh: {huyen: 'Phường Yên Bình', quan: 'Thành phố Tam Điệp', tinh: 'Tỉnh Ninh Bình'},
-        queQuan: {huyen: 'Xã Ninh Hòa', quan: 'Huyện Hoa Lư', tinh: 'Tỉnh Ninh Bình'},
-        soDienThoai: "0327572323",
-        soDienThoaiNoiBo: "123456",
-        soTheNhaBao: "456987",
+        ngayHetHanBoNhiem: "",
+        ngayThangNamSinh: "",
+        ngheNghiep: "",
+        ngoaiNgu: "",
+        noiCapCCCD: "",
+        noiOHienTai: {diaChi: '', huyen: '', quan: '', tinh: ''},
+        noiSinh: {huyen: '', quan: '', tinh: ''},
+        queQuan: {huyen: '', quan: '', tinh: ''},
+        // soDienThoai: "0327572323",
+        soDienThoaiNoiBo: "",
+        soTheNhaBao: "",
         phongBanCVObj: [],
-        tenThuongGoi: "Chung",
-        theCoHieuLucDen: "31-10-2022",
-        theCoHieuLucTu: "01-10-2022",
-        tonGiao: "Công Giáo",
-        thanhPhanXuatThan: 'Con ông cháu cha',
+        tenThuongGoi: "",
+        theCoHieuLucDen: "",
+        theCoHieuLucTu: "",
+        tonGiao: "",
+        thanhPhanXuatThan: '',
     },
     phongBanChucVuArr: [],
     noiSinhTinh: "",
@@ -53,6 +53,7 @@ const initialState = {
     chucVu:[],
     to: [],
     avatar: "",
+    emailPhone: {}
 }
 
 const step1Slice = createSlice({
@@ -144,6 +145,10 @@ const step1Slice = createSlice({
         },
         setAvatar: (state,action)=>{
             state.avatar = action.payload;
+        },
+        setEmailPhone: (state,action)=>{
+            let {email, soDienThoai} = action.payload;
+            state.emailPhone = {email, soDienThoai}
         }
     }
 })
@@ -152,6 +157,6 @@ export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
 setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
-setHoKhauQuan } = step1Slice.actions;
+setHoKhauQuan, setEmailPhone } = step1Slice.actions;
 
 export default step1Slice.reducer;
