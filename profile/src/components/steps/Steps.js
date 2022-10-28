@@ -16,13 +16,15 @@ import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV, setAvatar, setIsCreateProfile, setIsOnLyCreateProfile } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
+import {userInforEmpty} from "../../ultils/defaultUserInfor"
 
 export default function StepsAntd() {
 
     const { Step } = Steps;
     const [current, setCurrent] = useState(0);
     let {nextStep, isNextStep} = useSelector(state => state.stepsReducer);
+    let {emailPhone} = useSelector(state => state.steps1Reducer);
     let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
     const {isLoading} = useSelector(state => state.loadingReducer);
     let {proID, userID} = useParams();
@@ -36,11 +38,12 @@ export default function StepsAntd() {
     useEffect(()=>{
       // lấy user_id từ param trên URL => call API lấy profile
       if(proID){
+        let {email, soDienThoai} = emailPhone;
         dispatch({
           type: GET_PROFILE_BY_ID,
           // user_id này là API cũ cần để lấy profile nhưng do API mới cần là pro_id 
           // nên truyền vào pro_id còn tên user_id thì giư để khỏi thay đổi code ở redux, saga
-          user_id: proID
+          data: {proID, email, soDienThoai}
         });
         dispatch(setIsOnLyCreateProfile(false))
         dispatch(setIsLoading(true));
@@ -51,7 +54,7 @@ export default function StepsAntd() {
 
     useEffect(()=>{
       if(userID){
-        console.log(userID)
+        // console.log(userID)
         dispatch(setIsCreateProfile(false))
         dispatch(setIsOnLyCreateProfile(true))
         dispatch(setUserProfileID({user_id: userID}))
@@ -79,6 +82,7 @@ export default function StepsAntd() {
         dispatch(removePBCV())
         dispatch(setUserProfileID({}))
         dispatch(setAvatar(""))
+        dispatch(setEmailPhone({}))
       }
     },[])
 

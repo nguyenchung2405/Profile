@@ -24,9 +24,10 @@ export default function SoYeuLyLich(props) {
     let {phongBanChucVuArr, values, noiSinhTinh, 
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan,queQuanHuyen,
         noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile , isNavigateTo404, 
-        phongBan : depList, chucVu : posList, hoKhauTinh, hoKhauQuan ,hoKhauHuyen} = useSelector(state => state.steps1Reducer);
-        const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState([]);
-        let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
+        phongBan : depList, chucVu : posList, hoKhauTinh, hoKhauQuan ,hoKhauHuyen
+        } = useSelector(state => state.steps1Reducer);
+    const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState([]);
+    let [phongBanCVOb,setPhongBanCVOb] = useState({phongBan : "", chucVu: ""});
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({...values});
@@ -581,11 +582,17 @@ export default function SoYeuLyLich(props) {
             return valueForm[name]
         }
     }
+
+    const showImage = ()=>{
+        if(user_id){
+            return <Image />
+        }
+    }
     
     return (
         <div className="SoYeuLyLich">
             <div className="SoYeuLyLich__left">
-                <Image />
+                {showImage()}
                 <ThongTinCoBan
                 setValueIntoForm={setValueIntoForm}
                 validateField={validateField}
