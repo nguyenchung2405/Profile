@@ -89,10 +89,25 @@ export default function ThongTinCoBan(props) {
                         }
                     }}
                 onChange={(date,dateString)=>{
-                    setValueForm({
-                        ...valueForm,
-                        ngayThangNamSinh: dateString
-                    })
+                    let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
+                    console.log(namSinh)
+                    let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
+                    let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
+                    console.log(namHienTai)
+                    if(namHienTai - namSinh >= 18){
+                        setValueForm({
+                            ...valueForm,
+                            ngayThangNamSinh: dateString
+                        })
+                    } else if(dateString === "") {
+                        setValueForm({
+                            ...valueForm,
+                            ngayThangNamSinh: dateString
+                        })
+                    } else {
+                        alert(`Ngày tháng năm sinh phải từ 31/12/${namHienTai - 18} trở về trước`)
+                    }
+                   
                 }}
                 placeholder=""
                 suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +119,7 @@ export default function ThongTinCoBan(props) {
             ? showRequiredAlert() 
             : ""}
         </div>
-        <div className="SYLL__left__field">
+        <div className="SYLL__left__field gender">
             <label>Giới tính:</label>
                 <Radio.Group onChange={handleChangeValueRadio} value={setValueIntoForm("gioiTinh")}>
                     <Radio value={1}>Nam</Radio>

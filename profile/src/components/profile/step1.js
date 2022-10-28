@@ -30,6 +30,7 @@ export default function SoYeuLyLich(props) {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({...values});
+    console.log(valueForm)
 
     const closeModal = ()=>{
         setIsShowModal(false)
@@ -49,6 +50,13 @@ export default function SoYeuLyLich(props) {
     useEffect(()=>{
         setValueForm({
             ...valueForm,
+            noiSinh: { ...valueForm.noiSinh, huyen: "" }
+        });
+    },[noiSinhHuyen])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
             queQuan: { ...valueForm.queQuan, quan: "", huyen: "" }
         });
     },[queQuanQuan])
@@ -56,9 +64,23 @@ export default function SoYeuLyLich(props) {
     useEffect(()=>{
         setValueForm({
             ...valueForm,
+            queQuan: { ...valueForm.queQuan, huyen: "" }
+        });
+    },[queQuanHuyen])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
             noiOHienTai: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
         });
     },[noiOQuan])
+    
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...valueForm.noiOHienTai, huyen: "" }
+        });
+    },[noiOHuyen])
 
     useEffect(()=>{
         setValueForm({
@@ -66,6 +88,31 @@ export default function SoYeuLyLich(props) {
             hoKhauThuongTru: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
         });
     },[hoKhauQuan])
+
+    useEffect(()=>{
+        setValueForm({
+            ...valueForm,
+            hoKhauThuongTru: { ...valueForm.noiOHienTai, huyen: "" }
+        });
+    },[hoKhauHuyen])
+
+    useEffect(()=>{
+        if(valueForm.ngayBoNhiem === ""){
+            setValueForm({
+                ...valueForm,
+                ngayHetHanBoNhiem: ""
+            })
+        }
+    },[valueForm.ngayBoNhiem])
+    
+    useEffect(()=>{
+        if(valueForm.theCoHieuLucTu === ""){
+            setValueForm({
+                ...valueForm,
+                theCoHieuLucDen: ""
+            })
+        }
+    },[valueForm.theCoHieuLucTu])
     
     useEffect(()=>{
         // console.log("is navigate")
@@ -498,7 +545,7 @@ export default function SoYeuLyLich(props) {
             hoKhauThuongTru: {...hoKhauThuongTruNew}
         });
     }
-
+    // console.log(phongBanChucVuArr)
     const getValueSelect_ChucVu = (value)=>{
         if(phongBanCVOb.phongBan !== ""){
             let newPBCV_Ob = {...phongBanCVOb, chucVu: value}
@@ -740,10 +787,22 @@ export default function SoYeuLyLich(props) {
                             }
                         }}
                         onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                ngayHetHanBoNhiem: dateString
-                            })
+                            let ngayBoNhiemINT = Date.parse(moment(valueForm.ngayBoNhiem, "DD-MM-YYYY"))
+                            let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
+                            if(ngayHetBoNhiemINT > ngayBoNhiemINT){
+                                setValueForm({
+                                    ...valueForm,
+                                    ngayHetHanBoNhiem: dateString
+                                })
+                            } else if(ngayHetBoNhiemINT < ngayBoNhiemINT) {
+                                alert("Ngày hết hạn bổ nhiệm phải lớn hơn ngày bổ nhiệm.")
+                            } else {
+                                setValueForm({
+                                    ...valueForm,
+                                    ngayHetHanBoNhiem: ""
+                                })
+                                alert("Ngày bổ nhiêm không được để trống")
+                            }
                         }}
                         placeholder=""
                         suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -902,10 +961,22 @@ export default function SoYeuLyLich(props) {
                             }
                         }}
                         onChange={(date,dateString)=>{
-                            setValueForm({
-                                ...valueForm,
-                                theCoHieuLucDen: dateString
-                            })
+                            let theCoHieuLucTuINT = Date.parse(moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY"))
+                            let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
+                            if(theCoHieuLucDenINT > theCoHieuLucTuINT){
+                                setValueForm({
+                                    ...valueForm,
+                                    theCoHieuLucDen: dateString
+                                })
+                            } else if(theCoHieuLucDenINT < theCoHieuLucTuINT) {
+                                alert("Ngày thẻ có hiệu lực đến phải lớn hơn ngày thẻ có hiệu lực từ.")
+                            } else {
+                                setValueForm({
+                                    ...valueForm,
+                                    theCoHieuLucDen: ""
+                                })
+                                alert("Ngày thẻ có hiệu lực từ không được để trống")
+                            }
                         }}
                         placeholder=""
                         suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">

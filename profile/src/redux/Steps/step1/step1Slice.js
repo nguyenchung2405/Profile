@@ -65,7 +65,10 @@ const step1Slice = createSlice({
             if(payload.length > 0){
                 state.phongBanChucVuArr = payload;
             } else {
-                state.phongBanChucVuArr.push(payload)
+                let index = state.phongBanChucVuArr.findIndex(PB_CV => PB_CV.phongBan === payload.phongBan && PB_CV.chucVu === payload.chucVu);
+                if(index === -1){
+                    state.phongBanChucVuArr.push(payload)
+                }
             }
         },
         removePBCV: (state,action)=>{
