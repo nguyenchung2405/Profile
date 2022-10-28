@@ -31,7 +31,7 @@ export default function SoYeuLyLich(props) {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({...values});
-    console.log(valueForm)
+    // console.log(valueForm)
 
     const closeModal = ()=>{
         setIsShowModal(false)
