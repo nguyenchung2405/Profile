@@ -5,7 +5,7 @@ const getPositionList = async (req,res)=>{
     try {
         let {per_page} = req.query;
         const result = await axios({
-            url: `${local}/position-management/?per_page=${per_page}`,
+            url: `${local}/position-management/?page_size=${per_page}`,
             method: "GET"
         });
         res.send(result.data);

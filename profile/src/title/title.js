@@ -23,3 +23,4 @@ export const GET_DEP_POS = "GET_DEPARTMENT_POSITION";
 export const GET_PART = "GET_PART";
 export const GET_AVATAR = "GET_AVATAR";
 export const DELETE_DEP_POS = "DELETE_DEP_POS";
+export const GET_DEPARTMENT_LIST = "GET_DEPARTMENT_LIST";

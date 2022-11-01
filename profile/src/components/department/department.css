@@ -1,0 +1,19 @@
+p.dep__children {
+    margin-bottom: 0;
+}
+
+.table__dep__name {
+    width: 300px;
+}
+
+.table__dep__address {
+    width: 700px;
+}
+
+.table__dep__phone {
+    width: 120px;
+}
+
+.table__dep__children {
+    width: 300px;
+}

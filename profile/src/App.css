@@ -190,6 +190,16 @@ div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) 
     font-size: 16px;
 }
 
+.sidebar_SubMenu__XZeb6 ul.ant-menu li.ant-menu-item {
+    align-items: center;
+}
+
+.sidebar_SubMenu__XZeb6 ul.ant-menu li.ant-menu-item > svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
 .sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
     font-weight: bold;
 }
@@ -206,14 +216,21 @@ div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) 
     background-color: white;
 }
 
-.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content, 
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item{
+    transition: all .3s;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected svg, 
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover svg,
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected span.ant-menu-title-content{
     color: black;
 }
 
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item span {
     padding-left: 6px;
+    margin-left: 0;
 }
 
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu div svg {
