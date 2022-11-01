@@ -31,7 +31,7 @@ export default function SoYeuLyLich(props) {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({...values});
-    console.log(valueForm)
+    // console.log(valueForm)
 
     const closeModal = ()=>{
         setIsShowModal(false)
@@ -585,6 +585,11 @@ export default function SoYeuLyLich(props) {
 
     const showImage = ()=>{
         if(user_id){
+            window.addEventListener("beforeunload", function (e) {
+                var confirmationMessage = "\o/";
+                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+                return confirmationMessage;                            //Webkit, Safari, Chrome
+            });
             return <Image />
         }
     }

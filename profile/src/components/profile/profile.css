@@ -1055,19 +1055,19 @@ input#diaChi {
     width: 250px;
 }
 
-td.tableProfiles__thaoTac div {
+td.tableProfiles__thaoTac div, div.thaoTac__Edit {
     display: flex;
     justify-content: center;
 }
 
-.tableProfiles__thaoTac button {
+.tableProfiles__thaoTac button, button.thaoTac__Edit__btn {
     padding: 2px;
     display: flex;
     align-items: center;
     background-color: #459C60;
 }
 
-.tableProfiles__thaoTac svg {
+.tableProfiles__thaoTac svg, button.thaoTac__Edit__btn svg {
     color: white;
     width: 20px;
     height: 100%;
