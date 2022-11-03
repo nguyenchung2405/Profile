@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     tableDepList: [],
-    total: ""
+    total: "",
+    depInfor: {note: "", parent_id: null},
 }
 
 const tableDepListSlice = createSlice({
@@ -13,9 +14,13 @@ const tableDepListSlice = createSlice({
             let {tableList, total} = action.payload;
             state.tableDepList = tableList;
             state.total = total;
+        },
+        setDepInfor: (state,action)=>{
+            let data = action.payload;
+            state.depInfor = data;
         }
     }
 });
 
-export const {setDepList} = tableDepListSlice.actions;
+export const {setDepList, setDepInfor} = tableDepListSlice.actions;
 export default tableDepListSlice.reducer;

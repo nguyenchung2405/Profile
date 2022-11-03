@@ -1055,7 +1055,7 @@ input#diaChi {
     width: 250px;
 }
 
-td.tableProfiles__thaoTac div, div.thaoTac__Edit {
+td.tableProfiles__thaoTac div {
     display: flex;
     justify-content: center;
 }
@@ -1065,6 +1065,8 @@ td.tableProfiles__thaoTac div, div.thaoTac__Edit {
     display: flex;
     align-items: center;
     background-color: #459C60;
+    height: 28px;
+    width: 28px;
 }
 
 .tableProfiles__thaoTac svg, button.thaoTac__Edit__btn svg {

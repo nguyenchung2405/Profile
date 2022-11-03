@@ -8,7 +8,7 @@ export default function Loading() {
         <circle cx="50" cy="50" r="0" fill="none" stroke="#e90c59" strokeWidth="4">
           <animate attributeName="r" repeatCount="indefinite" dur="0.8695652173913042s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="0s"></animate>
           <animate attributeName="opacity" repeatCount="indefinite" dur="0.8695652173913042s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="0s"></animate>
-        </circle><circle cx="50" cy="50" r="0" fill="none" stroke="#46dff0" stroke-width="4">
+        </circle><circle cx="50" cy="50" r="0" fill="none" stroke="#46dff0" strokeWidth="4">
           <animate attributeName="r" repeatCount="indefinite" dur="0.8695652173913042s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.4347826086956521s"></animate>
           <animate attributeName="opacity" repeatCount="indefinite" dur="0.8695652173913042s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.4347826086956521s"></animate>
         </circle>

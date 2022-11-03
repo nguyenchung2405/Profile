@@ -1,7 +1,7 @@
 import { call, takeLatest, put } from "redux-saga/effects";
-import { GET_DEPARTMENT_LIST } from "../../title/title";
-import { getDepPosAPI } from "../API/department";
-import { setDepList } from "../Slice/departments.slice";
+import { CREATE_DEPARTMENT, GET_DEPARTMENT_INFOR, GET_DEPARTMENT_LIST, UPDATE_DEPARTMENT } from "../../title/title";
+import { createDepartmentAPI, getDepInforAPI, getDepPosAPI, updateDepartmentInforAPI } from "../API/department";
+import { setDepInfor, setDepList } from "../Slice/departments.slice";
 import { setIsLoading } from "../Slice/loading";
 
 function* getDepList(payload){
@@ -16,6 +16,28 @@ function* getDepList(payload){
     }
 }
 
+function* getDepartmentInfor(payload){
+    let {dep_id} = payload;
+    let {code, message, data} = yield call(getDepInforAPI, dep_id)
+    if(code == 200 && message === "Success"){
+        yield put(setDepInfor(data))
+    }
+}
+
+function* updateDepartment(payload){
+    let {data} = payload;
+    yield call(updateDepartmentInforAPI, data)
+}
+
+function* createDepartment(payload){
+    let {data} = payload;
+    // console.log(data)
+    yield call(createDepartmentAPI, data)
+}
+
 export default function* Department(){
     yield takeLatest(GET_DEPARTMENT_LIST, getDepList)
+    yield takeLatest(GET_DEPARTMENT_INFOR, getDepartmentInfor)
+    yield takeLatest(UPDATE_DEPARTMENT, updateDepartment)
+    yield takeLatest(CREATE_DEPARTMENT, createDepartment)
 }

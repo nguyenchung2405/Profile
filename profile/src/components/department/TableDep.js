@@ -1,44 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Table } from 'antd'
+import { Table } from 'antd'
 import Loading from '../Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading } from '../../redux/Slice/loading';
 import { GET_DEPARTMENT_LIST } from '../../title/title';
 import "./department.css"
 import {MdOutlineModeEditOutline} from "react-icons/md"
-const columnss = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'parent_id',
-    dataIndex: 'parent_id',
-    key: 'parent_id',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Action',
-    dataIndex: '',
-    key: 'x',
-    render: () => <a>Delete</a>,
-  },
-];
+import {AiOutlineUserAdd} from "react-icons/ai"
+import { useNavigate } from 'react-router-dom';
+
 export default function TableDep() {
 
     const {Column} = Table;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(10);
     const {isLoading} = useSelector(state => state.loadingReducer);
-    const {tableDepList, total} = useSelector(state => state.departmentsReducer)
+    const {tableDepList} = useSelector(state => state.departmentsReducer)
     let [newTableDepList, setNewTableDepList] = useState([]);
-
+    // console.log(newTableDepList)
     useEffect(()=>{
         /* lấy danh sách user về và render ra Table */
         dispatch({
@@ -50,28 +31,23 @@ export default function TableDep() {
 
     useEffect(()=>{
       let addKeyToData = tableDepList.map((child,index)=>{
+        let {children, ...rest} = child;
         let childrenss =[]
-        if(child.parent_id=== null) {
-          if(child.children.length>0) {
-            childrenss = child.children.map((item,index)=>{
+          if(children.length>0) {
+            childrenss = children.map((item,index)=>{
               return {
                 ...item,
                 key: index+100
               }
             })
           }
-          
           return {
-            ...child,
-            name: child.name + index,
-            children:childrenss,
-            key: index+1
+            ...rest,
+            childrens: [...childrenss],
+            key: index
           }
-        }
-      
       });
       setNewTableDepList([...addKeyToData])
-      // console.log(addKeyToData)
     }, [tableDepList])
     
     const showLoading = ()=>{
@@ -80,88 +56,65 @@ export default function TableDep() {
         }
     }
 
-  
-    const data = [
-      {
-        key: 1,
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-      },
-      {
-        key: 2,
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-      },
-      {
-        key: 3,
-        name: 'Not Expandable',
-        age: 29,
-        address: 'Jiangsu No. 1 Lake Park',
-        description: 'This not expandable',
-      },
-      {
-        key: 4,
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-      },
-    ];
+    const dataOfTable = ()=>{
+      let arrDepReturn =[];
+      if(newTableDepList.length > 0){
+        for(let dep of newTableDepList){
+          if(dep.parent_id === null){
+            arrDepReturn.push(dep)
+          }
+        }
+      } else {
+        return null;
+      }
+      return arrDepReturn
+    }
+
   return (
-    
-    
     <div className="table__dep tableProfiles">
         {showLoading()}
-        {console.log(newTableDepList)}
+        <div className="tools">
+          <button className="create_acc_profile" onClick={()=>{
+            navigate("/hr/department/create")
+          }}>
+            <AiOutlineUserAdd />
+            Tạo
+          </button>
+        </div>
         <Table
-        columns={columnss}
-        // dataSource ={data}
-          dataSource = {newTableDepList.length > 0 ? newTableDepList : ""}
-          // dataSource = {tableDepList.map((item,index)=>{
-
-          //     return {
-          //       key:index,
-          //       ...item
-          //     }
-          // })}
+          dataSource = {dataOfTable() }
           expandable={{
             expandedRowRender: (record)=>{
-              // return <Table columns={columnss} dataSource={record.children} pagination={false} />;
-             return record.name
-              // if(record.children.length > 0){
-              //   return record.children.map((child, index)=>{
-              //     return <p className="dep__children" key={index}>
-              //       {child.name}
-              //     </p>  
-              //   })
-              // }
-              // console.log(record)
-
-              // let htmlRender= [];
-              // for(let property in record){
-              //   // console.log(child)
-              //   if(property === "children" && record[property].length > 0){
-              //     for(let child of record[property]){
-              //       let html = <p className="dep__children">{child.name}</p>;
-              //       htmlRender.push(html);
-              //     }
-                  
-              //   }
-              // }
-              // if(htmlRender.length > 0){
-              //   console.log(htmlRender)
-              //   return htmlRender;
-              // }
+              if(record.childrens.length > 0){
+                return record.childrens.map((child, index)=>{
+                  return <div className="dep__children__div">
+                      <div className="dep__children__infor">
+                          <p className="dep__children" key={index}>
+                            {child.name}
+                          </p>  
+                          <p className="dep__children" key={index}>
+                            {child.address}
+                          </p>  
+                          <p className="dep__children" key={index}>
+                            {child.phone}
+                          </p>    
+                      </div>
+                      <div className="thaoTac__Edit">
+                          <button className="thaoTac__Edit__btn" onClick={()=>{
+                              navigate(`/hr/department/${child.id}`);
+                          }}>
+                            <MdOutlineModeEditOutline/>
+                          </button>
+                      </div>
+                  </div>
+                })
+              }
             },
-            // expandRowByClick: true,
-            // showExpandColumn: true,
+            expandRowByClick: true,
+            showExpandColumn: true,
             rowExpandable: (record)=>{
-              return record.name !=="Not Expandable"
-              // return record?.children?.length > 0
+              // console.log(record)
+              return record.childrens.length > 0
             }
           }}
           pagination={{
@@ -170,7 +123,7 @@ export default function TableDep() {
               locale: { items_per_page: "" },
               defaultCurrent: 1,
               showSizeChanger: true,
-              total: total,
+              total: dataOfTable()?.length,
               pageSizeOptions: [10,50,100],
               onChange: (page, pageNumber) => {
                 setPageNumber(pageNumber);
@@ -184,7 +137,29 @@ export default function TableDep() {
               },
           }}
            >
-        
+           <Column className="table__dep__name" dataIndex= "name" key="name" title="Tên phòng ban" />
+           <Column className="table__dep__address" dataIndex= "address" key="address" title="Địa chỉ" />
+           <Column className="table__dep__phone" dataIndex= "phone" key="phone" title="Số điện thoại" />
+           <Column className="table__dep__children" key="children" title="Phòng ban con"
+             render={(text,record,index)=>{
+               if(record.childrens.length > 0){
+                 return record.childrens.map((child, index)=>{
+                   return <p className="dep__children" key={index}>
+                        {child.name}
+                      </p>
+                 })
+               }
+             }}
+           />
+           <Column className="table__dep__thaoTac" key="thao tac" render={(text,record,index)=>{
+               return <div className="thaoTac__Edit">
+                     <button className="thaoTac__Edit__btn" onClick={()=>{
+                        navigate(`/hr/department/${record.id}`);
+                      }}>
+                         <MdOutlineModeEditOutline/>
+                     </button>
+               </div>
+           }} />
           </Table>
     </div>
   )
