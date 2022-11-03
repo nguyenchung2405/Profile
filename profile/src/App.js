@@ -6,6 +6,7 @@ import {Routes, Route} from "react-router-dom"
 import PageNotFound from './components/PageNotFound';
 import TableProfiles from './components/profile/tableProfiles';
 import TableDep from './components/department/TableDep';
+import DepInfor from './components/department/DepInfor';
 
 function App() {
   return (
@@ -16,7 +17,10 @@ function App() {
           <Route path="/hr/profile/:proID" element={<StepsAntd />} />
           <Route path="/hr/profile/create" element={<StepsAntd />} />
           <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
+          
           <Route path="/hr/department" element={<TableDep />} />
+          <Route path="/hr/department/create" element={<DepInfor />} />
+          <Route path="/hr/department/:depID" element={<DepInfor />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
     </div>
