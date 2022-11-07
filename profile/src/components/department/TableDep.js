@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'antd'
+import { Table, message } from 'antd'
 import Loading from '../Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading } from '../../redux/Slice/loading';
@@ -8,6 +8,7 @@ import "./department.css"
 import {MdOutlineModeEditOutline} from "react-icons/md"
 import {AiOutlineUserAdd} from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
+import DepInfor from './DepInfor';
 
 export default function TableDep() {
 
@@ -17,9 +18,11 @@ export default function TableDep() {
     const [page, setPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(10);
     const {isLoading} = useSelector(state => state.loadingReducer);
-    const {tableDepList} = useSelector(state => state.departmentsReducer)
+    const {tableDepList, message: status} = useSelector(state => state.departmentsReducer)
     let [newTableDepList, setNewTableDepList] = useState([]);
-    // console.log(newTableDepList)
+    let [isShowModal, setIsShowModal] = useState(false);
+    let [dataToModal, setDataToModal] = useState()
+    // console.log(tableDepList)
     useEffect(()=>{
         /* lấy danh sách user về và render ra Table */
         dispatch({
@@ -33,7 +36,7 @@ export default function TableDep() {
       let addKeyToData = tableDepList.map((child,index)=>{
         let {children, ...rest} = child;
         let childrenss =[]
-          if(children.length>0) {
+          if(children?.length>0) {
             childrenss = children.map((item,index)=>{
               return {
                 ...item,
@@ -49,6 +52,14 @@ export default function TableDep() {
       });
       setNewTableDepList([...addKeyToData])
     }, [tableDepList])
+
+    useEffect(()=>{
+      if(status.message !== "" && status.message === "thành công"){
+        message.success("Thao tác thành công")
+      } else if(status.message !== "" && status.message === "thất bại") {
+        message.error("Thao tác thất bại")
+      }
+    }, [status])
     
     const showLoading = ()=>{
         if(isLoading){
@@ -75,7 +86,14 @@ export default function TableDep() {
         {showLoading()}
         <div className="tools">
           <button className="create_acc_profile" onClick={()=>{
-            navigate("/hr/department/create")
+            // navigate("/hr/department/create")
+            setDataToModal({
+              name: "",
+              address: "",
+              phone: "",
+              note: ""
+            })
+            setIsShowModal(true)
           }}>
             <AiOutlineUserAdd />
             Tạo
@@ -101,7 +119,9 @@ export default function TableDep() {
                       </div>
                       <div className="thaoTac__Edit">
                           <button className="thaoTac__Edit__btn" onClick={()=>{
-                              navigate(`/hr/department/${child.id}`);
+                              // navigate(`/hr/department/${child.id}`);
+                              setDataToModal(child)
+                              setIsShowModal(true)
                           }}>
                             <MdOutlineModeEditOutline/>
                           </button>
@@ -110,7 +130,7 @@ export default function TableDep() {
                 })
               }
             },
-            expandRowByClick: true,
+            expandRowByClick: false,
             showExpandColumn: true,
             rowExpandable: (record)=>{
               // console.log(record)
@@ -154,13 +174,16 @@ export default function TableDep() {
            <Column className="table__dep__thaoTac" key="thao tac" render={(text,record,index)=>{
                return <div className="thaoTac__Edit">
                      <button className="thaoTac__Edit__btn" onClick={()=>{
-                        navigate(`/hr/department/${record.id}`);
+                        // navigate(`/hr/department/${record.id}`);
+                        setDataToModal(record)
+                        setIsShowModal(true)
                       }}>
                          <MdOutlineModeEditOutline/>
                      </button>
                </div>
            }} />
           </Table>
+          <DepInfor isShowModal={isShowModal} setIsShowModal={setIsShowModal} dataToModal={dataToModal} />
     </div>
   )
 }

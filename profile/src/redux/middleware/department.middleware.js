@@ -1,7 +1,7 @@
 import { call, takeLatest, put } from "redux-saga/effects";
 import { CREATE_DEPARTMENT, GET_DEPARTMENT_INFOR, GET_DEPARTMENT_LIST, UPDATE_DEPARTMENT } from "../../title/title";
 import { createDepartmentAPI, getDepInforAPI, getDepPosAPI, updateDepartmentInforAPI } from "../API/department";
-import { setDepInfor, setDepList } from "../Slice/departments.slice";
+import { addDepartmentSlice, setDepInfor, setDepList, setMessage, updateDepartmentSlice } from "../Slice/departments.slice";
 import { setIsLoading } from "../Slice/loading";
 
 function* getDepList(payload){
@@ -26,13 +26,29 @@ function* getDepartmentInfor(payload){
 
 function* updateDepartment(payload){
     let {data} = payload;
-    yield call(updateDepartmentInforAPI, data)
+    let result = yield call(updateDepartmentInforAPI, data)
+    let {code, message, data: dataResponseFromServer} = result;
+    if(code == 200 && message === "Success"){
+        yield put(updateDepartmentSlice(dataResponseFromServer))
+        yield put(setMessage({message: "thành công"}))
+    } else {
+        yield put(setMessage({message: "thất bại"}))
+    }
 }
 
 function* createDepartment(payload){
     let {data} = payload;
     // console.log(data)
-    yield call(createDepartmentAPI, data)
+    let result = yield call(createDepartmentAPI, data)
+    console.log(result)
+    let {code, message, data: dataResponseFromServer} = result;
+    if(code == 200 && message === "Success"){
+        console.log(dataResponseFromServer)
+        yield put(addDepartmentSlice(dataResponseFromServer))
+        yield put(setMessage({message: "thành công"}))
+    } else {
+        yield put(setMessage({message: "thất bại"}))
+    }
 }
 
 export default function* Department(){
