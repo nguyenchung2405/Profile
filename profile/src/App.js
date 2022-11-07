@@ -19,8 +19,6 @@ function App() {
           <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
           
           <Route path="/hr/department" element={<TableDep />} />
-          <Route path="/hr/department/create" element={<DepInfor />} />
-          <Route path="/hr/department/:depID" element={<DepInfor />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
     </div>
