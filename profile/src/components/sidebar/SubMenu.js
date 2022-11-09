@@ -129,6 +129,8 @@ export default function SubMenu() {
                 navigate("/hr/profile")
             } else if(e.key === "2"){
                 navigate("/hr/department")
+            } else if(e.key === "3"){
+                navigate("/hr/position");
             }
          }}
         />

@@ -1,0 +1,83 @@
+.table__pos__name {
+    width: 920px;
+}
+
+.table__pos__type {
+    width: 420px;
+}
+
+.pos__infor form div label {
+    display: block;
+}
+
+.pos__infor form > div {
+    margin-bottom: 20px;
+}
+
+.pos__infor form > div:last-child {
+    margin: 0;
+}
+
+.pos__infor form .ant-select-selector{
+    align-items: center;
+}
+
+.table__position .tools {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.pos__type {
+    display: flex;
+}
+
+.delete__btn {
+    background-color: red;
+    transition: background-color 0.8s;
+}
+
+.delete__btn:hover {
+    background-color: rgba(255, 86, 34, 1);
+}
+
+div.table__position div.pos__type button.delete_pos_type {
+    background-color: red;
+}
+
+div.table__position div.pos__type button.delete_pos_type:hover {
+    border: 1px solid red;
+    background-color: white;
+    color: red;
+}
+
+.update__btn {
+    background-color: #00bcd4;
+    transition: background-color 0.8s;
+}
+
+.update__btn:hover {
+    background-color: #2196f3;
+}
+
+div.table__position div.pos__type button.update_pos_type {
+    background-color: #00bcd4;
+}
+
+div.table__position div.pos__type button.update_pos_type:hover {
+    border: 1px solid #00bcd4;
+    background-color: white;
+    color: #00bcd4;
+}
+
+.pos__type__modal__field label {
+    display: block;
+}
+
+.pos__type__modal__field {
+    margin-bottom: 20px;
+}
+
+.pos__type__modal__content {
+    text-align: center;
+    padding-bottom: 20px;
+}

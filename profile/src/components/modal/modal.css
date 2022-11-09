@@ -52,7 +52,7 @@ div .ant-modal-root .ant-modal {
 }
 
 .ant-modal-title {
-    margin-top: 13px;
+    /* margin-top: 13px; */
     text-align: center;
     font-size: 24px;
     font-weight: bold;
