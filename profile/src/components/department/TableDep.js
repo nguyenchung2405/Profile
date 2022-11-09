@@ -40,7 +40,7 @@ export default function TableDep() {
             childrenss = children.map((item,index)=>{
               return {
                 ...item,
-                key: index+100
+                key: index+100+ child.id
               }
             })
           }
@@ -86,12 +86,12 @@ export default function TableDep() {
         {showLoading()}
         <div className="tools">
           <button className="create_acc_profile" onClick={()=>{
-            // navigate("/hr/department/create")
             setDataToModal({
               name: "",
               address: "",
               phone: "",
-              note: ""
+              note: "",
+              title: "Tạo phòng ban"
             })
             setIsShowModal(true)
           }}>
@@ -105,21 +105,22 @@ export default function TableDep() {
             expandedRowRender: (record)=>{
               if(record.childrens.length > 0){
                 return record.childrens.map((child, index)=>{
-                  return <div className="dep__children__div">
+                  return <div className="dep__children__div" key={index + child.id}>
                       <div className="dep__children__infor">
-                          <p className="dep__children" key={index}>
+                          <p className="dep__children" >
                             {child.name}
                           </p>  
-                          <p className="dep__children" key={index}>
+                          <p className="dep__children">
                             {child.address}
                           </p>  
-                          <p className="dep__children" key={index}>
+                          <p className="dep__children">
                             {child.phone}
                           </p>    
                       </div>
                       <div className="thaoTac__Edit">
                           <button className="thaoTac__Edit__btn" onClick={()=>{
                               // navigate(`/hr/department/${child.id}`);
+                              child.title = "Chỉnh sửa phòng ban"
                               setDataToModal(child)
                               setIsShowModal(true)
                           }}>
@@ -164,7 +165,7 @@ export default function TableDep() {
              render={(text,record,index)=>{
                if(record.childrens.length > 0){
                  return record.childrens.map((child, index)=>{
-                   return <p className="dep__children" key={index}>
+                   return <p className="dep__children" key={index + child.id}>
                         {child.name}
                       </p>
                  })
@@ -175,6 +176,7 @@ export default function TableDep() {
                return <div className="thaoTac__Edit">
                      <button className="thaoTac__Edit__btn" onClick={()=>{
                         // navigate(`/hr/department/${record.id}`);
+                        record.title = "Chỉnh sửa phòng ban"
                         setDataToModal(record)
                         setIsShowModal(true)
                       }}>

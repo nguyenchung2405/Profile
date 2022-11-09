@@ -3,17 +3,100 @@ const local =  "http://dev.profilebe.tuoitre.vn";
 
 const getPositionList = async (req,res)=>{
     try {
-        let {per_page} = req.query;
-        const result = await axios({
-            url: `${local}/position-management/?page_size=${per_page}`,
-            method: "GET"
-        });
-        res.send(result.data);
+        let {per_page, page, page_size} = req.query;
+        let result;
+        if(per_page){
+            result = await axios({
+                url: `${local}/position-management/?page_size=${per_page}`,
+                method: "GET"
+            });
+            res.send(result.data);
+        } else if(page && page_size) {
+            result = await axios({
+                url: `${local}/position-management/?page_size=${page_size}&page=${page}&sort_by=id&order=desc`,
+                method: "GET"
+            });
+            res.send(result.data);
+        }
     } catch (error) {
-        console.log(error)
+        res.send(error)
+    }
+}
+
+const getPositionTypeList = async (req,res)=>{
+    try {
+        let {page_size, page, sort_by, order} = req.query;
+        const result = await axios({
+            url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
+            method: "GET"
+        })
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const createPosType = async (req,res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/position-types`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: req.body
+        })
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const updatePosType = async (req,res)=>{
+    try {
+        let {pos_id} = req.params;
+        let {identifier, level, description} = req.body;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/position-types/${pos_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: {
+                identifier, 
+                level, 
+                description
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const deletePosType = async (req,res)=>{
+    try {
+        let {pos_id} = req.params;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/position-types/${pos_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            },
+        })
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
     }
 }
 
 module.exports = {
-    getPositionList
+    getPositionList,
+    getPositionTypeList,
+    createPosType,
+    updatePosType,
+    deletePosType
 }

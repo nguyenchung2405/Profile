@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Select, Modal } from 'antd';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_DEPARTMENT, GET_DEPARTMENT_INFOR, UPDATE_DEPARTMENT } from '../../title/title';
+import { CREATE_DEPARTMENT, UPDATE_DEPARTMENT } from '../../title/title';
 
 export default function DepInfor(props) {
 
@@ -10,7 +9,6 @@ export default function DepInfor(props) {
     let  depID = depInfor?.id;
     const {Option} = Select;
     const dispatch = useDispatch();
-    // let {depInfor} = useSelector(state => state.departmentsReducer);
     const {tableDepList} = useSelector(state => state.departmentsReducer)
     let [formValue, setFormValue] = useState({});
     let [validate, setValidate] = useState({
@@ -146,8 +144,11 @@ export default function DepInfor(props) {
     }
 
   return (
-    <Modal title="Chỉnh sửa phòng ban" 
+    <Modal title={depInfor?.title}
     footer={null}
+    closeIcon={<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.61719 6.5L13.4609 11.3438C13.5911 11.474 13.5911 11.6172 13.4609 11.7734L12.5625 12.6719C12.4062 12.8021 12.263 12.8021 12.1328 12.6719L11.3125 11.8125L7.28906 7.82812L2.44531 12.6719C2.3151 12.8021 2.17188 12.8021 2.01562 12.6719L1.11719 11.7734C0.986979 11.6172 0.986979 11.474 1.11719 11.3438L5.96094 6.5L1.11719 1.65625C0.986979 1.52604 0.986979 1.38281 1.11719 1.22656L2.01562 0.328125C2.17188 0.197917 2.3151 0.197917 2.44531 0.328125L7.28906 5.17188L12.1328 0.328125C12.263 0.197917 12.4062 0.197917 12.5625 0.328125L13.4609 1.22656C13.5911 1.38281 13.5911 1.52604 13.4609 1.65625L12.6016 2.47656L8.61719 6.5Z" fill="black"/>
+        </svg>}
     open={isShowModal} 
     onCancel={handleCancel}>
         <div className="dep__infor">
@@ -179,13 +180,10 @@ export default function DepInfor(props) {
                     value={setValueField("note")}
                     onChange={handleChangeInput} ></textarea>
                 </div>
-                
                 {showDepParentSelect()}
                 {renderButton()}
-                
             </form>
         </div>
-    </Modal>
-    
+    </Modal> 
   )
 }
