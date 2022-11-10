@@ -81,3 +81,32 @@ div.table__position div.pos__type button.update_pos_type:hover {
     text-align: center;
     padding-bottom: 20px;
 }
+
+.table__position .tools button svg {
+    margin-right: 3px;
+}
+
+.pos__type > button {
+    margin-right: 5px;
+}
+
+.pos__type > button:last-child {
+    margin-right: 0px;
+}
+
+button.thaoTac__Delete__btn {
+    background-color: #ff0000;
+    margin-left: 5px;
+}
+
+div.ant-popover-message {
+    display: flex;
+    /* align-items: center; */
+}
+
+div.ant-popover-message svg {
+    color: #ff0000;
+    margin-right: 3px;
+    width: 25px;
+    height: 25px;
+}

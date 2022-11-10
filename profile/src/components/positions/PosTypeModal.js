@@ -18,16 +18,7 @@ export default function PosTypeModal(props) {
         })
     }, [dispatch])
 
-    useEffect(()=>{
-        if(!isShowTypeModal){
-            setValueField({
-                identifier: "",
-                level: "",
-                description: "",
-                select: ""
-            })
-        }
-    },[isShowTypeModal])
+    
 
     useEffect(()=>{
         let {msg, type} = notification;
@@ -40,6 +31,12 @@ export default function PosTypeModal(props) {
 
     const handleCancel = () => {
         setIsShowTypeModal(false);
+        setValueField({
+                        identifier: "",
+                        level: "",
+                        description: "",
+                        id: ""
+                    })
     };
 
     const handleChangeInput=(e)=>{
@@ -51,20 +48,19 @@ export default function PosTypeModal(props) {
     }
 
     const handleChangeSelect = (value)=>{
+        // setValue(value)
         let postypeUpdate = positionTyleList.find(postype => postype.id == value)
         setValueField({
             ...postypeUpdate
         })
     }
-
+    
     const valueOfField = (name)=>{
         if(isShowTypeModal && titleTypeModal === "Sửa loại chức vụ"){
-            if(valueField[name] && valueField[name] !== undefined){
-                
+            if( valueField[name] !== undefined){
                 return valueField[name]
             } else {
                 // Lỗi gì đó khiến cho 1 field của sửa loại chức vụ hiện bên tạo loại chức vụ
-                console.log(name, valueField[name])
                 return valueField[name]
             }
         } else {
@@ -78,7 +74,6 @@ export default function PosTypeModal(props) {
             return <Option value={postype?.id}>{postype?.identifier}</Option>
         })
     }
-
     const renderContentOfModal = ()=>{
         if(titleTypeModal === "Tạo loại chức vụ"){
             return <div className="pos__type__modal__content">
@@ -88,8 +83,7 @@ export default function PosTypeModal(props) {
                 </div>
                 <div className="pos__type__modal__field onefield">
                     <label htmlFor="capBac">Cấp bậc:</label>
-                    <input type="text" name="level" id="capBac" 
-                    value={valueOfField("level")}
+                    <input type="text" name="level" id="capBac" key='123'
                     onChange={handleChangeInput} />
                 </div>
                 <div className="pos__type__modal__field onefield">
@@ -109,6 +103,7 @@ export default function PosTypeModal(props) {
                     <div className="pos__type__modal__field onefield">
                         <Select
                         showSearch 
+                        value={valueOfField("id")}
                         onChange={handleChangeSelect}
                         filterOption={(input, option) =>
                             (option?.children ?? '').toLowerCase().includes(input.toLowerCase())

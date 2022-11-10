@@ -1,13 +1,14 @@
 import { call, takeLatest, put } from "redux-saga/effects";
-import { CREATE_POSITION_TYPE, DELETE_POSITION_TYPE, GET_POSITIONS_LIST, GET_POSITION_TYPE_LIST, UPDATE_POSITION_TYPE } from "../../title/title";
-import { createPosTypeAPI, deletePosTypeAPI, getPositionListAPI, getPositionTypeListAPI, updatePosTypeAPI } from "../API/positionAPI";
-import { addPosTypeAndMessage, deletePosTypeAndMessage, setPositionTyleList, setTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
+import { CREATE_POSITION_AND_MANAGEMENT, CREATE_POSITION_TYPE, DELETE_POSITION_TYPE, GET_POSITIONS_LIST, GET_POSITION_TYPE_LIST, UPDATE_POSITION_AND_MANAGEMENT, UPDATE_POSITION_TYPE } from "../../title/title";
+import { createPositionAndManagementAPI, createPosTypeAPI, deletePosTypeAPI, getPositionListAPI, getPositionTypeListAPI, updatePositionAndManagementAPI, updatePosTypeAPI } from "../API/positionAPI";
+import { addPosTypeAndMessage, deletePosTypeAndMessage, setLoading, setMessage, setPositionTyleList, setTablePosList, updateItemToTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
 
 function* getPositionList(payload){
     let {page,pageNumber} = payload.table;
     let {code, message, data: positionList, metadata: {total_items: total}} =  yield call(getPositionListAPI,page, pageNumber);
     if(code == 200 && message === "Success"){
         yield put(setTablePosList({positionList, total}))
+        yield put(setLoading(false))
     }
 }
 
@@ -48,7 +49,35 @@ function* deletePosType(payload){
     if(code == 200 && message === "Success"){
         yield put(deletePosTypeAndMessage({dataResponse, message: {type: "success", msg:"Thao tác thành công"}}))
     }else {
-        yield put(deletePosTypeAndMessage({dataResponse, message: {type: "error", msg:"Thao tác thất bại"}}))
+        yield put(deletePosTypeAndMessage({dataResponse: "", message: {type: "error", msg:"Thao tác thất bại"}}))
+    }
+}
+
+function* createPositionAndManagement(payload){
+    let {data} = payload;
+    let result = yield call(createPositionAndManagementAPI, data)
+    let {code, data: dataResponse, message} = result;
+    if(code == 200 && message === "Success"){
+        yield put(setMessage({type: "success", msg:"Thao tác thành công"}))
+    } else {
+        yield put(setMessage({type: "error", msg:"Thao tác thất bại"}))
+    }
+}
+
+function* updatePositionAndManagement(payload){
+    let {pos_management_id, pos_type: {pos_type_id}, position: {name, pos_id}} = payload.data;
+    let data = { pos_management_id, pos_type_id, name, pos_id };
+    let result = yield call(updatePositionAndManagementAPI, data)
+    console.log(result)
+    let {name: pos_name} = result[0].data;
+    let {pos_type_id: pos_type_ID} = result[1].data;
+    let {status} = result[2];
+    if(status === 200){
+        let dataUpdateed = {pos_name, pos_management_id, pos_type_ID}
+        yield put(updateItemToTablePosList(dataUpdateed))
+        yield put(setMessage({type: "success", msg:"Thao tác thành công"}))
+    } else {
+        yield put(setMessage({type: "error", msg:"Thao tác thất bại"}))
     }
 }
 
@@ -58,4 +87,6 @@ export default function* Positions(){
     yield takeLatest(CREATE_POSITION_TYPE, createPosType)
     yield takeLatest(UPDATE_POSITION_TYPE, updatePosType)
     yield takeLatest(DELETE_POSITION_TYPE, deletePosType)
+    yield takeLatest(CREATE_POSITION_AND_MANAGEMENT, createPositionAndManagement)
+    yield takeLatest(UPDATE_POSITION_AND_MANAGEMENT, updatePositionAndManagement)
 }

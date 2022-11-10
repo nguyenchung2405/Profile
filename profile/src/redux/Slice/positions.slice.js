@@ -4,7 +4,8 @@ const initialState = {
     tablePosList: [],
     total: "",
     positionTyleList: [],
-    message: {}
+    message: {},
+    showLoading: false
 }
 
 const tablePosListSlice = createSlice({
@@ -41,10 +42,39 @@ const tablePosListSlice = createSlice({
                 state.positionTyleList.splice(postypeIndex, 1)
             }
             state.message = message
+        },
+        setLoading: (state, action)=>{
+            state.showLoading = action.payload;
+        },
+        setMessage: (state,action)=>{
+            state.message = action.payload;
+        },
+        addItemToTablePosList: (state,action)=>{
+            let {name, identifier: postype_id} = action.payload;
+            let pos_type = state.positionTyleList.find(postype => postype.id === postype_id)
+            let {identifier} = pos_type;
+            let newObject = {
+                position: {
+                    name: name
+                },
+                position_type: {
+                    identifier: identifier
+                }
+            }
+            state.tablePosList.unshift(newObject)
+        },
+        updateItemToTablePosList: (state,action)=>{
+            let {pos_name, pos_type_ID, pos_management_id} = action.payload;
+            let index = state.tablePosList.findIndex((pos_ma => pos_ma.id === pos_management_id))
+            state.tablePosList[index].position.name = pos_name;
+            let postype = state.positionTyleList.find(postype => postype.id == pos_type_ID)
+            // console.log(current(postype))
+            state.tablePosList[index].position_type = postype;
         }
     }
 })
 
 export const {setTablePosList, setPositionTyleList, addPosTypeAndMessage,
-    updatePosTypeAndMessage, deletePosTypeAndMessage} = tablePosListSlice.actions;
+updatePosTypeAndMessage, deletePosTypeAndMessage, setLoading, setMessage,
+addItemToTablePosList, updateItemToTablePosList} = tablePosListSlice.actions;
 export default tablePosListSlice.reducer;
