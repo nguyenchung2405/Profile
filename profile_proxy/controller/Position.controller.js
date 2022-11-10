@@ -93,10 +93,86 @@ const deletePosType = async (req,res)=>{
     }
 }
 
+const createPositionAndManagement = async (req,res)=>{
+    try {
+        let {name, identifier} = req.body;
+        let {headers: {authorization}} = req;
+        const createPosition = await axios({
+            url: `${local}/positions`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: {
+                name: name
+            }
+        })
+        let {id:pos_id} = createPosition.data.data;
+        const createPositionManagement = await axios({
+            url: `${local}/position-management`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: {
+                pos_type_id: identifier,
+                pos_id
+            }
+        })
+        res.send(createPositionManagement.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const updatePositionAndManagement = async (req,res)=>{
+    try {
+        let {pos_management_id, pos_type_id, name, pos_id} = req.body;
+        let {headers: {authorization}} = req;
+        // console.log(pos_management_id, pos_type_id, name, pos_id)
+        const updatePosition = axios({
+            url: `${local}/positions/${pos_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: { name: `${name}` }
+        });
+        const updatePositionManagement = axios({
+            url: `${local}/position-management/${pos_management_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: { 
+                pos_type_id: pos_type_id,
+                pos_id: pos_id
+            }
+        })
+        Promise.all([updatePosition, updatePositionManagement])
+        .then((resolve)=>{
+            let result = [];
+            for(let i = 0; i < resolve.length; i++){
+                // console.log(resolve[i].data)
+                result.push(resolve[i].data)
+            }
+            result.push({status: 200})
+            res.send(result)
+        })
+        .catch((err)=>{
+            res.send(err)
+        })
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getPositionList,
     getPositionTypeList,
     createPosType,
     updatePosType,
-    deletePosType
+    deletePosType,
+    createPositionAndManagement,
+    updatePositionAndManagement
 }

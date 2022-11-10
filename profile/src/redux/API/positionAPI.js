@@ -77,3 +77,37 @@ export async function deletePosTypeAPI(pos_type_id){
         return "Thất bại"
     }
 }
+
+export async function createPositionAndManagementAPI(data){
+    try {
+        const res = await axios({
+            url: `${local}/api/positions/position-management/`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: data
+        })
+        return res.data
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
+
+export async function updatePositionAndManagementAPI(data){
+    try {
+        const res = await axios({
+            url:`${local}/api/positions/position-management/`,
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: data
+        })
+        return res.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
