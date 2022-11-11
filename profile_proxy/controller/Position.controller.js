@@ -167,6 +167,42 @@ const updatePositionAndManagement = async (req,res)=>{
     }
 }
 
+const deletePositionAndManagement = async (req,res)=>{
+    try {
+        let {pos_mana_id, pos_id} = req.body;
+        let {headers: {authorization}} = req;
+        const deletePosition = axios({
+            url: `${local}/positions/${pos_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        const deletePositionManagement = axios({
+            url: `${local}/position-management/${pos_mana_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        Promise.all([deletePosition, deletePositionManagement])
+        .then((resolve)=>{
+            let result = [];
+            for(let i = 0; i < resolve.length; i++){
+                // console.log(resolve[i].data)
+                result.push(resolve[i].data)
+            }
+            result.push({status: 200})
+            res.send(result)
+        })
+        .catch((err)=>{
+            res.send(err)
+        })
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getPositionList,
     getPositionTypeList,
@@ -174,5 +210,6 @@ module.exports = {
     updatePosType,
     deletePosType,
     createPositionAndManagement,
-    updatePositionAndManagement
+    updatePositionAndManagement,
+    deletePositionAndManagement
 }

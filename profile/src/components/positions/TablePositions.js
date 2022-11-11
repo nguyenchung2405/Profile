@@ -5,7 +5,7 @@ import {MdOutlineModeEditOutline} from "react-icons/md"
 import {FiMinusCircle} from "react-icons/fi"
 import { Table, Popconfirm } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import {GET_POSITIONS_LIST} from "../../title/title"
+import {DELETE_POSITION_AND_MANAGEMENT, GET_POSITIONS_LIST} from "../../title/title"
 import "./position.css"
 import PosModal from './PosModal'
 import PosTypeModal from './PosTypeModal'
@@ -139,7 +139,14 @@ export default function TablePositions() {
                         okText="Có"
                         cancelText="Không"
                         icon={<AiFillQuestionCircle />}
-                        okType={null}
+                        placement="topRight"
+                        onConfirm={()=>{
+                          let {id, pos_id} = record;
+                          dispatch({
+                              type: DELETE_POSITION_AND_MANAGEMENT,
+                              data: {pos_mana_id: id, pos_id}
+                          })
+                        }}
                      >
                         <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
                             <FiMinusCircle/>

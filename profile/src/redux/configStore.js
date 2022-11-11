@@ -7,6 +7,7 @@ import userListSlice from "./Slice/userList"
 import loadingSlice from "./Slice/loading";
 import departmentsSlice from "./Slice/departments.slice"
 import tablePosListSlice from "./Slice/positions.slice"
+import step2Slice from "./Steps/step2.slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     reducer: {
         stepsReducer: stepsSlice,
         steps1Reducer : steps1Slice,
+        step2Reducer: step2Slice,
         userListReducer: userListSlice,
         loadingReducer: loadingSlice,
         departmentsReducer: departmentsSlice,

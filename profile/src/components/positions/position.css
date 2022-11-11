@@ -110,3 +110,17 @@ div.ant-popover-message svg {
     width: 25px;
     height: 25px;
 }
+
+div.ant-popover-message-title {
+    padding-left: 0;
+}
+
+div.ant-popover .ant-popover-content button.ant-btn-primary {
+    background-color: #459c60;
+    border-color: #459c60;
+}
+
+div.ant-popover .ant-popover-content button.ant-btn-default:hover {
+    border-color: #459c60;
+    color: #459c60;
+}

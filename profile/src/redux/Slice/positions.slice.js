@@ -70,11 +70,15 @@ const tablePosListSlice = createSlice({
             let postype = state.positionTyleList.find(postype => postype.id == pos_type_ID)
             // console.log(current(postype))
             state.tablePosList[index].position_type = postype;
+        },
+        deleteItemToTablePosList: (state, action)=>{
+            let index = state.tablePosList.findIndex(pos_mana => pos_mana.id === action.payload);
+            state.tablePosList.splice(index, 1)
         }
     }
 })
 
 export const {setTablePosList, setPositionTyleList, addPosTypeAndMessage,
 updatePosTypeAndMessage, deletePosTypeAndMessage, setLoading, setMessage,
-addItemToTablePosList, updateItemToTablePosList} = tablePosListSlice.actions;
+addItemToTablePosList, updateItemToTablePosList, deleteItemToTablePosList} = tablePosListSlice.actions;
 export default tablePosListSlice.reducer;

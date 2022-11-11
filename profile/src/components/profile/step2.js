@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Steps, Button } from 'antd';
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import ModalComponent from '../modal/modal';
-import { quaTrinhLVHT } from '../../title/title';
+import { GET_USER_DEGREE, quaTrinhLVHT } from '../../title/title';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 export default function Step2() {
-
+    
     const { Step } = Steps;
+    const dispatch = useDispatch()
+    const {personal_history} = useSelector(state => state.step2Reducer)
     let [isShowModal, setIsShowModal] = useState(false)
-
-    const quaTrinh = [
-        {
-            title: '05/09/1970 - 10/05/1995',
-            description: "Học sinh trường tiểu học Nguyễn Hữu A"
-        },
-        {
-            title: '05/09/1996 - 10/05/1999',
-            description: "Học sinh trường trung học cơ sở Toàn Quyết B"
-        },
-    ]
+    console.log(personal_history)
+    const quaTrinh = personal_history.map((history, index)=>{
+        let tuNgay = moment(new Date(history.work_from)).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(history.work_to)).format("DD/MM/YYYY");
+        let description = history.work_place;
+        return {
+            title: `${tuNgay} - ${denNgay}`,
+            description
+        }
+    }); 
 
     const closeModal = ()=>{
         setIsShowModal(false)
