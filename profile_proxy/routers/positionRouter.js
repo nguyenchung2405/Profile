@@ -1,7 +1,7 @@
 const express = require("express");
 const positionRouter = express.Router();
 const {getPositionList, getPositionTypeList, createPosType, updatePosType, deletePosType, 
-createPositionAndManagement, updatePositionAndManagement} = require("../controller/Position.controller")
+createPositionAndManagement, updatePositionAndManagement, deletePositionAndManagement} = require("../controller/Position.controller")
 
 positionRouter.get("/",getPositionList)
 // Position Type
@@ -12,6 +12,7 @@ positionRouter.delete("/position-types/:pos_id", deletePosType)
 // Position Management and Position
 positionRouter.post("/position-management", createPositionAndManagement)
 positionRouter.put("/position-management", updatePositionAndManagement)
+positionRouter.delete("/position-management", deletePositionAndManagement)
 
 module.exports = {
     positionRouter

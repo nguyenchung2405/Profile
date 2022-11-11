@@ -1,3 +1,7 @@
+export const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC42MS4xMTYvYXBpL2xvZ2luIiwiaWF0IjoxNjY2Njc0NTE3LCJleHAiOjc3MTQ2NzQ1MTcsIm5iZiI6MTY2NjY3NDUxNywianRpIjoiOFZvQklmWW9ZeW11YmRrWSIsInN1YiI6MSwicHJ2IjoiOTA0ZjZkMmQ4NzI1ZjJjNWI0OThiYTg1Yzk5YTE4ZGNiY2ZjMmQ4NSJ9.LBWj5Ubn8jam1y4uvZern2vQ7orUqByYYf-mRMEDQnY";
+export const local = "http://localhost:3001"
+
+
 export const quaTrinhLVHT = "Quá trình làm việc và học tập";
 export const thamGiaToChucCT = "Tham gia các tổ chức chính trị, các hôị nghề nghiệp";
 export const daoTao = "Đào tạo";
@@ -34,3 +38,5 @@ export const UPDATE_POSITION_TYPE = "UPDATE_POSITION_TYPE";
 export const DELETE_POSITION_TYPE = "DELETE_POSITION_TYPE";
 export const CREATE_POSITION_AND_MANAGEMENT = "CREATE_POSITION_AND_MANAGEMENT";
 export const UPDATE_POSITION_AND_MANAGEMENT = "UPDATE_POSITION_AND_MANAGEMENT";
+export const DELETE_POSITION_AND_MANAGEMENT = "DELETE_POSITION_AND_MANAGEMENT";
+export const GET_USER_DEGREE = "GET_USER_DEGREE"

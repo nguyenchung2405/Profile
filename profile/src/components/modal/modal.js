@@ -73,7 +73,8 @@ export default function ModalComponent(props) {
         footer={<Button type="primary" >Gửi</Button>}
         style={{ width: "600px"}}
         width= "600px"
-        title={title} open={isShowModal} 
+        title={title} 
+        open={isShowModal} 
         onOk={handleOk} 
         onCancel={handleCancel}>
             <div className="content">
