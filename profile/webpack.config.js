@@ -5,7 +5,7 @@ module.exports = {
     entry: path.join(__dirname, "./src/index.js"),
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname)
+        path: path.resolve(__dirname, "dist")
     },
     mode: "development",
     devServer: {
@@ -78,6 +78,33 @@ module.exports = {
                 ],
                 exclude: /\.module\.css$/
             },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                include: '/src/img/',
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name].[ext]",
+                            publicPath: 'images',
+                            outputPath: 'images',
+                        }
+                    },
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      limit: false,
+                      mimetype: 'image/png'
+                    }
+                  },
+                ],
+                type: 'javascript/auto'
+              },
     ],
     },
     plugins: [

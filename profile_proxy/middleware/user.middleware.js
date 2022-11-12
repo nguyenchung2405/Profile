@@ -17,7 +17,7 @@ const checkQuery = async (req,res,next)=>{
         }
         next()
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 

@@ -27,7 +27,6 @@ const createProfile = async (req,res,next)=>{
             res.send("Create Profile failed")
         }
     } catch (error) {
-        console.log(error)
         res.send(error)
     }
 }
