@@ -1,0 +1,283 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto,
+      helvetica neue, Arial, noto sans, sans-serif, apple color emoji,
+      segoe ui emoji, segoe ui symbol, noto color emoji !important;
+}
+
+div.App {
+    display: flex;
+    background-color: #eef0f8;
+}
+
+.sidebar {
+    width: 265px;
+    min-height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #459C60;
+
+}
+
+.sidebar .bg_pri_blue {
+    background-color: #35794a;
+}
+
+.sidebar .sidebar__logo {
+    display: flex;
+    width: 100%;
+    height: 65px;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar__infor {
+    display: flex;
+    padding: 24px 0 24px 19px;
+    align-items: center;
+}
+
+.sidebar__infor .sidebar__infor__img {
+    margin-right: 16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.sidebar__infor .sidebar__infor__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar__infor .sidebar__infor__employee {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar__infor .sidebar__infor__employee p {
+    margin-bottom: 0;
+    color: white;
+}
+
+.sidebar__infor .sidebar__infor__employee p:first-child {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.sidebar__infor .sidebar__infor__employee p:nth-child(2) {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.sidebar .sidebar__personal__information {
+    width: 100%;
+    padding: 14px 0 14px 23px;
+}
+
+.sidebar .sidebar__personal__information svg {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.sidebar .sidebar__personal__information p {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar .sidebar__sub__menu {
+    padding: 10px 0;
+}
+
+.sidebar .sidebar__sub__menu ul {
+    list-style-type: none;
+    padding-left: 53px;
+    margin: 0;
+}
+
+.sidebar .sidebar__sub__menu ul li {
+    padding: 7px 0;
+}
+
+.sidebar .sidebar__sub__menu ul li a {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* section: section .steps_editWidth__f9SYq: div.ant-steps */
+
+.App section div.ant-steps div.ant-steps-item div.ant-steps-item-container .ant-steps-item-tail {
+    display: none;
+}
+
+section div.ant-steps .ant-steps-item 
+.ant-steps-item-container .ant-steps-item-icon {
+    width: 50px;
+    height: 50px;
+}
+
+section div.ant-steps .ant-steps-item  {
+    flex-grow: 0;
+    margin-bottom: 20px;
+}
+
+section div.ant-steps .ant-steps-item:last-child {
+    margin-bottom: 0;
+}
+
+section div.ant-steps .ant-steps-item .ant-steps-item-icon span.ant-steps-icon{
+    line-height: 50px;
+    font-weight: 500;
+    font-size: 18px;
+    color: black;
+}
+
+section .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: flex;
+    align-items: center;
+}
+
+section .ant-steps-vertical>.ant-steps-item .ant-steps-item-content .ant-steps-item-title {
+    text-align: justify;
+}
+
+section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon {
+    background-color: #d9e9ff;
+    border-color: #d9e9ff;
+}
+
+.App section .ant-steps-item-process.ant-steps-item-active>div.ant-steps-item-container div span {
+    color: #35794a;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.App section .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: #35794a;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon span.ant-steps-icon,
+div.App div div section .ant-steps .ant-steps-item > div.ant-steps-item-container[role=button]:hover div.ant-steps-item-title{
+    color: #35794a;
+}
+
+div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon {
+    border-color: #35794a;
+}
+
+.App section .ant-steps-item div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.sidebar_SubMenu__XZeb6 ul.ant-menu {
+    background-color: #35794a;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content {
+    color: white;
+    font-size: 16px;
+}
+
+.sidebar_SubMenu__XZeb6 ul.ant-menu li.ant-menu-item {
+    align-items: center;
+}
+
+.sidebar_SubMenu__XZeb6 ul.ant-menu li.ant-menu-item > svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
+    font-weight: bold;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
+    color: #8bc34a;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-submenu-arrow {
+    color: white;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-light .ant-menu-item-active, .sidebar_SubMenu__XZeb6 .ant-menu-light .ant-menu-item:hover {
+    background-color: white;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item{
+    transition: all .3s;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected svg, 
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover svg,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected span.ant-menu-title-content{
+    color: black;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item span {
+    padding-left: 6px;
+    margin-left: 0;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu div svg {
+    color: white;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu div span {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar_SubMenu__XZeb6 .ant-menu-inline .ant-menu-item:after {
+    border-right: 3px solid #35796C;
+}
+
+.notFound > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.notFound > div h1 {
+    margin-right: 15px;
+}
+
+.notFound h1, .notFound h2 {
+    font-size: 40px;
+}
+
+.App > div:nth-child(2) {
+    position: relative;
+    left: 265px;
+    width: calc(100% - 265px);
+    height: auto;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+.App div.notFound {
+    height: 100vh;
+}

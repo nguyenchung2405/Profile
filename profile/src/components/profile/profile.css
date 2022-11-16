@@ -1,0 +1,1273 @@
+.SoYeuLyLich {
+    padding-top: 27px;
+    width: 100%;
+    margin-left: 26px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.SoYeuLyLich .SoYeuLyLich__left, .SoYeuLyLich .SoYeuLyLich__right {
+    width: 380px;
+}
+
+.SoYeuLyLich .SoYeuLyLich__left {
+    margin-right: 81px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field,.SoYeuLyLich__right .SYLL__right__field {
+    margin-bottom: 20px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field:last-child, .SoYeuLyLich__right .SYLL__right__field:last-child {
+    margin: 0;
+}
+
+.SoYeuLyLich__left .SYLL__left__field > label, .SoYeuLyLich__right .SYLL__right__field > label  {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.SoYeuLyLich__left .SYLL__left__field > input, .SoYeuLyLich__right .SYLL__right__field > input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+}
+
+.SYLL__left__field .ant-select {
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.SYLL__left__field.noiSinh .ant-select:last-child, .SYLL__left__field.queQuan .ant-select:last-child {
+    margin-bottom: 0;
+}
+
+.ant-select +  .ant-select{
+    margin-top: 18px;
+}
+
+.SYLL__right__field .ant-select {
+    width: 170px;
+    height: 40px;
+    border-radius: 3px;
+    /* margin-right: 41px; */
+    text-align: center;
+    border-style: none;
+}
+
+.SYLL__right__field .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.SYLL__left__field .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.SYLL__left__field .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__left__field .ant-radio-group .ant-radio {
+    margin-right: 14px;
+}
+
+.SYLL__left__field .ant-radio-group .ant-radio-wrapper {
+    margin-right: 40px;
+}
+
+.SYLL__left__field.noiOHienTai input#NoiOHienTai {
+    margin-bottom: 18px;
+}
+
+.fisrt__content > label, .second__content > label, .third__content > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.fisrt__content > input, .second__content > input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 170px;
+    height: 40px;
+}
+
+.SoYeuLyLich .fisrt__content {
+    width: 100%;
+}
+
+.SoYeuLyLich .fisrt__content.to {
+    margin-bottom: 18px;
+}
+
+.SoYeuLyLich .fisrt__content.phongBan {
+    margin-bottom: 18px;
+}
+
+.SoYeuLyLich .fisrt__content .ant-select {
+    width: 100%;
+}
+
+.two__content {
+    display: flex;
+}
+
+input#maSo::placeholder {
+    padding-left: 22px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+    font-weight: 300;
+}
+
+.maSo {
+    display: flex;
+    align-items: flex-end;
+}
+
+ .second__content.maSo input {
+    width: 138px;
+}
+
+ .fisrt__content.thanhPhanXuatThan {
+    width: 203px;
+    margin-right: 39px;
+}
+
+.chuyenMon {
+    display: flex;
+    align-items: flex-end;
+}
+
+input#hocVan::placeholder, input#chuyenMon::placeholder {
+    padding-left: 13px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+    font-weight: 300;
+}
+
+.SYLL__right__field .fisrt__content.ngayThamGiaCM .ant-picker {
+    width: 170px;
+    margin-right: 40px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.SYLL__right__field .date__picker .ant-picker {
+    width: 170px;
+    /* margin-right: 40px; */
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+ 
+.SYLL__right__field .second__content.date__picker .ant-picker {
+    margin-right: 0;
+}
+
+.three__content {
+    display: flex;
+}
+
+.three__content .third__content > input {
+    width: 92px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.three__content .fisrt__content .ant-picker, .three__content .second__content .ant-picker {
+    width: 111px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.three__content .fisrt__content {
+    margin-right: 34px;
+}
+
+.three__content .second__content {
+    margin-right:32px;
+}
+
+.SYLL__right__field .chucVuHienTai input {
+    width: 204px;
+    height: 40px;
+    margin-right: 41px;
+}
+
+.maSo input::placeholder {
+    font-weight: 300;
+    font-size: 16px;
+    padding-left: 15px;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .maSo input {
+    width:135px;
+}
+
+.SYLL__right__field.ngayVaoDang .maSo input {
+    width:170px;
+}
+
+.SYLL__right__field .two__content {
+    display: block;
+}
+
+.SYLL__right__field .two__content input{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 170px;
+    height: 40px;
+}
+
+.SYLL__right__field .two__content input::placeholder{
+    padding: 19px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.SYLL__right__field .two__content input:first-child {
+    margin-right: 40px;
+}
+
+.ant-radio-group.ant-radio-group-outline {
+    margin-top: 15px;
+}
+
+.hocVan {
+    margin-top: 2px;
+}
+
+div.next {
+    text-align: right;
+    padding-right: 33px;
+    margin-top: 49px;
+    margin-bottom: 68px;
+}
+
+.SoYeuLyLich__btn {
+    border-radius: 3px;
+    background-color: #35794a;
+    height: 44px;
+    width: 151px;
+    color: white;
+    font-size: 18px;
+    border-style: none;
+    transition: background-color 1s;
+    line-height: 44px;
+}
+
+.SoYeuLyLich__btn:hover {
+    background-color: #47a363;   
+}
+
+.steps_steps__UOUsf .steps-content {
+    width: calc(100% - 274px);
+}
+
+.steps_steps__UOUsf .alignCenter {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.step3 .step3__field {
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.step3 .step3__field:last-child {
+    margin-bottom: 0;
+}
+
+.step3 .step3__field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.step3 .step3__field label span {
+    font-size: 12px;
+}
+
+.step3 .step3__field .ant-picker {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field .content__left {
+    margin-right: 26px;
+}
+
+.step3 .step3__field.two__content .content__left input {
+    width: 213px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.two__content .content__right input {
+    width: 211px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.three__content input {
+    width: 135px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.step3 .step3__field.three__content .ant-picker {
+    width: 135px;
+}
+
+.step3 .step3__field.three__content .content__first {
+    margin-right: 23px;
+}
+
+.step3 .step3__field.three__content .content__second {
+    margin-right: 22px;
+}
+
+.required__field {
+    color: red;
+    margin-bottom: 0;
+}
+
+.SYLL__left__field .ant-radio-checked .ant-radio-inner:after {
+    transform: scale(1);
+}
+
+.three__content .fisrt__content label:first-child {
+    font-size: 14.3px;
+}
+
+.thanhPhanXuatThan {
+    margin-right: 0;
+}
+
+.SYLL__right__field .ngayThamGiaCM {
+    margin-right: 0;
+}
+
+.date__picker {
+    margin-right: 0;
+}
+
+.chucVuHienTai {
+    margin-right: 0;
+}
+
+.chucVuHienTai div.ant-select {
+    width: 100%;
+}
+
+.phongBanCV__list {
+    margin-top: 18px;
+}
+
+.phongBanCV__list div p {
+    margin-bottom: 0px;
+}
+
+.xuatThan {
+    display: block;
+}
+
+.xuatThan > div {
+    display: flex;
+}
+
+#chuyenMon__content {
+    margin-top: 36.56px;
+}
+
+.maSo__ChucVu {
+    margin-top: 36.56px;
+}
+
+.maSo__ChucVu .maSo {
+    display:block;
+}
+
+.Step2 {
+    margin-left: 37px;
+}
+
+.Step2 .Step2__header {
+    width: 816px;
+    border-bottom: 1px solid #EBEDF3;
+    margin-top: 29px;
+}
+
+.Step2 .Step2__header p {
+    color:#3699FF;
+}
+
+.Step2 .Step2__header p:first-child {
+    font-size: 16px;
+    margin-bottom: 14px;
+}
+
+.Step2 .Step2__header p:last-child {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    text-transform: capitalize;
+}
+
+.Step2 .Step2__content {
+    margin-top: 22px;
+}
+
+.Step2__content .ant-steps-item-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.Step2__content .ant-steps-item-container .ant-steps-item-icon {
+    margin: 6px 15px 0 0;
+}
+
+section .Step2__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+}
+
+.App section .Step2__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-steps-icon-dot{
+    width: 9px;
+    height: 9px;
+}
+
+.Step2 .ant-steps-vertical>.ant-steps-item .ant-steps-item-description {
+    padding-bottom: 0;
+}
+
+.Step2 .Step2__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.SYLL__right__field  .phongBanCV__list > div {
+    display: flex;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.SYLL__right__field  .phongBanCV__list > div > div {
+    width: calc(100% - 20px);
+}
+
+.SYLL__right__field  .phongBanCV__list div:last-child {
+    width: 100%;
+    padding-bottom: 0;
+    margin-bottom: 0px;
+    border-bottom: none;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #459C60;
+}
+
+.SYLL__right__field  .phongBanCV__list div p {
+    height: 100%;
+}
+
+.SYLL__right__field  .phongBanCV__list div p:first-child {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 5px;
+}
+
+.SYLL__right__field  .phongBanCV__list div p:nth-child(2){
+    height: fit-content;
+    width: 100%;
+}
+
+.SYLL__right__field  .phongBanCV__list div svg {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.Step2__footer button, .Step4__footer button, .Step5__footer button,
+.Step6__footer button, .Step7__footer button {
+    background-color: transparent;
+    border: 1px solid #3699FF;
+    color: #3699FF;
+    display: flex;
+    align-items: center;
+    width: 124px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.Step2__footer, .Step4__footer, .Step5__footer, .Step6__footer {
+    margin-left: 12px;
+    margin-top: 39px;
+}
+
+.Step2__footer button svg, .Step4__footer button svg, .Step5__footer button svg, 
+.Step6__footer button svg, .Step7__footer button svg{
+    width: 21px;
+    height: 21px;
+    margin-right: 7px;
+}
+
+.Step2__content .ant-steps, .Step4__content .ant-steps, .Step5__content .ant-steps,
+.Step6__content .ant-steps, .Step7__content .ant-steps{
+    padding-left: 12px;
+}
+
+.Step4 {
+    margin-left: 31px;
+    margin-top: 30px;
+}
+
+.steps_steps__UOUsf .Step4__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step4__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step4 .Step4__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.steps_steps__UOUsf .Step5__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+#hoKhauThuongTru {
+    margin-bottom: 18px;
+}
+
+.theCoHieuLuc {
+    justify-content: space-between;
+}
+
+.App .steps_steps__UOUsf .Step5__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step5 {
+    margin: 25px 0 0 23px;
+}
+
+.Step5 .Step5__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step5 .Step5__first__content .Step5__content .ant-steps-item-title .ant-steps-item-subtitle {
+    display: block;
+    margin-left: 0px;
+    text-transform: uppercase;
+    color:red;
+    font-size: 10px;
+    margin: 4px 0 0px 0;
+}
+
+.Step5 .Step5__first__content {
+    margin-bottom: 48px;
+}
+
+.steps_steps__UOUsf .Step6__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step6__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step6 .Step6__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step6 {
+    margin-left: 19px;
+}
+
+.Step6 .Step6__first__content {
+    margin-bottom: 56px;
+}
+
+.Step7 {
+    padding-left: 27px;
+    display: flex;
+}
+
+.Step7 .Step7__left, .Step7 .Step7__right {
+    width: 380px;
+}
+
+.Step7 .Step7__left .banThan textarea {
+    resize: none;
+    width: 380px;
+    height: 177px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .Step7__left .banThan p:first-child {
+    font-weight: bold;
+    margin-bottom: 21px;
+}
+
+.Step7 .Step7__left .banThan p:nth-child(2) {
+    margin-bottom: 14px;
+}
+
+.Step7 .Step7__left .banThan {
+    margin-bottom: 33px;
+}
+
+.Step7 .vo > p {
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+.Step7 .field input {
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+}
+
+.Step7 .vo .field.two__content input {
+    width: 173px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .vo .field.two__content .fisrt__content {
+    margin-right: 34px;
+}
+
+.Step7 .vo .queQuan .ant-select .ant-select-selector,
+.Step7 .Step7__right .ant-select .ant-select-selector {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step7 .field > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 11px;
+}
+
+.Step7 .field {
+    margin-bottom: 20px;
+}
+
+.steps_steps__UOUsf .Step7__quaTrinh .Step7__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}
+
+.App .steps_steps__UOUsf .Step7__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step7 .Step7__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.Step7__footer {
+    margin-left: 12px;
+    margin-top: 31px;
+}
+
+.Step7__quaTrinh {
+    margin-bottom: 30px;
+}
+
+.Step7__right > p {
+    font-weight: bold;
+    margin-bottom: 21px;
+}
+
+.Step7__left {
+    margin-right: 85px;
+}
+
+input#diaChi {
+    margin-bottom: 22px;
+}
+
+.Step7 .Step7__right .field:last-child, .Step7 .Step7__left .field:last-child{
+    margin-bottom: 0px;
+}
+
+.Step7__footer button {
+    width: 172px;
+}
+
+.btn__ThemCon {
+    margin-top: 26px;
+}
+
+.btn__ThemCon button {
+    /* border: 1px solid #3699FF; */
+    /* color: #3699FF; */
+    display: flex;
+    align-items: center;
+    width: 107px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+    background-color: #3699FF;
+    color: white;
+}
+
+.btn__ThemCon button svg {
+    width: 21px;
+    height: 21px;
+    margin-right: 7px;
+}
+
+.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday > div.ant-select:nth-child(2), .noiCuTru > div.ant-select:nth-child(3){
+    margin-left: 0;
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    margin-left: 23px;
+}.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.steps_steps__UOUsf .Step8__quaTrinh .Step8__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+    padding-top: 9px;
+}.Step8 > p {
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.Step8 .field {
+    margin-bottom: 20px;
+}
+
+.Step8 .field label {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 15px;
+}
+
+.Step8 .field input {
+    width: 450px;
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.Step7 .ant-select .ant-select-selector .ant-select-selection-item {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+    width: 135px;
+    height: 40px;
+    border-radius: 3px;
+    text-align: center;
+    border-style: none;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(102, 102, 102, 0.5);
+}
+
+.Step8 .Step8__content .ant-steps .ant-steps-item-description {
+    color: black;
+}
+
+.App .steps_steps__UOUsf .Step8__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+    color: black;
+}
+
+.Step8__content .ant-steps {
+    padding-left: 12px;
+}
+
+.Step8__footer button {
+    background-color: transparent;
+    border: 1px solid #3699FF;
+    color: #3699FF;
+    display: flex;
+    align-items: center;
+    width: 172px;
+    height: 44px;
+    font-size: 18px;
+    justify-content: center;
+}
+
+.Step8__footer {
+    margin-left: 12px;
+    margin-top: 31px;
+}
+
+.Step8__quaTrinh {
+    margin-bottom: 20px;
+}
+
+.noiCuTru > input {
+    display: block;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 450px;
+    height: 40px;
+}
+
+.noiCuTru > input {
+    margin-bottom: 20px;
+}
+
+.ant-select-arrow span svg {
+    color: #35794a;
+}
+
+.quanHeGiaDinh .ant-select {
+    width: 197px;
+    height: 44px;
+}
+
+.quanHeGiaDinh .ant-select .ant-select-selector{
+    background-color: #4794ff;
+    color: white;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.quanHeGiaDinh .ant-select-arrow span svg{
+    color:white;
+}
+
+.quanHeList .rc-virtual-list-holder-inner .ant-select-item {
+    padding-left: 22px;
+}
+
+.quanHeList .rc-virtual-list-holder-inner .ant-select-item .ant-select-item-option-content {
+    border-bottom: 1px solid #b7d6fd;
+    max-width: 230px;
+    padding-bottom: 11px;
+}
+
+.Step8__content p {
+    font-size: 15px;
+}
+
+.Step8__content p span {
+    font-size: 11px;
+}
+
+.tableProfiles > div.ant-table-wrapper {
+    width: 100%;
+    padding: 0 18px;
+    background-color: white;
+}
+
+.tableProfiles .tableProfiles__hoTen {
+    width: 250px;
+}
+
+.tableProfiles__avatar {
+    width: 200px;
+}
+
+.tableProfiles__phongBan {
+    width: 350px;
+}
+
+.tableProfiles__chucVu {
+    width: 350px;
+}
+
+.tableProfiles__thaoTac {
+    width: 250px;
+}
+
+td.tableProfiles__thaoTac div {
+    display: flex;
+    justify-content: center;
+}
+
+.tableProfiles__thaoTac button, button.thaoTac__Edit__btn {
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    background-color: #459C60;
+    height: 28px;
+    width: 28px;
+}
+
+.tableProfiles__thaoTac svg, button.thaoTac__Edit__btn svg {
+    color: white;
+    width: 20px;
+    height: 100%;
+}
+
+.tableProfiles ul li.ant-pagination-total-text {
+    position: absolute;
+    right: 0;
+    margin-right: 0px;
+}
+
+.tableProfiles ul li.ant-pagination-options {
+    position: absolute;
+    right: 160px;
+}
+
+.tableProfiles li.ant-pagination-item:hover, .tableProfiles .ant-pagination-item-active:hover {
+    border-color: #459C60;
+    transition: all .3s;
+}
+
+.tableProfiles li.ant-pagination-item-active {
+    font-weight: 500;
+    background: #fff;
+    border-color: #459C60;
+}
+
+.tableProfiles li.ant-pagination-item-active a {
+    color: #459C60;
+}
+
+.tableProfiles li.ant-pagination-item:hover a {
+    color: #459C60;
+}
+
+.tableProfiles span.anticon svg {
+    color: #459C60;
+}
+
+.tableProfiles .ant-pagination-next:hover button.ant-pagination-item-link,
+.tableProfiles .ant-pagination-prev:hover .ant-pagination-item-link {
+    color: #459C60;
+    border-color: #459C60;
+}
+
+.tableProfiles .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: #459C60;
+}
+
+.tableProfiles .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    box-shadow: 0 0 0 2px rgba(69,156,96,0.2);
+}
+
+.App div.ant-spin{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 999;
+}
+
+.App div.ant-spin svg {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tableProfiles .tools {
+    margin: 20px 0;
+}
+
+.tableProfiles .tools button.create_acc_profile {
+    background-color: #459C60;
+    padding: 5px 18px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.tableProfiles .tools button.create_acc_profile:hover {
+    border: 1px solid #459C60;
+    background-color: white;
+    color: #459C60;
+}
+
+.SoYeuLyLich__left .image {
+    display: flex;
+}
+
+.SoYeuLyLich__left .image .image-3x4 {
+    width: 118px;
+    height: 157px;
+    border: 1px solid orange;
+    overflow: hidden;
+    margin: 0 20px 18px 0;
+}
+
+.SoYeuLyLich__left .image .image-3x4 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.SoYeuLyLich__left .image label {
+    padding: 10px 12px;
+    height: 40px;
+    background-color: #35794a;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.SoYeuLyLich__left .image label svg {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.SoYeuLyLich__left .image input {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.SYLL__left__field.birthday .ant-picker, .SYLL__right__field.ngayTuyenDung .ant-picker {
+    width: 100%;
+    /* margin-right: 40px; */
+    height: 40px;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+}
+
+.SYLL__left__field.noiSinh, .SYLL__left__field.queQuan {
+    position: relative;
+}
+
+.SYLL__left__field.noiSinh svg, .SYLL__left__field.queQuan svg{
+    position: absolute;
+    top: 3px;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.steps-content div.ant-steps div.ant-steps-item .ant-steps-item-icon {
+    width: 0;
+    height: 0;
+}
+
+td.ant-table-cell.tableProfiles__avatar {
+    text-align: center;
+}
+
+td.ant-table-cell.tableProfiles__avatar > img {
+    height: 70px;
+    width: 70px;
+}
+
+.SoYeuLyLich__left div.gender.SYLL__left__field {
+    margin-bottom: 20px;
+}
+
+div.ant-steps-item-subtitle > svg {
+    color: red;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.steps-content {
+    width: 100%;
+}
+
+div.step3 {
+    width: 100%;
+}

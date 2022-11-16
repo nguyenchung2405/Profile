@@ -1,0 +1,169 @@
+p.dep__children {
+    margin-bottom: 0;
+}
+
+.table__dep__name {
+    width: 300px;
+}
+
+.table__dep__address {
+    width: 650px;
+}
+
+.table__dep__phone {
+    width: 130px;
+}
+
+.table__dep__children {
+    width: 300px;
+}
+
+.dep__children__div {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.dep__children__div:last-child {
+    margin-bottom: 0px;
+}
+
+
+table tr.ant-table-expanded-row-level-1 td, table tr.ant-table-expanded-row-level-1:hover td {
+    width: 1000px;
+    padding: 16px 16px;
+    background: center no-repeat url(https://media.giphy.com/media/ceCgIb3Pw5xbq/giphy.gif);
+    background-size: cover;
+    color: white;
+}
+
+div.dep__infor > form{
+    background: white;
+    border-radius: 10px;
+}
+
+div.dep__infor div.onefield {
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+div.dep__infor div.onefield:last-child {
+    margin-bottom: 0px;
+}
+
+div.dep__infor div.onefield label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: #459c60;
+    border: 1px;
+    box-shadow: 0 0 2px #459c60;
+}
+
+div.onefield input, div.onefield textarea, div.onefield div.ant-select div.ant-select-selector{
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+}
+
+div.onefield textarea {
+    height: 100px;
+    resize: none;
+}
+
+.dep__btn {
+    border-radius: 3px;
+    background-color: #35794a;
+    height: 44px;
+    width: 151px;
+    color: white;
+    font-size: 18px;
+    border-style: none;
+    transition: background-color 1s;
+    line-height: 44px;
+}
+
+.dep__btn:hover {
+    background-color: #47a363;
+}
+
+.alignCenter {
+    text-align: center;
+    padding: 0px 0 20px 0;
+}
+
+.dep__infor__parent div.ant-select-selector {
+    align-items: center;
+}
+
+div.thaoTac__Edit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dep__parent__infor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dep__parent__infor p {
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.dep__parent__infor svg {
+    color: red;
+}
+
+.dep__children__infor {
+    display: flex;
+}
+
+.dep__children__infor p:first-child {
+    width: 350px;
+    padding-left: 65px;
+    padding-right: 15px;
+}
+
+.dep__children__infor p:nth-child(2) {
+    width: 650px;
+}
+
+button.ant-table-row-expand-icon:hover, button.ant-table-row-expand-icon:active {
+    color: #459c60;
+}
+
+@media only screen and (max-width: 1366px){
+    .table__dep__name {
+        width: 150px;
+    }
+
+    .table__dep__address {
+        width: 330px;
+    }
+
+    .table__dep__phone {
+        width: 120px;
+    }
+    
+    .table__dep__children {
+        width: 280px;
+    }
+
+    .dep__children__div p.dep__children {
+        margin-bottom: 0;
+        /* width: calc(100% - 93px); */
+    }
+
+    /* .dep__children__div div.thaoTac__Edit {
+        width: 93px;
+    } */
+}
