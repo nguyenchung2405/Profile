@@ -27,7 +27,7 @@ const uploadUserAvatar = async (req,res)=>{
                 method: "POST",
                 data: formData
             })
-            console.log(result.data)
+            // console.log(result.data)
             // console.log(result)
             let {message} = result.data;
             if(message === 'Successfully'){

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {DatePicker } from 'antd';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_PARTY } from '../../title/title';
+import { CREATE_PARTY, UPDATE_PARTY } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step3Component() {
 
@@ -12,13 +13,18 @@ export default function Step3Component() {
     const {party} = useSelector(state => state.step3Reducer)
     const dispatch = useDispatch();
     console.log(valueForm)
+    console.log(party)
     useEffect(()=>{
         if(nextStep !== 2){
             valueForm.member_id = parseInt(valueForm.member_id)
             valueForm.pro_id = pro_id
             console.log(valueForm)
             if(party.length > 0){
-                    console.log("Cập nhật Party")
+                console.log("Cập nhật Party")
+                dispatch({
+                    type: UPDATE_PARTY,
+                    data: valueForm
+                })
             } else {
                 console.log("Tạo Party")
                 dispatch({
@@ -26,6 +32,7 @@ export default function Step3Component() {
                     data: valueForm
                 });
             }
+            dispatch(setIsNextStep(true))
         }
     }, [nextStep])
 
@@ -52,14 +59,12 @@ export default function Step3Component() {
             [name]: value
         })
     }
-    console.log(party)
+    
     const valueOfField = (name)=>{
         if(name === "admission_date" || name === "announcement_date" || name === "issue_date"){
-            return handleDateTime()
-            // if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined){
-            //     return moment(valueForm[name], "DD-MM-YYYY")
-            //     return moment(new Date(valueForm[name])).format("DD-MM-YYYY")
-            // }
+            if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined){
+                return handleDateTime(valueForm[name])
+            }
         } else if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined){
             return valueForm[name];
         }
@@ -70,7 +75,8 @@ export default function Step3Component() {
         <div className="step3">
             <div className="step3__field">
                 <label>Ngày kết nạp Đảng Cộng Sản Việt Nam:</label>
-                <DatePicker onChange={handleChangDatePicker}
+                <DatePicker 
+                onChange={handleChangDatePicker}
                 placeholder=""
                 placement='bottomRight'
                 suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">

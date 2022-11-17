@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment';
 import { DatePicker } from 'antd';
+import { handleDateTime } from '../../ultils/helper';
 
 export default function ThongTinCaNhan(props) {
 
@@ -23,12 +24,12 @@ export default function ThongTinCaNhan(props) {
                 <DatePicker 
                 value={
                     valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
-                    ? moment(valueForm.ngayCapCCCD, "DD-MM-YYYY")
+                    ? handleDateTime(valueForm.ngayCapCCCD)
                     : ""}
                 onChange={(date,dateString)=>{
                     setValueForm({
                         ...valueForm,
-                        ngayCapCCCD: dateString
+                        ngayCapCCCD: moment(dateString, "DD-MM-YYYY").toISOString()
                     })
                 }}
                 placeholder=""

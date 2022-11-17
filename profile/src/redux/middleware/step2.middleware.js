@@ -6,6 +6,7 @@ import { setMessageAlert } from "../Steps/stepsSlice";
 
 function* createPersonalHistory(payload){
     let {data} = payload;
+    console.log(data)
     let result = yield call(createPersonalHistoryAPI, data)
     let {code, message, data: dataResponse} = result;
     if(code == 200, message === "Success"){

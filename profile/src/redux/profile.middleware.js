@@ -16,7 +16,7 @@ function* getProfileByID(payload){
         console.log(data)
         let {id, user_id} = data;
         let jour_card_id = data.journalist_card[0].id;
-        let user_degree_id = data.user_degree[0].id;
+        let user_degree_id = data?.user_degree[0]?.id;
         let {personal_history, party} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({pro_id: id, user_id, jour_card_id, user_degree_id}))
@@ -27,6 +27,7 @@ function* getProfileByID(payload){
         profile["email"] = email;
         profile["soDienThoai"] = soDienThoai;
         let {phongBanCVObj} = profile;
+        // console.log(phongBanCVObj)
         if(phongBanCVObj.length > 0){
             yield put(addPBCV(phongBanCVObj))
         }
@@ -41,16 +42,18 @@ function* getProfileByID(payload){
 }
 
 function* updateProfile(payload){
+    // console.log(payload.valuesUpdate)
     const {valueForm, user_id, jour_card_id, user_degree_id, pro_id} = payload.valuesUpdate;
+    console.log(valueForm)
     let profile = mappingProfileStep1(valueForm);
     let depPos = mappingDepartmentPosition(valueForm);
     let userDegree = mappingUserDegree(valueForm);
     let jourCard = mappingJournalistCard(valueForm);
     let dataToUpdate = {profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id};
     // console.log(dataToUpdate)
-    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
     yield put(setIsNextStep(true))
     yield put(setValues(valueForm))
+    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
 }
 
 function* createProfile(payload){

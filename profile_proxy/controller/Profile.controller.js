@@ -79,15 +79,17 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
     }
 }
 
-const update_dep_pos_degress_jourCard = async (req,res)=>{
+const update_dep_pos_degress_jourCard = (req,res)=>{
     try {
-        // console.log("update_dep_pos_degress_jourCard")
+        console.log("update_dep_pos_degress_jourCard")
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id} = req.body;
+        // console.log(jourCard)
         let {headers: {authorization}} = req;
         let promiseArr = [];
         // console.log(depPos)
         for(let i = 0; i < depPos.length; i++){
             depPos[i].user_id = user_id
+            // console.log(depPos[i])
             promiseArr.push(axios({
                 url: `${local}/user-dep-pos`,
                 method: "POST",
@@ -100,7 +102,8 @@ const update_dep_pos_degress_jourCard = async (req,res)=>{
         // Chỉnh sửa thuộc tính của user degree rồi mới gắn vô API
         userDegree["pro_id"] = pro_id;
         let {user_id : userID, ...rest} =  userDegree;
-        const updateDegree = await axios({
+        // console.log(rest, user_degree_id)
+        const updateDegree = axios({
             url: `${local}/user-degree/${user_degree_id}`,
             method: "PUT",
             headers: {
@@ -111,7 +114,8 @@ const update_dep_pos_degress_jourCard = async (req,res)=>{
         // Chỉnh sửa thuộc tính của journalist card rồi mới gắn vô API
         jourCard["pro_id"] = pro_id;
         let {user_id : joucardUserID, ...restJourCard} =  jourCard;
-        const updateJourCard = await axios({
+        // console.log(restJourCard)
+        const updateJourCard = axios({
             url: `http://dev.profilebe.tuoitre.vn/journalist-card/${jour_card_id}`,
             method: "PUT",
             headers: {
@@ -129,10 +133,11 @@ const update_dep_pos_degress_jourCard = async (req,res)=>{
             res.send(result)
         })
         .catch((err)=>{
+            console.log("Lỗi ở update_dep_pos_degress_jourCard")
             res.send(err)
         })
     } catch (error) {
-        console.log(error)
+        console.log("Lỗi ở update_dep_pos_degress_jourCard 123")
         res.send(error)
     }
 }

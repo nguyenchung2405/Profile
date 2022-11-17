@@ -80,7 +80,7 @@ export default function StepsAntd() {
     },[user_id])
 
     useEffect(()=>{
-      if(isNextStep < current){
+      if(nextStep < current){
         setCurrent(nextStep);
       }
     },[nextStep])
@@ -97,7 +97,7 @@ export default function StepsAntd() {
         dispatch(clearParty())
       }
     },[])
-
+    
     useEffect(()=>{
       // console.log(nextStep)
       // console.log(isNextStep)

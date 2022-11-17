@@ -62,6 +62,7 @@ const updateProfile = async (req,res,next)=>{
             next();
         }
     } catch (error) {
+        console.log("Lỗi ở updateProfile")
         res.send(error)
     }
 }

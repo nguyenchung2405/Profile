@@ -5,14 +5,16 @@ import ModalComponent from '../modal/modal';
 import { DELETE_PERSONAL_HISTORY, quaTrinhLVHT } from '../../title/title';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step2() {
     
     const { Step } = Steps;
     const dispatch = useDispatch()
     const {personal_history} = useSelector(state => state.step2Reducer)
+    let {nextStep} = useSelector(state => state.stepsReducer);
     let [isShowModal, setIsShowModal] = useState(false)
-    // console.log(personal_history)
+    // console.log(personal_history, pro_id)
     const quaTrinh = personal_history.map((history, index)=>{
         let tuNgay = moment(new Date(history.work_from)).format("DD/MM/YYYY");
         let denNgay = moment(new Date(history.work_to)).format("DD/MM/YYYY");
@@ -27,6 +29,12 @@ export default function Step2() {
     const closeModal = ()=>{
         setIsShowModal(false)
     }
+
+    useEffect(()=>{
+        if(nextStep !== 1){
+            dispatch(setIsNextStep(true))
+        }
+    }, [nextStep])
 
     return (
         <div className="Step2">

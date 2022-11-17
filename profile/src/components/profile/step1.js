@@ -14,6 +14,7 @@ import {FcPlus} from "react-icons/fc";
 import ThongTinCoBan from './ThongTinCoBan';
 import DiaChiLienHe from './DiaChiLienHe';
 import ThongTinCaNhan from './ThongTinCaNhan';
+import { handleDateTime } from '../../ultils/helper';
 
 export default function SoYeuLyLich(props) {
 
@@ -132,7 +133,7 @@ export default function SoYeuLyLich(props) {
            } else if(isNextStep){
             // console.log(isOnLyCreateProfile, isCreateProfile)
                 if(!isCreateProfile && !isOnLyCreateProfile){
-                    console.log("Cập nhật profile")
+                    // console.log("Cập nhật profile")
                     valueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE,
@@ -747,7 +748,7 @@ export default function SoYeuLyLich(props) {
                         </label>
                         <DatePicker 
                         value={valueForm.ngayBoNhiem !== ""
-                        ? moment(valueForm.ngayBoNhiem, "DD-MM-YYYY")
+                        ? handleDateTime(valueForm.ngayBoNhiem)
                         : ""}
                         onBlur={()=>{
                             if(valueForm.ngayBoNhiem === ""){
@@ -765,7 +766,7 @@ export default function SoYeuLyLich(props) {
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                ngayBoNhiem: dateString
+                                ngayBoNhiem: moment(dateString, "DD-MM-YYYY").toISOString()
                             })
                         }}
                         placeholder=""
@@ -782,7 +783,7 @@ export default function SoYeuLyLich(props) {
                         </label>
                         <DatePicker 
                         value={valueForm.ngayHetHanBoNhiem !== ""
-                        ? moment(valueForm.ngayHetHanBoNhiem, "DD-MM-YYYY")
+                        ? handleDateTime(valueForm.ngayHetHanBoNhiem)
                         : ""}
                         onBlur={()=>{
                             if(valueForm.ngayHetHanBoNhiem === ""){
@@ -798,12 +799,13 @@ export default function SoYeuLyLich(props) {
                             }
                         }}
                         onChange={(date,dateString)=>{
-                            let ngayBoNhiemINT = Date.parse(moment(valueForm.ngayBoNhiem, "DD-MM-YYYY"))
-                            let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
+                            let ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem)
+                            let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
+                            console.log(ngayBoNhiemINT, ngayHetBoNhiemINT)
                             if(ngayHetBoNhiemINT > ngayBoNhiemINT){
                                 setValueForm({
                                     ...valueForm,
-                                    ngayHetHanBoNhiem: dateString
+                                    ngayHetHanBoNhiem: moment(dateString, "DD-MM-YYYY").toISOString()
                                 })
                             } else if(ngayHetBoNhiemINT < ngayBoNhiemINT) {
                                 alert("Ngày hết hạn bổ nhiệm phải lớn hơn ngày bổ nhiệm.")
@@ -921,7 +923,7 @@ export default function SoYeuLyLich(props) {
                         </label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucTu !== ""
-                        ? moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY")
+                        ? handleDateTime(valueForm.theCoHieuLucTu)
                         : ""}
                         onBlur={()=>{
                             if(valueForm.theCoHieuLucTu === ""){
@@ -939,7 +941,7 @@ export default function SoYeuLyLich(props) {
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
-                                theCoHieuLucTu: dateString
+                                theCoHieuLucTu: moment(dateString, "DD-MM-YYYY").toISOString()
                             })
                         }}
                         placeholder=""
@@ -956,7 +958,7 @@ export default function SoYeuLyLich(props) {
                         </label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucDen !== ""
-                        ? moment(valueForm.theCoHieuLucDen, "DD-MM-YYYY")
+                        ? handleDateTime(valueForm.theCoHieuLucDen)
                         : ""}
                         onBlur={()=>{
                             if(valueForm.theCoHieuLucDen === ""){
@@ -972,12 +974,13 @@ export default function SoYeuLyLich(props) {
                             }
                         }}
                         onChange={(date,dateString)=>{
-                            let theCoHieuLucTuINT = Date.parse(moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY"))
-                            let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
+                            let theCoHieuLucTuINT = Date.parse(valueForm.theCoHieuLucTu)
+                            let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
+                            console.log(theCoHieuLucTuINT, theCoHieuLucDenINT)
                             if(theCoHieuLucDenINT > theCoHieuLucTuINT){
                                 setValueForm({
                                     ...valueForm,
-                                    theCoHieuLucDen: dateString
+                                    theCoHieuLucDen: moment(dateString, "DD-MM-YYYY").toISOString()
                                 })
                             } else if(theCoHieuLucDenINT < theCoHieuLucTuINT) {
                                 alert("Ngày thẻ có hiệu lực đến phải lớn hơn ngày thẻ có hiệu lực từ.")
