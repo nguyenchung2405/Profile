@@ -485,8 +485,17 @@ div.next {
     align-items: flex-start;
 }
 
-.Step2__content .ant-steps-item-container .ant-steps-item-icon {
-    margin: 6px 15px 0 0;
+.Step4__content div.ant-steps div.ant-steps-item .ant-steps-item-container .ant-steps-item-content {
+    display: block;
+    /* padding-top: 2px; */
+}
+
+.Step4__content div.ant-steps div.ant-steps-item .ant-steps-item-container .ant-steps-item-icon {
+    margin: 5px 18px 0 0;
+}
+
+.steps-content .ant-steps-item-container .ant-steps-item-icon {
+    margin: 6.5px 15px 0 0;
 }
 
 section .Step2__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
@@ -1313,4 +1322,8 @@ div.ant-steps-item-subtitle>svg {
 
 div.step3 {
     width: 100%;
+}
+
+.steps-content div.ant-steps-item div.ant-steps-item-container div.ant-steps-item-content div.ant-steps-item-title {
+    color: black;
 }

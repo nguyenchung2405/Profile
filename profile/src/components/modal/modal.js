@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { Modal, DatePicker, Button } from 'antd';
 import "./modal.css"
 import { CREATE_PERSONAL_HISTORY, daoTao, khenThuong, kyLuat, quaTrinhLVHT } from '../../title/title';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 export default function ModalComponent(props) {
 
     let { title, isShowModal, closeModal } = props;
     const dispatch = useDispatch()
+    let { user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
     const [valueModal, setValueModal] = useState({});
 
     const handleOk = () => {

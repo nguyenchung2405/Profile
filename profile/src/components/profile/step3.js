@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { DatePicker } from 'antd';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_PARTY } from '../../title/title';
+import { CREATE_PARTY, UPDATE_PARTY } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step3Component() {
 
@@ -26,6 +27,7 @@ export default function Step3Component() {
                     data: valueForm
                 });
             }
+            dispatch(setIsNextStep(true))
         }
     }, [nextStep])
 

@@ -5,6 +5,7 @@ import ModalComponent from '../modal/modal';
 import { DELETE_PERSONAL_HISTORY, quaTrinhLVHT } from '../../title/title';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step2() {
 
@@ -27,6 +28,12 @@ export default function Step2() {
     const closeModal = () => {
         setIsShowModal(false)
     }
+
+    useEffect(()=>{
+        if(nextStep !== 1){
+            dispatch(setIsNextStep(true))
+        }
+    }, [nextStep])
 
     return (
         <div className="Step2">

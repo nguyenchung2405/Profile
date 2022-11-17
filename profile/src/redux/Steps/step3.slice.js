@@ -15,9 +15,12 @@ const step3Slice = createSlice({
         },
         clearParty: (state)=>{
             state.party = []
+        },
+        setDataParty: (state, action)=>{
+            state.party[0] = {...action.payload}
         }
     }
 })
 
-export const {getParty, clearParty} = step3Slice.actions;
+export const {getParty, clearParty, setDataParty} = step3Slice.actions;
 export default step3Slice.reducer;
