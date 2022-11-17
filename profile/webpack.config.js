@@ -8,6 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, "dist")
     },
     mode: "development",
+    devtool: "inline-source-map",
     devServer: {
         port: 3000,
         open: true,
@@ -17,31 +18,32 @@ module.exports = {
                 target: "http://localhost:3001",
                 secure: false
             }
-        }
+        },
+        historyApiFallback: true,
     },
     module: {
         rules: [
             {
                 test: /\.less$/,
                 use: [
-                        {
-                            loader: 'style-loader',
-                        },
-                        {
-                            loader: "css-loader",
-                        },
-                        {
-                            loader: "less-loader",
-                            options: {
-                                lessOptions: {
-                                    modifyVars: {
-                                        "primary-color": "#459C60",
-                                        "link-color": "#35794a"
-                                    },
-                                    javascriptEnabled: true,
-                                }
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: "css-loader",
+                    },
+                    {
+                        loader: "less-loader",
+                        options: {
+                            lessOptions: {
+                                modifyVars: {
+                                    "primary-color": "#459C60",
+                                    "link-color": "#35794a"
+                                },
+                                javascriptEnabled: true,
                             }
                         }
+                    }
                 ]
             },
             {
@@ -51,7 +53,7 @@ module.exports = {
                     {
                         loader: "babel-loader",
                         options: {
-                          presets: ["@babel/preset-env", "@babel/preset-react"],
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
                         },
                     },
                 ]
@@ -64,7 +66,7 @@ module.exports = {
                         loader: "css-loader",
                         options: {
                             modules: true,
-                            import:false
+                            import: false
                         }
                     }
                 ],
@@ -95,17 +97,17 @@ module.exports = {
             {
                 test: /\.(png|jpe?g|gif|svg)$/i,
                 use: [
-                  {
-                    loader: 'url-loader',
-                    options: {
-                      limit: false,
-                      mimetype: 'image/png'
-                    }
-                  },
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: false,
+                            mimetype: 'image/png'
+                        }
+                    },
                 ],
                 type: 'javascript/auto'
-              },
-    ],
+            },
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -113,7 +115,10 @@ module.exports = {
         }),
     ],
     resolve: {
-        extensions: [".js",".jsx"]
+        extensions: [".js", ".jsx"]
+    },
+    stats: {
+        children: true
     },
     target: "web",
 }

@@ -6,7 +6,8 @@
     justify-content: space-evenly;
 }
 
-.SoYeuLyLich .SoYeuLyLich__left, .SoYeuLyLich .SoYeuLyLich__right {
+.SoYeuLyLich .SoYeuLyLich__left,
+.SoYeuLyLich .SoYeuLyLich__right {
     width: 380px;
 }
 
@@ -14,22 +15,26 @@
     margin-right: 81px;
 }
 
-.SoYeuLyLich__left .SYLL__left__field,.SoYeuLyLich__right .SYLL__right__field {
+.SoYeuLyLich__left .SYLL__left__field,
+.SoYeuLyLich__right .SYLL__right__field {
     margin-bottom: 20px;
 }
 
-.SoYeuLyLich__left .SYLL__left__field:last-child, .SoYeuLyLich__right .SYLL__right__field:last-child {
+.SoYeuLyLich__left .SYLL__left__field:last-child,
+.SoYeuLyLich__right .SYLL__right__field:last-child {
     margin: 0;
 }
 
-.SoYeuLyLich__left .SYLL__left__field > label, .SoYeuLyLich__right .SYLL__right__field > label  {
+.SoYeuLyLich__left .SYLL__left__field>label,
+.SoYeuLyLich__right .SYLL__right__field>label {
     display: block;
     font-size: 15px;
     font-weight: 400;
     margin-bottom: 11px;
 }
 
-.SoYeuLyLich__left .SYLL__left__field > input, .SoYeuLyLich__right .SYLL__right__field > input{
+.SoYeuLyLich__left .SYLL__left__field>input,
+.SoYeuLyLich__right .SYLL__right__field>input {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
@@ -45,11 +50,12 @@
     border-style: none;
 }
 
-.SYLL__left__field.noiSinh .ant-select:last-child, .SYLL__left__field.queQuan .ant-select:last-child {
+.SYLL__left__field.noiSinh .ant-select:last-child,
+.SYLL__left__field.queQuan .ant-select:last-child {
     margin-bottom: 0;
 }
 
-.ant-select +  .ant-select{
+.ant-select+.ant-select {
     margin-top: 18px;
 }
 
@@ -100,14 +106,17 @@
     margin-bottom: 18px;
 }
 
-.fisrt__content > label, .second__content > label, .third__content > label {
+.fisrt__content>label,
+.second__content>label,
+.third__content>label {
     display: block;
     font-size: 15px;
     font-weight: 400;
     margin-bottom: 11px;
 }
 
-.fisrt__content > input, .second__content > input{
+.fisrt__content>input,
+.second__content>input {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
@@ -147,11 +156,11 @@ input#maSo::placeholder {
     align-items: flex-end;
 }
 
- .second__content.maSo input {
+.second__content.maSo input {
     width: 138px;
 }
 
- .fisrt__content.thanhPhanXuatThan {
+.fisrt__content.thanhPhanXuatThan {
     width: 203px;
     margin-right: 39px;
 }
@@ -161,7 +170,8 @@ input#maSo::placeholder {
     align-items: flex-end;
 }
 
-input#hocVan::placeholder, input#chuyenMon::placeholder {
+input#hocVan::placeholder,
+input#chuyenMon::placeholder {
     padding-left: 13px;
     font-size: 16px;
     color: rgba(102, 102, 102, 0.5);
@@ -185,7 +195,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
     border-radius: 3px;
     border-style: none;
 }
- 
+
 .SYLL__right__field .second__content.date__picker .ant-picker {
     margin-right: 0;
 }
@@ -194,7 +204,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
     display: flex;
 }
 
-.three__content .third__content > input {
+.three__content .third__content>input {
     width: 92px;
     height: 40px;
     background-color: #F0F5FA;
@@ -202,7 +212,8 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
     border-style: none;
 }
 
-.three__content .fisrt__content .ant-picker, .three__content .second__content .ant-picker {
+.three__content .fisrt__content .ant-picker,
+.three__content .second__content .ant-picker {
     width: 111px;
     height: 40px;
     background-color: #F0F5FA;
@@ -215,7 +226,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
 }
 
 .three__content .second__content {
-    margin-right:32px;
+    margin-right: 32px;
 }
 
 .SYLL__right__field .chucVuHienTai input {
@@ -232,18 +243,18 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
 }
 
 .SYLL__right__field .maSo input {
-    width:135px;
+    width: 135px;
 }
 
 .SYLL__right__field.ngayVaoDang .maSo input {
-    width:170px;
+    width: 170px;
 }
 
 .SYLL__right__field .two__content {
     display: block;
 }
 
-.SYLL__right__field .two__content input{
+.SYLL__right__field .two__content input {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
@@ -251,7 +262,7 @@ input#hocVan::placeholder, input#chuyenMon::placeholder {
     height: 40px;
 }
 
-.SYLL__right__field .two__content input::placeholder{
+.SYLL__right__field .two__content input::placeholder {
     padding: 19px;
     font-size: 16px;
     color: rgba(102, 102, 102, 0.5);
@@ -289,7 +300,7 @@ div.next {
 }
 
 .SoYeuLyLich__btn:hover {
-    background-color: #47a363;   
+    background-color: #47a363;
 }
 
 .steps_steps__UOUsf .steps-content {
@@ -305,6 +316,7 @@ div.next {
 
 .step3 .step3__field {
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 .step3 .step3__field:last-child {
@@ -422,7 +434,7 @@ div.next {
     display: block;
 }
 
-.xuatThan > div {
+.xuatThan>div {
     display: flex;
 }
 
@@ -435,7 +447,7 @@ div.next {
 }
 
 .maSo__ChucVu .maSo {
-    display:block;
+    display: block;
 }
 
 .Step2 {
@@ -449,7 +461,7 @@ div.next {
 }
 
 .Step2 .Step2__header p {
-    color:#3699FF;
+    color: #3699FF;
 }
 
 .Step2 .Step2__header p:first-child {
@@ -468,25 +480,37 @@ div.next {
     margin-top: 22px;
 }
 
-.steps_steps__UOUsf .Step2__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
-    display: block;
-    padding-top: 9px;
+.Step2__content .ant-steps-item-container {
+    display: flex;
+    align-items: flex-start;
 }
 
-.App .steps_steps__UOUsf .Step2__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+.Step2__content .ant-steps-item-container .ant-steps-item-icon {
+    margin: 6px 15px 0 0;
+}
+
+section .Step2__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
+    display: block;
+}
+
+.App section .Step2__content .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
     color: black;
 }
 
-.steps_steps__UOUsf .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-steps-icon-dot{
+section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-steps-icon-dot {
     width: 9px;
     height: 9px;
+}
+
+.Step2 .ant-steps-vertical>.ant-steps-item .ant-steps-item-description {
+    padding-bottom: 0;
 }
 
 .Step2 .Step2__content .ant-steps .ant-steps-item-description {
     color: black;
 }
 
-.SYLL__right__field  .phongBanCV__list > div {
+.SYLL__right__field .phongBanCV__list>div {
     display: flex;
     padding-bottom: 5px;
     border-bottom: 1px solid black;
@@ -494,11 +518,11 @@ div.next {
     align-items: center;
 }
 
-.SYLL__right__field  .phongBanCV__list > div > div {
+.SYLL__right__field .phongBanCV__list>div>div {
     width: calc(100% - 20px);
 }
 
-.SYLL__right__field  .phongBanCV__list div:last-child {
+.SYLL__right__field .phongBanCV__list div:last-child {
     width: 100%;
     padding-bottom: 0;
     margin-bottom: 0px;
@@ -509,29 +533,32 @@ div.next {
     border-color: #459C60;
 }
 
-.SYLL__right__field  .phongBanCV__list div p {
+.SYLL__right__field .phongBanCV__list div p {
     height: 100%;
 }
 
-.SYLL__right__field  .phongBanCV__list div p:first-child {
+.SYLL__right__field .phongBanCV__list div p:first-child {
     width: 100%;
     height: fit-content;
     margin-bottom: 5px;
 }
 
-.SYLL__right__field  .phongBanCV__list div p:nth-child(2){
+.SYLL__right__field .phongBanCV__list div p:nth-child(2) {
     height: fit-content;
     width: 100%;
 }
 
-.SYLL__right__field  .phongBanCV__list div svg {
+.SYLL__right__field .phongBanCV__list div svg {
     color: red;
     cursor: pointer;
     font-size: 20px;
 }
 
-.Step2__footer button, .Step4__footer button, .Step5__footer button,
-.Step6__footer button, .Step7__footer button {
+.Step2__footer button,
+.Step4__footer button,
+.Step5__footer button,
+.Step6__footer button,
+.Step7__footer button {
     background-color: transparent;
     border: 1px solid #3699FF;
     color: #3699FF;
@@ -543,20 +570,29 @@ div.next {
     justify-content: center;
 }
 
-.Step2__footer, .Step4__footer, .Step5__footer, .Step6__footer {
+.Step2__footer,
+.Step4__footer,
+.Step5__footer,
+.Step6__footer {
     margin-left: 12px;
     margin-top: 39px;
 }
 
-.Step2__footer button svg, .Step4__footer button svg, .Step5__footer button svg, 
-.Step6__footer button svg, .Step7__footer button svg{
+.Step2__footer button svg,
+.Step4__footer button svg,
+.Step5__footer button svg,
+.Step6__footer button svg,
+.Step7__footer button svg {
     width: 21px;
     height: 21px;
     margin-right: 7px;
 }
 
-.Step2__content .ant-steps, .Step4__content .ant-steps, .Step5__content .ant-steps,
-.Step6__content .ant-steps, .Step7__content .ant-steps{
+.Step2__content .ant-steps,
+.Step4__content .ant-steps,
+.Step5__content .ant-steps,
+.Step6__content .ant-steps,
+.Step7__content .ant-steps {
     padding-left: 12px;
 }
 
@@ -607,7 +643,7 @@ div.next {
     display: block;
     margin-left: 0px;
     text-transform: uppercase;
-    color:red;
+    color: red;
     font-size: 10px;
     margin: 4px 0 0px 0;
 }
@@ -642,7 +678,8 @@ div.next {
     display: flex;
 }
 
-.Step7 .Step7__left, .Step7 .Step7__right {
+.Step7 .Step7__left,
+.Step7 .Step7__right {
     width: 380px;
 }
 
@@ -668,7 +705,7 @@ div.next {
     margin-bottom: 33px;
 }
 
-.Step7 .vo > p {
+.Step7 .vo>p {
     font-weight: bold;
     margin-bottom: 24px;
 }
@@ -701,7 +738,7 @@ div.next {
     background-color: #F0F5FA;
 }
 
-.Step7 .field > label {
+.Step7 .field>label {
     display: block;
     font-size: 15px;
     font-weight: 400;
@@ -734,7 +771,7 @@ div.next {
     margin-bottom: 30px;
 }
 
-.Step7__right > p {
+.Step7__right>p {
     font-weight: bold;
     margin-bottom: 21px;
 }
@@ -747,7 +784,8 @@ input#diaChi {
     margin-bottom: 22px;
 }
 
-.Step7 .Step7__right .field:last-child, .Step7 .Step7__left .field:last-child{
+.Step7 .Step7__right .field:last-child,
+.Step7 .Step7__left .field:last-child {
     margin-bottom: 0px;
 }
 
@@ -778,7 +816,7 @@ input#diaChi {
     margin-right: 7px;
 }
 
-.Step8 > p {
+.Step8>p {
     margin-bottom: 22px;
     font-size: 15px;
     font-weight: bold;
@@ -808,7 +846,8 @@ input#diaChi {
     color: rgba(102, 102, 102, 0.5);
 }
 
-.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+.Step8 .birthday .ant-select,
+.noiCuTru .ant-select {
     width: 135px;
     height: 40px;
     border-radius: 3px;
@@ -816,27 +855,32 @@ input#diaChi {
     border-style: none;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+.Step8 .birthday .ant-select .ant-select-selector,
+.noiCuTru .ant-select .ant-select-selector {
     height: 100%;
     display: flex;
     align-items: center;
     background-color: #F0F5FA;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
     font-weight: 300;
     color: rgba(102, 102, 102, 0.5);
 }
 
-.Step8 .birthday > div.ant-select:nth-child(2), .noiCuTru > div.ant-select:nth-child(3){
+.Step8 .birthday>div.ant-select:nth-child(2),
+.noiCuTru>div.ant-select:nth-child(3) {
     margin-left: 0;
 }
 
-.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+.Step8 .birthday .ant-select,
+.noiCuTru .ant-select {
     margin-left: 23px;
-}.Step8 > p {
+}
+
+.Step8>p {
     margin-bottom: 22px;
     font-size: 15px;
     font-weight: bold;
@@ -866,7 +910,8 @@ input#diaChi {
     color: rgba(102, 102, 102, 0.5);
 }
 
-.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+.Step8 .birthday .ant-select,
+.noiCuTru .ant-select {
     width: 135px;
     height: 40px;
     border-radius: 3px;
@@ -874,15 +919,16 @@ input#diaChi {
     border-style: none;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+.Step8 .birthday .ant-select .ant-select-selector,
+.noiCuTru .ant-select .ant-select-selector {
     height: 100%;
     display: flex;
     align-items: center;
     background-color: #F0F5FA;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
     font-weight: 300;
     color: rgba(102, 102, 102, 0.5);
@@ -891,7 +937,9 @@ input#diaChi {
 .steps_steps__UOUsf .Step8__quaTrinh .Step8__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
     display: block;
     padding-top: 9px;
-}.Step8 > p {
+}
+
+.Step8>p {
     margin-bottom: 22px;
     font-size: 15px;
     font-weight: bold;
@@ -921,7 +969,8 @@ input#diaChi {
     color: rgba(102, 102, 102, 0.5);
 }
 
-.Step8 .birthday .ant-select, .noiCuTru .ant-select {
+.Step8 .birthday .ant-select,
+.noiCuTru .ant-select {
     width: 135px;
     height: 40px;
     border-radius: 3px;
@@ -929,15 +978,16 @@ input#diaChi {
     border-style: none;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector, .noiCuTru .ant-select .ant-select-selector{
+.Step8 .birthday .ant-select .ant-select-selector,
+.noiCuTru .ant-select .ant-select-selector {
     height: 100%;
     display: flex;
     align-items: center;
     background-color: #F0F5FA;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item, 
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item{
+.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
+.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
     font-weight: 300;
     color: rgba(102, 102, 102, 0.5);
@@ -976,7 +1026,7 @@ input#diaChi {
     margin-bottom: 20px;
 }
 
-.noiCuTru > input {
+.noiCuTru>input {
     display: block;
     background-color: #F0F5FA;
     border-radius: 3px;
@@ -985,7 +1035,7 @@ input#diaChi {
     height: 40px;
 }
 
-.noiCuTru > input {
+.noiCuTru>input {
     margin-bottom: 20px;
 }
 
@@ -998,7 +1048,7 @@ input#diaChi {
     height: 44px;
 }
 
-.quanHeGiaDinh .ant-select .ant-select-selector{
+.quanHeGiaDinh .ant-select .ant-select-selector {
     background-color: #4794ff;
     color: white;
     text-align: center;
@@ -1007,8 +1057,8 @@ input#diaChi {
     align-items: center;
 }
 
-.quanHeGiaDinh .ant-select-arrow span svg{
-    color:white;
+.quanHeGiaDinh .ant-select-arrow span svg {
+    color: white;
 }
 
 .quanHeList .rc-virtual-list-holder-inner .ant-select-item {
@@ -1029,7 +1079,7 @@ input#diaChi {
     font-size: 11px;
 }
 
-.tableProfiles > div.ant-table-wrapper {
+.tableProfiles>div.ant-table-wrapper {
     width: 100%;
     padding: 0 18px;
     background-color: white;
@@ -1060,7 +1110,8 @@ td.tableProfiles__thaoTac div {
     justify-content: center;
 }
 
-.tableProfiles__thaoTac button, button.thaoTac__Edit__btn {
+.tableProfiles__thaoTac button,
+button.thaoTac__Edit__btn {
     padding: 2px;
     display: flex;
     align-items: center;
@@ -1069,7 +1120,8 @@ td.tableProfiles__thaoTac div {
     width: 28px;
 }
 
-.tableProfiles__thaoTac svg, button.thaoTac__Edit__btn svg {
+.tableProfiles__thaoTac svg,
+button.thaoTac__Edit__btn svg {
     color: white;
     width: 20px;
     height: 100%;
@@ -1086,7 +1138,8 @@ td.tableProfiles__thaoTac div {
     right: 160px;
 }
 
-.tableProfiles li.ant-pagination-item:hover, .tableProfiles .ant-pagination-item-active:hover {
+.tableProfiles li.ant-pagination-item:hover,
+.tableProfiles .ant-pagination-item-active:hover {
     border-color: #459C60;
     transition: all .3s;
 }
@@ -1120,10 +1173,10 @@ td.tableProfiles__thaoTac div {
 }
 
 .tableProfiles .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    box-shadow: 0 0 0 2px rgba(69,156,96,0.2);
+    box-shadow: 0 0 0 2px rgba(69, 156, 96, 0.2);
 }
 
-.App div.ant-spin{
+.App div.ant-spin {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -1205,7 +1258,8 @@ td.tableProfiles__thaoTac div {
     position: absolute;
 }
 
-.SYLL__left__field.birthday .ant-picker, .SYLL__right__field.ngayTuyenDung .ant-picker {
+.SYLL__left__field.birthday .ant-picker,
+.SYLL__right__field.ngayTuyenDung .ant-picker {
     width: 100%;
     /* margin-right: 40px; */
     height: 40px;
@@ -1214,11 +1268,13 @@ td.tableProfiles__thaoTac div {
     border-style: none;
 }
 
-.SYLL__left__field.noiSinh, .SYLL__left__field.queQuan {
+.SYLL__left__field.noiSinh,
+.SYLL__left__field.queQuan {
     position: relative;
 }
 
-.SYLL__left__field.noiSinh svg, .SYLL__left__field.queQuan svg{
+.SYLL__left__field.noiSinh svg,
+.SYLL__left__field.queQuan svg {
     position: absolute;
     top: 3px;
     right: 0;
@@ -1236,11 +1292,25 @@ td.ant-table-cell.tableProfiles__avatar {
     text-align: center;
 }
 
-td.ant-table-cell.tableProfiles__avatar > img {
+td.ant-table-cell.tableProfiles__avatar>img {
     height: 70px;
     width: 70px;
 }
 
 .SoYeuLyLich__left div.gender.SYLL__left__field {
     margin-bottom: 20px;
+}
+
+div.ant-steps-item-subtitle>svg {
+    color: red;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.steps-content {
+    width: 100%;
+}
+
+div.step3 {
+    width: 100%;
 }
