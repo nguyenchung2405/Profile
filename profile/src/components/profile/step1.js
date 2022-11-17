@@ -83,18 +83,18 @@ export default function SoYeuLyLich(props) {
             noiOHienTai: { ...valueForm.noiOHienTai, huyen: "" }
         });
     }, [noiOHuyen])
-
+    
     useEffect(() => {
         setValueForm({
             ...valueForm,
-            hoKhauThuongTru: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
+            hoKhauThuongTru: { ...valueForm.hoKhauThuongTru, quan: "", huyen: "" }
         });
     }, [hoKhauQuan])
 
     useEffect(() => {
         setValueForm({
             ...valueForm,
-            hoKhauThuongTru: { ...valueForm.noiOHienTai, huyen: "" }
+            hoKhauThuongTru: { ...valueForm.hoKhauThuongTru, huyen: "" }
         });
     }, [hoKhauHuyen])
 
@@ -130,10 +130,10 @@ export default function SoYeuLyLich(props) {
             //    console.log(isNextStep)
             if (!isNextStep) {
                 dispatch(moveToNextStep(0))
-            } else if (isNextStep) {
-                // console.log(isOnLyCreateProfile, isCreateProfile)
-                if (!isCreateProfile && !isOnLyCreateProfile) {
-                    console.log("Cập nhật profile")
+           } else if(isNextStep){
+            // console.log(isOnLyCreateProfile, isCreateProfile)
+                if(!isCreateProfile && !isOnLyCreateProfile){
+                    // console.log("Cập nhật profile")
                     valueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE,
@@ -746,34 +746,34 @@ export default function SoYeuLyLich(props) {
                         <label>Ngày bổ nhiệm:
                             <span className="required__field"> *</span>
                         </label>
-                        <DatePicker
-                            value={valueForm.ngayBoNhiem !== ""
-                                ? moment(valueForm.ngayBoNhiem, "DD-MM-YYYY")
-                                : ""}
-                            onBlur={() => {
-                                if (valueForm.ngayBoNhiem === "") {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayBoNhiem: true
-                                    })
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayBoNhiem: false
-                                    })
-                                }
-                            }}
-                            onChange={(date, dateString) => {
-                                setValueForm({
-                                    ...valueForm,
-                                    ngayBoNhiem: dateString
+                        <DatePicker 
+                        value={valueForm.ngayBoNhiem !== ""
+                        ? handleDateTime(valueForm.ngayBoNhiem)
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.ngayBoNhiem === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayBoNhiem: true
                                 })
-                            }}
-                            placeholder=""
-                            suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6" />
-                            </svg>}
-                            format="DD-MM-YYYY"
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayBoNhiem: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            setValueForm({
+                                ...valueForm,
+                                ngayBoNhiem: moment(dateString, "DD-MM-YYYY").toISOString()
+                            })
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
                         />
                         {validateForm.ngayBoNhiem ? showRequiredAlert() : ""}
                     </div>
@@ -781,46 +781,47 @@ export default function SoYeuLyLich(props) {
                         <label>Ngày hết hạn bổ nhiệm:
                             <span className="required__field"> *</span>
                         </label>
-                        <DatePicker
-                            value={valueForm.ngayHetHanBoNhiem !== ""
-                                ? moment(valueForm.ngayHetHanBoNhiem, "DD-MM-YYYY")
-                                : ""}
-                            onBlur={() => {
-                                if (valueForm.ngayHetHanBoNhiem === "") {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayHetHanBoNhiem: true
-                                    })
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        ngayHetHanBoNhiem: false
-                                    })
-                                }
-                            }}
-                            onChange={(date, dateString) => {
-                                let ngayBoNhiemINT = Date.parse(moment(valueForm.ngayBoNhiem, "DD-MM-YYYY"))
-                                let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
-                                if (ngayHetBoNhiemINT > ngayBoNhiemINT) {
-                                    setValueForm({
-                                        ...valueForm,
-                                        ngayHetHanBoNhiem: dateString
-                                    })
-                                } else if (ngayHetBoNhiemINT < ngayBoNhiemINT) {
-                                    alert("Ngày hết hạn bổ nhiệm phải lớn hơn ngày bổ nhiệm.")
-                                } else {
-                                    setValueForm({
-                                        ...valueForm,
-                                        ngayHetHanBoNhiem: ""
-                                    })
-                                    alert("Ngày bổ nhiêm không được để trống")
-                                }
-                            }}
-                            placeholder=""
-                            suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6" />
-                            </svg>}
-                            format="DD-MM-YYYY"
+                        <DatePicker 
+                        value={valueForm.ngayHetHanBoNhiem !== ""
+                        ? handleDateTime(valueForm.ngayHetHanBoNhiem)
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.ngayHetHanBoNhiem === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayHetHanBoNhiem: true
+                                })
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    ngayHetHanBoNhiem: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            let ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem)
+                            let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
+                            console.log(ngayBoNhiemINT, ngayHetBoNhiemINT)
+                            if(ngayHetBoNhiemINT > ngayBoNhiemINT){
+                                setValueForm({
+                                    ...valueForm,
+                                    ngayHetHanBoNhiem: moment(dateString, "DD-MM-YYYY").toISOString()
+                                })
+                            } else if(ngayHetBoNhiemINT < ngayBoNhiemINT) {
+                                alert("Ngày hết hạn bổ nhiệm phải lớn hơn ngày bổ nhiệm.")
+                            } else {
+                                setValueForm({
+                                    ...valueForm,
+                                    ngayHetHanBoNhiem: ""
+                                })
+                                alert("Ngày bổ nhiêm không được để trống")
+                            }
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
                         />
                         {validateForm.ngayHetHanBoNhiem ? showRequiredAlert() : ""}
                     </div>
@@ -920,34 +921,34 @@ export default function SoYeuLyLich(props) {
                         <label >Thẻ có hiệu lực từ:
                             <span className="required__field"> *</span>
                         </label>
-                        <DatePicker
-                            value={valueForm.theCoHieuLucTu !== ""
-                                ? moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY")
-                                : ""}
-                            onBlur={() => {
-                                if (valueForm.theCoHieuLucTu === "") {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        theCoHieuLucTu: true
-                                    })
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        theCoHieuLucTu: false
-                                    })
-                                }
-                            }}
-                            onChange={(date, dateString) => {
-                                setValueForm({
-                                    ...valueForm,
-                                    theCoHieuLucTu: dateString
+                        <DatePicker 
+                        value={valueForm.theCoHieuLucTu !== ""
+                        ? handleDateTime(valueForm.theCoHieuLucTu)
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.theCoHieuLucTu === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucTu: true
                                 })
-                            }}
-                            placeholder=""
-                            suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6" />
-                            </svg>}
-                            format="DD-MM-YYYY"
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucTu: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            setValueForm({
+                                ...valueForm,
+                                theCoHieuLucTu: moment(dateString, "DD-MM-YYYY").toISOString()
+                            })
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
                         />
                         {validateForm.theCoHieuLucTu ? showRequiredAlert() : ""}
                     </div>
@@ -955,46 +956,47 @@ export default function SoYeuLyLich(props) {
                         <label >Thẻ có hiệu lực đến:
                             <span className="required__field"> *</span>
                         </label>
-                        <DatePicker
-                            value={valueForm.theCoHieuLucDen !== ""
-                                ? moment(valueForm.theCoHieuLucDen, "DD-MM-YYYY")
-                                : ""}
-                            onBlur={() => {
-                                if (valueForm.theCoHieuLucDen === "") {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        theCoHieuLucDen: true
-                                    })
-                                } else {
-                                    setValidateForm({
-                                        ...validateForm,
-                                        theCoHieuLucDen: false
-                                    })
-                                }
-                            }}
-                            onChange={(date, dateString) => {
-                                let theCoHieuLucTuINT = Date.parse(moment(valueForm.theCoHieuLucTu, "DD-MM-YYYY"))
-                                let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY"))
-                                if (theCoHieuLucDenINT > theCoHieuLucTuINT) {
-                                    setValueForm({
-                                        ...valueForm,
-                                        theCoHieuLucDen: dateString
-                                    })
-                                } else if (theCoHieuLucDenINT < theCoHieuLucTuINT) {
-                                    alert("Ngày thẻ có hiệu lực đến phải lớn hơn ngày thẻ có hiệu lực từ.")
-                                } else {
-                                    setValueForm({
-                                        ...valueForm,
-                                        theCoHieuLucDen: ""
-                                    })
-                                    alert("Ngày thẻ có hiệu lực từ không được để trống")
-                                }
-                            }}
-                            placeholder=""
-                            suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6" />
-                            </svg>}
-                            format="DD-MM-YYYY"
+                        <DatePicker 
+                        value={valueForm.theCoHieuLucDen !== ""
+                        ? handleDateTime(valueForm.theCoHieuLucDen)
+                        : ""}
+                        onBlur={()=>{
+                            if(valueForm.theCoHieuLucDen === ""){
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucDen: true
+                                })
+                            } else {
+                                setValidateForm({
+                                    ...validateForm,
+                                    theCoHieuLucDen: false
+                                })
+                            }
+                        }}
+                        onChange={(date,dateString)=>{
+                            let theCoHieuLucTuINT = Date.parse(valueForm.theCoHieuLucTu)
+                            let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
+                            console.log(theCoHieuLucTuINT, theCoHieuLucDenINT)
+                            if(theCoHieuLucDenINT > theCoHieuLucTuINT){
+                                setValueForm({
+                                    ...valueForm,
+                                    theCoHieuLucDen: moment(dateString, "DD-MM-YYYY").toISOString()
+                                })
+                            } else if(theCoHieuLucDenINT < theCoHieuLucTuINT) {
+                                alert("Ngày thẻ có hiệu lực đến phải lớn hơn ngày thẻ có hiệu lực từ.")
+                            } else {
+                                setValueForm({
+                                    ...valueForm,
+                                    theCoHieuLucDen: ""
+                                })
+                                alert("Ngày thẻ có hiệu lực từ không được để trống")
+                            }
+                        }}
+                        placeholder=""
+                        suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                        </svg>}
+                        format="DD-MM-YYYY"
                         />
                         {validateForm.theCoHieuLucDen ? showRequiredAlert() : ""}
                     </div>

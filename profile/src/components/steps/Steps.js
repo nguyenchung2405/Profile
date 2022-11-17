@@ -35,77 +35,77 @@ export default function StepsAntd() {
     dispatch(moveToNextStep(value));
   };
 
-  useEffect(() => {
-    let { type, msg } = messageAlert;
-    if (type === "success") {
-      message.success(msg)
-    } else if (type === "error") {
-      message.error(msg)
-    }
-  }, [messageAlert])
+    useEffect(()=>{
+      let {type, msg} = messageAlert;
+      if(type === "success"){
+        message.success(msg)
+      } else if(type === "error") {
+        message.error(msg)
+      }
+    }, [messageAlert])
 
-  useEffect(() => {
-    // lấy user_id từ param trên URL => call API lấy profile
-    if (proID) {
-      let { email, soDienThoai } = emailPhone;
-      dispatch({
-        type: GET_PROFILE_BY_ID,
-        // user_id này là API cũ cần để lấy profile nhưng do API mới cần là pro_id 
-        // nên truyền vào pro_id còn tên user_id thì giư để khỏi thay đổi code ở redux, saga
-        data: { proID, email, soDienThoai }
-      });
-      dispatch(setIsOnLyCreateProfile(false))
-      dispatch(setIsLoading(true));
-    } else {
-      dispatch(setIsCreateProfile(true))
-    }
-  }, [proID])
+    useEffect(()=>{
+      // lấy user_id từ param trên URL => call API lấy profile
+      if(proID){
+        let {email, soDienThoai} = emailPhone;
+        dispatch({
+          type: GET_PROFILE_BY_ID,
+          // user_id này là API cũ cần để lấy profile nhưng do API mới cần là pro_id 
+          // nên truyền vào pro_id còn tên user_id thì giư để khỏi thay đổi code ở redux, saga
+          data: {proID, email, soDienThoai}
+        });
+        dispatch(setIsOnLyCreateProfile(false))
+        dispatch(setIsLoading(true));
+      } else {
+        dispatch(setIsCreateProfile(true))
+      }
+    },[proID])
 
-  useEffect(() => {
-    if (userID) {
-      // console.log(userID)
-      dispatch(setIsCreateProfile(false))
-      dispatch(setIsOnLyCreateProfile(true))
-      dispatch(setUserProfileID({ user_id: userID }))
-    }
-  }, [userID])
+    useEffect(()=>{
+      if(userID){
+        // console.log(userID)
+        dispatch(setIsCreateProfile(false))
+        dispatch(setIsOnLyCreateProfile(true))
+        dispatch(setUserProfileID({user_id: userID}))
+      }
+    },[userID])
 
-  useEffect(() => {
-    if (user_id) {
-      dispatch({
-        type: GET_AVATAR,
-        user_id: user_id
-      })
-    }
-  }, [user_id])
+    useEffect(()=>{
+      if(user_id){
+        dispatch({
+          type: GET_AVATAR,
+          user_id: user_id
+        })
+      }
+    },[user_id])
 
-  useEffect(() => {
-    if (isNextStep < current) {
-      setCurrent(nextStep);
-    }
-  }, [nextStep])
+    useEffect(()=>{
+      if(nextStep < current){
+        setCurrent(nextStep);
+      }
+    },[nextStep])
 
-  useEffect(() => {
-    return () => {
-      dispatch(moveToNextStep(0))
-      dispatch(removePBCV())
-      dispatch(setUserProfileID({}))
-      dispatch(setAvatar(""))
-      dispatch(setEmailPhone({}))
-      dispatch(setMessageAlert({}))
-      dispatch(setIsLoading(false));
-      dispatch(clearParty())
-    }
-  }, [])
-
-  useEffect(() => {
-    // console.log(nextStep)
-    // console.log(isNextStep)
-    if (isNextStep) {
-      setCurrent(nextStep);
-      dispatch(setIsNextStep(false))
-    }
-  }, [isNextStep])
+    useEffect(()=>{
+      return () => {
+        dispatch(moveToNextStep(0))
+        dispatch(removePBCV())
+        dispatch(setUserProfileID({}))
+        dispatch(setAvatar(""))
+        dispatch(setEmailPhone({}))
+        dispatch(setMessageAlert({}))
+        dispatch(setIsLoading(false));
+        dispatch(clearParty())
+      }
+    },[])
+    
+    useEffect(()=>{
+      // console.log(nextStep)
+      // console.log(isNextStep)
+      if(isNextStep){
+        setCurrent(nextStep);
+        dispatch(setIsNextStep(false))
+      }
+    },[isNextStep])
 
   const showLoading = () => {
     if (isLoading) {

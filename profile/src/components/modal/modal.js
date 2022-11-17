@@ -13,13 +13,14 @@ export default function ModalComponent(props) {
     const [valueModal, setValueModal] = useState({});
 
     const handleOk = () => {
-        if (title === quaTrinhLVHT) {
-            dispatch({
-                type: CREATE_PERSONAL_HISTORY,
-                data: valueModal
-            });
-
-        }
+        if(title === quaTrinhLVHT){
+                valueModal.pro_id = pro_id;
+                dispatch({
+                    type: CREATE_PERSONAL_HISTORY,
+                    data: valueModal
+                });
+                
+        }  
         closeModal()
     };
 

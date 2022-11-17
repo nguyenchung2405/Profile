@@ -11,10 +11,11 @@ export default function Step2() {
 
     const { Step } = Steps;
     const dispatch = useDispatch()
-    const { personal_history } = useSelector(state => state.step2Reducer)
+    const {personal_history} = useSelector(state => state.step2Reducer)
+    let {nextStep} = useSelector(state => state.stepsReducer);
     let [isShowModal, setIsShowModal] = useState(false)
-    // console.log(personal_history)
-    const quaTrinh = personal_history.map((history, index) => {
+    // console.log(personal_history, pro_id)
+    const quaTrinh = personal_history.map((history, index)=>{
         let tuNgay = moment(new Date(history.work_from)).format("DD/MM/YYYY");
         let denNgay = moment(new Date(history.work_to)).format("DD/MM/YYYY");
         let description = history.work_place;
