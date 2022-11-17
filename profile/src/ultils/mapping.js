@@ -1,46 +1,47 @@
 import moment from "moment"
 
-export const mappingProfileStep1 = (formValues) => {
-  // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
-  const { noiOHienTai: { diaChi, huyen, quan, tinh } } = formValues;
-  // let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
-  // console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
-  // console.log(moment(new Date(a)).format("DD/MM/YYYY"))
-
-  return {
-    "user_id": "",
-    "full_name": formValues.hoTen,
-    "pen_name": formValues.tenThuongGoi,
-    "birth_day": moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString(),
-    "gender": formValues.gioiTinh,
-    "birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
-    "home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
-    "local_phone": formValues.soDienThoaiNoiBo,
-    "resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
-    "ethnic": formValues.danToc,
-    "religion": formValues.tonGiao,
-    "background_origin": formValues.thanhPhanXuatThan,
-    "occupation": formValues.ngheNghiep,
-    "identity_card": formValues.canCuocCD,
-    "identity_card_when": moment(formValues.ngayCapCCCD, "DD/MM/YYYY").toISOString(),
-    "identity_card_where": formValues.noiCapCCCD
-  }
+export const mappingProfileStep1 = (formValues)=>{
+    // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
+    const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
+    // let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
+    // console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
+    // console.log(moment(new Date(a)).format("DD/MM/YYYY"))
+    
+    return {
+        "user_id": "",
+        "full_name": formValues.hoTen,
+        "pen_name": formValues.tenThuongGoi,
+        "birth_day": formValues.ngayThangNamSinh,
+        "gender": formValues.gioiTinh,
+        "birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
+        "home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
+        "local_phone": formValues.soDienThoaiNoiBo,
+        "resident": `${diaChi}, ${huyen}, ${quan}, ${tinh}`,
+        "ethnic": formValues.danToc,
+        "religion": formValues.tonGiao,
+        "background_origin": formValues.thanhPhanXuatThan,
+        "occupation": formValues.ngheNghiep,
+        "identity_card": formValues.canCuocCD,
+        "identity_card_when": formValues.ngayCapCCCD,
+        "identity_card_where": formValues.noiCapCCCD
+    }
 }
 
-export const mappingDepartmentPosition = (data) => {
-  let depPosArr = [];
-  for (let depPos of data.phongBanCVObj) {
-    depPosArr.push({
-      "user_id": "",
-      "dep_id": depPos.phongBan,
-      "pos_man_id": depPos.chucVu,
-      "appointment_date": moment(data.ngayBoNhiem, "DD/MM/YYYY").toISOString(),
-      "expire_date": moment(data.ngayHetHanBoNhiem, "DD/MM/YYYY").toISOString(),
-      // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
-      "is_primary": "1"
-    })
-  }
-  return depPosArr;
+export const mappingDepartmentPosition = (data)=>{
+    let depPosArr = [];
+    // console.log(data.ngayBoNhiem,  data.ngayHetHanBoNhiem)
+    for(let depPos of data.phongBanCVObj){
+        depPosArr.push({
+            "user_id": "",
+            "dep_id": depPos.phongBan,
+            "pos_man_id": depPos.chucVu,
+            "appointment_date": data.ngayBoNhiem,
+            "expire_date": data.ngayHetHanBoNhiem,
+            // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
+            "is_primary": false
+        })
+    }
+    return depPosArr;
 }
 
 export const mappingUserDegree = (data) => {
@@ -61,16 +62,16 @@ export const mappingUserDegree = (data) => {
   }
 }
 
-export const mappingJournalistCard = (data) => {
-  return {
-    "pro_id": "",
-    "user_id": "",
-    "number": data.soTheNhaBao,
-    "number_day": Date.parse(moment(data.ngayCapTheNhaBao, "DD-MM-YYYY")) / 10000,
-    "begin": moment(data.theCoHieuLucTu, "DD/MM/YYYY").toISOString(),
-    "end": moment(data.theCoHieuLucDen, "DD/MM/YYYY").toISOString(),
-    "note": ""
-  }
+export const mappingJournalistCard = (data)=>{
+    return {
+        "pro_id": "",
+        "user_id": "",
+        "number": data.soTheNhaBao,
+        "number_day": Date.parse(moment(data.ngayCapTheNhaBao, "DD-MM-YYYY")) / 10000,
+        "begin": data.theCoHieuLucTu,
+        "end": data.theCoHieuLucDen,
+        "note":""
+    }
 }
 
 function tachDuLieu(string, capDuLieu = 3) {
@@ -138,36 +139,36 @@ function tachDuLieuPhongBan_ChucVu(data) {
 
 export const mappingProfileAPI = (values) => {
   // console.log(moment(new Date(values.identity_card_when)).format("DD/MM/YYYY"))
-  return {
-    canCuocCD: values.identity_card,
-    chuyenMon: values?.user_degree[0]?.diploma,
-    danToc: values.ethnic,
-    // email: "doannguyenchung@gmail.com",
-    gioiTinh: values.gender,
-    hoKhauThuongTru: tachDuLieu(values?.user_degree[0]?.permanent_residence, 4),
-    hoTen: values.full_name,
-    hocVan: values?.user_degree[0]?.education,
-    lyLuanCT: values?.user_degree[0]?.politic,
-    ngayBoNhiem: moment(new Date(values?.user_dep_pos[0]?.appointment_date)).format("DD/MM/YYYY"),
-    ngayCapCCCD: moment(new Date(values.identity_card_when)).format("DD/MM/YYYY"),
-    ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY"),
-    // ngayDuocTuyenDung: "",
-    ngayHetHanBoNhiem: moment(new Date(values?.user_dep_pos[0]?.expire_date)).format("DD/MM/YYYY"),
-    ngayThangNamSinh: moment(new Date(values.birth_day)).format("DD/MM/YYYY"),
-    ngheNghiep: values.occupation,
-    ngoaiNgu: values?.user_degree[0]?.foreign_language,
-    noiCapCCCD: values.identity_card_where,
-    noiOHienTai: tachDuLieu(values.resident, 4),
-    noiSinh: tachDuLieu(values.birth_place, 3),
-    phongBanCVObj: tachDuLieuPhongBan_ChucVu(values),
-    queQuan: tachDuLieu(values.home_town, 3),
-    // soDienThoai: "",
-    soDienThoaiNoiBo: values.local_phone,
-    soTheNhaBao: values?.journalist_card[0]?.number,
-    tenThuongGoi: values.pen_name,
-    thanhPhanXuatThan: values.background_origin,
-    theCoHieuLucDen: moment(new Date(values?.journalist_card[0]?.end)).format("DD/MM/YYYY"),
-    theCoHieuLucTu: moment(new Date(values?.journalist_card[0]?.begin)).format("DD/MM/YYYY"),
-    tonGiao: values.religion,
-  }
+    return {
+        canCuocCD: values.identity_card,
+        chuyenMon: values?.user_degree[0]?.diploma,
+        danToc: values.ethnic,
+        // email: "doannguyenchung@gmail.com",
+        gioiTinh: values.gender,
+        hoKhauThuongTru: tachDuLieu(values?.user_degree[0]?.permanent_residence, 4),
+        hoTen: values.full_name,
+        hocVan: values?.user_degree[0]?.education,
+        lyLuanCT: values?.user_degree[0]?.politic,
+        ngayBoNhiem: values?.user_dep_pos[0]?.appointment_date,
+        ngayCapCCCD: values.identity_card_when,
+        ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY"),
+        // ngayDuocTuyenDung: "",
+        ngayHetHanBoNhiem: values?.user_dep_pos[0]?.expire_date,
+        ngayThangNamSinh: values.birth_day,
+        ngheNghiep: values.occupation,
+        ngoaiNgu: values?.user_degree[0]?.foreign_language,
+        noiCapCCCD: values.identity_card_where,
+        noiOHienTai: tachDuLieu(values.resident, 4),
+        noiSinh: tachDuLieu(values.birth_place, 3),
+        phongBanCVObj: tachDuLieuPhongBan_ChucVu(values),
+        queQuan: tachDuLieu(values.home_town, 3),
+        // soDienThoai: "",
+        soDienThoaiNoiBo: values.local_phone,
+        soTheNhaBao: values?.journalist_card[0]?.number,
+        tenThuongGoi: values.pen_name,
+        thanhPhanXuatThan: values.background_origin,
+        theCoHieuLucDen: values?.journalist_card[0]?.end,
+        theCoHieuLucTu: values?.journalist_card[0]?.begin,
+        tonGiao: values.religion,
+    }
 }

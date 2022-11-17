@@ -4,8 +4,9 @@ import { createPersonalHistoryAPI, deletePersonalHistoryAPI } from "../API/step2
 import { addPersonalHistory, removePersonalHistory } from "../Steps/step2.slice";
 import { setMessageAlert } from "../Steps/stepsSlice";
 
-function* createPersonalHistory(payload) {
-    let { data } = payload;
+function* createPersonalHistory(payload){
+    let {data} = payload;
+    console.log(data)
     let result = yield call(createPersonalHistoryAPI, data)
     let { code, message, data: dataResponse } = result;
     if (code == 200, message === "Success") {
