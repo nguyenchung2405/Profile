@@ -17,3 +17,21 @@ export async function createPartyAPI(data){
         return "Thất bại"
     }
 }
+
+export async function updatePartyAPI(data){
+    try {
+        let {id} = data;
+        const result = await axios({
+            url: `${local}/api/party/${id}`,
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data
+        })
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

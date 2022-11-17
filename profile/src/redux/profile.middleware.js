@@ -48,9 +48,10 @@ function* updateProfile(payload) {
     let jourCard = mappingJournalistCard(valueForm);
     let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
     // console.log(dataToUpdate)
-    let profileUpdated = yield call(updateProfile_API, dataToUpdate)
+    // let profileUpdated = yield call(updateProfile_API, dataToUpdate)
     yield put(setIsNextStep(true))
     yield put(setValues(valueForm))
+    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
 }
 
 function* createProfile(payload) {

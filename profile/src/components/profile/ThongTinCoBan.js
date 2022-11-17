@@ -1,6 +1,7 @@
 import React from 'react'
 import { DatePicker, Radio } from 'antd';
 import moment from 'moment';
+import { handleDateTime } from '../../ultils/helper';
 
 export default function ThongTinCoBan(props) {
 
@@ -73,7 +74,7 @@ export default function ThongTinCoBan(props) {
             <DatePicker 
                 value={
                     valueForm.ngayThangNamSinh !== ""
-                    ? moment(valueForm.ngayThangNamSinh, "DD-MM-YYYY")
+                    ? handleDateTime(valueForm.ngayThangNamSinh)
                     : ""}
                     onBlur={()=>{
                         if(valueForm.ngayThangNamSinh === ""){
@@ -90,14 +91,14 @@ export default function ThongTinCoBan(props) {
                     }}
                 onChange={(date,dateString)=>{
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
-                    console.log(namSinh)
+                    // console.log(namSinh)
                     let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
                     let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
-                    console.log(namHienTai)
+                    // console.log(namHienTai)
                     if(namHienTai - namSinh >= 18){
                         setValueForm({
                             ...valueForm,
-                            ngayThangNamSinh: dateString
+                            ngayThangNamSinh: moment(dateString, "DD-MM-YYYY").toISOString()
                         })
                     } else if(dateString === "") {
                         setValueForm({
