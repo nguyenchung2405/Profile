@@ -11,20 +11,20 @@ const stepsSlice = createSlice({
     name: "stepsSlice",
     initialState,
     reducers: {
-        moveToNextStep: (state,action)=>{
+        moveToNextStep: (state, action) => {
             state.nextStep = action.payload;
         },
-        setIsNextStep: (state,action)=>{
+        setIsNextStep: (state, action) => {
             state.isNextStep = action.payload;
         },
-        setUserProfileID: (state,action)=>{
+        setUserProfileID: (state, action) => {
             state.user_profile_id = action.payload;
         },
-        setMessageAlert: (state,action)=>{
+        setMessageAlert: (state, action) => {
             state.messageAlert = action.payload;
         }
     }
 });
 
-export const {moveToNextStep, setIsNextStep, setUserProfileID, setMessageAlert} = stepsSlice.actions;
+export const { moveToNextStep, setIsNextStep, setUserProfileID, setMessageAlert } = stepsSlice.actions;
 export default stepsSlice.reducer;

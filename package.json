@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "npm run start --prefix profile",
     "server": "nodemon profile_proxy/index.js",
-    "clientWebpack":"cd profile && npm run startWebpack",
+    "clientWebpack": "cd profile && npm run startWebpack",
     "dev": "concurrently \"yarn clientWebpack\" \"yarn server\""
   },
   "repository": {

@@ -1,7 +1,7 @@
 import axios from "axios";
-import {local , TOKEN} from "../../title/title";
+import { local, TOKEN } from "../../title/title";
 
-export async function createPersonalHistoryAPI(data){
+export async function createPersonalHistoryAPI(data) {
     try {
         const result = await axios({
             url: `${local}/api/personal-history`,
@@ -18,7 +18,7 @@ export async function createPersonalHistoryAPI(data){
     }
 }
 
-export async function deletePersonalHistoryAPI(personal_history_id){
+export async function deletePersonalHistoryAPI(personal_history_id) {
     try {
         const result = await axios({
             url: `${local}/api/personal-history/${personal_history_id}`,
