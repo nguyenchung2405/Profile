@@ -33,7 +33,7 @@ const uploadUserAvatar = async (req,res)=>{
             if(message === 'Successfully'){
                 // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
                 const result_getIMG = await axios({
-                    url: `${local}/api/user/resources/${user_id}`,
+                    url: `${local}/user-resources/${user_id}`,
                     method: "GET"
                 })
                 
@@ -47,6 +47,7 @@ const uploadUserAvatar = async (req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.send(error)
     }
 }
 

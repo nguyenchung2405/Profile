@@ -1,13 +1,47 @@
-const axios = require("axios");
+const axios = require("axios")
 const local =  "http://dev.profilebe.tuoitre.vn";
 
-const createPersonalHistory = async (req,res)=>{
+const createOrganization = async (req,res)=>{
     try {
         let {headers: {authorization}} = req;
-        // console.log(req.body)
         const result = await axios({
-            url: `${local}/personal-history`,
+            url: `${local}/organization`,
             method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: req.body
+        })
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const deleteOrganization = async (req, res)=>{
+    try {
+        let {organ_id} = req.params;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/organization/${organ_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const updateOrganization = async (req, res)=>{
+    try {
+        let {organ_id} = req.params;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/organization/${organ_id}`,
+            method: "PUT",
             headers: {
                 Authorization: authorization
             },
@@ -19,43 +53,8 @@ const createPersonalHistory = async (req,res)=>{
     }
 }
 
-const deletePersonalHistory = async (req,res)=>{
-    try {
-        let {per_his_id} = req.params
-        let {headers: {authorization}} = req;
-        const result = await axios({
-            url: `${local}/personal-history/${per_his_id}`,
-            method: "DELETE",
-            headers: {
-                Authorization: authorization
-            }
-        })
-        res.send(result.data)
-    } catch (error) {
-        res.send(error)
-    }
-}
-
-const updatePersonalHistory = async (req,res)=>{
-    try {
-        let {per_his_id} = req.params
-        let {headers: {authorization}} = req;
-        const result = await axios({
-            url: `${local}/personal-history/${per_his_id}`,
-            method: "PUT",
-            headers: {
-                Authorization: authorization
-            },
-            data: req.body
-        })
-        res.send(result.data)
-    } catch (error) {
-        res.send(error)
-    }
-}
-
 module.exports = {
-    createPersonalHistory,
-    deletePersonalHistory,
-    updatePersonalHistory
+    createOrganization,
+    deleteOrganization,
+    updateOrganization
 }

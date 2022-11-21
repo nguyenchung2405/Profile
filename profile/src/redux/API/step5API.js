@@ -1,16 +1,16 @@
 import axios from "axios";
-import { local, TOKEN } from "../../title/title";
+import {local , TOKEN} from "../../title/title";
 
-export async function createPersonalHistoryAPI(data) {
+export async function createTrainingAPI(data){
     try {
         const result = await axios({
-            url: `${local}/api/personal-history`,
+            url: `${local}/api/training-fostering`,
             method: "POST",
             headers: {
                 Authorization: "Bearer " + TOKEN
             },
             data
-        });
+        })
         return result.data;
     } catch (error) {
         console.log(error)
@@ -18,15 +18,15 @@ export async function createPersonalHistoryAPI(data) {
     }
 }
 
-export async function deletePersonalHistoryAPI(personal_history_id) {
-    try {
+export async function deleteTrainingFosteringAPI(tr_fos_id){
+    try {  
         const result = await axios({
-            url: `${local}/api/personal-history/${personal_history_id}`,
+            url: `${local}/api/training-fostering/${tr_fos_id}`,
             method: "DELETE",
             headers: {
                 Authorization: "Bearer " + TOKEN
-            }
-        });
+            },
+        })
         return result.data;
     } catch (error) {
         console.log(error)
@@ -34,11 +34,11 @@ export async function deletePersonalHistoryAPI(personal_history_id) {
     }
 }
 
-export async function updatePersonalHistoryAPI(data){
+export async function updateTrainingFosteringAPI(data){
     try {
         let {id} = data;
         const result = await axios({
-            url: `${local}/api/personal-history/${id}`,
+            url: `${local}/api/training-fostering/${id}`,
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + TOKEN

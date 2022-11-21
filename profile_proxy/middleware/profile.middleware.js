@@ -60,6 +60,8 @@ const updateProfile = async (req, res, next) => {
         let { data: { code } } = result;
         if (code == 200) {
             next();
+        } else {
+            res.send(result.data)
         }
     } catch (error) {
         console.log("Lỗi ở updateProfile")

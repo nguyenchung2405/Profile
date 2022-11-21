@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, current } from "@reduxjs/toolkit"
 
 const initialState = {
     personal_history: []
@@ -17,10 +17,15 @@ const step2Slice = createSlice({
         removePersonalHistory: (state, action) => {
             let index = state.personal_history.findIndex(ph => ph.id === action.payload)
             state.personal_history.splice(index, 1)
+        },
+        updatePersonalHistory: (state, action)=>{
+            let {id} = action.payload;
+            let index = state.personal_history.findIndex(ph => ph.id === id);
+            state.personal_history[index] = action.payload;
         }
     }
 })
 
 export const { setPersonalHistory, addPersonalHistory,
-    removePersonalHistory } = step2Slice.actions;
+    removePersonalHistory, updatePersonalHistory } = step2Slice.actions;
 export default step2Slice.reducer;

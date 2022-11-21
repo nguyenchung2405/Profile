@@ -446,10 +446,11 @@ export default function SoYeuLyLich(props) {
             noiSinh: { ...noiSinhNew }
         });
     }
-
+    
     const getValueSelect_QueQuan_Huyen = (value) => {
         let { queQuan } = valueForm;
         let queQuanNew = { ...queQuan, huyen: value };
+        console.log(queQuanNew)
         setValueForm({
             ...valueForm,
             queQuan: { ...queQuanNew }
