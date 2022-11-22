@@ -36,13 +36,14 @@ export default function Image() {
                     method: "POST",
                     data: form
                 });
-                // console.log(result.data)
+                console.log(result.data)
                 let { path } = result.data;
                 if(path){
                     setPath(`http://localhost:3001/${path}`)
                 } else {
-                    let index = result.data[0].resource_content.length - 1;
-                    let {content} = result.data[0].resource_content[index];
+                    // let index = result.data[0].resource_content.length - 1;
+                    let {content} = result.data.data.resource;
+                    console.log(content)
                     // console.log(Base64.decode(content));
                     setPath(`data:image/jpeg;base64,${content}`)
                 }
