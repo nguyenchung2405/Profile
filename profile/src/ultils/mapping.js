@@ -3,6 +3,8 @@ import moment from "moment"
 export const mappingProfileStep1 = (formValues)=>{
     // Giới tính: Nam là 1, Nữ là 2, Khác tạm chưa có
     const {noiOHienTai: {diaChi, huyen, quan, tinh}} = formValues;
+    // console.log(`${diaChi}, ${huyen}, ${quan}, ${tinh}`)
+    // console.log(diaChi, huyen, quan, tinh)
     // let a = moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString()
     // console.log(moment(formValues.ngayThangNamSinh, "DD/MM/YYYY").toISOString())
     // console.log(moment(new Date(a)).format("DD/MM/YYYY"))
@@ -55,7 +57,7 @@ export const mappingUserDegree = (data) => {
     "foreign_language": data.ngoaiNgu,
     "majors": "",
     "note": "",
-    "permanent_residence": `${data.hoKhauThuongTru.diaChi}, ${data.hoKhauThuongTru.huyen}, ${data.hoKhauThuongTru.quan},${data.hoKhauThuongTru.tinh}`,
+    "permanent_residence": `${data.hoKhauThuongTru.diaChi}, ${data.hoKhauThuongTru.huyen}, ${data.hoKhauThuongTru.quan}, ${data.hoKhauThuongTru.tinh}`,
     "politic": data.lyLuanCT,
     "school_name": "",
     "type": ""
@@ -85,12 +87,12 @@ function tachDuLieu(string, capDuLieu = 3) {
       if (i === 0) {
         let index = string.indexOf(",");
         huyen = string.slice(0, index);
-        String = string.slice(index + 1);
+        String = string.slice(index + 2);
         // console.log(String);
       } else if (i === 1) {
         let index = String.indexOf(",");
         quan = String.slice(0, index);
-        tinh = String.slice(index + 1);
+        tinh = String.slice(index + 2);
         // console.log(String);
       }
     }
@@ -101,17 +103,17 @@ function tachDuLieu(string, capDuLieu = 3) {
       if (i === 0) {
         let index = string.indexOf(",");
         diaChi = string.slice(0, index);
-        String = string.slice(index + 1);
+        String = string.slice(index + 2);
         // console.log(String);
       } else if (i === 1) {
         let index = String.indexOf(",");
         // console.log(index)
         huyen = String.slice(0, index);
-        String = String.slice(index + 1);
+        String = String.slice(index + 2);
       } else if (i === 2) {
         let index = String.indexOf(",");
         quan = String.slice(0, index);
-        tinh = String.slice(index + 1);
+        tinh = String.slice(index + 2);
       }
     }
     // console.log(diaChi, huyen, quan, tinh);

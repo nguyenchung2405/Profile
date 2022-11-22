@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export let handleDateTime = (date = "1995-04-05T17:00:00")=>{
+export let handleDateTime = (date)=>{
     try {
         let convert;
         if(typeof date === "number"){

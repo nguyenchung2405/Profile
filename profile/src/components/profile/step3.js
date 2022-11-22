@@ -12,15 +12,15 @@ export default function Step3Component() {
     const { user_profile_id: { pro_id }, nextStep } = useSelector(state => state.stepsReducer)
     const { party } = useSelector(state => state.step3Reducer)
     const dispatch = useDispatch();
-    console.log(valueForm)
-    console.log(party)
+    // console.log(valueForm)
+    // console.log(party)
     useEffect(()=>{
         if(nextStep !== 2){
             valueForm.member_id = parseInt(valueForm.member_id)
             valueForm.pro_id = pro_id
-            console.log(valueForm)
+            // console.log(valueForm)
             if(party.length > 0){
-                console.log("Cập nhật Party")
+                // console.log("Cập nhật Party")
                 dispatch({
                     type: UPDATE_PARTY,
                     data: valueForm

@@ -14,6 +14,8 @@ const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard } = requ
 const { depPosRouter } = require("./dep_pos");
 const { personalHistoryRouter } = require("./personal_history");
 const { partyRouter } = require("./party");
+const { organizationRouter } = require("./organizationRouter");
+const { trainingFosteringRouter } = require("./trainingFosteringRouter");
 
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter)
@@ -23,6 +25,8 @@ rootRouter.use("/parts", partRouter)
 rootRouter.use("/user-dep-pos", depPosRouter)
 rootRouter.use("/personal-history", personalHistoryRouter)
 rootRouter.use("/party", partyRouter)
+rootRouter.use("/organization", organizationRouter)
+rootRouter.use("/training-fostering", trainingFosteringRouter)
 
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
 rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)

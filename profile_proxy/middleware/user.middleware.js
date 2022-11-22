@@ -6,7 +6,7 @@ const checkQuery = async (req, res, next) => {
         let { headers: { authorization } } = req;
         if (page && per_page) {
             const result = await axios({
-                url: `http://192.168.61.116/api/user?page=${page}&per_page=${per_page}`,
+                url: `http://dev.userbe.tuoitre.vn/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization

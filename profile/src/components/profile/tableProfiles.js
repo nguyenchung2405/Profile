@@ -87,15 +87,16 @@ export default function TableProfiles() {
       >
         <Column className="tableProfiles__avatar" title="" key="avatar"
           render={(text, record, index) => {
-            if (record?.userResource?.data.length > 0) {
-              let avatar = record?.userResource.data.find(type => type.type === "3x4");
-              let index = avatar.content.length - 1;
-              let avatarRender = avatar.content[index].content;
+            if (record?.user_resources.length > 0) {
+              let avatar = record?.user_resources.find(type => type.type === "3x4");
+              // console.log(avatar)
+              // let index = avatar.content.length - 1;
+              let avatarRender = avatar.resource.content;
               return <img src={`data:image/png;base64,${avatarRender}`} alt="avatar of user" />
             } else {
-              if (record.profiles?.data.gender === 1) {
+              if (record.profile?.gender === 1) {
                 return maleAvatar()
-              } else if (record.profiles?.data.gender === 2) {
+              } else if (record.profile?.gender === 2) {
                 return femaleAvatar()
               } else {
                 return unknownSexAvatar()
@@ -104,26 +105,24 @@ export default function TableProfiles() {
           }} />
         <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
         <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
-          render={(text, record, index) => {
-            // console.log(record)
-            if (record.primaryDepartment?.data !== undefined && typeof record.primaryDepartment === "object") {
-              return record.primaryDepartment.data.department_name;
+        render={(text, record, index) => {
+            if (record.primary_user_dep_pos.length > 0) {
+              return record.primary_user_dep_pos[0].department_name;
             }
           }} />
         <Column className="tableProfiles__chucVu" title="Chức vụ" key="chucVu"
           render={(text, record, index) => {
-            if (record.primaryDepartment !== undefined && typeof record.primaryDepartment === "object") {
-              return record.primaryDepartment?.data.position.pos_name;
+            if (record.primary_user_dep_pos.length > 0) {
+              return record.primary_user_dep_pos[0].position.pos_name;
             }
           }} />
         <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />
         <Column className="tableProfiles__thaoTac" key="thaoTac"
           render={(text, record, index) => {
-            if (record.profiles !== null) {
-              // console.log(record)
+            if (record.profile !== null) {
               let { email, phone } = record;
-              let { id } = record?.profiles?.data;
-              if (id && typeof id === "number") {
+              let  id  = record.profile?.id;
+              if (id && typeof id === "number" && id !== null) {
                 return <div>
                   <button onClick={() => {
                     dispatch(setIsCreateProfile(false))

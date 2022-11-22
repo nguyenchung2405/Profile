@@ -1,34 +1,33 @@
-const axios = require("axios");
+const axios = require("axios")
 const local =  "http://dev.profilebe.tuoitre.vn";
 
-const createPersonalHistory = async (req,res)=>{
+const createTrainingFostering = async (req, res)=>{
     try {
         let {headers: {authorization}} = req;
-        // console.log(req.body)
         const result = await axios({
-            url: `${local}/personal-history`,
+            url: `${local}/training-fostering`,
             method: "POST",
-            headers: {
+            headers:{
                 Authorization: authorization
             },
             data: req.body
-        });
-        res.send(result.data)
+        })
+        res.send(result.data);
     } catch (error) {
         res.send(error)
     }
 }
 
-const deletePersonalHistory = async (req,res)=>{
+const deleteTrainingFostering = async (req,res)=>{
     try {
-        let {per_his_id} = req.params
         let {headers: {authorization}} = req;
+        let {tr_pos_id} = req.params;
         const result = await axios({
-            url: `${local}/personal-history/${per_his_id}`,
+            url: `${local}/training-fostering/${tr_pos_id}`,
             method: "DELETE",
-            headers: {
+            headers:{
                 Authorization: authorization
-            }
+            },
         })
         res.send(result.data)
     } catch (error) {
@@ -36,14 +35,14 @@ const deletePersonalHistory = async (req,res)=>{
     }
 }
 
-const updatePersonalHistory = async (req,res)=>{
+const updateTrainingFostering = async (req,res)=>{
     try {
-        let {per_his_id} = req.params
         let {headers: {authorization}} = req;
+        let {tr_pos_id} = req.params;
         const result = await axios({
-            url: `${local}/personal-history/${per_his_id}`,
+            url: `${local}/training-fostering/${tr_pos_id}`,
             method: "PUT",
-            headers: {
+            headers:{
                 Authorization: authorization
             },
             data: req.body
@@ -55,7 +54,7 @@ const updatePersonalHistory = async (req,res)=>{
 }
 
 module.exports = {
-    createPersonalHistory,
-    deletePersonalHistory,
-    updatePersonalHistory
+    createTrainingFostering,
+    deleteTrainingFostering,
+    updateTrainingFostering
 }
