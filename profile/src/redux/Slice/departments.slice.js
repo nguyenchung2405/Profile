@@ -36,14 +36,14 @@ const tableDepListSlice = createSlice({
         },
         addDepartmentSlice: (state,action)=>{
             let {parent_id, id} = action.payload;
-            console.log(action.payload)
+            // console.log(action.payload)
             if(parent_id !== null && id){
                 let depParent = state.tableDepList.find(dep => dep.id === parent_id);
                 console.log(current(depParent))
                 let {children} = depParent
-                if(children === null){
+                if(children === null || !children){
                     depParent.children =[]
-                depParent.children.push(action.payload);
+                    depParent.children.push(action.payload);
                 } else {
                     depParent.children.push(action.payload);
                 }

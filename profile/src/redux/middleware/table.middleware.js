@@ -8,9 +8,9 @@ function* getUserList(payload) {
     let { table: { page, pageNumber } } = payload;
     // Bóc tách status, data và total từ API rồi đưa lên Reducer quản lý
     let result = yield call(getUserList_API, page, pageNumber);
-    console.log(result)
+    // console.log(result)
     let { code, data: userList, metadata: {total_items: total}} = result;
-    console.log(code, userList, total)
+    // console.log(code, userList, total)
     // let data = yield call(getUserList_API,page,pageNumber);
     // console.log(userList, status, total)
     if (code == 200) {

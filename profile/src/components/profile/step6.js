@@ -3,42 +3,18 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { Button, Steps } from 'antd'
 import ModalComponent from '../modal/modal';
 import {khenThuong as khenThuongTitle, kyLuat as kyLuatTitle} from "../../title/title"
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 export default function Step6() {
 
     const {Step} = Steps;
+    const dispatch = useDispatch();
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
-
-    const khenThuong = [
-        {
-            title: '05/04/2003',
-            description: "Lao động tiên tiến"
-        },
-        {
-            title: '05/04/2009',
-            description: "Lao động xuất sắc"
-        },
-        {
-            title: '05/04/2010',
-            description: "Lao động xuất sắc"
-        },
-    ]
-
-    const kyLuat = [
-        {
-            title: '05/04/2003',
-            description: "Kỷ luật 1"
-        },
-        {
-            title: '05/04/2009',
-            description: "Kỷ luật 2"
-        },
-        {
-            title: '05/04/2010',
-            description: "Kỷ luật 3"
-        },
-    ];
+    let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
+    let [isShowModalUpdate2, setIsShowModalUpdate2] = useState(false)
+    let {rewardDiscipline} = useSelector(state => state.step6Reducer);
 
     const closeModal = ()=>{
         setIsShowModal(false)
@@ -47,6 +23,80 @@ export default function Step6() {
     const closeModal2 = ()=>{
         setIsShowModal2(false)
     }
+
+    const closeModalUpdate = ()=>{
+        setIsShowModalUpdate(false)
+    }
+
+    const closeModalUpdate2 = ()=>{
+        setIsShowModalUpdate2(false)
+    }
+
+    const khenThuong = rewardDiscipline.map((item, index)=>{
+        let ngayKhenThuong = moment(new Date(item.time_from)).format("DD/MM/YYYY")
+        if(item.type === "reward"){
+            return {
+                title: `${ngayKhenThuong}`,
+                description: item.note,
+                re_dis_id: item.id
+            }
+        }
+    })
+
+    const kyLuat = rewardDiscipline.map((item, index)=>{
+        let ngayKyLuat = moment(new Date(item.time_from)).format("DD/MM/YYYY")
+        if(item.type === "discipline"){
+            return {
+                title: `${ngayKyLuat}`,
+                description: item.note,
+                re_dis_id: item.id
+            }
+        }
+    })
+
+   const renderReward = ()=>{
+        let newKhenThuong = khenThuong.filter(item => item !== undefined);
+        return newKhenThuong.map((item, index) => {
+            return <div className="process" key={index}>
+                <div className="point"></div>
+                <div className="process__infor">
+                    <p>{item.title}</p>
+                    <p>{item.description}</p>
+                </div>
+                <svg onClick={() => {
+                    // dispatch({
+                    //     type: DELETE_TRAINING,
+                    //     tr_fos_id: item.tr_fos_id
+                    // })
+                }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
+                    </path>
+                </svg>
+        </div>
+        })
+   }
+
+   const renderDiscipline = ()=>{
+    let newKyLuat = kyLuat.filter(item => item !== undefined);
+    return newKyLuat.map((item, index) => {
+        return <div className="process" key={index}>
+            <div className="point"></div>
+            <div className="process__infor">
+                <p>{item.title}</p>
+                <p>{item.description}</p>
+            </div>
+            <svg onClick={() => {
+                // dispatch({
+                //     type: DELETE_TRAINING,
+                //     tr_fos_id: item.tr_fos_id
+                // })
+            }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
+                </path>
+            </svg>
+    </div>
+    })
+}
 
   return (
     <div className="Step6">

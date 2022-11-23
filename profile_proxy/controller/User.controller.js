@@ -8,9 +8,10 @@ const getAvatar = async (req,res)=>{
             url: `${local}/user-resources/user/${id}`,
             method: "GET"
         })
+        // console.log("avatar",result)
         res.send(result.data)
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.send(error)
     }
 }

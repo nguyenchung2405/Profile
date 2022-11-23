@@ -126,6 +126,7 @@ export default function DepInfor(props) {
             <Select
             id="parent_id"
             showSearch
+            value={ isShowModal === false ? "" : setValueField("parent_id") }
             onChange={handleChangeSelect}
             filterOption={(input, option) =>
                 (option?.name ?? '').toLowerCase().includes(input.toLowerCase())

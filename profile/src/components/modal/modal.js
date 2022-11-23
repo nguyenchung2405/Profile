@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, DatePicker, Button } from 'antd';
 import "./modal.css"
-import { boiDuong, CREATE_ORGANIZATION, CREATE_PERSONAL_HISTORY, CREATE_TRAINING, daoTao, khenThuong, kyLuat, quaTrinhLVHT, thamGiaToChucCT } from '../../title/title';
+import { boiDuong, CREATE_ORGANIZATION, CREATE_PERSONAL_HISTORY, CREATE_REWARD_DISCIPLINE, CREATE_TRAINING, daoTao, khenThuong, kyLuat, quaTrinhLVHT, thamGiaToChucCT } from '../../title/title';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -41,6 +41,13 @@ export default function ModalComponent(props) {
                 type: CREATE_TRAINING,
                 data: valueModal
             })
+        } else if(title === khenThuong) {
+            valueModal.pro_id = pro_id;
+            valueModal.type = "reward"
+            dispatch({
+                type: CREATE_REWARD_DISCIPLINE,
+                data: valueModal
+            })
         }
         closeModal()
     };
@@ -61,6 +68,11 @@ export default function ModalComponent(props) {
                 time_from: moment(dateString, "DD/MM/YYYY").toISOString()
             })
         } else if(title === daoTao || title === boiDuong) {
+            setValueModal({
+                ...valueModal,
+                time_from: moment(dateString, "DD/MM/YYYY").toISOString()
+            })
+        } else if(title === khenThuong || title === kyLuat) {
             setValueModal({
                 ...valueModal,
                 time_from: moment(dateString, "DD/MM/YYYY").toISOString()
@@ -145,6 +157,11 @@ export default function ModalComponent(props) {
                 note: value
             })
         } else if(title === daoTao || title === boiDuong){
+            setValueModal({
+                ...valueModal,
+                note: value
+            })
+        } else if(title === khenThuong || title === kyLuat){
             setValueModal({
                 ...valueModal,
                 note: value
