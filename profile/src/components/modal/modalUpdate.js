@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Modal, DatePicker, Button, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { boiDuong, daoTao, khenThuong, kyLuat, quaTrinhLVHT, thamGiaToChucCT, UPDATE_ORGANIZATION, UPDATE_PERSONAL_HISTORY, UPDATE_TRAINING } from '../../title/title';
+import { boiDuong, daoTao, khenThuong, kyLuat, quaTrinhLVHT, thamGiaToChucCT, UPDATE_ORGANIZATION, UPDATE_PERSONAL_HISTORY, UPDATE_REWARD_DISCIPLINE, UPDATE_TRAINING } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
 
 export default function ModalUpdate(props) {
 
-    let { title, isShowModal, closeModal, dataStep2, dataStep4, dataStep5 } = props;
+    let { title, isShowModal, closeModal, dataStep2, dataStep4, dataStep5, dataStep6 } = props;
     const {Option} = Select;
     const dispatch = useDispatch();
     const [valueModal, setValueModal] = useState({});
@@ -33,6 +33,11 @@ export default function ModalUpdate(props) {
                 type: UPDATE_TRAINING,
                 data: valueModal
             })
+        } else if(title === khenThuong || title === kyLuat) {
+            dispatch({
+                type: UPDATE_REWARD_DISCIPLINE,
+                data: valueModal
+            })
         }
         closeModal()
     };
@@ -54,6 +59,11 @@ export default function ModalUpdate(props) {
                 time_from: moment(dateString, "DD/MM/YYYY").toISOString()
             })
         } else if(title === daoTao || title === boiDuong) {
+            setValueModal({
+                ...valueModal,
+                time_from: moment(dateString, "DD/MM/YYYY").toISOString()
+            })
+        } else if(title === khenThuong || title === kyLuat) {
             setValueModal({
                 ...valueModal,
                 time_from: moment(dateString, "DD/MM/YYYY").toISOString()
@@ -142,6 +152,11 @@ export default function ModalUpdate(props) {
                 ...valueModal,
                 note: value
             })
+        } else if(title === khenThuong || title === kyLuat){
+            setValueModal({
+                ...valueModal,
+                note: value
+            })
         }
     }
 
@@ -173,6 +188,10 @@ export default function ModalUpdate(props) {
             itemIsFinding = dataStep5.find(item => item.id === value)
             // console.log(itemIsFinding)
             setValueModal({...itemIsFinding})
+        } else if(title === khenThuong || title === kyLuat){ 
+            itemIsFinding = dataStep6.find(item => item.id === value)
+            // console.log(itemIsFinding)
+            setValueModal({...itemIsFinding})
         }
     }
 
@@ -197,12 +216,34 @@ export default function ModalUpdate(props) {
             return newBoiDuong.map((item, index)=>{
                 return <Option value={item.id} key={index}>{item.note}</Option>
             })
+        } else if(title === khenThuong){
+            let newKhenThuong = dataStep6.filter(item => item.type === "reward");
+            return newKhenThuong.map((item, index)=>{
+                return <Option value={item.id} key={index}>{item.note}</Option>
+            })
+        } else if(title === kyLuat){
+            let newKyLuat = dataStep6.filter(item => item.type === "discipline");
+            return newKyLuat.map((item, index)=>{
+                return <Option value={item.id} key={index}>{item.note}</Option>
+            })
         }
     }
 
     const renderContent = () => {
         if (title === khenThuong) {
             return <>
+                <div className="modal__update__select">
+                    <Select
+                    showSearch 
+                    value={valueOfField("id")}
+                    onChange={handleChangeSelect}
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    >
+                        {renderOption()}
+                    </Select>
+                </div>
                 <span>Ngày được khen thưởng:</span>
                 <DatePicker
                     suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -210,10 +251,23 @@ export default function ModalUpdate(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue} />
+                    onChange={getDateValue}
+                    value={valueOfField("time_from")} />
             </>
         } else if (title === kyLuat) {
             return <>
+                <div className="modal__update__select">
+                    <Select
+                    showSearch 
+                    value={valueOfField("id")}
+                    onChange={handleChangeSelect}
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    >
+                        {renderOption()}
+                    </Select>
+                </div>
                 <span>Ngày bị kỷ luật:</span>
                 <DatePicker
                     suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,7 +275,8 @@ export default function ModalUpdate(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue} />
+                    onChange={getDateValue}
+                    value={valueOfField("time_from")} />
             </>
         } else {
             return <>

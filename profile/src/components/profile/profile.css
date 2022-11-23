@@ -1030,10 +1030,17 @@ input#diaChi {
 .Step8__footer {
     margin-left: 12px;
     margin-top: 31px;
+    text-align: center;
+    display: inline-block;
 }
 
 .Step8__quaTrinh {
     margin-bottom: 20px;
+}
+
+.Step8 .noiCuTru  {
+    text-align: center;
+    display: inline-block;
 }
 
 .noiCuTru>input {
@@ -1399,5 +1406,22 @@ div.step3 {
     cursor: pointer;
     position: absolute;
     left: 178px;
+}
+
+.steps-content .process.step6 > svg {
+    color: red;
+    margin: 2px 0 0 0px;
+    cursor: pointer;
+    position: absolute;
+    left: 100px;
+}
+
+.steps-content .Step8__quaTrinh .Step8__content .process.step8 {
+    justify-content: center;
+}
+
+.steps-content .process.step8 > svg {
+    position: initial;
+    margin-left: 5px;
 }
 /* Kết thúc */

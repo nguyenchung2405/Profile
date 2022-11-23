@@ -9,6 +9,7 @@ import step3Middleware from "./middleware/step3.middleware";
 import step4Middleware from "./middleware/step4.middleware";
 import step5Middleware from "./middleware/step5.middleware";
 import step6Middleware from "./middleware/step6.middleware";
+import step8Middleware from "./middleware/step8.middleware";
 
 export default function* rootSaga() {
         yield all([
@@ -22,5 +23,6 @@ export default function* rootSaga() {
                 call(step4Middleware),
                 call(step5Middleware),
                 call(step6Middleware),
+                call(step8Middleware),
         ])
 }

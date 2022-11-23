@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import React, { useEffect, useState } from 'react'
+import { AiOutlinePlusCircle, AiOutlineEdit } from 'react-icons/ai';
 import { Button, Steps } from 'antd'
 import ModalComponent from '../modal/modal';
-import {khenThuong as khenThuongTitle, kyLuat as kyLuatTitle} from "../../title/title"
+import {DELETE_REWARD_DISCIPLINE, khenThuong as khenThuongTitle, kyLuat as kyLuatTitle} from "../../title/title"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import ModalUpdate from '../modal/modalUpdate';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step6() {
 
@@ -15,6 +17,13 @@ export default function Step6() {
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     let [isShowModalUpdate2, setIsShowModalUpdate2] = useState(false)
     let {rewardDiscipline} = useSelector(state => state.step6Reducer);
+    let {nextStep} = useSelector(state => state.stepsReducer);
+
+    useEffect(()=>{
+        if(nextStep !== 4){
+            dispatch(setIsNextStep(true))
+        }
+    }, [nextStep])
 
     const closeModal = ()=>{
         setIsShowModal(false)
@@ -57,17 +66,17 @@ export default function Step6() {
    const renderReward = ()=>{
         let newKhenThuong = khenThuong.filter(item => item !== undefined);
         return newKhenThuong.map((item, index) => {
-            return <div className="process" key={index}>
+            return <div className="process step6" key={index}>
                 <div className="point"></div>
                 <div className="process__infor">
                     <p>{item.title}</p>
                     <p>{item.description}</p>
                 </div>
                 <svg onClick={() => {
-                    // dispatch({
-                    //     type: DELETE_TRAINING,
-                    //     tr_fos_id: item.tr_fos_id
-                    // })
+                    dispatch({
+                        type: DELETE_REWARD_DISCIPLINE,
+                        re_dis_id: item.re_dis_id
+                    })
                 }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                     <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
                     </path>
@@ -79,17 +88,17 @@ export default function Step6() {
    const renderDiscipline = ()=>{
     let newKyLuat = kyLuat.filter(item => item !== undefined);
     return newKyLuat.map((item, index) => {
-        return <div className="process" key={index}>
+        return <div className="process step6" key={index}>
             <div className="point"></div>
             <div className="process__infor">
                 <p>{item.title}</p>
                 <p>{item.description}</p>
             </div>
             <svg onClick={() => {
-                // dispatch({
-                //     type: DELETE_TRAINING,
-                //     tr_fos_id: item.tr_fos_id
-                // })
+                    dispatch({
+                        type: DELETE_REWARD_DISCIPLINE,
+                        re_dis_id: item.re_dis_id
+                    })
             }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                 <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
                 </path>
@@ -103,15 +112,8 @@ export default function Step6() {
         <div className="Step6__first__content">
             <div className="Step6__content khenThuong">
                     <p>Khen thưởng:</p>
-                    <Steps progressDot current={khenThuong.length - 1} direction="vertical">
-                        {
-                            khenThuong.map( (item, index) => {
-                                    return <Step title={item.title} 
-                                    description={item.description} 
-                                    key={index} />
-                            })
-                        }
-                    </Steps>
+                    
+                    {renderReward()}
             </div>
             <div className="Step6__footer khenThuong">
                 <Button 
@@ -121,21 +123,28 @@ export default function Step6() {
                 type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <div className="Step6__footer khenThuong">
+                <Button 
+                onClick={()=>{
+                    setIsShowModalUpdate(true)
+                }}
+                type="default"
+                icon={<AiOutlineEdit />}>Cập nhật</Button>
+            </div>
             <ModalComponent 
             title={khenThuongTitle} 
             isShowModal={isShowModal}
             closeModal={closeModal} />
+            <ModalUpdate
+            title={khenThuongTitle} 
+            isShowModal={isShowModalUpdate}
+            closeModal={closeModalUpdate}
+            dataStep6={rewardDiscipline} />
         </div>
         <div className="Step6__second__content">
             <div className="Step6__content kyLuat">
                     <p>Kỷ luật:</p>
-                    <Steps progressDot current={kyLuat.length - 1} direction="vertical">
-                        {
-                            kyLuat.map( (item, index) => {
-                                    return <Step title={item.title} description={item.description} key={index} />
-                            })
-                        }
-                    </Steps>
+                    {renderDiscipline()}
             </div>
             <div className="Step6__footer kyLuat">
                 <Button 
@@ -145,10 +154,23 @@ export default function Step6() {
                 type="default"
                 icon={<AiOutlinePlusCircle />}>Thêm</Button>
             </div>
+            <div className="Step6__footer kyLuat">
+                <Button 
+                onClick={()=>{
+                    setIsShowModalUpdate2(true)
+                }}
+                type="default"
+                icon={<AiOutlineEdit />}>Cập nhật</Button>
+            </div>
             <ModalComponent 
             title={kyLuatTitle} 
             isShowModal={isShowModal2}
             closeModal={closeModal2} />
+            <ModalUpdate
+            title={kyLuatTitle} 
+            isShowModal={isShowModalUpdate2}
+            closeModal={closeModalUpdate2}
+            dataStep6={rewardDiscipline} />
         </div>
     </div>
   )
