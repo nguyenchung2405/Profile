@@ -1,7 +1,7 @@
 const FormData = require("form-data");
 const path = require("path")
 const axios = require("axios");
-const local =  "http://192.168.61.116";
+const local =  "http://dev.userbe.tuoitre.vn";
 const fs = require("fs")
 
 const uploadUserAvatar = async (req,res)=>{
@@ -18,25 +18,25 @@ const uploadUserAvatar = async (req,res)=>{
         if(user_id){
             const pathFile = path.join(path.dirname(file.path), file.filename);
             const formData = new FormData();
-            formData.append("file", fs.readFileSync(pathFile), file.filename);
+            formData.append("files", fs.readFileSync(pathFile), file.filename);
             formData.append("resource_type", "image")
             formData.append("user_id", user_id)
             formData.append("user_resource_type", "3x4");
             const result = await axios({
-                url: `${local}/api/user/resources`,
+                url: `${local}/user-resources`,
                 method: "POST",
                 data: formData
             })
             // console.log(result.data)
             // console.log(result)
-            let {message} = result.data;
-            if(message === 'Successfully'){
+            // let {message} = result.data;
+            if(message === 'Success'){
                 // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
                 const result_getIMG = await axios({
-                    url: `${local}/user-resources/${user_id}`,
+                    url: `${local}/user-resources/user/${user_id}`,
                     method: "GET"
                 })
-                
+                // console.log(result_getIMG)
                 res.send(result_getIMG.data);
             } else {
                 // Nếu post ảnh fail thì trả về  kết quả báo lỗi gì đó

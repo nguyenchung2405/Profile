@@ -70,7 +70,7 @@ export async function getUserList_API(page,pageSize){
                 Authorization: "Bearer " + TOKEN
             }
         });
-        return res;
+        return res.data;
     } catch (error) {
         console.log(error)
     }

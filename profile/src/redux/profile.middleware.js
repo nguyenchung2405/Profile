@@ -8,6 +8,7 @@ import { setPersonalHistory } from "./Steps/step2.slice";
 import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
 import { setTrainingFostering } from "./Steps/step5.slice";
+import { setRewardDiscipline } from "./Steps/step6Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload) {
@@ -19,13 +20,14 @@ function* getProfileByID(payload) {
         let { id, user_id } = data;
         let jour_card_id = data.journalist_card[0].id;
         let user_degree_id = data?.user_degree[0]?.id;
-        let {personal_history, party, organization, training_fostering} = data;
+        let {personal_history, party, organization, training_fostering, reward_discipline} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
         yield put(setPersonalHistory(personal_history))
         yield put(getParty(party))
         yield put(setOrganization(organization))
         yield put(setTrainingFostering(training_fostering))
+        yield put(setRewardDiscipline(reward_discipline))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
         profile["email"] = email;
@@ -77,9 +79,10 @@ function* createProfile(payload) {
 function* getAvatar(payload) {
     let { user_id } = payload
     const res = yield call(getAvatar_API, user_id);
+    // console.log(res)
     if (res.data !== null) {
         let avatar = res.data;
-        if(avatar?.type === "3x4"){
+        if(avatar?.type === "3x4" && avatar.resource !== null){
             let { content } = avatar.resource;
             yield put(setAvatar(content));
         }
