@@ -1,11 +1,12 @@
 import { Button, Steps } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlinePlusCircle, AiOutlineEdit} from 'react-icons/ai';
 import ModalComponent from '../modal/modal';
 import {daoTao as daoTaoTitle, boiDuong as boiDuongTitle, DELETE_TRAINING} from "../../title/title"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import ModalUpdate from '../modal/modalUpdate';
+import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 
 export default function Step5() {
 
@@ -16,7 +17,15 @@ export default function Step5() {
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     let [isShowModalUpdate2, setIsShowModalUpdate2] = useState(false)
     const {trainingFostering} = useSelector(state => state.step5Reducer)
+    let {nextStep} = useSelector(state => state.stepsReducer);
     // console.log(trainingFostering)
+
+    useEffect(()=>{
+        if(nextStep !== 4){
+            dispatch(setIsNextStep(true))
+        }
+    }, [nextStep])
+
     const daoTao = trainingFostering.map((tr_fos, index)=>{
         let tuNgay = moment(new Date(tr_fos.time_from)).format("DD/MM/YYYY");
         let denNgay = moment(new Date(tr_fos.time_to)).format("DD/MM/YYYY");

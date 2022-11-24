@@ -48,6 +48,13 @@ export default function ModalComponent(props) {
                 type: CREATE_REWARD_DISCIPLINE,
                 data: valueModal
             })
+        } else if(title === kyLuat) {
+            valueModal.pro_id = pro_id;
+            valueModal.type = "discipline"
+            dispatch({
+                type: CREATE_REWARD_DISCIPLINE,
+                data: valueModal
+            })
         }
         closeModal()
     };
