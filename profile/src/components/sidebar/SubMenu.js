@@ -118,6 +118,7 @@ export default function SubMenu() {
             getItem("Hồ sơ", "1", <BsFileEarmarkFill />),
             getItem("Bộ phận công tác", "2", <FcDepartment />),
             getItem("Chức danh, chức vụ", "3", <FcDepartment />),
+
         ])
     ]
 
