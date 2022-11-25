@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE } from "../title/title";
-import { mappingDepartmentPosition, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
+import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
 import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
@@ -9,6 +9,7 @@ import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
 import { setTrainingFostering } from "./Steps/step5.slice";
 import { setRewardDiscipline } from "./Steps/step6Slice";
+import { setFamilyRelationship } from "./Steps/step8Slice";
 import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload) {
@@ -20,7 +21,8 @@ function* getProfileByID(payload) {
         let { id, user_id } = data;
         let jour_card_id = data.journalist_card[0].id;
         let user_degree_id = data?.user_degree[0]?.id;
-        let {personal_history, party, organization, training_fostering, reward_discipline} = data;
+        let {personal_history, party, organization, training_fostering, reward_discipline,
+            family_relationship} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
         yield put(setPersonalHistory(personal_history))
@@ -28,6 +30,7 @@ function* getProfileByID(payload) {
         yield put(setOrganization(organization))
         yield put(setTrainingFostering(training_fostering))
         yield put(setRewardDiscipline(reward_discipline))
+        yield put(setFamilyRelationship(mappingFamilyRelationship(family_relationship)))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
         profile["email"] = email;

@@ -17,7 +17,7 @@ const createProfile = async (req, res, next) => {
             },
             data: profile
         });
-        // console.log(result)
+        console.log(result)
         let { data: { code, data: { id } } } = result;
         console.log({ pro_id: id })
         if (code == 200) {

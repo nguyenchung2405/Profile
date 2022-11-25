@@ -87,9 +87,9 @@ export default function TableProfiles() {
       >
         <Column className="tableProfiles__avatar" title="" key="avatar"
           render={(text, record, index) => {
-            // console.log(record.user_resources)
+            // console.log(record)
             // user id 624, 623 có lỗi ảnh avatar
-            if (record?.user_resources.length > 0) {
+            if (record?.user_resources?.length > 0) {
               // let avatar = record?.user_resources.find(type => type.type === "3x4");
               // console.log(avatar)
               let index = record.user_resources.length - 1;
