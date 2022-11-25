@@ -40,6 +40,7 @@ export default function Step7() {
     useEffect(()=>{
         if(nextStep !== 6){
             if(!valueForm.type){
+                console.log("Tạo vợ chồng")
                 valueForm.type = "vo_chong"
                 valueForm.pro_id = pro_id;
                 dispatch({
@@ -51,6 +52,11 @@ export default function Step7() {
                     valueFormCon.pro_id = pro_id;
                     dispatch({
                         type: CREATE_FAMILY_RELATIONSHIP,
+                        data: valueFormCon
+                    })
+                } else {
+                    dispatch({
+                        type: UPDATE_FAMILY_RELATIONSHIP,
                         data: valueFormCon
                     })
                 }

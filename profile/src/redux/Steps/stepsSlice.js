@@ -4,7 +4,8 @@ const initialState = {
     nextStep: 0,
     isNextStep: false,
     user_profile_id: {},
-    messageAlert: {}
+    messageAlert: {},
+    isDone: false
 }
 
 const stepsSlice = createSlice({
@@ -22,9 +23,13 @@ const stepsSlice = createSlice({
         },
         setMessageAlert: (state, action) => {
             state.messageAlert = action.payload;
+        },
+        setIsDone: (state, action)=>{
+            state.isDone = action.payload;
         }
     }
 });
 
-export const { moveToNextStep, setIsNextStep, setUserProfileID, setMessageAlert } = stepsSlice.actions;
+export const { moveToNextStep, setIsNextStep, setUserProfileID, setMessageAlert,
+    setIsDone } = stepsSlice.actions;
 export default stepsSlice.reducer;

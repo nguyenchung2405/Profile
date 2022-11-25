@@ -11,7 +11,7 @@ import Step7 from '../profile/step7';
 import Step8 from '../profile/step8';
 import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
-import { moveToNextStep, setIsNextStep, setMessageAlert, setUserProfileID } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep, setIsDone, setIsNextStep, setMessageAlert, setUserProfileID } from '../../redux/Steps/stepsSlice';
 import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
@@ -95,7 +95,8 @@ export default function StepsAntd() {
         dispatch(setEmailPhone({}))
         dispatch(setMessageAlert({}))
         dispatch(setIsLoading(false));
-        dispatch(clearParty())
+        dispatch(clearParty());
+        dispatch(setIsDone(false));
       }
     },[])
     
@@ -174,7 +175,11 @@ export default function StepsAntd() {
             }}>Tiếp theo</button>
             :
             <button className="SoYeuLyLich__btn" onClick={() => {
-              console.log("Hoàn thành.");
+              // console.log("Hoàn thành.");
+              // console.log(nextStep)
+              if(nextStep === 8){
+                  dispatch(setIsDone(true))
+              }
             }}>Hoàn thành</button>
           }
         </div>

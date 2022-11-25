@@ -1,14 +1,73 @@
-import { Button, Select, Steps } from 'antd'
-import React, { useState } from 'react'
+import { Button, DatePicker, Select } from 'antd'
+import moment from 'moment';
+import React, { useEffect, useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { lichSuBanThan } from '../../title/title';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
+import { setNoiOHienTaiHuyen_ST9 } from '../../redux/Steps/step9Slice';
+import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
+import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP8, GET_DISTRICTS_STEP9, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
+import { handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
 
-export default function Step9() {
+export default function Step8() {
 
     const {Option} = Select;
-    const {Step} = Steps;
+    const dispatch = useDispatch();
+    let {nextStep, user_profile_id: { pro_id }, isDone} = useSelector(state => state.stepsReducer);
+    let { familyRelationship } = useSelector(state => state.step8Reducer);
+    let { noiOHienTaiTinh, noiOHienTaiQuan , noiOHienTaiHuyen } = useSelector(state => state.step9Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
+    let [isUpdate, setIsUpdate ] = useState(false);
+    const [valueForm, setValueForm] = useState({});
+    // console.log(valueForm)
+    // console.log(familyRelationship)
+    // console.log(isDone)
+    useEffect(()=>{
+        dispatch({
+            type: GET_PROVINCES
+        })
+    }, [dispatch])
+
+    useEffect(()=>{
+        if(isDone){
+            if(!valueForm.type){
+                dispatch(setIsNextStep(true))
+                // dispatch(setMessageAlert({type: "error", msg: "Thao tác thất bại do không có mối quan hệ"}))
+            } else {
+                if(!isUpdate){
+                    // console.log("Tạo family")
+                    valueForm.pro_id = pro_id;
+                    dispatch(setIsNextStep(true))
+                    dispatch({
+                        type: CREATE_FAMILY_RELATIONSHIP,
+                        data: valueForm
+                    })
+                } else {
+                    console.log("Cập nhật family")
+                    dispatch(setIsNextStep(true))
+                    dispatch({
+                        type: UPDATE_FAMILY_RELATIONSHIP,
+                        data: valueForm
+                    })
+                }
+            }
+        }
+    }, [isDone])
+
+    useEffect(() => {
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...valueForm.noiOHienTai, quan: "", huyen: "" }
+        });
+    }, [noiOHienTaiQuan])
+
+    useEffect(() => {
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...valueForm.noiOHienTai, huyen: "" }
+        });
+    }, [noiOHienTaiHuyen])
 
     const dacDiemLichSu = [
         {
@@ -25,60 +84,70 @@ export default function Step9() {
         setIsShowModal(false)
     }
 
-    const getValueSelect_Day = (value)=>{
-        
-    }
-
-    const getValueSelect_Month = (value)=>{
-        
-    }
-
-    const getValueSelect_Year = (value)=>{
-        
+    const valueOfField = (name)=>{
+        if(name === "birthday"){
+            if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined){
+                return handleDateTime(valueForm[name])
+            }
+        } else if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined && valueForm[name] !== ""){
+            return valueForm[name]
+        }
     }
 
     const getValueSelect_NoiO_Huyen = (value)=>{
-        
+        let { noiOHienTai } = valueForm;
+        let noiOHienTaiNew = { ...noiOHienTai, huyen: value };
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...noiOHienTaiNew }
+        });
     }
 
     const getValueSelect_NoiO_Quan_TP = (value)=>{
-        
+        dispatch(setNoiOHienTaiHuyen_ST9(value));
+        let { noiOHienTai } = valueForm;
+        let noiOHienTaiNew = { ...noiOHienTai, quan: value };
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...noiOHienTaiNew }
+        });
     }
 
     const getValueSelect_NoiO_Tinh_TP = (value)=>{
-        
+        let tinhSelected = noiOHienTaiTinh.find(tinh => tinh.name === value);
+        dispatch({
+            type: GET_DISTRICTS_STEP9,
+            code: tinhSelected.code
+        })
+        let { noiOHienTai } = valueForm;
+        let noiOHienTaiNew = { ...noiOHienTai, tinh: value };
+        setValueForm({
+            ...valueForm,
+            noiOHienTai: { ...noiOHienTaiNew }
+        });
     }
 
-    const renderDay = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="" Selected>Ngày</Option>)
-        for(let i = 1; i<=31; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
+    const renderTinh = ()=>{
+        return noiOHienTaiTinh.map((tinh, index) => {
+            return <Option value={tinh.name} key={index}>{tinh.name}</Option>
+        })
     }
 
-    const renderMonth = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="">Tháng</Option>)
-        for(let i = 1; i<=12; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
+    const renderQuan = ()=>{
+        return noiOHienTaiQuan.map((quan, index) => {
+            return <Option value={quan.name} key={index}>{quan.name}</Option>
+        })
     }
 
-    const renderYear = ()=>{
-        let htmlRendered = [];
-        htmlRendered.push(<Option value="">Năm</Option>)
-        for(let i = 1940; i<=2002; i++){
-            htmlRendered.push(<Option value={i}>{i}</Option>) 
-        }
-        return htmlRendered
+    const renderHuyen = ()=>{
+        return noiOHienTaiHuyen.map((huyen, index) => {
+            return <Option value={huyen.name} key={index}>{huyen.name}</Option>
+        })
     }
 
     const renderQuanHe = ()=>{
         let htmlRendered = [];
-        let quanHeArr = ["Cha","Mẹ","Anh trai","Em trai"];
+        let quanHeArr = ["Cấp trên","Cấp dưới","Đồng nghiệp","Sếp lớn"];
         // htmlRendered.push(<Option value="">Phòng ban</Option>)
         for(let quanHe of quanHeArr){
             htmlRendered.push(<Option value={quanHe}>{quanHe}</Option>) 
@@ -86,55 +155,89 @@ export default function Step9() {
         return htmlRendered
     }
 
-    // Step 9 có nội dung giống Step 8 nên copy qua gồm cả tên class để đỡ CSS lại
+    const renderHistoryFeatures = ()=>{
+        return dacDiemLichSu.map((item, index)=>{
+            return <div className="center">
+                <div className="process step8" key={index}>
+                    <div className="point"></div>
+                    <div className="process__infor">
+                        <p>{item.title}</p>
+                        <p>{item.description}</p>
+                    </div>
+                    <svg onClick={() => {
+                        // dispatch({
+                        //     type: DELETE_REWARD_DISCIPLINE,
+                        //     re_dis_id: item.re_dis_id
+                        // })
+                    }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        })
+    }
+
+    const handleChangeValue = (e)=>{
+        let {name, value} = e.target;
+        setValueForm({
+            ...valueForm,
+            [name]: value
+        })
+    }
+
+    const handleChangeNoiO = (value)=>{
+        if(familyRelationship.length > 0){
+            let itemIsExist = familyRelationship.find(item => item.type === value);
+            if(itemIsExist){
+                setValueForm({...itemIsExist});
+                setIsUpdate(true);
+            } else {
+                setValueForm({
+                    ...valueForm,
+                    type: value
+                })
+                setIsUpdate(false);
+            }
+        } else {
+            setValueForm({
+                ...valueForm,
+                type: value
+            })
+        }
+    }
 
   return (
-    <div className="alignCenter Step9">
+    <div className="alignCenter">
         <div className="Step8">
-            <p>Anh:</p>
             <div className="field">
                 <label htmlFor="hoTen">Họ tên:</label>
-                <input id="hoTen" />
+                <input id="hoTen" name="full_name" 
+                value={valueOfField("full_name")}
+                onChange={handleChangeValue} />
             </div>
             <div className="field birthday">
                 <label>Ngày tháng năm sinh:</label>
-                <Select defaultValue="Ngày"
-                // onBlur={()=>{
-                //     if(valueForm.ngaySinh === ""){
-                //         setValidateForm({...validateForm,ngaySinh: true})
-                //     } else {
-                //         setValidateForm({...validateForm,ngaySinh: false})
-                //     }
-                // }}
-                onChange={getValueSelect_Day}>
-                    {renderDay()}
-                </Select>
-                <Select defaultValue="Tháng" 
-                // onBlur={()=>{
-                //     if(valueForm.thangSinh === ""){
-                //         setValidateForm({...validateForm,thangSinh: true})
-                //     } else {
-                //         setValidateForm({...validateForm,thangSinh: false})
-                //     }
-                // }}
-                onChange={getValueSelect_Month}>
-                    {renderMonth()}
-                </Select>
-                <Select defaultValue="Năm" 
-                // onBlur={()=>{
-                //     if(valueForm.namSinh === ""){
-                //         setValidateForm({...validateForm,namSinh: true})
-                //     } else {
-                //         setValidateForm({...validateForm,namSinh: false})
-                //     }
-                // }}
-                onChange={getValueSelect_Year}>
-                    {renderYear()}
-                </Select>
+                <DatePicker 
+                value={valueOfField("birthday")}
+                onChange={(date,dateString)=>{
+                    setValueForm({
+                        ...valueForm,
+                        birthday: moment(dateString, "DD-MM-YYYY").toISOString()
+                    })
+                }}
+                placeholder=""
+                suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.625 9C4.8125 9 5 8.84375 5 8.625V7.375C5 7.1875 4.8125 7 4.625 7H3.375C3.15625 7 3 7.1875 3 7.375V8.625C3 8.84375 3.15625 9 3.375 9H4.625ZM8 8.625V7.375C8 7.1875 7.8125 7 7.625 7H6.375C6.15625 7 6 7.1875 6 7.375V8.625C6 8.84375 6.15625 9 6.375 9H7.625C7.8125 9 8 8.84375 8 8.625ZM11 8.625V7.375C11 7.1875 10.8125 7 10.625 7H9.375C9.15625 7 9 7.1875 9 7.375V8.625C9 8.84375 9.15625 9 9.375 9H10.625C10.8125 9 11 8.84375 11 8.625ZM8 11.625V10.375C8 10.1875 7.8125 10 7.625 10H6.375C6.15625 10 6 10.1875 6 10.375V11.625C6 11.8438 6.15625 12 6.375 12H7.625C7.8125 12 8 11.8438 8 11.625ZM5 11.625V10.375C5 10.1875 4.8125 10 4.625 10H3.375C3.15625 10 3 10.1875 3 10.375V11.625C3 11.8438 3.15625 12 3.375 12H4.625C4.8125 12 5 11.8438 5 11.625ZM11 11.625V10.375C11 10.1875 10.8125 10 10.625 10H9.375C9.15625 10 9 10.1875 9 10.375V11.625C9 11.8438 9.15625 12 9.375 12H10.625C10.8125 12 11 11.8438 11 11.625ZM14 3.5C14 2.6875 13.3125 2 12.5 2H11V0.375C11 0.1875 10.8125 0 10.625 0H9.375C9.15625 0 9 0.1875 9 0.375V2H5V0.375C5 0.1875 4.8125 0 4.625 0H3.375C3.15625 0 3 0.1875 3 0.375V2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V3.5ZM12.5 14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V5H12.5V14.3125Z" fill="#666666" fillOpacity="0.6"/>
+                </svg>}
+                format="DD-MM-YYYY"
+                />
             </div>
             <div className="field">
                 <label htmlFor="ngheNghiep">Nghề nghiệp:</label>
-                <input id="ngheNghiep" />
+                <input id="ngheNghiep" name="job" 
+                value={valueOfField("job")}
+                onChange={handleChangeValue} />
             </div>
             <div className="field">
                 <label htmlFor="congTac">Công tác:</label>
@@ -145,13 +248,7 @@ export default function Step9() {
                             <p>Đặc điểm lịch sử
                             <span> (chức danh, chức vụ, tên, địa chỉ cơ quan, xí nghiệp, công ty ở trong hoặc ngoài nước)</span>
                             </p>
-                            <Steps progressDot current={dacDiemLichSu.length - 1} direction="vertical">
-                                {
-                                    dacDiemLichSu.map( (item, index) => {
-                                            return <Step title={item.title} description={item.description} key={index} />
-                                    })
-                                }
-                            </Steps>
+                            {renderHistoryFeatures()}
                     </div>
                     <div className="Step8__footer">
                         <Button 
@@ -173,19 +270,41 @@ export default function Step9() {
             <div className="field noiCuTru">
                     <label htmlFor='noiCuTru'>Nơi ở hiện tại:
                     </label>
-                    <input id="NoiOHienTai" name="noiCuTru" type="text" 
-                    />
+                    <input id="NoiOHienTai" name="diaChi" type="text" 
+                    value={valueForm.noiOHienTai?.diaChi !== "" ? valueForm.noiOHienTai?.diaChi : ""}
+                    onChange={(e)=>{
+                        let {name, value} = e.target;
+                        setValueForm({
+                            ...valueForm,
+                            noiOHienTai: { ...valueForm.noiOHienTai, [name] : value}
+                        })
+                    }} />
                     <Select defaultValue="Tỉnh (Thành phố)" 
+                    showSearch
+                    value={valueForm.noiOHienTai?.tinh !== "" ? valueForm.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_NoiO_Tinh_TP}>
-                        {renderYear()}
+                        {renderTinh()}
                     </Select>
                     <Select defaultValue="Quận (Thành phố)" 
+                    showSearch
+                    value={valueForm.noiOHienTai?.quan !== "" ? valueForm.noiOHienTai?.quan : "Quận (Thành phố)"}
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_NoiO_Quan_TP}>
-                        {renderMonth()}
+                        {renderQuan()}
                     </Select>
                     <Select defaultValue="Huyện" 
+                    showSearch
+                    value={valueForm.noiOHienTai?.huyen !== "" ? valueForm.noiOHienTai?.huyen : "Huyện (Xã)"}
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_NoiO_Huyen}>
-                        {renderDay()}
+                        {renderHuyen()}
                     </Select>
             </div>
             <div className="quanHeGiaDinh">
@@ -193,6 +312,7 @@ export default function Step9() {
                 defaultValue="Quan hệ gia đình"
                 dropdownStyle={{minWidth: "277px"}}
                 popupClassName="quanHeList"
+                onChange={handleChangeNoiO}
                 >
                     {renderQuanHe()}
                 </Select>

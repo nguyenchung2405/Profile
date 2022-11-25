@@ -104,7 +104,7 @@ function* onlyCreateProfile(payload) {
     let userDegree = mappingUserDegree(valueForm);
     let jourCard = mappingJournalistCard(valueForm);
     let dataToCreate = { profile, depPos, userDegree, jourCard, user_id }
-    console.log(dataToCreate)
+    // console.log(dataToCreate)
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
     yield call(onlyCreateProfileAPI, dataToCreate)

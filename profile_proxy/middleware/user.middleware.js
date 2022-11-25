@@ -26,7 +26,7 @@ const createNewUser = async (req, res, next) => {
         let { profile: { full_name }, email, soDienThoai } = req.body;
         console.log(full_name, email, soDienThoai);
         let { headers: { authorization } } = req;
-        console.log("createNewUser")
+        // console.log("createNewUser")
         const result = await axios({
             url: `http://dev.userbe.tuoitre.vn/users/register`,
             method: "POST",
