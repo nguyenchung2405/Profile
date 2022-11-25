@@ -88,12 +88,11 @@ export default function TableProfiles() {
         <Column className="tableProfiles__avatar" title="" key="avatar"
           render={(text, record, index) => {
             // console.log(record)
-            // user id 624, 623 có lỗi ảnh avatar
-            if (record?.user_resources?.length > 0) {
+            if (record?.resources?.length > 0) {
               // let avatar = record?.user_resources.find(type => type.type === "3x4");
               // console.log(avatar)
-              let index = record.user_resources.length - 1;
-              let avatarRender = record.user_resources[index].resource?.content;
+              let index = record.resources.length - 1;
+              let avatarRender = record.resources[index].resource?.content;
               return <img src={`data:image/png;base64,${avatarRender}`} alt="avatar of user" />
             } else {
               if (record.profile?.gender === 1) {
@@ -108,6 +107,7 @@ export default function TableProfiles() {
         <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
         <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
         render={(text, record, index) => {
+          console.log(record)
             if (record.primary_user_dep_pos.length > 0) {
               return record.primary_user_dep_pos[0].department_name;
             }

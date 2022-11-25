@@ -30,7 +30,7 @@ function* updateFamilyRelationship(payload){
     let {data} = payload;
     let result = yield call(updateFamilyRelationshipAPI, data);
     let {code, message, data: dataResponse} = result;
-    console.log(result)
+    // console.log(result)
     if(code == 200, message === "Success"){
         yield put(updateFamilyRelationshipSlice(dataResponse))
         yield put(setMessageAlert({type: "success", msg: "Thao tác thành công"}))

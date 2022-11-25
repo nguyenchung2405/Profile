@@ -67,8 +67,9 @@ function* createPositionAndManagement(payload){
 function* updatePositionAndManagement(payload){
     let {pos_management_id, pos_type: {pos_type_id}, position: {name, pos_id}} = payload.data;
     let data = { pos_management_id, pos_type_id, name, pos_id };
+    // console.log(data)
     let result = yield call(updatePositionAndManagementAPI, data)
-    console.log(result)
+    // console.log(result)
     let {name: pos_name} = result[0].data;
     let {pos_type_id: pos_type_ID} = result[1].data;
     let {status} = result[2];

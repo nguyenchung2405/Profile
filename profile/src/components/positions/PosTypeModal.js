@@ -11,14 +11,12 @@ export default function PosTypeModal(props) {
 
     const [valueField, setValueField] = useState({})
     const {positionTyleList, message: notification} = useSelector(state => state.positionReducer);
-    
+    console.log(valueField)
     useEffect(()=>{
         dispatch({
             type: GET_POSITION_TYPE_LIST
         })
     }, [dispatch])
-
-    
 
     useEffect(()=>{
         let {msg, type} = notification;
@@ -57,15 +55,11 @@ export default function PosTypeModal(props) {
     
     const valueOfField = (name)=>{
         if(isShowTypeModal && titleTypeModal === "Sửa loại chức vụ"){
-            if( valueField[name] !== undefined){
+            if(valueField[name] && valueField[name] !== undefined && valueField[name] !== "" ){
                 return valueField[name]
             } else {
-                // Lỗi gì đó khiến cho 1 field của sửa loại chức vụ hiện bên tạo loại chức vụ
-                return valueField[name]
+                return ""
             }
-        } else {
-            // Lỗi gì đó khiến cho 1 field của tạo loại chức vụ hiện bên  sửa loại chức vụ 
-            return valueField[name]
         }
     }
 
@@ -88,13 +82,15 @@ export default function PosTypeModal(props) {
                 </div>
                 <div className="pos__type__modal__field onefield">
                     <label htmlFor="moTa">Mô tả:</label>
-                    <textarea type="text" name="description" id="moTa" onChange={handleChangeInput} />
+                    <textarea type="text" name="description" id="moTa" key='1234'
+                    onChange={handleChangeInput} />
                 </div>
                 <button className="dep__btn" onClick={()=>{
                     dispatch({
                         type: CREATE_POSITION_TYPE,
                         data: valueField
                     })
+                    setValueField({})
                     setIsShowTypeModal(false);
                 }}>Tạo</button>
             </div>
@@ -114,19 +110,19 @@ export default function PosTypeModal(props) {
                     </div>
                     <div className="pos__type__modal__field onefield">
                         <label htmlFor="dinhDanh">Loại chức vụ:</label>
-                        <input type="text" name="identifier" id="dinhDanh" 
+                        <input type="text" name="identifier" id="dinhDanh" key="10"
                         value={valueOfField("identifier")}
                         onChange={handleChangeInput} />
                     </div>
                     <div className="pos__type__modal__field onefield">
                         <label htmlFor="capBac">Cấp bậc:</label>
-                        <input type="text" name="level" id="capBac" 
+                        <input type="text" name="level" id="capBac" key="12"
                         value={valueOfField("level")}
                         onChange={handleChangeInput} />
                     </div>
                     <div className="pos__type__modal__field onefield">
                         <label htmlFor="moTa">Mô tả:</label>
-                        <textarea type="text" name="description" id="moTa" 
+                        <textarea type="text" name="description" id="moTa" key="11"
                         value={valueOfField("description")}
                         onChange={handleChangeInput} />
                     </div>
@@ -158,6 +154,7 @@ export default function PosTypeModal(props) {
                             type: DELETE_POSITION_TYPE,
                             pos_type_id: valueField.id
                         });
+                        setValueField({})
                         setIsShowTypeModal(false);
                     }}>Xóa</button>
             </div>

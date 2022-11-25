@@ -14,6 +14,7 @@ import step5Slice from "./Steps/step5.slice";
 import step6Slice from "./Steps/step6Slice";
 import step8Slice from "./Steps/step8Slice";
 import step7Slice from "./Steps/step7Slice";
+import step9Slice from "./Steps/step9Slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,6 +29,7 @@ export const store = configureStore({
         step6Reducer: step6Slice,
         step7Reducer: step7Slice,
         step8Reducer: step8Slice,
+        step9Reducer: step9Slice,
         userListReducer: userListSlice,
         loadingReducer: loadingSlice,
         departmentsReducer: departmentsSlice,

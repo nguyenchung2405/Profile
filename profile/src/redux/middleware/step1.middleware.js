@@ -4,6 +4,7 @@ import { getProvinces_API, getDistricts_Wards_API, getDistricts_Wards_HT_API, ge
 import { setHoKhauQuan, setHoKhauTinh, setNoiOQuan, setNoiOTinh, setNoiSinhQuan, setNoiSinhTinh, setPB_CV, setQueQuanQuan, setQueQuanTinh, setTo } from "../Steps/step1/step1Slice";
 import { setDiaChiTinh_ST7, setQueQuanTinh_ST7 } from "../Steps/step7Slice";
 import { setNoiOHienTaiTinh } from "../Steps/step8Slice";
+import { setNoiOHienTaiTinh_ST9 } from "../Steps/step9Slice";
 
 function* getProvinces_ByAPI(){
     let provinces = yield call(getProvinces_API);
@@ -14,6 +15,7 @@ function* getProvinces_ByAPI(){
     yield put(setNoiOHienTaiTinh(provinces))
     yield put(setDiaChiTinh_ST7(provinces));
     yield put(setQueQuanTinh_ST7(provinces));
+    yield put(setNoiOHienTaiTinh_ST9(provinces))
 }
 
 function* getDistrict_Ward_ByAPI(payload){

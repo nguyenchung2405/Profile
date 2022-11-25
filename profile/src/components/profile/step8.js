@@ -32,6 +32,7 @@ export default function Step8() {
     useEffect(()=>{
         if(nextStep !== 7){
             if(!valueForm.type){
+                dispatch(setIsNextStep(true))
                 // dispatch(setMessageAlert({type: "error", msg: "Thao tác thất bại do không có mối quan hệ"}))
             } else {
                 if(!isUpdate){
