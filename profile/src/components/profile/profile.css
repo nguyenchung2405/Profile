@@ -1043,6 +1043,28 @@ input#diaChi {
     display: inline-block;
 }
 
+.Step7 .birthday .ant-picker {
+    width: 380px;
+    padding: 0;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-picker{
+    width: 450px;
+    padding: 0;
+    background-color: #F0F5FA;
+}
+
+.Step8 .birthday .ant-picker .ant-picker-input span.ant-picker-suffix,
+.Step7 .birthday .ant-picker .ant-picker-input span.ant-picker-suffix{
+    margin-right: 20px;
+}
+
+.Step8 .birthday .ant-picker .ant-picker-input span.ant-picker-clear,
+.Step7 .birthday .ant-picker .ant-picker-input span.ant-picker-clear {
+    margin-right: 19px;
+}
+
 .noiCuTru>input {
     display: block;
     background-color: #F0F5FA;

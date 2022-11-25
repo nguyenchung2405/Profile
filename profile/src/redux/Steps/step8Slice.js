@@ -20,9 +20,23 @@ const step8Slice = createSlice({
         setNoiOHienTaiHuyen: (state, action)=>{
             let quanSelected = state.noiOHienTaiQuan.find(quan => quan.name === action.payload);
             state.noiOHienTaiHuyen = quanSelected.wards;
+        },
+        setFamilyRelationship: (state, action)=>{
+            state.familyRelationship = action.payload;
+        },
+        addFamilyRelationship: (state, action)=>{
+            state.familyRelationship.push(action.payload)
+        },
+        updateFamilyRelationshipSlice: (state, action)=>{
+            let {id} = action.payload;
+            console.log(action.payload)
+            let index = state.familyRelationship.findIndex(fa_re => fa_re.id === id);
+            state.familyRelationship[index] = action.payload;
+            console.log("cập nhật xong")
         }
     }
 });
 
-export const {setNoiOHienTaiTinh, setNoiOHienTaiQuan, setNoiOHienTaiHuyen} = step8Slice.actions;
+export const {setNoiOHienTaiTinh, setNoiOHienTaiQuan, setNoiOHienTaiHuyen,
+setFamilyRelationship, addFamilyRelationship, updateFamilyRelationshipSlice} = step8Slice.actions;
 export default step8Slice.reducer;

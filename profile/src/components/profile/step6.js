@@ -20,7 +20,7 @@ export default function Step6() {
     let {nextStep} = useSelector(state => state.stepsReducer);
 
     useEffect(()=>{
-        if(nextStep !== 4){
+        if(nextStep !== 5){
             dispatch(setIsNextStep(true))
         }
     }, [nextStep])

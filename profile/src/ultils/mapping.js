@@ -174,3 +174,16 @@ export const mappingProfileAPI = (values) => {
         tonGiao: values.religion,
     }
 }
+
+export function mappingFamilyRelationship(data){
+    return data.map((item, index)=>{
+      if(item.residence && item.residence !== null && item.residence.length > 10){
+        return {
+          ...item,
+          noiOHienTai: tachDuLieu(item.residence, 4)
+        }
+      } else {
+        return {...item}
+      }
+    })
+}

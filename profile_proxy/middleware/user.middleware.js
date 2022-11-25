@@ -6,7 +6,7 @@ const checkQuery = async (req, res, next) => {
         let { headers: { authorization } } = req;
         if (page && per_page) {
             const result = await axios({
-                url: `http://dev.userbe.tuoitre.vn/users/?page_size=3&page=${page}&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -28,7 +28,7 @@ const createNewUser = async (req, res, next) => {
         let { headers: { authorization } } = req;
         console.log("createNewUser")
         const result = await axios({
-            url: `http://dev.userbe.tuoitre.vn/users`,
+            url: `http://dev.userbe.tuoitre.vn/users/register`,
             method: "POST",
             headers: {
                 Authorization: authorization

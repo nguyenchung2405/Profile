@@ -2,6 +2,7 @@ import { call, takeLatest, put } from "redux-saga/effects";
 import { GET_PROVINCES, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOME_TOWN, GET_DISTRICTS_ADDRESS, GET_DEP_POS, GET_PART, GET_DISTRICTS_HOKHAU } from "../../title/title";
 import { getProvinces_API, getDistricts_Wards_API, getDistricts_Wards_HT_API, getDistricts_Wards_ADDRESS_API, getDepPosList_API, getPart_API, getDistricts_Wards_HoKhau_API } from "../API/step1API";
 import { setHoKhauQuan, setHoKhauTinh, setNoiOQuan, setNoiOTinh, setNoiSinhQuan, setNoiSinhTinh, setPB_CV, setQueQuanQuan, setQueQuanTinh, setTo } from "../Steps/step1/step1Slice";
+import { setDiaChiTinh_ST7, setQueQuanTinh_ST7 } from "../Steps/step7Slice";
 import { setNoiOHienTaiTinh } from "../Steps/step8Slice";
 
 function* getProvinces_ByAPI(){
@@ -11,6 +12,8 @@ function* getProvinces_ByAPI(){
     yield put(setNoiOTinh(provinces))
     yield put(setHoKhauTinh(provinces))
     yield put(setNoiOHienTaiTinh(provinces))
+    yield put(setDiaChiTinh_ST7(provinces));
+    yield put(setQueQuanTinh_ST7(provinces));
 }
 
 function* getDistrict_Ward_ByAPI(payload){
