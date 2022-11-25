@@ -1,9 +1,10 @@
 # dependencies
 node_modules
 /node_modules
+./dist
+/dist
 ./node_modules
 package-lock.json
-package.json
 # Nuxt generate
 data.json
 data1.json
