@@ -58,7 +58,7 @@ export default function TableProfiles() {
         <button className="create_acc_profile" onClick={() => {
           dispatch(removePBCV("all"))
           dispatch(setValues(userInforEmpty))
-          navigate(`${uri}/hr/profile/create`)
+          navigate(`/${uri}/hr/profile/create`)
         }}>
           <AiOutlineUserAdd />
           Tạo
