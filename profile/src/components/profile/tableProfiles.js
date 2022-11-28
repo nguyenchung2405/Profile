@@ -130,7 +130,7 @@ export default function TableProfiles() {
                   <button onClick={() => {
                     dispatch(setIsCreateProfile(false))
                     dispatch(setEmailPhone({ email, soDienThoai: phone }))
-                    navigate(`${uri}/hr/profile/${id}`)
+                    navigate(`/${uri}/hr/profile/${id}`)
                   }}>
                     <MdOutlineModeEditOutline />
                   </button>
@@ -148,7 +148,7 @@ export default function TableProfiles() {
                 <button onClick={() => {
                   dispatch(setValues(newData))
                   dispatch(setIsCreateProfile(false))
-                  navigate(`${uri}/hr/profile/create/${id}`)
+                  navigate(`/${uri}/hr/profile/create/${id}`)
                 }}>
                   <AiFillFileAdd />
                 </button>
