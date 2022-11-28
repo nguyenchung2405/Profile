@@ -40,13 +40,13 @@ function App() {
         <Provider store={store}>
           <div className="App">
             <Routes>
-              <Route path="/hr/profile" element={<TableProfiles />} />
-              <Route path="/hr/profile/:proID" element={<StepsAntd />} />
-              <Route path="/hr/profile/create" element={<StepsAntd />} />
-              <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
+              <Route path="/profile-service/hr/profile" element={<TableProfiles />} />
+              <Route path="/profile-service/hr/profile/:proID" element={<StepsAntd />} />
+              <Route path="/profile-service/hr/profile/create" element={<StepsAntd />} />
+              <Route path="/profile-service/hr/profile/create/:userID" element={<StepsAntd />} />
 
-              <Route path="/hr/department" element={<TableDep />} />
-              <Route path="/hr/position" element={<TablePositions />} />
+              <Route path="/profile-service/hr/department" element={<TableDep />} />
+              <Route path="/profile-service/hr/position" element={<TablePositions />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </div>
