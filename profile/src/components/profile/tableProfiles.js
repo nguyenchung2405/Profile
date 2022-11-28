@@ -13,9 +13,10 @@ import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
 import unknownGenderIMG from "../../img/unknownGender.png"
+import { checkMicroFe } from '../../ultils/helper';
 
 export default function TableProfiles() {
-
+  let uri = checkMicroFe() === true ? "profile-service" : "";
   const [page, setPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(10);
   const { userList, total } = useSelector(state => state.userListReducer)
@@ -57,7 +58,7 @@ export default function TableProfiles() {
         <button className="create_acc_profile" onClick={() => {
           dispatch(removePBCV("all"))
           dispatch(setValues(userInforEmpty))
-          navigate("/hr/profile/create")
+          navigate(`${uri}/hr/profile/create`)
         }}>
           <AiOutlineUserAdd />
           Tạo
@@ -106,8 +107,8 @@ export default function TableProfiles() {
           }} />
         <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
         <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
-        render={(text, record, index) => {
-          console.log(record)
+          render={(text, record, index) => {
+            console.log(record)
             if (record.primary_user_dep_pos.length > 0) {
               return record.primary_user_dep_pos[0].department_name;
             }
@@ -123,13 +124,13 @@ export default function TableProfiles() {
           render={(text, record, index) => {
             if (record.profile !== null) {
               let { email, phone } = record;
-              let  id  = record.profile?.id;
+              let id = record.profile?.id;
               if (id && typeof id === "number" && id !== null) {
                 return <div>
                   <button onClick={() => {
                     dispatch(setIsCreateProfile(false))
                     dispatch(setEmailPhone({ email, soDienThoai: phone }))
-                    navigate(`/hr/profile/${id}`)
+                    navigate(`${uri}/hr/profile/${id}`)
                   }}>
                     <MdOutlineModeEditOutline />
                   </button>
@@ -147,7 +148,7 @@ export default function TableProfiles() {
                 <button onClick={() => {
                   dispatch(setValues(newData))
                   dispatch(setIsCreateProfile(false))
-                  navigate(`/hr/profile/create/${id}`)
+                  navigate(`${uri}/hr/profile/create/${id}`)
                 }}>
                   <AiFillFileAdd />
                 </button>
