@@ -7,7 +7,7 @@ const createProfile = async (req, res, next) => {
         let { headers: { authorization } } = req;
         // console.log(authorization)
         profile["user_id"] = user_id;
-        // console.log(profile)
+        console.log(profile)
 
         const result = await axios({
             url: `http://dev.profilebe.tuoitre.vn/profiles`,
