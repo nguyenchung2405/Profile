@@ -16,7 +16,7 @@ import unknownGenderIMG from "../../img/unknownGender.png"
 import { checkMicroFe } from '../../ultils/helper';
 
 export default function TableProfiles() {
-  let uri = checkMicroFe() === true ? "profile-service" : "";
+  let uri = checkMicroFe() === true ? "/profile-service" : "";
   const [page, setPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(10);
   const { userList, total } = useSelector(state => state.userListReducer)
@@ -58,7 +58,7 @@ export default function TableProfiles() {
         <button className="create_acc_profile" onClick={() => {
           dispatch(removePBCV("all"))
           dispatch(setValues(userInforEmpty))
-          navigate(`/${uri}/hr/profile/create`)
+          navigate(`${uri}/hr/profile/create`)
         }}>
           <AiOutlineUserAdd />
           Tạo
@@ -130,7 +130,7 @@ export default function TableProfiles() {
                   <button onClick={() => {
                     dispatch(setIsCreateProfile(false))
                     dispatch(setEmailPhone({ email, soDienThoai: phone }))
-                    navigate(`/${uri}/hr/profile/${id}`)
+                    navigate(`${uri}/hr/profile/${id}`)
                   }}>
                     <MdOutlineModeEditOutline />
                   </button>
@@ -148,7 +148,7 @@ export default function TableProfiles() {
                 <button onClick={() => {
                   dispatch(setValues(newData))
                   dispatch(setIsCreateProfile(false))
-                  navigate(`/${uri}/hr/profile/create/${id}`)
+                  navigate(`${uri}/hr/profile/create/${id}`)
                 }}>
                   <AiFillFileAdd />
                 </button>
