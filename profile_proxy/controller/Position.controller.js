@@ -1,17 +1,17 @@
 const axios = require("axios");
-const local =  "http://dev.profilebe.tuoitre.vn";
+const local = "http://dev.profilebe.tuoitre.vn";
 
-const getPositionList = async (req,res)=>{
+const getPositionList = async (req, res) => {
     try {
-        let {per_page, page, page_size} = req.query;
+        let { per_page, page, page_size } = req.query;
         let result;
-        if(per_page){
+        if (per_page) {
             result = await axios({
                 url: `${local}/position-management/?page_size=${per_page}`,
                 method: "GET"
             });
             res.send(result.data);
-        } else if(page && page_size) {
+        } else if (page && page_size) {
             result = await axios({
                 url: `${local}/position-management/?page_size=${page_size}&page=${page}&sort_by=id&order=desc`,
                 method: "GET"
@@ -23,12 +23,13 @@ const getPositionList = async (req,res)=>{
     }
 }
 
-const getPositionTypeList = async (req,res)=>{
+const getPositionTypeList = async (req, res) => {
     try {
-        let {page_size, page, sort_by, order} = req.query;
+        let { page_size, page, sort_by, order } = req.query;
         const result = await axios({
             url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
-            method: "GET"
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
         })
         // console.log(result)
         res.send(result.data)
@@ -38,9 +39,9 @@ const getPositionTypeList = async (req,res)=>{
     }
 }
 
-const createPosType = async (req,res)=>{
+const createPosType = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/position-types`,
             method: "POST",
@@ -55,11 +56,11 @@ const createPosType = async (req,res)=>{
     }
 }
 
-const updatePosType = async (req,res)=>{
+const updatePosType = async (req, res) => {
     try {
-        let {pos_id} = req.params;
-        let {identifier, level, description} = req.body;
-        let {headers: {authorization}} = req;
+        let { pos_id } = req.params;
+        let { identifier, level, description } = req.body;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/position-types/${pos_id}`,
             method: "PUT",
@@ -67,8 +68,8 @@ const updatePosType = async (req,res)=>{
                 Authorization: authorization
             },
             data: {
-                identifier, 
-                level, 
+                identifier,
+                level,
                 description
             }
         });
@@ -78,10 +79,10 @@ const updatePosType = async (req,res)=>{
     }
 }
 
-const deletePosType = async (req,res)=>{
+const deletePosType = async (req, res) => {
     try {
-        let {pos_id} = req.params;
-        let {headers: {authorization}} = req;
+        let { pos_id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/position-types/${pos_id}`,
             method: "DELETE",
@@ -95,10 +96,10 @@ const deletePosType = async (req,res)=>{
     }
 }
 
-const createPositionAndManagement = async (req,res)=>{
+const createPositionAndManagement = async (req, res) => {
     try {
-        let {name, identifier} = req.body;
-        let {headers: {authorization}} = req;
+        let { name, identifier } = req.body;
+        let { headers: { authorization } } = req;
         const createPosition = await axios({
             url: `${local}/positions`,
             method: "POST",
@@ -109,7 +110,7 @@ const createPositionAndManagement = async (req,res)=>{
                 name: name
             }
         })
-        let {id:pos_id} = createPosition.data.data;
+        let { id: pos_id } = createPosition.data.data;
         const createPositionManagement = await axios({
             url: `${local}/position-management`,
             method: "POST",
@@ -127,10 +128,10 @@ const createPositionAndManagement = async (req,res)=>{
     }
 }
 
-const updatePositionAndManagement = async (req,res)=>{
+const updatePositionAndManagement = async (req, res) => {
     try {
-        let {pos_management_id, pos_type_id, name, pos_id} = req.body;
-        let {headers: {authorization}} = req;
+        let { pos_management_id, pos_type_id, name, pos_id } = req.body;
+        let { headers: { authorization } } = req;
         // console.log(pos_management_id, pos_type_id, name, pos_id)
         const updatePosition = axios({
             url: `${local}/positions/${pos_id}`,
@@ -146,33 +147,33 @@ const updatePositionAndManagement = async (req,res)=>{
             headers: {
                 Authorization: authorization
             },
-            data: { 
+            data: {
                 pos_type_id: pos_type_id,
                 pos_id: pos_id
             }
         })
         Promise.all([updatePosition, updatePositionManagement])
-        .then((resolve)=>{
-            let result = [];
-            for(let i = 0; i < resolve.length; i++){
-                // console.log(resolve[i].data)
-                result.push(resolve[i].data)
-            }
-            result.push({status: 200})
-            res.send(result)
-        })
-        .catch((err)=>{
-            res.send(err)
-        })
+            .then((resolve) => {
+                let result = [];
+                for (let i = 0; i < resolve.length; i++) {
+                    // console.log(resolve[i].data)
+                    result.push(resolve[i].data)
+                }
+                result.push({ status: 200 })
+                res.send(result)
+            })
+            .catch((err) => {
+                res.send(err)
+            })
     } catch (error) {
         res.send(error)
     }
 }
 
-const deletePositionAndManagement = async (req,res)=>{
+const deletePositionAndManagement = async (req, res) => {
     try {
-        let {pos_mana_id, pos_id} = req.body;
-        let {headers: {authorization}} = req;
+        let { pos_mana_id, pos_id } = req.body;
+        let { headers: { authorization } } = req;
         const deletePosition = axios({
             url: `${local}/positions/${pos_id}`,
             method: "DELETE",
@@ -188,18 +189,18 @@ const deletePositionAndManagement = async (req,res)=>{
             }
         });
         Promise.all([deletePosition, deletePositionManagement])
-        .then((resolve)=>{
-            let result = [];
-            for(let i = 0; i < resolve.length; i++){
-                // console.log(resolve[i].data)
-                result.push(resolve[i].data)
-            }
-            result.push({status: 200})
-            res.send(result)
-        })
-        .catch((err)=>{
-            res.send(err)
-        })
+            .then((resolve) => {
+                let result = [];
+                for (let i = 0; i < resolve.length; i++) {
+                    // console.log(resolve[i].data)
+                    result.push(resolve[i].data)
+                }
+                result.push({ status: 200 })
+                res.send(result)
+            })
+            .catch((err) => {
+                res.send(err)
+            })
     } catch (error) {
         res.send(error)
     }
