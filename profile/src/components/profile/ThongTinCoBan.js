@@ -125,7 +125,7 @@ export default function ThongTinCoBan(props) {
                 <Radio.Group onChange={handleChangeValueRadio} value={setValueIntoForm("gioiTinh")}>
                     <Radio value={1}>Nam</Radio>
                     <Radio value={2}>Nữ</Radio>
-                    <Radio value="Khác">Khác</Radio>
+                    <Radio value={3}>Khác</Radio>
                 </Radio.Group>
         </div>
     </div>

@@ -108,7 +108,7 @@ export default function TableProfiles() {
         <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
         <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
           render={(text, record, index) => {
-            console.log(record)
+            // console.log(record)
             if (record.primary_user_dep_pos.length > 0) {
               return record.primary_user_dep_pos[0].department_name;
             }

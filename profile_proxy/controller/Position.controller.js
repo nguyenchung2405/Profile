@@ -31,9 +31,10 @@ const getPositionTypeList = async (req, res) => {
             method: "GET",
             headers: { 'Content-Type': 'application/json' }
         })
+        // console.log(result)
         res.send(result.data)
     } catch (error) {
-        console.log(error.response.data)
+        console.log("lỗi", error)
         res.send(error)
     }
 }
