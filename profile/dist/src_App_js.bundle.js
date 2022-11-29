@@ -4717,7 +4717,7 @@ function SoYeuLyLich(props) {
             onChange: function onChange(date, dateString) {
               var ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem);
               var ngayHetBoNhiemINT = Date.parse(moment__WEBPACK_IMPORTED_MODULE_6___default()(dateString, "DD-MM-YYYY").toISOString());
-              console.log(ngayBoNhiemINT, ngayHetBoNhiemINT);
+              // console.log(ngayBoNhiemINT, ngayHetBoNhiemINT);
 
               if (ngayHetBoNhiemINT > ngayBoNhiemINT) {
                 setValueForm(_objectSpread(_objectSpread({}, valueForm), {}, {
@@ -4923,7 +4923,7 @@ function SoYeuLyLich(props) {
             onChange: function onChange(date, dateString) {
               var theCoHieuLucTuINT = Date.parse(valueForm.theCoHieuLucTu);
               var theCoHieuLucDenINT = Date.parse(moment__WEBPACK_IMPORTED_MODULE_6___default()(dateString, "DD-MM-YYYY").toISOString());
-              console.log(theCoHieuLucTuINT, theCoHieuLucDenINT);
+              // console.log(theCoHieuLucTuINT, theCoHieuLucDenINT);
 
               if (theCoHieuLucDenINT > theCoHieuLucTuINT) {
                 setValueForm(_objectSpread(_objectSpread({}, valueForm), {}, {

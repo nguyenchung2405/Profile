@@ -61,14 +61,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             },
             data: jourCard
         })
-        const buildData = axios({
-            url: `${local}/users/es/build-by-id/${user_id}`,
-            method: "POST",
-            headers: {
-                Authorization: authorization
-            }
-        });
-        Promise.all([ ...promiseArr, result_user_degree, result_jour_card, buildData])
+        Promise.all([ ...promiseArr, result_user_degree, result_jour_card])
         .then((resolve)=>{
             res.send({
                 res1: resolve[0].data,

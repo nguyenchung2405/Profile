@@ -16,10 +16,11 @@ const getDepartmentList = async (req,res)=>{
                 method: "GET"
             });
         }
-        
+        // console.log("kết quả",result.data)
         res.send(result.data);
     } catch (error) {
         console.log(error)
+        // res.send(error)
     }
 }
 

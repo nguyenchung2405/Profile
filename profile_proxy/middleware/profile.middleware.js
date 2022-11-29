@@ -7,8 +7,7 @@ const createProfile = async (req, res, next) => {
         let { headers: { authorization } } = req;
         // console.log(authorization)
         profile["user_id"] = user_id;
-        console.log(profile)
-
+        // console.log(profile)
         const result = await axios({
             url: `http://dev.profilebe.tuoitre.vn/profiles`,
             method: "POST",
@@ -17,7 +16,7 @@ const createProfile = async (req, res, next) => {
             },
             data: profile
         });
-        // console.log(result)
+        console.log(result)
         let { data: { code, data: { id } } } = result;
         console.log({ pro_id: id })
         if (code == 200) {
@@ -27,6 +26,7 @@ const createProfile = async (req, res, next) => {
             res.send("Create Profile failed")
         }
     } catch (error) {
+        console.log("lỗi create profile")
         res.send(error)
     }
 }
