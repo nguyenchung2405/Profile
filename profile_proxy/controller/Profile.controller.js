@@ -26,6 +26,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
     try {
         let {depPos, userDegree, jourCard} = req.body;
         let {user_id, pro_id} = req;
+        let {headers: {authorization}} = req;
         // userDegree["user_id"] =user_id;
         // jourCard["user_id"] =user_id;
         userDegree["pro_id"] =pro_id;
@@ -43,7 +44,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
                 data: depPos[i]
             }))
         }
-        console.log(promiseArr)
+        // console.log(promiseArr)
         const result_user_degree = axios({
             url: `${local}/user-degree`,
             method: "POST",
@@ -60,11 +61,15 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             },
             data: jourCard
         })
-        Promise.all([ ...promiseArr, result_user_degree, result_jour_card])
+        const buildData = axios({
+            url: `${local}/users/es/build-by-id/${user_id}`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        Promise.all([ ...promiseArr, result_user_degree, result_jour_card, buildData])
         .then((resolve)=>{
-            console.log(resolve[0].data)
-            console.log(resolve[1].data)
-            console.log(resolve[2].data)
             res.send({
                 res1: resolve[0].data,
                 res2: resolve[1].data,
