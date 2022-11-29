@@ -30,8 +30,10 @@ const getPositionTypeList = async (req,res)=>{
             url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
             method: "GET"
         })
+        // console.log(result)
         res.send(result.data)
     } catch (error) {
+        console.log("lỗi", error)
         res.send(error)
     }
 }
