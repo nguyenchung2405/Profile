@@ -178,12 +178,12 @@ export default function SoYeuLyLich(props) {
         setValueForm({ ...valueForm, phongBanCVObj: [...phongBanChucVuArr] })
     }, [phongBanChucVuArr.length])
 
-
+    console.log(valueForm)
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = ["hoTen", "ngayThangNamSinh", "danToc", "email", "soDienThoai"
         , "hocVan", "chuyenMon", "lyLuanCT", "ngayBoNhiem", "ngayHetHanBoNhiem"
         , "gioiTinh", "theCoHieuLucTu", "phongBanCVObj", "thanhPhanXuatThan", "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai"
-        , "hoKhauThuongTru", "theCoHieuLucDen"]
+        , "hoKhauThuongTru", "theCoHieuLucDen", "ngayCapCCCD"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         email: false,
@@ -194,6 +194,7 @@ export default function SoYeuLyLich(props) {
         chuyenMon: false,
         lyLuanCT: false,
         ngayBoNhiem: false,
+        ngayCapCCCD: false,
         ngayHetHanBoNhiem: false,
         theCoHieuLucTu: false,
         theCoHieuLucDen: false,

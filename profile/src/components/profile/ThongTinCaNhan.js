@@ -20,7 +20,7 @@ export default function ThongTinCaNhan(props) {
         </div>
         <div className="SYLL__right__field two__content">
             <div className="fisrt__content ngayThamGiaCM">
-                <label >Ngày cấp:</label>
+                <label >Ngày cấp:<span className="required__field"> *</span></label>
                 <DatePicker 
                 value={
                     valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
@@ -38,6 +38,7 @@ export default function ThongTinCaNhan(props) {
                 </svg>}
                 format="DD-MM-YYYY"
                 />
+                {validateForm.ngayCapCCCD ? showRequiredAlert() : ""}
             </div>
             <div className="second__content toChuc">
                 <label htmlFor="noiCapCCCD">Nơi cấp:
