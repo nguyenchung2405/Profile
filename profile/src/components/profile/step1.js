@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import "./profile.css";
 import { Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen } from '../../redux/Steps/step1/step1Slice';
+import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setIsSubmit, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen } from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
-import { moveToNextStep } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
 import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
@@ -25,14 +25,25 @@ export default function SoYeuLyLich(props) {
     let { phongBanChucVuArr, values, noiSinhTinh,
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan, queQuanHuyen,
         noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile, isNavigateTo404,
-        phongBan: depList, chucVu: posList, hoKhauTinh, hoKhauQuan, hoKhauHuyen
-    } = useSelector(state => state.steps1Reducer);
+        phongBan: depList, chucVu: posList, hoKhauTinh, hoKhauQuan, hoKhauHuyen,
+        isSubmit } = useSelector(state => state.steps1Reducer);
     const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState([]);
     let [phongBanCVOb, setPhongBanCVOb] = useState({ phongBan: "", chucVu: "" });
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({ ...values });
-    // console.log(valueForm)
+    const [test, setTest] = useState({ ...values })
+    
+    useEffect(()=>{
+        // setValueForm từ state test -> lấy dữ liệu hiển thị ra cho user xem
+        setValueForm({...test})
+    }, [test])
+
+    useEffect(() => {
+        // Vi lý do nào đó setValueForm ko hoạt động nên đi đường tà đạo
+        // setTest xong từ đó set ngược lại valueForm
+        setTest({...values})
+    }, [values])
 
     const closeModal = () => {
         setIsShowModal(false)
@@ -41,6 +52,12 @@ export default function SoYeuLyLich(props) {
     const closeModal2 = () => {
         setIsShowModal2(false)
     }
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(setIsSubmit(false))
+        }
+    }, [])
 
     useEffect(() => {
         setValueForm({
@@ -123,26 +140,28 @@ export default function SoYeuLyLich(props) {
             dispatch(setIsNavigate(false))
         }
     }, [isNavigateTo404])
-
-    useEffect(() => {
-        if (nextStep !== 0) {
+    
+    useEffect(()=>{
+        if(isSubmit){
+            console.log("isSubmit true")
             let isNextStep = checkValueForm();
-            //    console.log(isNextStep)
             if (!isNextStep) {
                 dispatch(moveToNextStep(0))
+                dispatch(setIsSubmit(false))
            } else if(isNextStep){
             // console.log(isOnLyCreateProfile, isCreateProfile)
                 if(!isCreateProfile && !isOnLyCreateProfile){
                     // console.log("Cập nhật profile")
-                    valueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+                    let newValueForm = {...valueForm};
+                    newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE,
-                        valuesUpdate: { valueForm, user_id, jour_card_id, user_degree_id, pro_id }
+                        valuesUpdate: { newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate }
                     })
                 } else if (isCreateProfile) {
                     dispatch({
                         type: CREATE_PROFILE,
-                        valuesCreate: valueForm
+                        valuesCreate: {valueForm, navigate}
                     })
                 } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
                     // console.log("isOnLyCreateProfile")
@@ -152,6 +171,12 @@ export default function SoYeuLyLich(props) {
                     })
                 }
             }
+        }
+    }, [isSubmit])
+
+    useEffect(()=>{
+        if(nextStep !== 0){
+            dispatch(setIsNextStep(true))
         }
     }, [nextStep])
 
@@ -168,24 +193,22 @@ export default function SoYeuLyLich(props) {
         // })
     }, [dispatch])
 
-    useEffect(() => {
-        // console.log("values")
-        setValueForm({ ...values })
-    }, [values])
+    
 
     useEffect(() => {
         // console.log(phongBanChucVuArr)
         setValueForm({ ...valueForm, phongBanCVObj: [...phongBanChucVuArr] })
     }, [phongBanChucVuArr.length])
 
-    // console.log(valueForm)
+    
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = ["hoTen", "ngayThangNamSinh", "danToc", "email", "soDienThoai"
         , "hocVan", "chuyenMon", "lyLuanCT", "ngayBoNhiem", "ngayHetHanBoNhiem"
-        , "gioiTinh", "theCoHieuLucTu", "phongBanCVObj", "thanhPhanXuatThan", "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai"
-        , "hoKhauThuongTru", "theCoHieuLucDen", "ngayCapCCCD"]
+        , "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan", "noiSinh", "queQuan", 
+        "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", "ngayCapCCCD", "canCuocCD"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
+        canCuocCD: false,
         email: false,
         ngayThangNamSinh: false,
         soDienThoai: false,
@@ -196,8 +219,6 @@ export default function SoYeuLyLich(props) {
         ngayBoNhiem: false,
         ngayCapCCCD: false,
         ngayHetHanBoNhiem: false,
-        theCoHieuLucTu: false,
-        theCoHieuLucDen: false,
         phongBanCVObj: false,
         thanhPhanXuatThan: false,
         noiSinh: { huyen: false, quan: false, tinh: false },
@@ -580,7 +601,7 @@ export default function SoYeuLyLich(props) {
     }
 
     const setValueIntoForm = (name) => {
-        if (valueForm.name !== "") {
+        if (valueForm[name] !== "" && valueForm[name] !== null && valueForm[name] !== undefined) {
             return valueForm[name]
         }
     }
@@ -920,9 +941,7 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__right__field two__content theCoHieuLuc">
                     <div className="fisrt__content date__picker">
-                        <label >Thẻ có hiệu lực từ:
-                            <span className="required__field"> *</span>
-                        </label>
+                        <label >Thẻ có hiệu lực từ:</label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucTu !== ""
                         ? handleDateTime(valueForm.theCoHieuLucTu)
@@ -952,12 +971,9 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.theCoHieuLucTu ? showRequiredAlert() : ""}
                     </div>
                     <div className="second__content date__picker">
-                        <label >Thẻ có hiệu lực đến:
-                            <span className="required__field"> *</span>
-                        </label>
+                        <label >Thẻ có hiệu lực đến:</label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucDen !== ""
                         ? handleDateTime(valueForm.theCoHieuLucDen)
@@ -1000,7 +1016,6 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.theCoHieuLucDen ? showRequiredAlert() : ""}
                     </div>
                 </div>
             </div>

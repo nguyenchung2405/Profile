@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setIsSubmit, setValues } from '../../redux/Steps/step1/step1Slice';
 import { clearParty } from '../../redux/Steps/step3.slice';
 
 export default function StepsAntd() {
@@ -25,11 +25,14 @@ export default function StepsAntd() {
   const [current, setCurrent] = useState(0);
   let { nextStep, isNextStep, messageAlert } = useSelector(state => state.stepsReducer);
   let { emailPhone } = useSelector(state => state.steps1Reducer);
+  const { party } = useSelector(state => state.step3Reducer)
   let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
   const { isLoading } = useSelector(state => state.loadingReducer);
+  let { familyRelationship } = useSelector(state => state.step8Reducer);
   let { proID, userID } = useParams();
   // console.log(proID, user_id)
   // console.log(messageAlert)
+  // console.log(isSubmit)
   const dispatch = useDispatch();
 
   const onChangeSteps = (value) => {
@@ -64,7 +67,7 @@ export default function StepsAntd() {
 
     useEffect(()=>{
       if(userID){
-        // console.log(userID)
+        // console.log(userID, user_id)
         dispatch(setIsCreateProfile(false))
         dispatch(setIsOnLyCreateProfile(true))
         dispatch(setUserProfileID({user_id: userID}))
@@ -97,6 +100,7 @@ export default function StepsAntd() {
         dispatch(setIsLoading(false));
         dispatch(clearParty());
         dispatch(setIsDone(false));
+        dispatch(setIsSubmit(false))
       }
     },[])
     
@@ -154,6 +158,51 @@ export default function StepsAntd() {
     },
   ];
 
+  const showButton = ()=>{
+    
+      if(nextStep === 0){
+          if(proID && proID !== undefined){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                  dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                  dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          } 
+      } else if(nextStep === 2){
+          if(party.length > 0){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                  dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          }
+      } else if(nextStep === 6){
+        let voChong = familyRelationship.find(item => item.type === "vo_chong");
+        let con = familyRelationship.find(item => item.type === "con");
+        if(voChong && con){
+            return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+              dispatch(setIsSubmit(true))
+            }}>Cập nhật</button>
+        } else {
+            return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+            }}>Tạo</button>
+        }
+    }
+  }
+
+  const disabledStep = ()=>{
+    if(!user_id && !proID){
+      return true
+    } else {
+      return false
+    }
+  }
+
   return (
     <div className={style.alignCenter}>
       <div className={style["steps__noflex"]}>
@@ -161,17 +210,21 @@ export default function StepsAntd() {
           <Steps className={style.editWidth} current={current} onChange={onChangeSteps} direction="vertical">
             {
               steps.map((item, index) => {
-                return <Step key={index} title={item.title} />
+                return <Step key={index} title={item.title} disabled={disabledStep()} />
               })
             }
           </Steps>
           <div className="steps-content">{steps[current].content}</div>
         </section>
         <div className="next">
+          {showButton()}
           {current <= 7
             ?
             <button className="SoYeuLyLich__btn" onClick={() => {
-              dispatch(moveToNextStep(current + 1));
+              let disabled = disabledStep();
+              if(disabled === false){
+                dispatch(moveToNextStep(current + 1));
+              }
             }}>Tiếp theo</button>
             :
             <button className="SoYeuLyLich__btn" onClick={() => {

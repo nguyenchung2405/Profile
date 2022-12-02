@@ -44,10 +44,6 @@ export default function Step2() {
 
     return (
         <div className="Step2">
-            <div className="Step2__header">
-                <p>Cử nhân công nghệ thông tin</p>
-                <p>trường đại học khoa học tự nhiên</p>
-            </div>
             <div className="Step2__content">
                 <p>Quá trình học tập và làm việc:</p>
                 {/*

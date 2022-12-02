@@ -5,22 +5,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CREATE_PARTY, UPDATE_PARTY } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
 import { setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 
 export default function Step3Component() {
 
     const [valueForm, setValueForm] = useState({})
     const { user_profile_id: { pro_id }, nextStep } = useSelector(state => state.stepsReducer)
+    let {isSubmit} = useSelector(state => state.steps1Reducer);
     const { party } = useSelector(state => state.step3Reducer)
     const dispatch = useDispatch();
     // console.log(valueForm)
-    // console.log(party)
+    // console.log(isSubmit)
+
     useEffect(()=>{
-        if(nextStep !== 2){
+        return ()=>{
+            dispatch(setIsSubmit(false))
+        }
+    }, [])
+
+    useEffect(()=>{
+        if(isSubmit){
             valueForm.member_id = parseInt(valueForm.member_id)
             valueForm.pro_id = pro_id
             // console.log(valueForm)
             if(party.length > 0){
-                // console.log("Cập nhật Party")
+                console.log("Cập nhật Party")
                 dispatch({
                     type: UPDATE_PARTY,
                     data: valueForm
@@ -32,6 +41,11 @@ export default function Step3Component() {
                     data: valueForm
                 });
             }
+        }
+    }, [isSubmit])
+
+    useEffect(()=>{
+        if(nextStep !== 2){
             dispatch(setIsNextStep(true))
         }
     }, [nextStep])

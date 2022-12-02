@@ -287,6 +287,22 @@ div.next {
     margin-bottom: 68px;
 }
 
+.SoYeuLyLich__btn.btn__create, .SoYeuLyLich__btn.btn__update {
+    margin-right: 20px;
+    /* background-image: linear-gradient(45deg, #459c60, #35796e, rgb(94, 128, 0)); */
+    background-color: white;
+    border: 1px solid #39ff14;
+    color: #39ff14;
+}
+
+.SoYeuLyLich__btn.btn__create:hover, .SoYeuLyLich__btn.btn__update:hover {
+    background-color: #39ff14;
+    border: none;
+    box-shadow: 0 0 50px #39ff14;
+    border: 1px solid #39ff14;
+    color: white;
+}
+
 .SoYeuLyLich__btn {
     border-radius: 3px;
     background-color: #35794a;
@@ -295,7 +311,7 @@ div.next {
     color: white;
     font-size: 18px;
     border-style: none;
-    transition: background-color 1s;
+    transition: all 0.5s;
     line-height: 44px;
 }
 
@@ -452,28 +468,6 @@ div.next {
 
 .Step2 {
     margin-left: 37px;
-}
-
-.Step2 .Step2__header {
-    width: 816px;
-    border-bottom: 1px solid #EBEDF3;
-    margin-top: 29px;
-}
-
-.Step2 .Step2__header p {
-    color: #3699FF;
-}
-
-.Step2 .Step2__header p:first-child {
-    font-size: 16px;
-    margin-bottom: 14px;
-}
-
-.Step2 .Step2__header p:last-child {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 18px;
-    text-transform: capitalize;
 }
 
 .Step2 .Step2__content {
@@ -1136,6 +1130,10 @@ input#diaChi {
     width: 350px;
 }
 
+.tableProfiles__phongBan > p, .tableProfiles__chucVu > p {
+    margin: 0;
+}
+
 .tableProfiles__chucVu {
     width: 350px;
 }
@@ -1235,6 +1233,63 @@ button.thaoTac__Edit__btn svg {
 
 .tableProfiles .tools {
     margin: 20px 0;
+    display: flex;
+}
+
+.tableProfiles .tools .tableProfiles__search {
+    margin-left: 50px;
+    display: flex;
+}
+
+.tableProfiles .tools .tools__name {
+    border: 1px solid #d9d9d9;
+    transition: border 0.5s;
+    margin-right: 20px;
+    padding-left: 10px;
+}
+
+.tableProfiles .tools .tools__name::placeholder{
+    color: #bfbfbf;
+}
+
+.tableProfiles .tools .tools__name:hover {
+    border-color: #459C60;
+}
+
+.tableProfiles .tools .tool__search {
+    background-color: #F0F5FA;
+    outline: none;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0;
+    width: 195px;
+}
+
+.tableProfiles .tools .tableProfiles__search > div.tool__search:nth-child(2) {
+    margin-right: 20px;
+}
+
+.tableProfiles .tools .tool__search .ant-select-selector {
+    background-color: #F0F5FA;
+}
+
+.tableProfiles .tools .tool__search .ant-select-selector,
+.tableProfiles .tools .tool__search .ant-select-selector input {
+    height: 100%;
+}
+
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 41px;
+}
+
+.tableProfiles .tools .tableProfiles__search__btn {
+    width: 100%;
+    text-align: right;
+}
+
+div.tableProfiles div.tools div.tableProfiles__search__btn button {
+    display: inline-block;
 }
 
 .tableProfiles .tools button.create_acc_profile {
@@ -1334,6 +1389,7 @@ td.ant-table-cell.tableProfiles__avatar {
 td.ant-table-cell.tableProfiles__avatar>img {
     height: 70px;
     width: 70px;
+    object-fit: cover;
 }
 
 .SoYeuLyLich__left div.gender.SYLL__left__field {

@@ -11,12 +11,13 @@ export default function ThongTinCaNhan(props) {
   return (
     <>
         <div className="SYLL__right__field">
-        <label htmlFor='canCuocCD'>Số căn cước công dân:</label>
+        <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span></label>
         <input id="canCuocCD" name="canCuocCD" type="text" 
         value={setValueIntoForm("canCuocCD")}
         onChange={(e)=>{
             handleChangeGetValueInput(e)
         }} />
+        {validateForm.canCuocCD ? showRequiredAlert() : ""}
         </div>
         <div className="SYLL__right__field two__content">
             <div className="fisrt__content ngayThamGiaCM">

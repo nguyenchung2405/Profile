@@ -19,7 +19,7 @@ function App() {
         <Provider store={store}>
           <BrowserRouter>
             <div className="App">
-              abc
+              
               <Sidebar />
               <Routes>
                 <Route path="/hr/profile" element={<TableProfiles />} />
