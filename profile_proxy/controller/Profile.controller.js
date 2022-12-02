@@ -66,7 +66,8 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             res.send({
                 res1: resolve[0].data,
                 res2: resolve[1].data,
-                res3: resolve[2].data
+                res3: resolve[2].data,
+                message: "Thành công"
             })
         })
         .catch((err)=>{
@@ -128,6 +129,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
                 // console.log(resolve[i].data)
                 result.push(resolve[i].data)
             }
+            result.unshift({msg: "Thành công"})
             res.send(result)
         })
         .catch((err)=>{

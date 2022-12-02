@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
+import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setDiaChiHuyen_ST7, setQueQuanHuyen_ST7 } from '../../redux/Steps/step7Slice';
 import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
@@ -16,29 +17,23 @@ export default function Step7() {
     const dispatch = useDispatch();
     const {queQuanTinh, queQuanQuan, queQuanHuyen, diaChiTinh, diaChiQuan, diaChiHuyen} = useSelector(state => state.step7Reducer);
     let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
-    let {  familyRelationship } = useSelector(state => state.step8Reducer);
+    let { familyRelationship } = useSelector(state => state.step8Reducer);
+    let {isSubmit} = useSelector(state => state.steps1Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
     const [valueForm, setValueForm] = useState({});
     const [valueFormCon, setValueFormCon] = useState({});
-    console.log(valueForm)
-    console.log(valueFormCon)
+    // console.log(valueForm)
+    // console.log(valueFormCon)
     // console.log(familyRelationship)
 
     useEffect(()=>{
-        dispatch({
-            type: GET_PROVINCES
-        })
-    }, [dispatch])
+        return ()=>{
+            dispatch(setIsSubmit(false))
+        }
+    }, [])
 
     useEffect(()=>{
-        let voChong = familyRelationship.find(item => item.type === "vo_chong");
-        let con = familyRelationship.find(item => item.type === "con");
-        setValueForm({...voChong});
-        setValueFormCon({...con});
-    }, [familyRelationship])
-
-    useEffect(()=>{
-        if(nextStep !== 6){
+        if(isSubmit){
             if(!valueForm.type){
                 console.log("Tạo vợ chồng")
                 valueForm.type = "vo_chong"
@@ -60,9 +55,8 @@ export default function Step7() {
                         data: valueFormCon
                     })
                 }
-                dispatch(setIsNextStep(true))
             } else {
-                dispatch(setIsNextStep(true))
+                console.log("Cập nhất vợ chồng")
                 dispatch({
                     type: UPDATE_FAMILY_RELATIONSHIP,
                     data: valueForm
@@ -81,6 +75,25 @@ export default function Step7() {
                     })
                 }
             }
+        }
+    }, [isSubmit])
+
+    useEffect(()=>{
+        dispatch({
+            type: GET_PROVINCES
+        })
+    }, [dispatch])
+
+    useEffect(()=>{
+        let voChong = familyRelationship.find(item => item.type === "vo_chong");
+        let con = familyRelationship.find(item => item.type === "con");
+        setValueForm({...voChong});
+        setValueFormCon({...con});
+    }, [familyRelationship])
+
+    useEffect(()=>{
+        if(nextStep !== 6){
+            dispatch(setIsNextStep(true))
         }
     }, [nextStep])
 

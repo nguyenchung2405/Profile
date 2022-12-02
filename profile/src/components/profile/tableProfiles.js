@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_USER_LIST } from '../../title/title';
@@ -19,11 +19,13 @@ export default function TableProfiles() {
   let uri = checkMicroFe() === true ? "/profile-service" : "";
   const [page, setPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(10);
+  const [search, setSearch] = useState()
   const { userList, total } = useSelector(state => state.userListReducer)
   const { isLoading } = useSelector(state => state.loadingReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Column } = Table;
+  const { Option } = Select;
 
   useEffect(() => {
     /* lấy danh sách user về và render ra Table */
@@ -63,6 +65,35 @@ export default function TableProfiles() {
           <AiOutlineUserAdd />
           Tạo
         </button>
+        <div className="tableProfiles__search">
+            <input 
+            className="tool__search tools__name"
+            placeholder="Họ và tên"
+            />
+            <Select
+                showSearch
+                className="tool__search"
+                placeholder="Phòng ban"
+                filterOption={(input, option) =>
+                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+            >
+            
+            </Select>
+            <Select
+                showSearch
+                className="tool__search"
+                placeholder="Chức vụ"
+                filterOption={(input, option) =>
+                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+            >
+            
+            </Select>
+        </div>
+        <div className="tableProfiles__search__btn">
+              <button className="create_acc_profile btn__search" >Tìm kiếm</button>
+        </div>
       </div>
       <Table
         dataSource={userList.length > 0 ? userList : ""}
@@ -111,12 +142,24 @@ export default function TableProfiles() {
             // console.log(record)
             if (record.primary_user_dep_pos.length > 0) {
               return record.primary_user_dep_pos[0].department_name;
+            } else {
+              let tenPB = [];
+              for(let PB of record.user_dep_pos){
+                  tenPB.push(<p>{PB.department_name}</p>) 
+              }
+              return tenPB
             }
           }} />
         <Column className="tableProfiles__chucVu" title="Chức vụ" key="chucVu"
           render={(text, record, index) => {
             if (record.primary_user_dep_pos.length > 0) {
               return record.primary_user_dep_pos[0].position.pos_name;
+            } else {
+              let tenCV = [];
+              for(let PB of record.user_dep_pos){
+                tenCV.push(<p>{PB.position.pos_name}</p>) 
+              }
+              return tenCV
             }
           }} />
         <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />

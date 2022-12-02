@@ -3,23 +3,23 @@ import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, ONLY_CRE
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
 import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setValues } from "./Steps/step1/step1Slice";
+import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setIsSubmit, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
 import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
 import { setTrainingFostering } from "./Steps/step5.slice";
 import { setRewardDiscipline } from "./Steps/step6Slice";
 import { setFamilyRelationship } from "./Steps/step8Slice";
-import { setIsNextStep, setUserProfileID } from "./Steps/stepsSlice";
+import { setIsNextStep, setMessageAlert, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload) {
     let { proID, email, soDienThoai } = payload.data;
     const { status, data: { data, message } } = yield call(getProfileByID_API, proID);
     // console.log(data)
     if (status === 200 && message === "Success") {
-        console.log(data)
+        // console.log(data)
         let { id, user_id } = data;
-        let jour_card_id = data.journalist_card[0].id;
+        let jour_card_id = data.journalist_card[0]?.id;
         let user_degree_id = data?.user_degree[0]?.id;
         let {personal_history, party, organization, training_fostering, reward_discipline,
             family_relationship} = data;
@@ -52,31 +52,47 @@ function* getProfileByID(payload) {
 
 function* updateProfile(payload){
     // console.log(payload.valuesUpdate)
-    const {valueForm, user_id, jour_card_id, user_degree_id, pro_id} = payload.valuesUpdate;
-    // console.log(valueForm)
+    const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate} = payload.valuesUpdate;
+    // console.log(newValueForm)
+    let {phongBanCVObj , ...rest} = newValueForm;
+    let profile = mappingProfileStep1(newValueForm);
+    let depPos = mappingDepartmentPosition(newValueForm);
+    let userDegree = mappingUserDegree(newValueForm);
+    let jourCard = mappingJournalistCard(newValueForm);
+    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
+    yield put(setIsNextStep(true))
+    yield put(setValues(rest))
+    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
+    let msg = profileUpdated.data[0].msg;
+    if(msg === "Thành công"){
+        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+    } else {
+        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
+        yield put(setIsSubmit(false))
+    }
+}
+
+function* createProfile(payload) {
+    const { valuesCreate: {valueForm, navigate} } = payload;
+    // console.log(valuesCreate)
     let profile = mappingProfileStep1(valueForm);
     let depPos = mappingDepartmentPosition(valueForm);
     let userDegree = mappingUserDegree(valueForm);
     let jourCard = mappingJournalistCard(valueForm);
-    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
-    // console.log(dataToUpdate)
-    yield put(setIsNextStep(true))
-    yield put(setValues(valueForm))
-    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
-}
-
-function* createProfile(payload) {
-    const { valuesCreate } = payload;
-    // console.log(valuesCreate)
-    let profile = mappingProfileStep1(valuesCreate);
-    let depPos = mappingDepartmentPosition(valuesCreate);
-    let userDegree = mappingUserDegree(valuesCreate);
-    let jourCard = mappingJournalistCard(valuesCreate);
-    let dataToCreate = { profile, depPos, userDegree, jourCard, email: valuesCreate.email, soDienThoai: valuesCreate.soDienThoai }
+    let dataToCreate = { profile, depPos, userDegree, jourCard, email: valueForm.email, soDienThoai: valueForm.soDienThoai }
     // console.log(dataToCreate)
-    yield put(setValues(valuesCreate))
+    yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
-    yield call(createProfile_API, dataToCreate)
+    let result = yield call(createProfile_API, dataToCreate)
+    // console.log(result)
+    let msg = result.data.message;
+    if(msg === "Thành công"){
+        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+        navigate("/hr/profile")
+    } else {
+        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
+        navigate("/hr/profile")
+    }
 }
 
 function* getAvatar(payload) {

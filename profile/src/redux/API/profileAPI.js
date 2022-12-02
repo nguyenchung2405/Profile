@@ -59,7 +59,10 @@ export async function getAvatar_API(userID){
         // console.log(userID)
         const res = await axios({
             url: `${local}/api/user/resources/${userID}`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
         });
         // console.log(res.data)
         return res.data;

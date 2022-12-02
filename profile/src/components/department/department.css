@@ -32,8 +32,9 @@ p.dep__children {
 table tr.ant-table-expanded-row-level-1 td, table tr.ant-table-expanded-row-level-1:hover td {
     width: 1000px;
     padding: 16px 16px;
-    background: center no-repeat url(https://media.giphy.com/media/ceCgIb3Pw5xbq/giphy.gif);
-    background-size: cover;
+    /* background: center no-repeat url(https://media.giphy.com/media/ceCgIb3Pw5xbq/giphy.gif); */
+    /* background-size: cover; */
+    background-color: #ddd;
     color: white;
 }
 
@@ -131,6 +132,7 @@ div.thaoTac__Edit {
     width: 350px;
     padding-left: 65px;
     padding-right: 15px;
+    color: black;
 }
 
 .dep__children__infor p:nth-child(2) {

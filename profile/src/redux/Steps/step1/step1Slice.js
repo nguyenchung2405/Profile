@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, current } from "@reduxjs/toolkit"
 
 const initialState = {
     values: {
@@ -10,7 +10,7 @@ const initialState = {
         hoKhauThuongTru: {diaChi: '', huyen: '', quan: '', tinh: ''},
         hoTen: "",
         hocVan: "",
-        lyLuanCT: "O",
+        lyLuanCT: "",
         ngayBoNhiem: "",
         ngayCapCCCD: "",
         ngayCapTheNhaBao: "",
@@ -49,6 +49,7 @@ const initialState = {
     isCreateProfile: false,
     isNavigateTo404: false,
     isOnLyCreateProfile: false,
+    isSubmit: false,
     phongBan: [],
     chucVu:[],
     to: [],
@@ -81,7 +82,10 @@ const step1Slice = createSlice({
             }
         },
         setValues: (state,action)=>{
-            state.values = {...action.payload};
+            state.values = action.payload;
+        },
+        setIsSubmit: (state, action)=>{
+            state.isSubmit = action.payload;
         },
         setNoiSinhTinh: (state,action)=>{
             // console.log(action.payload)
@@ -157,6 +161,6 @@ export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
 setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
-setHoKhauQuan, setEmailPhone } = step1Slice.actions;
+setHoKhauQuan, setEmailPhone, setIsSubmit } = step1Slice.actions;
 
 export default step1Slice.reducer;

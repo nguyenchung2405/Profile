@@ -7,6 +7,7 @@ const fs = require("fs")
 const uploadUserAvatar = async (req,res)=>{
     try {
         let {file} = req;
+        let {headers: {authorization}} = req;
         let user_id;
         if(req.user_id){
             user_id = req.user_id;
@@ -25,6 +26,9 @@ const uploadUserAvatar = async (req,res)=>{
             const result = await axios({
                 url: `${local}/user-resources`,
                 method: "POST",
+                headers: {
+                    Authorization: authorization
+                },
                 data: formData
             })
             // console.log(result.data)
@@ -34,7 +38,10 @@ const uploadUserAvatar = async (req,res)=>{
                 // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
                 const result_getIMG = await axios({
                     url: `${local}/user-resources/user/${user_id}`,
-                    method: "GET"
+                    method: "GET",
+                    headers: {
+                        Authorization: authorization
+                    }
                 })
                 // console.log(result_getIMG)
                 res.send(result_getIMG.data);

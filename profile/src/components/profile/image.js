@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
+import { TOKEN } from '../../title/title';
 
 export default function Image() {
 
@@ -34,6 +35,9 @@ export default function Image() {
                 const result = await axios({
                     url: "http://localhost:3001/api/upload",
                     method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + TOKEN
+                    },
                     data: form
                 });
                 // console.log(result.data)
