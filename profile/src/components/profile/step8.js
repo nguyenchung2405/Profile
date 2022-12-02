@@ -1,7 +1,7 @@
 import { Button, DatePicker, Select, Steps } from 'antd'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
@@ -164,15 +164,12 @@ export default function Step8() {
                         <p>{item.title}</p>
                         <p>{item.description}</p>
                     </div>
-                    <svg onClick={() => {
+                    <AiOutlineMinusCircle onClick={() => {
                         // dispatch({
                         //     type: DELETE_REWARD_DISCIPLINE,
                         //     re_dis_id: item.re_dis_id
                         // })
-                    }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
-                        </path>
-                    </svg>
+                    }} />
                 </div>
             </div>
         })

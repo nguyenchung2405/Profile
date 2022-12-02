@@ -1,6 +1,6 @@
 import { Button, Steps } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { AiOutlinePlusCircle, AiOutlineEdit} from 'react-icons/ai';
+import { AiOutlinePlusCircle, AiOutlineEdit, AiOutlineMinusCircle} from 'react-icons/ai';
 import ModalComponent from '../modal/modal';
 import {daoTao as daoTaoTitle, boiDuong as boiDuongTitle, DELETE_TRAINING} from "../../title/title"
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,15 +61,12 @@ export default function Step5() {
                     <p className="diploma" title={item.subTitle}>{item.subTitle}</p>
                     <p>{item.description}</p>
                 </div>
-                <svg onClick={() => {
+                <AiOutlineMinusCircle onClick={() => {
                     dispatch({
                         type: DELETE_TRAINING,
                         tr_fos_id: item.tr_fos_id
                     })
-                }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
-                    </path>
-                </svg>
+                }} />
         </div>
         })
     }
@@ -83,15 +80,12 @@ export default function Step5() {
                 <p>{item.title}</p>
                 <p>{item.description}</p>
             </div>
-            <svg onClick={() => {
+            <AiOutlineMinusCircle onClick={() => {
                 dispatch({
                     type: DELETE_TRAINING,
                     tr_fos_id: item.tr_fos_id
                 })
-            }} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                <path d="M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z">
-                </path>
-            </svg>
+            }} />
     </div>
     })
     }

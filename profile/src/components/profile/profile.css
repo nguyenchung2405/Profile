@@ -1484,6 +1484,7 @@ div.step3 {
     cursor: pointer;
     position: absolute;
     left: 178px;
+    font-size: 16px;
 }
 
 .steps-content .process.step6 > svg {
