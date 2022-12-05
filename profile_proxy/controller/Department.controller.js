@@ -4,16 +4,23 @@ const local =  "http://dev.profilebe.tuoitre.vn";
 const getDepartmentList = async (req,res)=>{
     try {
         let {per_page, page, page_size} = req.query;
+        let {headers: {authorization}} = req;
         let result;
         if(per_page){
             result = await axios({
                 url: `${local}/departments/?page_size=${per_page}`,
-                method: "GET"
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
             });
         } else if(page, page_size) {
             result = await axios({
                 url: `${local}/departments/?page_size=${page_size}&page=${page}&order=asc&sort_by=parent_id`,
-                method: "GET"
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
             });
         }
         // console.log("kết quả",result.data)
@@ -27,10 +34,13 @@ const getDepartmentList = async (req,res)=>{
 const getDepInfor = async (req,res)=>{
     try {
         let {dep_id} = req.params;
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/departments/${dep_id}`,
             method: "GET",
-            
+            headers: {
+                Authorization: authorization
+            }
         })
         res.send(result.data);
     } catch (error) {

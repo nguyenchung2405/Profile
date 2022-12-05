@@ -289,10 +289,10 @@ div.next {
 
 .SoYeuLyLich__btn.btn__create, .SoYeuLyLich__btn.btn__update {
     margin-right: 20px;
-    /* background-image: linear-gradient(45deg, #459c60, #35796e, rgb(94, 128, 0)); */
     background-color: white;
     border: 1px solid #39ff14;
     color: #39ff14;
+    cursor: pointer;
 }
 
 .SoYeuLyLich__btn.btn__create:hover, .SoYeuLyLich__btn.btn__update:hover {
@@ -321,6 +321,10 @@ div.next {
 
 .steps_steps__UOUsf .steps-content {
     width: calc(100% - 274px);
+}
+
+.SoYeuLyLich__btn[disabled] {
+    cursor: not-allowed;
 }
 
 .steps_steps__UOUsf .alignCenter {
@@ -1279,7 +1283,8 @@ button.thaoTac__Edit__btn svg {
     height: 100%;
 }
 
-.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder {
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder,
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
     line-height: 41px;
 }
 

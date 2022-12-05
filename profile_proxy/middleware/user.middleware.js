@@ -2,9 +2,23 @@ const axios = require("axios")
 
 const checkQuery = async (req, res, next) => {
     try {
-        let { page, per_page } = req.query;
+        let { page, per_page, full_name, dep_ids, pos_management_ids } = req.query;
         let { headers: { authorization } } = req;
+        console.log(`full_name: ${full_name}, dep_ids: ${dep_ids}, pos_management_ids: ${pos_management_ids}`)
+        if(full_name || dep_ids || pos_management_ids){
+            console.log("Vô đây")
+            const result = await axios({
+                url: `http://dev.userbe.tuoitre.vn/users/?full_name=${encodeURI(full_name)}&dep_ids=${dep_ids}&pos_management_ids=${pos_management_ids}&is_in_user_group=true&page_size=10&page=1&sort_by=id&order=desc`,
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
+            });
+            console.log(result)
+            res.send(result.data)
+        }
         if (page && per_page) {
+            console.log("Vô đây 2")
             const result = await axios({
                 url: `http://dev.userbe.tuoitre.vn/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
                 method: "GET",
@@ -15,6 +29,7 @@ const checkQuery = async (req, res, next) => {
             // console.log(result)
             res.send(result.data);
         }
+        console.log("Xuống đây")
         next()
     } catch (error) {
         res.send(error)

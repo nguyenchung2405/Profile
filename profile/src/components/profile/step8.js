@@ -3,7 +3,8 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
+import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
+import { setFamilyRelationshipExist, setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP8, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
@@ -15,8 +16,9 @@ export default function Step8() {
     const {Step} = Steps;
     const dispatch = useDispatch();
     let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
+    let {isSubmit} = useSelector(state => state.steps1Reducer);
     let {noiOHienTaiTinh, noiOHienTaiQuan, noiOHienTaiHuyen, 
-        familyRelationship} = useSelector(state => state.step8Reducer);
+        familyRelationship, isCreated} = useSelector(state => state.step8Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
     let [isUpdate, setIsUpdate ] = useState(false);
     const [valueForm, setValueForm] = useState({});
@@ -30,28 +32,49 @@ export default function Step8() {
     }, [dispatch])
 
     useEffect(()=>{
-        if(nextStep !== 7){
-            if(!valueForm.type){
-                dispatch(setIsNextStep(true))
-                // dispatch(setMessageAlert({type: "error", msg: "Thao tác thất bại do không có mối quan hệ"}))
-            } else {
-                if(!isUpdate){
-                    // console.log("Tạo family")
-                    valueForm.pro_id = pro_id;
-                    dispatch(setIsNextStep(true))
-                    dispatch({
-                        type: CREATE_FAMILY_RELATIONSHIP,
-                        data: valueForm
-                    })
+        return ()=>{
+            dispatch(setFamilyRelationshipExist(false))
+        }
+    }, [])
+
+    useEffect(()=>{
+        if(isCreated){
+            setIsUpdate(true)
+            let lengthArr = familyRelationship.length;
+            setValueForm({... familyRelationship[lengthArr - 1]})
+        }
+    }, [isCreated])
+
+    useEffect(()=>{
+            if(isSubmit){
+                if(!valueForm.type){
+                    // dispatch(setIsNextStep(true))
+                    dispatch(setIsSubmit(false))
+                    dispatch(setMessageAlert({type: "error", msg: "Thao tác thất bại."}))
                 } else {
-                    // console.log("Cập nhật family")
-                    dispatch(setIsNextStep(true))
-                    dispatch({
-                        type: UPDATE_FAMILY_RELATIONSHIP,
-                        data: valueForm
-                    })
+                    if(!isUpdate){
+                        // console.log("Tạo family")
+                        valueForm.pro_id = pro_id;
+                        dispatch({
+                            type: CREATE_FAMILY_RELATIONSHIP,
+                            data: valueForm
+                        })
+                        dispatch(setIsSubmit(false))
+                    } else {
+                        // console.log("Cập nhật family")
+                        dispatch({
+                            type: UPDATE_FAMILY_RELATIONSHIP,
+                            data: valueForm
+                        })
+                        dispatch(setIsSubmit(false))
+                    }
                 }
             }
+    }, [isSubmit])
+
+    useEffect(()=>{
+        if(nextStep !== 7){
+            dispatch(setIsNextStep(true))
         }
     }, [nextStep])
 
@@ -83,7 +106,7 @@ export default function Step8() {
     const closeModal = ()=>{
         setIsShowModal(false)
     }
-
+    
     const valueOfField = (name)=>{
         if(name === "birthday"){
             if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined){
@@ -91,6 +114,8 @@ export default function Step8() {
             }
         } else if(valueForm[name] && valueForm[name] !== null && valueForm[name] !== undefined && valueForm[name] !== ""){
             return valueForm[name]
+        } else {
+            return ""
         }
     }
 
@@ -183,18 +208,19 @@ export default function Step8() {
         })
     }
 
-    const handleChangeNoiO = (value)=>{
+    const handleChangeQuanHe = (value)=>{
         if(familyRelationship.length > 0){
             let itemIsExist = familyRelationship.find(item => item.type === value);
             if(itemIsExist){
                 setValueForm({...itemIsExist});
+                dispatch(setFamilyRelationshipExist(true))
                 setIsUpdate(true);
             } else {
                 setValueForm({
-                    ...valueForm,
                     type: value
                 })
                 setIsUpdate(false);
+                dispatch(setFamilyRelationshipExist(false))
             }
         } else {
             setValueForm({
@@ -268,7 +294,7 @@ export default function Step8() {
                     <label htmlFor='noiCuTru'>Nơi ở hiện tại:
                     </label>
                     <input id="NoiOHienTai" name="diaChi" type="text" 
-                    value={valueForm.noiOHienTai?.diaChi !== "" ? valueForm.noiOHienTai?.diaChi : ""}
+                    value={valueForm?.noiOHienTai?.diaChi  ? valueForm?.noiOHienTai?.diaChi : ""}
                     onChange={(e)=>{
                         let {name, value} = e.target;
                         setValueForm({
@@ -278,7 +304,7 @@ export default function Step8() {
                     }} />
                     <Select defaultValue="Tỉnh (Thành phố)" 
                     showSearch
-                    value={valueForm.noiOHienTai?.tinh !== "" ? valueForm.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}
+                    value={valueForm?.noiOHienTai?.tinh ? valueForm?.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
@@ -287,7 +313,7 @@ export default function Step8() {
                     </Select>
                     <Select defaultValue="Quận (Thành phố)" 
                     showSearch
-                    value={valueForm.noiOHienTai?.quan !== "" ? valueForm.noiOHienTai?.quan : "Quận (Thành phố)"}
+                    value={valueForm?.noiOHienTai?.quan ? valueForm?.noiOHienTai?.quan : "Quận (Thành phố)"}
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
@@ -296,7 +322,7 @@ export default function Step8() {
                     </Select>
                     <Select defaultValue="Huyện" 
                     showSearch
-                    value={valueForm.noiOHienTai?.huyen !== "" ? valueForm.noiOHienTai?.huyen : "Huyện (Xã)"}
+                    value={valueForm?.noiOHienTai?.huyen ? valueForm?.noiOHienTai?.huyen : "Huyện (Xã)"}
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
@@ -309,7 +335,7 @@ export default function Step8() {
                 defaultValue="Quan hệ gia đình"
                 dropdownStyle={{minWidth: "277px"}}
                 popupClassName="quanHeList"
-                onChange={handleChangeNoiO}
+                onChange={handleChangeQuanHe}
                 >
                     {renderQuanHe()}
                 </Select>

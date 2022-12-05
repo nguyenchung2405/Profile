@@ -15,6 +15,7 @@ import step6Slice from "./Steps/step6Slice";
 import step8Slice from "./Steps/step8Slice";
 import step7Slice from "./Steps/step7Slice";
 import step9Slice from "./Steps/step9Slice";
+import tableSlice from "./Slice/tableSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -33,7 +34,8 @@ export const store = configureStore({
         userListReducer: userListSlice,
         loadingReducer: loadingSlice,
         departmentsReducer: departmentsSlice,
-        positionReducer: tablePosListSlice
+        positionReducer: tablePosListSlice,
+        tableReducer: tableSlice
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(sagaMiddleware)

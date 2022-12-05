@@ -4,17 +4,24 @@ const local = "http://dev.profilebe.tuoitre.vn";
 const getPositionList = async (req, res) => {
     try {
         let { per_page, page, page_size } = req.query;
+        let {headers: {authorization}} = req;
         let result;
         if (per_page) {
             result = await axios({
                 url: `${local}/position-management/?page_size=${per_page}`,
-                method: "GET"
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                },
             });
             res.send(result.data);
         } else if (page && page_size) {
             result = await axios({
                 url: `${local}/position-management/?page_size=${page_size}&page=${page}&sort_by=id&order=desc`,
-                method: "GET"
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                },
             });
             res.send(result.data);
         }
@@ -26,10 +33,14 @@ const getPositionList = async (req, res) => {
 const getPositionTypeList = async (req, res) => {
     try {
         let { page_size, page, sort_by, order } = req.query;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
             method: "GET",
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 
+                'Content-Type': 'application/json',
+                Authorization: authorization
+            }
         })
         // console.log(result)
         res.send(result.data)

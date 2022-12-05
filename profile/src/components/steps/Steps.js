@@ -28,7 +28,7 @@ export default function StepsAntd() {
   const { party } = useSelector(state => state.step3Reducer)
   let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
   const { isLoading } = useSelector(state => state.loadingReducer);
-  let { familyRelationship } = useSelector(state => state.step8Reducer);
+  let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
   let { proID, userID } = useParams();
   // console.log(proID, user_id)
   // console.log(messageAlert)
@@ -191,8 +191,28 @@ export default function StepsAntd() {
             return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                 dispatch(setIsSubmit(true))
             }}>Tạo</button>
-        }
-    }
+        } 
+      } else if(nextStep === 7 ){
+          if(familyRelationshipExist){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          }
+      } else if( nextStep === 8){
+          if(familyRelationshipExist){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          }
+      }
   }
 
   const disabledStep = ()=>{
@@ -220,7 +240,7 @@ export default function StepsAntd() {
           {showButton()}
           {current <= 7
             ?
-            <button className="SoYeuLyLich__btn" onClick={() => {
+            <button disabled={disabledStep()} className="SoYeuLyLich__btn" onClick={(e) => {
               let disabled = disabledStep();
               if(disabled === false){
                 dispatch(moveToNextStep(current + 1));

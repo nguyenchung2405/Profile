@@ -191,9 +191,7 @@ export default function SoYeuLyLich(props) {
         // dispatch({
         //     type: GET_PART
         // })
-    }, [dispatch])
-
-    
+    }, [dispatch])   
 
     useEffect(() => {
         // console.log(phongBanChucVuArr)
@@ -227,6 +225,7 @@ export default function SoYeuLyLich(props) {
         hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
     });
     // console.log(validateForm)
+    // console.log(valueForm)
 
     const renderTinh = (fieldName = "noiSinh") => {
         if (fieldName === "noiSinh") {
@@ -324,8 +323,8 @@ export default function SoYeuLyLich(props) {
                 let { phongBan, chucVu, id } = PB_CV;
                 // console.log(phongBan, chucVu)
                 // console.log(depList, posList)
-                let phongBanCanTim = depList.find(PB => PB.id === phongBan)
-                let chucVuCanTim = posList.find(CV => CV.id === chucVu)
+                let phongBanCanTim = depList?.find(PB => PB.id === phongBan)
+                let chucVuCanTim = posList?.find(CV => CV.id === chucVu)
                 // console.log(phongBanCanTim, chucVuCanTim)
                 newPBCVArr.push({ phongBan: phongBanCanTim?.name, chucVu: chucVuCanTim?.position?.name, id })
             }
@@ -358,22 +357,26 @@ export default function SoYeuLyLich(props) {
         let isNextStep = true;
         for (let value of valuesNeedValidate) {
             if (value === "noiSinh") {
-                if (valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === "") {
+                if (valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""
+                   || valueForm[value] === "") {
                     newValueForm = { ...newValueForm, [value]: { huyen: true } }
                     isNextStep = false
                 }
             } else if (value === "queQuan") {
-                if (valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === "") {
+                if (valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""
+                || valueForm[value] === "") {
                     newValueForm = { ...newValueForm, [value]: { huyen: true } }
                     isNextStep = false
                 }
             } else if (value === "noiOHienTai") {
-                if (valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === "") {
+                if (valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === ""
+                || valueForm[value] === "") {
                     newValueForm = { ...newValueForm, [value]: { huyen: true } }
                     isNextStep = false
                 }
             } else if (value === "hoKhauThuongTru") {
-                if (valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" || valueForm[value].tinh === "") {
+                if (valueForm[value].diaChi === "" || valueForm[value].huyen === "" || valueForm[value].quan === "" 
+                || valueForm[value].tinh === "" || valueForm[value] === "") {
                     newValueForm = { ...newValueForm, [value]: { huyen: true } }
                     isNextStep = false
                 }
@@ -385,7 +388,7 @@ export default function SoYeuLyLich(props) {
                     isNextStep = false
                 }
             } else {
-                if (valueForm[value] === "" || valueForm[value] === undefined) {
+                if (valueForm[value] === "" || valueForm[value] === undefined || valueForm[value] === null) {
                     newValueForm = { ...newValueForm, [value]: true }
                     isNextStep = false
                 }
@@ -409,7 +412,7 @@ export default function SoYeuLyLich(props) {
     const renderChucVu = () => {
         let htmlRendered = [];
         htmlRendered.push(<Option value="">Chức vụ</Option>)
-        if (posList.length > 0) {
+        if (posList?.length > 0) {
             for (let chucVu of posList) {
                 htmlRendered.push(<Option value={chucVu.id}>{chucVu.position.name}</Option>)
             }
@@ -599,7 +602,7 @@ export default function SoYeuLyLich(props) {
             setValidateForm({ ...validateForm, [name]: false });
         }
     }
-
+    
     const setValueIntoForm = (name) => {
         if (valueForm[name] !== "" && valueForm[name] !== null && valueForm[name] !== undefined) {
             return valueForm[name]

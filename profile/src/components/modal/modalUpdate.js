@@ -162,6 +162,9 @@ export default function ModalUpdate(props) {
 
     const valueOfField = (name)=>{
         if(name === "work_from" || name === "work_to" || name === "time_from" || name === "time_to"){
+            if(!valueModal[name]){
+                return ""
+            }
             return handleDateTime(valueModal[name])
         } else if(valueModal[name] && valueModal[name]!== undefined){
             return valueModal[name]
