@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH } from '../../title/title';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { AiFillFileAdd } from "react-icons/ai";
+import {BiImport} from "react-icons/bi"
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
@@ -169,6 +170,11 @@ export default function TableProfiles() {
                     }
                     
                 }} >Tìm kiếm</button>
+                <label htmlFor='import' className="create_acc_profile btn__import" >
+                    <BiImport /> 
+                    Import
+                </label>
+                <input id="import" type="file" />
           </div>
         </div>
         <Table

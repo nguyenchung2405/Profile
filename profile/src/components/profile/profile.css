@@ -1291,13 +1291,33 @@ button.thaoTac__Edit__btn svg {
 .tableProfiles .tools .tableProfiles__search__btn {
     width: 100%;
     text-align: right;
+    position: relative;
 }
 
 div.tableProfiles div.tools div.tableProfiles__search__btn button {
     display: inline-block;
 }
 
-.tableProfiles .tools button.create_acc_profile {
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import {
+    margin-left: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > svg {
+    margin-right: 5px;
+}
+
+input#import {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    opacity: 1;
+}
+
+.tableProfiles .tools .create_acc_profile {
     background-color: #459C60;
     padding: 5px 18px;
     color: white;
@@ -1310,7 +1330,7 @@ div.tableProfiles div.tools div.tableProfiles__search__btn button {
     border: 1px solid transparent;
 }
 
-.tableProfiles .tools button.create_acc_profile:hover {
+.tableProfiles .tools .create_acc_profile:hover {
     border: 1px solid #459C60;
     background-color: white;
     color: #459C60;

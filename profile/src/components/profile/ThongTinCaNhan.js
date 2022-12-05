@@ -24,7 +24,7 @@ export default function ThongTinCaNhan(props) {
                 <label >Ngày cấp:<span className="required__field"> *</span></label>
                 <DatePicker 
                 value={
-                    valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
+                    valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined && valueForm.ngayCapCCCD !== null
                     ? handleDateTime(valueForm.ngayCapCCCD)
                     : ""}
                 onChange={(date,dateString)=>{

@@ -225,7 +225,7 @@ export default function SoYeuLyLich(props) {
         hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
     });
     // console.log(validateForm)
-    // console.log(valueForm)
+    console.log(valueForm)
 
     const renderTinh = (fieldName = "noiSinh") => {
         if (fieldName === "noiSinh") {
@@ -925,7 +925,8 @@ export default function SoYeuLyLich(props) {
                         <label >Ngày cấp thẻ nhà báo:</label>
                         <DatePicker
                             value={
-                                valueForm.ngayCapTheNhaBao !== "" && valueForm.ngayCapTheNhaBao !== undefined
+                                valueForm.ngayCapTheNhaBao !== "" && valueForm.ngayCapTheNhaBao !== undefined 
+                                && valueForm.ngayCapTheNhaBao !== null && valueForm.ngayCapTheNhaBao !== "Invalid date"
                                     ? moment(valueForm.ngayCapTheNhaBao, "DD-MM-YYYY")
                                     : ""}
                             onChange={(date, dateString) => {
@@ -946,7 +947,7 @@ export default function SoYeuLyLich(props) {
                     <div className="fisrt__content date__picker">
                         <label >Thẻ có hiệu lực từ:</label>
                         <DatePicker 
-                        value={valueForm.theCoHieuLucTu !== ""
+                        value={valueForm.theCoHieuLucTu !== "" && valueForm.theCoHieuLucTu !== undefined
                         ? handleDateTime(valueForm.theCoHieuLucTu)
                         : ""}
                         onBlur={()=>{
@@ -978,7 +979,7 @@ export default function SoYeuLyLich(props) {
                     <div className="second__content date__picker">
                         <label >Thẻ có hiệu lực đến:</label>
                         <DatePicker 
-                        value={valueForm.theCoHieuLucDen !== ""
+                        value={valueForm.theCoHieuLucDen !== "" && valueForm.theCoHieuLucDen !== undefined
                         ? handleDateTime(valueForm.theCoHieuLucDen)
                         : ""}
                         onBlur={()=>{

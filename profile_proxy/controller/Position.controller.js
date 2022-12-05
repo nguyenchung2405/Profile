@@ -38,7 +38,7 @@ const getPositionTypeList = async (req, res) => {
             url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
             method: "GET",
             headers: { 
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 Authorization: authorization
             }
         })

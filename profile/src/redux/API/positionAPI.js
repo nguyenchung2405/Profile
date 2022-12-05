@@ -5,7 +5,10 @@ export async function getPositionListAPI(page,pageNumber){
     try {
         const res = await axios({
             url: `${local}/api/positions/?page_size=${pageNumber}&page=${page}&sort_by=id&order=desc`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
         })
         return res.data;
     } catch (error) {
@@ -17,7 +20,10 @@ export async function getPositionTypeListAPI(){
     try {
         const res = await axios({
             url: `${local}/api/positions/position-types/?page_size=10&page=1&sort_by=id&order=desc`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
         })
         return res.data
     } catch (error) {
