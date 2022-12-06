@@ -1,20 +1,21 @@
-import { Table, Select } from 'antd'
+import { Table, Select, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH } from '../../title/title';
+import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH, TOKEN, local } from '../../title/title';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { AiFillFileAdd } from "react-icons/ai";
 import {BiImport} from "react-icons/bi"
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
 import unknownGenderIMG from "../../img/unknownGender.png"
 import { checkMicroFe } from '../../ultils/helper';
+import axios from 'axios';
 
 export default function TableProfiles() {
     let uri = checkMicroFe() === true ? "/profile-service" : "";
@@ -36,7 +37,8 @@ export default function TableProfiles() {
     
     useEffect(() => {
       /* lấy danh sách user về và render ra Table */
-      if(isSearch){
+      if(isSearch === true){
+          // console.log("call tìm kiếm")
           dispatch({
             type: SEARCH,
             data: {search, page, pageNumber}
@@ -57,6 +59,7 @@ export default function TableProfiles() {
             type: GET_USER_LIST,
             table: { page, pageNumber }
           })
+          setIsSearch(false)
         }
     }, [search])
 
@@ -94,6 +97,36 @@ export default function TableProfiles() {
           })
       }
     }
+    
+    const uploadFileImport = async (e)=>{
+      let file = e.target.files[0];
+      let form = new FormData();
+      form.append("file", file);
+      message.open({
+        type: 'loading',
+        content: 'Đang import dữ liệu. Vui lòng chờ',
+        duration: 0,
+        key: "import"
+      })
+      const result = await axios({
+          url: `${local}/api/profiles/importation?start_row=3&end_row=498`,
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + TOKEN
+          },
+          data: form
+      })
+      message.destroy("import")
+      let {message: msgResponse} = result;
+      if(msgResponse === "Success"){
+        message.success("Import thành công.")
+        setTimeout(()=>{
+            navigate(0);  
+        }, 2000)     
+      } else {
+        message.error("Import thất bại.")
+      }
+}
 
     const femaleAvatar = () => {
       return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
@@ -171,10 +204,12 @@ export default function TableProfiles() {
                     
                 }} >Tìm kiếm</button>
                 <label htmlFor='import' className="create_acc_profile btn__import" >
-                    <BiImport /> 
-                    Import
+                    <span>
+                        <BiImport /> 
+                        Import
+                    </span>
                 </label>
-                <input id="import" type="file" />
+                <input id="import" type="file" onChange={uploadFileImport} />
           </div>
         </div>
         <Table

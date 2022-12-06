@@ -188,9 +188,6 @@ export default function SoYeuLyLich(props) {
         dispatch({
             type: GET_DEP_POS
         });
-        // dispatch({
-        //     type: GET_PART
-        // })
     }, [dispatch])   
 
     useEffect(() => {
@@ -201,9 +198,8 @@ export default function SoYeuLyLich(props) {
     
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = ["hoTen", "ngayThangNamSinh", "danToc", "email", "soDienThoai"
-        , "hocVan", "chuyenMon", "lyLuanCT", "ngayBoNhiem", "ngayHetHanBoNhiem"
-        , "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan", "noiSinh", "queQuan", 
-        "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", "ngayCapCCCD", "canCuocCD"]
+        , "hocVan", "chuyenMon", "lyLuanCT", "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan",
+         "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", "ngayCapCCCD", "canCuocCD"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         canCuocCD: false,
@@ -214,9 +210,7 @@ export default function SoYeuLyLich(props) {
         hocVan: false,
         chuyenMon: false,
         lyLuanCT: false,
-        ngayBoNhiem: false,
         ngayCapCCCD: false,
-        ngayHetHanBoNhiem: false,
         phongBanCVObj: false,
         thanhPhanXuatThan: false,
         noiSinh: { huyen: false, quan: false, tinh: false },
@@ -381,7 +375,7 @@ export default function SoYeuLyLich(props) {
                     isNextStep = false
                 }
             } else if (value === "phongBanCVObj") {
-                if (valueForm[value].length === 0) {
+                if (valueForm[value]?.length === 0) {
                     newValueForm = { ...newValueForm, [value]: { ...newValueForm[value], phongBan: true } }
                     newValueForm = { ...newValueForm, [value]: { ...newValueForm[value], chucVu: true } }
                     // newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
@@ -769,26 +763,24 @@ export default function SoYeuLyLich(props) {
 
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content date__picker">
-                        <label>Ngày bổ nhiệm:
-                            <span className="required__field"> *</span>
-                        </label>
+                        <label>Ngày bổ nhiệm:</label>
                         <DatePicker 
-                        value={valueForm.ngayBoNhiem !== ""
+                        value={valueForm.ngayBoNhiem !== "" && valueForm.ngayBoNhiem !== null
                         ? handleDateTime(valueForm.ngayBoNhiem)
                         : ""}
-                        onBlur={()=>{
-                            if(valueForm.ngayBoNhiem === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayBoNhiem: true
-                                })
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayBoNhiem: false
-                                })
-                            }
-                        }}
+                        // onBlur={()=>{
+                        //     if(valueForm.ngayBoNhiem === ""){
+                        //         setValidateForm({
+                        //             ...validateForm,
+                        //             ngayBoNhiem: true
+                        //         })
+                        //     } else {
+                        //         setValidateForm({
+                        //             ...validateForm,
+                        //             ngayBoNhiem: false
+                        //         })
+                        //     }
+                        // }}
                         onChange={(date,dateString)=>{
                             setValueForm({
                                 ...valueForm,
@@ -801,29 +793,27 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.ngayBoNhiem ? showRequiredAlert() : ""}
+                        {/*validateForm.ngayBoNhiem ? showRequiredAlert() : ""*/}
                     </div>
                     <div className="second__content date__picker">
-                        <label>Ngày hết hạn bổ nhiệm:
-                            <span className="required__field"> *</span>
-                        </label>
+                        <label>Ngày hết hạn bổ nhiệm:</label>
                         <DatePicker 
-                        value={valueForm.ngayHetHanBoNhiem !== ""
+                        value={valueForm.ngayHetHanBoNhiem !== "" && valueForm.ngayHetHanBoNhiem !== null
                         ? handleDateTime(valueForm.ngayHetHanBoNhiem)
                         : ""}
-                        onBlur={()=>{
-                            if(valueForm.ngayHetHanBoNhiem === ""){
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayHetHanBoNhiem: true
-                                })
-                            } else {
-                                setValidateForm({
-                                    ...validateForm,
-                                    ngayHetHanBoNhiem: false
-                                })
-                            }
-                        }}
+                        // onBlur={()=>{
+                        //     if(valueForm.ngayHetHanBoNhiem === ""){
+                        //         setValidateForm({
+                        //             ...validateForm,
+                        //             ngayHetHanBoNhiem: true
+                        //         })
+                        //     } else {
+                        //         setValidateForm({
+                        //             ...validateForm,
+                        //             ngayHetHanBoNhiem: false
+                        //         })
+                        //     }
+                        // }}
                         onChange={(date,dateString)=>{
                             let ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem)
                             let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
@@ -849,7 +839,7 @@ export default function SoYeuLyLich(props) {
                         </svg>}
                         format="DD-MM-YYYY"
                         />
-                        {validateForm.ngayHetHanBoNhiem ? showRequiredAlert() : ""}
+                        {/*validateForm.ngayHetHanBoNhiem ? showRequiredAlert() : ""*/}
                     </div>
                 </div>
                 <div className="SYLL__right__field ">
@@ -948,6 +938,7 @@ export default function SoYeuLyLich(props) {
                         <label >Thẻ có hiệu lực từ:</label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucTu !== "" && valueForm.theCoHieuLucTu !== undefined
+                        && valueForm.theCoHieuLucTu !== null
                         ? handleDateTime(valueForm.theCoHieuLucTu)
                         : ""}
                         onBlur={()=>{
@@ -980,6 +971,7 @@ export default function SoYeuLyLich(props) {
                         <label >Thẻ có hiệu lực đến:</label>
                         <DatePicker 
                         value={valueForm.theCoHieuLucDen !== "" && valueForm.theCoHieuLucDen !== undefined
+                        && valueForm.theCoHieuLucDen !== null
                         ? handleDateTime(valueForm.theCoHieuLucDen)
                         : ""}
                         onBlur={()=>{

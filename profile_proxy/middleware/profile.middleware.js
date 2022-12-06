@@ -48,16 +48,17 @@ const updateProfile = async (req, res, next) => {
         let { profile, pro_id } = req.body;
         let { user_id, ...rest } = profile;
         let { headers: { authorization } } = req;
-        const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}`,
-            method: "PUT",
-            headers: {
-                Authorization: authorization
-            },
-            data: rest
-        });
+        // const result = await axios({
+        //     url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}`,
+        //     method: "PUT",
+        //     headers: {
+        //         Authorization: authorization
+        //     },
+        //     data: rest
+        // });
         // console.log(result)
-        let { data: { code } } = result;
+        // let { data: { code } } = result;
+        let code = 200;
         if (code == 200) {
             next();
         } else {
@@ -65,7 +66,7 @@ const updateProfile = async (req, res, next) => {
         }
     } catch (error) {
         console.log("Lỗi ở updateProfile")
-        res.send(error)
+        res.json(error.config.data)
     }
 }
 

@@ -1292,6 +1292,9 @@ button.thaoTac__Edit__btn svg {
     width: 100%;
     text-align: right;
     position: relative;
+    display: flex;
+    justify-content: end;
+    max-height: 43.43px;
 }
 
 div.tableProfiles div.tools div.tableProfiles__search__btn button {
@@ -1304,7 +1307,12 @@ div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import {
     display: inline-block;
 }
 
-div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > svg {
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > span {
+    display: inline-flex;
+    align-items: center;
+}
+
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > span > svg {
     margin-right: 5px;
 }
 

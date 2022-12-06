@@ -18,6 +18,8 @@ const { organizationRouter } = require("./organizationRouter");
 const { trainingFosteringRouter } = require("./trainingFosteringRouter");
 const { rewardDisciplineRouter } = require("./rewardDisciplineRouter");
 const { familyRelationshipRouter } = require("./familyRelationshipRouter");
+const { uploadFileIport } = require("../middleware/importData.middleware");
+const { importUser } = require("../controller/UploadFileImport.controller");
 
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter)
@@ -36,6 +38,7 @@ rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_de
 rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);
 rootRouter.post("/create/profile", checkUserID, createProfile, create_dep_pos_degree_jourCard);
+rootRouter.post("/profiles/importation", uploadFileIport(), importUser)
 
 module.exports = {
     rootRouter

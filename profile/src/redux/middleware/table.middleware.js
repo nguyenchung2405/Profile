@@ -39,6 +39,8 @@ function* search(payload){
     if(searchList.length > 0){
         yield put(setUserList({ userList: searchList, total }))
         yield put(setIsLoading(false))
+    } else {
+        yield put(setIsLoading(false))
     }
 }
 

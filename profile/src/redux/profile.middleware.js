@@ -63,7 +63,7 @@ function* updateProfile(payload){
     yield put(setIsNextStep(true))
     yield put(setValues(rest))
     let profileUpdated = yield call(updateProfile_API,dataToUpdate)
-    let msg = profileUpdated.data[0].msg;
+    let msg = profileUpdated.data[0]?.msg;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
     } else {
