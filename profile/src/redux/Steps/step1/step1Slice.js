@@ -119,8 +119,8 @@ const step1Slice = createSlice({
             state.noiOHuyen = quanSelected.wards;
         },
         setHoKhauHuyen: (state,action)=>{
-            console.log(action.payload)
-            console.log(state.hoKhauQuan)
+            // console.log(action.payload)
+            // console.log(state.hoKhauQuan)
             let quanSelected = state.hoKhauQuan.find(quan => quan.name === action.payload);
             state.hoKhauHuyen = quanSelected.wards;
         },

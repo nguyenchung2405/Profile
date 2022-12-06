@@ -469,7 +469,7 @@ export default function SoYeuLyLich(props) {
     const getValueSelect_QueQuan_Huyen = (value) => {
         let { queQuan } = valueForm;
         let queQuanNew = { ...queQuan, huyen: value };
-        console.log(queQuanNew)
+        // console.log(queQuanNew)
         setValueForm({
             ...valueForm,
             queQuan: { ...queQuanNew }
@@ -817,7 +817,7 @@ export default function SoYeuLyLich(props) {
                         onChange={(date,dateString)=>{
                             let ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem)
                             let ngayHetBoNhiemINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
-                            console.log(ngayBoNhiemINT, ngayHetBoNhiemINT)
+                            // console.log(ngayBoNhiemINT, ngayHetBoNhiemINT)
                             if(ngayHetBoNhiemINT > ngayBoNhiemINT){
                                 setValueForm({
                                     ...valueForm,
@@ -990,7 +990,7 @@ export default function SoYeuLyLich(props) {
                         onChange={(date,dateString)=>{
                             let theCoHieuLucTuINT = Date.parse(valueForm.theCoHieuLucTu)
                             let theCoHieuLucDenINT = Date.parse(moment(dateString, "DD-MM-YYYY").toISOString())
-                            console.log(theCoHieuLucTuINT, theCoHieuLucDenINT)
+                            // console.log(theCoHieuLucTuINT, theCoHieuLucDenINT)
                             if(theCoHieuLucDenINT > theCoHieuLucTuINT){
                                 setValueForm({
                                     ...valueForm,
