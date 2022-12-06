@@ -219,7 +219,7 @@ export default function SoYeuLyLich(props) {
         hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
     });
     // console.log(validateForm)
-    console.log(valueForm)
+    // console.log(valueForm)
 
     const renderTinh = (fieldName = "noiSinh") => {
         if (fieldName === "noiSinh") {
