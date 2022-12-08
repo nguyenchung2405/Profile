@@ -1,6 +1,10 @@
 # dependencies
 node_modules
 /node_modules
+./profile/node_modules
+./profile_proxy/node_modules
+/profile/node_modules
+/profile_proxy/node_modules
 ./dist
 /dist
 ./node_modules
