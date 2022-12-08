@@ -1,4 +1,5 @@
 import moment from "moment";
+import docCookie from "doc-cookies"
 
 export let handleDateTime = (date) => {
     try {
@@ -26,5 +27,18 @@ export let checkMicroFe = () => {
         return false;
     } else {
         return true;
+    }
+}
+
+export let getTokenInCookie = ()=>{
+    try {
+        let tokenCookie = docCookie.getItem("usertoken")
+        if(!tokenCookie){
+            return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA"
+        }
+        // console.log(tokenCookie);
+        return tokenCookie
+    } catch (error) {
+        console.log(error)
     }
 }

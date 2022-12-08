@@ -4,9 +4,10 @@ body {
       segoe ui emoji, segoe ui symbol, noto color emoji !important;
 }
 
-div.App {
+div.App_Profile_service {
     display: flex;
     background-color: #eef0f8;
+    width: 100%;
 }
 
 .sidebar {
@@ -112,7 +113,7 @@ div.App {
 
 /* section: section .steps_editWidth__f9SYq: div.ant-steps */
 
-.App section div.ant-steps div.ant-steps-item div.ant-steps-item-container .ant-steps-item-tail {
+.App_Profile_service section div.ant-steps div.ant-steps-item div.ant-steps-item-container .ant-steps-item-tail {
     display: none;
 }
 
@@ -152,28 +153,28 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon {
     border-color: #d9e9ff;
 }
 
-.App section .ant-steps-item-process.ant-steps-item-active>div.ant-steps-item-container div span {
+.App_Profile_service section .ant-steps-item-process.ant-steps-item-active>div.ant-steps-item-container div span {
     color: #35794a;
     font-weight: 500;
     font-size: 18px;
 }
 
-.App section .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
+.App_Profile_service section .ant-steps-item-process.ant-steps-item-active div.ant-steps-item-container .ant-steps-item-title {
     color: #35794a;
     font-weight: bold;
     font-size: 13px;
 }
 
-div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon span.ant-steps-icon,
-div.App div div section .ant-steps .ant-steps-item > div.ant-steps-item-container[role=button]:hover div.ant-steps-item-title{
+div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon span.ant-steps-icon,
+div.App_Profile_service div div section .ant-steps .ant-steps-item > div.ant-steps-item-container[role=button]:hover div.ant-steps-item-title{
     color: #35794a;
 }
 
-div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon {
+div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) > div.ant-steps-item-container[role=button]:hover .ant-steps-item-icon {
     border-color: #35794a;
 }
 
-.App section .ant-steps-item div.ant-steps-item-container .ant-steps-item-title {
+.App_Profile_service section .ant-steps-item div.ant-steps-item-container .ant-steps-item-title {
     color: black;
     font-weight: bold;
     font-size: 13px;
@@ -269,7 +270,7 @@ div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) 
     font-size: 40px;
 }
 
-.App > div:nth-child(2) {
+.App_Profile_service > div:nth-child(2) {
     position: relative;
     left: 265px;
     width: calc(100% - 265px);
@@ -278,6 +279,14 @@ div.App div div section .ant-steps .ant-steps-item:not(.ant-steps-item-process) 
     min-height: 100vh;
 }
 
-.App div.notFound {
+.ant-layout .App_Profile_service > div.jPB23fQo4WuMLsUflyBq {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+.App_Profile_service div.notFound {
     height: 100vh;
 }

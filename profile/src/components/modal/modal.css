@@ -51,11 +51,12 @@ div .ant-modal-root .ant-modal {
     height: 20px;
 }
 
-.ant-modal-title {
-    /* margin-top: 13px; */
+.ant-modal-title > span.modal__step1__title, .ant-modal-title > span.modal__title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
+    display: grid;
+    margin: auto;
 }
 
 .ant-modal-body {
