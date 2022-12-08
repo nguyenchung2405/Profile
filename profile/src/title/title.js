@@ -1,7 +1,9 @@
-import { checkMicroFe } from "../ultils/helper";
+import { checkMicroFe, getTokenInCookie } from "../ultils/helper";
+
+export const TOKEN = getTokenInCookie();
 
 // TOKEN ADMIN, NHÂN SỰ
-export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA";
+// export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA";
 // TOKEN user
 // export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoyNzUwNDY3MDkwfQ.jS2LpSrpCSosjuMLT1MJcuo1NIemmfv-hkqo4yciNy8"
 export const local = checkMicroFe() === true ? "https://profileservice.tuoitre.vn" : ""

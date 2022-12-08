@@ -18,7 +18,7 @@ function App() {
       return (
         <Provider store={store}>
           <BrowserRouter>
-            <div className="App">
+            <div className="App_Profile_service">
               
               <Sidebar />
               <Routes>
@@ -38,7 +38,7 @@ function App() {
     } else {
       return (
         <Provider store={store}>
-          <div className="App">
+          <div className="App_Profile_service">
             <Routes>
               <Route path="/hr/profile" element={<TableProfiles />} />
               <Route path="/hr/profile/:proID" element={<StepsAntd />} />

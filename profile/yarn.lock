@@ -3948,6 +3948,11 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
+doc-cookies@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/doc-cookies/-/doc-cookies-1.1.0.tgz#bf7a4e2b708d137463e10acc45a60d39e3a91a9f"
+  integrity sha512-dHjaBAGQKBAQ4j5uwOlVeENrBhpSurlRYRnpsAxoOBhZyNLkvhvr1qcDqrv8uwy41Z3P5RulHhKxnHm7MlEnRA==
+
 doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"

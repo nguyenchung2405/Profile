@@ -163,7 +163,7 @@ export default function PosTypeModal(props) {
 
   return (
     <Modal 
-        title={titleTypeModal}
+        title={<span className='modal__title'>{titleTypeModal}</span>}
         open={isShowTypeModal}
         onCancel={handleCancel}
         className="pos__type__modal"

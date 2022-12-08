@@ -66,12 +66,41 @@ div.dep__infor div.onefield label {
     box-shadow: 0 0 2px #459c60;
 }
 
-div.onefield input, div.onefield textarea, div.onefield div.ant-select div.ant-select-selector{
+.ant-modal-body .dep__infor form div.onefield input, 
+div.onefield textarea, 
+.ant-modal-body .dep__infor form div.onefield div.ant-select div.ant-select-selector,
+.ant-modal-body .pos__infor form div.onefield input,
+.ant-modal-body .pos__infor form div.onefield div.ant-select div.ant-select-selector,
+.ant-modal-body .pos__type__modal__content div.onefield.pos__type__modal__field input{
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
     width: 380px;
     height: 40px;
+}
+
+.ant-modal-body .pos__type__modal__content div.onefield.pos__type__modal__field div.ant-select div.ant-select-selector {
+    padding: 0 0;
+}
+
+.ant-modal-body .pos__type__modal__content div.onefield.pos__type__modal__field div.ant-select {
+    width: 380px;
+}
+
+.ant-modal-body .pos__type__modal__content div.onefield.pos__type__modal__field .ant-select-selection-search {
+    width: 100%;
+    left: 0;
+    height: 100%;
+}
+
+.ant-modal-body .pos__type__modal__content div.onefield.pos__type__modal__field .ant-select-selection-search input {
+    width: 100%;
+    height: 100%;
+}
+
+.ant-modal-body .dep__infor form div.onefield div.ant-select,
+.ant-modal-body .pos__infor form div.onefield div.ant-select{
+    width: 380px;
 }
 
 div.onefield textarea {
