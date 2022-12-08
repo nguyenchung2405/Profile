@@ -293,13 +293,42 @@ div.next {
     border: 1px solid #39ff14;
     color: #39ff14;
     cursor: pointer;
+    transition: all 0.8s;
 }
 
 .SoYeuLyLich__btn.btn__create:hover, .SoYeuLyLich__btn.btn__update:hover {
     background-color: #39ff14;
-    border: none;
     box-shadow: 0 0 50px #39ff14;
-    border: 1px solid #39ff14;
+    color: white;
+}
+
+.SoYeuLyLich__btn.btn__send {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid #f32179;
+    color: #f32179;
+    cursor: pointer;
+    transition: all 0.8s;
+}
+
+.SoYeuLyLich__btn.btn__send:hover {
+    background-color: #f32179;
+    box-shadow: 0 0 50px #f32179;
+    color: white;
+}
+
+.SoYeuLyLich__btn.btn__reject {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid #db3eb1;
+    color: #db3eb1;
+    cursor: pointer;
+    transition: all 0.8s;
+}
+
+.SoYeuLyLich__btn.btn__reject:hover {
+    background-color: #db3eb1;
+    box-shadow: 0 0 50px #db3eb1;
     color: white;
 }
 

@@ -26,7 +26,7 @@ export default function SoYeuLyLich(props) {
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan, queQuanHuyen,
         noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile, isNavigateTo404,
         phongBan: depList, chucVu: posList, hoKhauTinh, hoKhauQuan, hoKhauHuyen,
-        isSubmit } = useSelector(state => state.steps1Reducer);
+        isSubmit, action } = useSelector(state => state.steps1Reducer);
     const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState([]);
     let [phongBanCVOb, setPhongBanCVOb] = useState({ phongBan: "", chucVu: "" });
     let [isShowModal, setIsShowModal] = useState(false)
@@ -143,8 +143,9 @@ export default function SoYeuLyLich(props) {
     
     useEffect(()=>{
         if(isSubmit){
-            console.log("isSubmit true")
+            // console.log("isSubmit true")
             let isNextStep = checkValueForm();
+            // let isNextStep = true;
             if (!isNextStep) {
                 dispatch(moveToNextStep(0))
                 dispatch(setIsSubmit(false))
@@ -156,7 +157,7 @@ export default function SoYeuLyLich(props) {
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE,
-                        valuesUpdate: { newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate }
+                        valuesUpdate: { newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action }
                     })
                 } else if (isCreateProfile) {
                     dispatch({
@@ -167,7 +168,7 @@ export default function SoYeuLyLich(props) {
                     // console.log("isOnLyCreateProfile")
                     dispatch({
                         type: ONLY_CREATE_PROFILE,
-                        valuesCreate: { valueForm, user_id }
+                        valuesCreate: { valueForm, user_id, navigate }
                     })
                 }
             }
@@ -199,7 +200,8 @@ export default function SoYeuLyLich(props) {
     // field nào cần check validate thì cho vào mảng bên dưới
     const valuesNeedValidate = ["hoTen", "ngayThangNamSinh", "danToc", "email", "soDienThoai"
         , "hocVan", "chuyenMon", "lyLuanCT", "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan",
-         "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", "ngayCapCCCD", "canCuocCD"]
+         "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", 
+         "ngayCapCCCD", "canCuocCD"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         canCuocCD: false,
@@ -417,7 +419,7 @@ export default function SoYeuLyLich(props) {
     const renderPhongBan = () => {
         let htmlRendered = [];
         htmlRendered.push(<Option value="">Phòng ban</Option>)
-        if (depList.length > 0) {
+        if (depList?.length > 0) {
             for (let phongBan of depList) {
                 htmlRendered.push(<Option value={phongBan.id}>{phongBan.name}</Option>)
             }
@@ -701,6 +703,7 @@ export default function SoYeuLyLich(props) {
             </div>
             <div className="SoYeuLyLich__right">
                 <ThongTinCaNhan
+                    setValidateForm={setValidateForm}
                     setValueIntoForm={setValueIntoForm}
                     handleChangeGetValueInput={handleChangeGetValueInput}
                     valueForm={valueForm}
@@ -708,7 +711,6 @@ export default function SoYeuLyLich(props) {
                     validateField={validateField}
                     validateForm={validateForm}
                     showRequiredAlert={showRequiredAlert} />
-
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content hocVan">
                         <label htmlFor="hocVan">Trình độ học vấn:
@@ -760,7 +762,6 @@ export default function SoYeuLyLich(props) {
                             handleChangeGetValueInput(e)
                         }} />
                 </div>
-
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content date__picker">
                         <label>Ngày bổ nhiệm:</label>

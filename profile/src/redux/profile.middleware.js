@@ -10,7 +10,7 @@ import { setOrganization } from "./Steps/step4.slice";
 import { setTrainingFostering } from "./Steps/step5.slice";
 import { setRewardDiscipline } from "./Steps/step6Slice";
 import { setFamilyRelationship } from "./Steps/step8Slice";
-import { setIsNextStep, setMessageAlert, setUserProfileID } from "./Steps/stepsSlice";
+import { setStatus, setIsNextStep, setMessageAlert, setUserProfileID } from "./Steps/stepsSlice";
 
 function* getProfileByID(payload) {
     let { proID, email, soDienThoai } = payload.data;
@@ -22,9 +22,10 @@ function* getProfileByID(payload) {
         let jour_card_id = data.journalist_card[0]?.id;
         let user_degree_id = data?.user_degree[0]?.id;
         let {personal_history, party, organization, training_fostering, reward_discipline,
-            family_relationship} = data;
+            family_relationship, can_action, state} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
+        yield put(setStatus({state,can_action}))
         yield put(setPersonalHistory(personal_history))
         yield put(getParty(party))
         yield put(setOrganization(organization))
@@ -52,7 +53,8 @@ function* getProfileByID(payload) {
 
 function* updateProfile(payload){
     // console.log(payload.valuesUpdate)
-    const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate} = payload.valuesUpdate;
+    const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
+        navigate, action } = payload.valuesUpdate;
     // console.log(newValueForm)
     let {phongBanCVObj , ...rest} = newValueForm;
     let profile = mappingProfileStep1(newValueForm);
@@ -62,10 +64,14 @@ function* updateProfile(payload){
     let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
     yield put(setIsNextStep(true))
     yield put(setValues(rest))
-    let profileUpdated = yield call(updateProfile_API,dataToUpdate)
+    let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)
     let msg = profileUpdated.data[0]?.msg;
+    console.log(msg)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+        if(action === "send" || action === "reject"){
+            navigate("/hr/profile")
+        }
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
         yield put(setIsSubmit(false))
@@ -113,7 +119,7 @@ function* getAvatar(payload) {
 }
 
 function* onlyCreateProfile(payload) {
-    let { valueForm, user_id } = payload.valuesCreate;
+    let { valueForm, user_id, navigate } = payload.valuesCreate;
     // console.log(valueForm, user_id)
     let profile = mappingProfileStep1(valueForm);
     let depPos = mappingDepartmentPosition(valueForm);
@@ -123,7 +129,16 @@ function* onlyCreateProfile(payload) {
     // console.log(dataToCreate)
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
-    yield call(onlyCreateProfileAPI, dataToCreate)
+    let result = yield call(onlyCreateProfileAPI, dataToCreate)
+    console.log(result)
+    let msg = result?.message;
+    if(msg === "Thành công"){
+        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+        navigate("/hr/profile");
+    } else {
+        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
+        navigate("/hr/profile");
+    }
 }
 
 function* deleteDepPos(payload) {

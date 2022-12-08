@@ -8,7 +8,7 @@ export async function getProfileByID_API(pro_id){
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
-            }
+            },
         })
         return res;
     } catch (error) {
@@ -17,22 +17,23 @@ export async function getProfileByID_API(pro_id){
     }
 }
 
-export async function updateProfile_API(valuesUpdate){
+export async function updateProfile_API(valuesUpdate, action){
     try {
         // let {user_id, jour_card_id, user_degree_id, pro_id} = valuesUpdate;
         // console.log(user_id, jour_card_id, user_degree_id, pro_id)
+        console.log("update profile API",action)
         const res = await axios({
-            url: `${local}/api/profiles/update`,
+            url: `${local}/api/profiles/update?action=${action}`,
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + TOKEN
             },
             data: valuesUpdate
-            
         })
         return res;
     } catch (error) {
         console.log(error)
+        return "Thất bại"
     }
 }
 

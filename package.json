@@ -23,6 +23,7 @@
   "homepage": "https://github.com/nguyenchung2405/TT_Profile#readme",
   "devDependencies": {
     "concurrently": "^7.4.0",
+    "jwt-decode": "^3.1.2",
     "nodemon": "^2.0.20"
   }
 }

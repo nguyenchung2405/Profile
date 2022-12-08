@@ -40,7 +40,7 @@ export const mappingDepartmentPosition = (data)=>{
             "appointment_date": data.ngayBoNhiem,
             "expire_date": data.ngayHetHanBoNhiem,
             // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
-            "is_primary": false
+            "is_primary": true
         })
     }
     return depPosArr;

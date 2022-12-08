@@ -16,7 +16,7 @@ const createProfile = async (req, res, next) => {
             },
             data: profile
         });
-        console.log(result)
+        // console.log(result)
         let { data: { code, data: { id } } } = result;
         console.log({ pro_id: id })
         if (code == 200) {
@@ -27,7 +27,7 @@ const createProfile = async (req, res, next) => {
         }
     } catch (error) {
         console.log("lỗi create profile")
-        res.send(error)
+        res.send(error?.response?.data)
     }
 }
 
@@ -48,17 +48,19 @@ const updateProfile = async (req, res, next) => {
         let { profile, pro_id } = req.body;
         let { user_id, ...rest } = profile;
         let { headers: { authorization } } = req;
-        // const result = await axios({
-        //     url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}`,
-        //     method: "PUT",
-        //     headers: {
-        //         Authorization: authorization
-        //     },
-        //     data: rest
-        // });
+        let {action}= req.query;
+        console.log(action)
+        const result = await axios({
+            url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}?action=${action}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: rest
+        });
         // console.log(result)
-        // let { data: { code } } = result;
-        let code = 200;
+        let { data: { code } } = result;
+        // console.log(code)
         if (code == 200) {
             next();
         } else {
@@ -66,7 +68,11 @@ const updateProfile = async (req, res, next) => {
         }
     } catch (error) {
         console.log("Lỗi ở updateProfile")
-        res.json(error.config.data)
+        if(error?.response?.data?.detail){
+            res.send(error?.response?.data?.detail)
+        }else {
+            res.send(error)
+        }
     }
 }
 
