@@ -41,12 +41,12 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         })
     }} />
     <Select
-    value={valueForm.noiOHienTai.tinh !== ""
-        ? valueForm.noiOHienTai.tinh
+    value={valueForm.noiOHienTai?.tinh !== ""
+        ? valueForm.noiOHienTai?.tinh
         : ""
     }
     onBlur={()=>{
-        if(valueForm.noiOHienTai.tinh === ""){
+        if(valueForm.noiOHienTai?.tinh === ""){
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,tinh:true}})
         } else {
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,tinh:false}})
@@ -57,12 +57,12 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderTinh("noiO")}
     </Select>
     <Select
-    value={valueForm.noiOHienTai.quan !== ""
-        ? valueForm.noiOHienTai.quan
+    value={valueForm.noiOHienTai?.quan !== ""
+        ? valueForm.noiOHienTai?.quan
         : ""
     }
     onBlur={()=>{
-        if(valueForm.noiOHienTai.quan === ""){
+        if(valueForm.noiOHienTai?.quan === ""){
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,quan:true}})
         } else {
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,quan:false}})
@@ -73,12 +73,12 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderQuan("noiO")}
     </Select>
     <Select
-    value={valueForm.noiOHienTai.huyen !== ""
-        ? valueForm.noiOHienTai.huyen
+    value={valueForm?.noiOHienTai?.huyen !== ""
+        ? valueForm?.noiOHienTai?.huyen
         : ""
     }
     onBlur={()=>{
-        if(valueForm.noiOHienTai.huyen === ""){
+        if(valueForm.noiOHienTai?.huyen === ""){
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,huyen:true}})
         } else {
             setValidateForm({...validateForm,noiOHienTai: {...validateForm.noiOHienTai,huyen:false}})

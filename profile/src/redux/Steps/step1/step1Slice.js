@@ -11,11 +11,11 @@ const initialState = {
         hoTen: "",
         hocVan: "",
         lyLuanCT: "",
-        ngayBoNhiem: "",
+        ngayBoNhiem: null,
         ngayCapCCCD: "",
         ngayCapTheNhaBao: "",
         // ngayDuocTuyenDung: "21-07-2022",
-        ngayHetHanBoNhiem: "",
+        ngayHetHanBoNhiem: null,
         ngayThangNamSinh: "",
         ngheNghiep: "",
         ngoaiNgu: "",
@@ -28,8 +28,8 @@ const initialState = {
         soTheNhaBao: "",
         phongBanCVObj: [],
         tenThuongGoi: "",
-        theCoHieuLucDen: "",
-        theCoHieuLucTu: "",
+        theCoHieuLucDen: null,
+        theCoHieuLucTu: null,
         tonGiao: "",
         thanhPhanXuatThan: '',
     },
@@ -54,7 +54,8 @@ const initialState = {
     chucVu:[],
     to: [],
     avatar: "",
-    emailPhone: {}
+    emailPhone: {},
+    action: ""
 }
 
 const step1Slice = createSlice({
@@ -119,8 +120,8 @@ const step1Slice = createSlice({
             state.noiOHuyen = quanSelected.wards;
         },
         setHoKhauHuyen: (state,action)=>{
-            console.log(action.payload)
-            console.log(state.hoKhauQuan)
+            // console.log(action.payload)
+            // console.log(state.hoKhauQuan)
             let quanSelected = state.hoKhauQuan.find(quan => quan.name === action.payload);
             state.hoKhauHuyen = quanSelected.wards;
         },
@@ -153,6 +154,9 @@ const step1Slice = createSlice({
         setEmailPhone: (state,action)=>{
             let {email, soDienThoai} = action.payload;
             state.emailPhone = {email, soDienThoai}
+        },
+        setAction: (state, action)=>{
+            state.action = action.payload;
         }
     }
 })
@@ -161,6 +165,6 @@ export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
 setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
-setHoKhauQuan, setEmailPhone, setIsSubmit } = step1Slice.actions;
+setHoKhauQuan, setEmailPhone, setIsSubmit, setAction } = step1Slice.actions;
 
 export default step1Slice.reducer;

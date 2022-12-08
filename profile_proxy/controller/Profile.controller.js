@@ -1,8 +1,6 @@
 const axios = require("axios")
 
 const local =  "http://dev.profilebe.tuoitre.vn";
-// Muốn tạo tài khoản hay tạo bất kỳ thứ gì phaỉ dùng TOKEN của admin
-const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC42MS4xMTYvYXBpL2xvZ2luIiwiaWF0IjoxNjY1NzE1MDg4LCJleHAiOjc3MTM3MTUwODgsIm5iZiI6MTY2NTcxNTA4OCwianRpIjoiRUtFeUU5RzYzR0FBbWJtRiIsInN1YiI6MSwicHJ2IjoiOTA0ZjZkMmQ4NzI1ZjJjNWI0OThiYTg1Yzk5YTE4ZGNiY2ZjMmQ4NSJ9.VgQCn6oLxl4pV9u2iw2oMLVcTEYOcnH4flIJrmDi6B8";
 
 const getProfile = async (req,res)=>{
     try {
@@ -39,7 +37,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
                 url: `${local}/user-dep-pos`,
                 method: "POST",
                 headers: {
-                    Authorization: "Bearer " + TOKEN
+                    Authorization: authorization
                 },
                 data: depPos[i]
             }))
@@ -49,7 +47,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             url: `${local}/user-degree`,
             method: "POST",
             headers: {
-                Authorization: "Bearer " + TOKEN
+                Authorization: authorization
             },
             data: userDegree
         })
@@ -57,7 +55,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
             url: `${local}/journalist-card`,
             method: "POST",
             headers: {
-                Authorization: "Bearer " + TOKEN
+                Authorization: authorization
             },
             data: jourCard
         })
@@ -72,6 +70,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
         })
         .catch((err)=>{
             console.log(err)
+            res.send(err)
         })
     } catch (error) {
         res.send(error)

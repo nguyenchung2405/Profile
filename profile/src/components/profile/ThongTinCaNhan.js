@@ -6,7 +6,7 @@ import { handleDateTime } from '../../ultils/helper';
 export default function ThongTinCaNhan(props) {
 
     let {setValueIntoForm, handleChangeGetValueInput, valueForm, setValueForm,
-        validateField, validateForm, showRequiredAlert} = props;
+        validateField, validateForm, showRequiredAlert, setValidateForm} = props;
 
   return (
     <>
@@ -14,6 +14,7 @@ export default function ThongTinCaNhan(props) {
         <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span></label>
         <input id="canCuocCD" name="canCuocCD" type="text" 
         value={setValueIntoForm("canCuocCD")}
+        onBlur={validateField}
         onChange={(e)=>{
             handleChangeGetValueInput(e)
         }} />
@@ -24,9 +25,22 @@ export default function ThongTinCaNhan(props) {
                 <label >Ngày cấp:<span className="required__field"> *</span></label>
                 <DatePicker 
                 value={
-                    valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined
+                    valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined && valueForm.ngayCapCCCD !== null
                     ? handleDateTime(valueForm.ngayCapCCCD)
                     : ""}
+                    onBlur={()=>{
+                        if(valueForm.ngayCapCCCD === ""){
+                            setValidateForm({
+                                ...validateForm,
+                                ngayCapCCCD: true
+                            })
+                        } else {
+                            setValidateForm({
+                                ...validateForm,
+                                ngayCapCCCD: false
+                            })
+                        }
+                    }}
                 onChange={(date,dateString)=>{
                     setValueForm({
                         ...valueForm,

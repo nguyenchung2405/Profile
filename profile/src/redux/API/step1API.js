@@ -80,11 +80,17 @@ export function getDepPosList_API(){
     try {
         const res_dep =  axios({
             url: `${local}/api/departments?per_page=150`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
         });
         const res_pos =  axios({
             url: `${local}/api/positions?per_page=150`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
         });
         return Promise.all([res_dep, res_pos])
         .then((values)=>{

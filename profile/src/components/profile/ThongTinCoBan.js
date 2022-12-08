@@ -73,7 +73,7 @@ export default function ThongTinCoBan(props) {
             <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
             <DatePicker 
                 value={
-                    valueForm.ngayThangNamSinh !== ""
+                    valueForm.ngayThangNamSinh !== "" && valueForm.ngayThangNamSinh !== null
                     ? handleDateTime(valueForm.ngayThangNamSinh)
                     : ""}
                     onBlur={()=>{

@@ -40,7 +40,7 @@ export const mappingDepartmentPosition = (data)=>{
             "appointment_date": data.ngayBoNhiem,
             "expire_date": data.ngayHetHanBoNhiem,
             // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
-            "is_primary": false
+            "is_primary": true
         })
     }
     return depPosArr;
@@ -153,7 +153,7 @@ export const mappingProfileAPI = (values) => {
         lyLuanCT: values?.user_degree[0]?.politic,
         ngayBoNhiem: values?.user_dep_pos[0]?.appointment_date,
         ngayCapCCCD: values.identity_card_when,
-        ngayCapTheNhaBao: moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY"),
+        ngayCapTheNhaBao:values?.journalist_card[0]?.number_day !== null ? moment(new Date((values?.journalist_card[0]?.number_day * 10000)).toLocaleDateString()).format("DD-MM-YYYY") : null,
         // ngayDuocTuyenDung: "",
         ngayHetHanBoNhiem: values?.user_dep_pos[0]?.expire_date,
         ngayThangNamSinh: values.birth_day,

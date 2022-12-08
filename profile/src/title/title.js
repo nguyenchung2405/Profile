@@ -1,6 +1,9 @@
 import { checkMicroFe } from "../ultils/helper";
 
-export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzQ5ODgxNzc1fQ.ygdiaoyUmOigwO9nrBy_eIpYAO9_EUY0qLxRoWsTGjc";
+// TOKEN ADMIN, NHÂN SỰ
+export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA";
+// TOKEN user
+// export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoyNzUwNDY3MDkwfQ.jS2LpSrpCSosjuMLT1MJcuo1NIemmfv-hkqo4yciNy8"
 export const local = checkMicroFe() === true ? "https://profileservice.tuoitre.vn" : ""
 
 
@@ -62,3 +65,5 @@ export const DELETE_REWARD_DISCIPLINE = "DELETE_REWARD_DISCIPLINE"
 export const UPDATE_REWARD_DISCIPLINE = "UPDATE_REWARD_DISCIPLINE"
 export const CREATE_FAMILY_RELATIONSHIP = "CREATE_FAMILY_RELATIONSHIP"
 export const UPDATE_FAMILY_RELATIONSHIP = "UPDATE_FAMILY_RELATIONSHIP"
+export const GET_DEP_POS_TO_SEARCH = "GET_DEP_POS_TO_SEARCH"
+export const SEARCH = "SEARCH"

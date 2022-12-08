@@ -16,22 +16,24 @@ import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
-import { removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setIsSubmit, setValues } from '../../redux/Steps/step1/step1Slice';
+import { removePBCV, setAction, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setIsSubmit, setValues } from '../../redux/Steps/step1/step1Slice';
 import { clearParty } from '../../redux/Steps/step3.slice';
+import jwt_decode from "jwt-decode";
+import {TOKEN} from "../../title/title"
 
 export default function StepsAntd() {
 
   const { Step } = Steps;
   const [current, setCurrent] = useState(0);
-  let { nextStep, isNextStep, messageAlert } = useSelector(state => state.stepsReducer);
+  let { nextStep, isNextStep, messageAlert, status } = useSelector(state => state.stepsReducer);
   let { emailPhone } = useSelector(state => state.steps1Reducer);
   const { party } = useSelector(state => state.step3Reducer)
   let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
   const { isLoading } = useSelector(state => state.loadingReducer);
-  let { familyRelationship } = useSelector(state => state.step8Reducer);
+  let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
   let { proID, userID } = useParams();
   // console.log(proID, user_id)
-  // console.log(messageAlert)
+  // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
 
@@ -159,12 +161,40 @@ export default function StepsAntd() {
   ];
 
   const showButton = ()=>{
-    
+      let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
           if(proID && proID !== undefined){
-              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                  dispatch(setIsSubmit(true))
-              }}>Cập nhật</button>
+            if(decoded.id === user_id && status.can_action){
+              if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
+                  return <>
+                  <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                      dispatch(setAction("save"))
+                  }}>Save</button>
+                  <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                      dispatch(setAction("send"))
+                  }}>Send</button>
+                </>
+              }
+            } else if(decoded.id !== user_id && status.can_action) {
+              if(status.state === "SENDING" || status.state === "SAVED"){
+                  return <>
+                    <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                        dispatch(setIsSubmit(true))
+                        dispatch(setAction("save"))
+                    }}>Save</button>
+                    <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                        dispatch(setIsSubmit(true))
+                        dispatch(setAction("send"))
+                    }}>Send</button>
+                    <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
+                        dispatch(setIsSubmit(true))
+                        dispatch(setAction("reject"))
+                    }}>Rejcet</button>
+                </>
+              }
+            }
           } else {
               return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                   dispatch(setIsSubmit(true))
@@ -191,8 +221,28 @@ export default function StepsAntd() {
             return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                 dispatch(setIsSubmit(true))
             }}>Tạo</button>
-        }
-    }
+        } 
+      } else if(nextStep === 7 ){
+          if(familyRelationshipExist){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          }
+      } else if( nextStep === 8){
+          if(familyRelationshipExist){
+              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Cập nhật</button>
+          } else {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+          }
+      }
   }
 
   const disabledStep = ()=>{
@@ -220,7 +270,7 @@ export default function StepsAntd() {
           {showButton()}
           {current <= 7
             ?
-            <button className="SoYeuLyLich__btn" onClick={() => {
+            <button disabled={disabledStep()} className="SoYeuLyLich__btn" onClick={(e) => {
               let disabled = disabledStep();
               if(disabled === false){
                 dispatch(moveToNextStep(current + 1));

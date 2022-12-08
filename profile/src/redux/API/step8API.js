@@ -43,13 +43,18 @@ export async function createFamilyRelationshipAPI(data){
 export async function updateFamilyRelationshipAPI(data){
     try {
         let {id} = data;
+        let { noiOHienTai, ...rest} = data;
+        let newData = {
+            ...rest,
+            residence: `${noiOHienTai?.diaChi}, ${noiOHienTai?.huyen}, ${noiOHienTai?.quan}, ${noiOHienTai?.tinh}`
+        }
         const res = await axios({
             url: `${local}/api/family-relationship/${id}`,
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + TOKEN
             },
-            data
+            data: newData
         })
         return res.data;
     } catch (error) {

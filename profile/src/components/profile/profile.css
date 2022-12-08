@@ -289,17 +289,46 @@ div.next {
 
 .SoYeuLyLich__btn.btn__create, .SoYeuLyLich__btn.btn__update {
     margin-right: 20px;
-    /* background-image: linear-gradient(45deg, #459c60, #35796e, rgb(94, 128, 0)); */
     background-color: white;
     border: 1px solid #39ff14;
     color: #39ff14;
+    cursor: pointer;
+    transition: all 0.8s;
 }
 
 .SoYeuLyLich__btn.btn__create:hover, .SoYeuLyLich__btn.btn__update:hover {
     background-color: #39ff14;
-    border: none;
     box-shadow: 0 0 50px #39ff14;
-    border: 1px solid #39ff14;
+    color: white;
+}
+
+.SoYeuLyLich__btn.btn__send {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid #f32179;
+    color: #f32179;
+    cursor: pointer;
+    transition: all 0.8s;
+}
+
+.SoYeuLyLich__btn.btn__send:hover {
+    background-color: #f32179;
+    box-shadow: 0 0 50px #f32179;
+    color: white;
+}
+
+.SoYeuLyLich__btn.btn__reject {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid #db3eb1;
+    color: #db3eb1;
+    cursor: pointer;
+    transition: all 0.8s;
+}
+
+.SoYeuLyLich__btn.btn__reject:hover {
+    background-color: #db3eb1;
+    box-shadow: 0 0 50px #db3eb1;
     color: white;
 }
 
@@ -321,6 +350,10 @@ div.next {
 
 .steps_steps__UOUsf .steps-content {
     width: calc(100% - 274px);
+}
+
+.SoYeuLyLich__btn[disabled] {
+    cursor: not-allowed;
 }
 
 .steps_steps__UOUsf .alignCenter {
@@ -1279,20 +1312,49 @@ button.thaoTac__Edit__btn svg {
     height: 100%;
 }
 
-.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder {
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder,
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
     line-height: 41px;
 }
 
 .tableProfiles .tools .tableProfiles__search__btn {
     width: 100%;
     text-align: right;
+    position: relative;
+    display: flex;
+    justify-content: end;
+    max-height: 43.43px;
 }
 
 div.tableProfiles div.tools div.tableProfiles__search__btn button {
     display: inline-block;
 }
 
-.tableProfiles .tools button.create_acc_profile {
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import {
+    margin-left: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > span {
+    display: inline-flex;
+    align-items: center;
+}
+
+div.tableProfiles div.tools div.tableProfiles__search__btn label.btn__import > span > svg {
+    margin-right: 5px;
+}
+
+input#import {
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    opacity: 1;
+}
+
+.tableProfiles .tools .create_acc_profile {
     background-color: #459C60;
     padding: 5px 18px;
     color: white;
@@ -1305,7 +1367,7 @@ div.tableProfiles div.tools div.tableProfiles__search__btn button {
     border: 1px solid transparent;
 }
 
-.tableProfiles .tools button.create_acc_profile:hover {
+.tableProfiles .tools .create_acc_profile:hover {
     border: 1px solid #459C60;
     background-color: white;
     color: #459C60;
