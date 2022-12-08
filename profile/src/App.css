@@ -24,6 +24,10 @@ div.App_Profile_service {
     background-color: #35794a;
 }
 
+.App_Profile_service .ant-picker-input .ant-picker-clear {
+    display: inline-block;
+}
+
 .sidebar .sidebar__logo {
     display: flex;
     width: 100%;
