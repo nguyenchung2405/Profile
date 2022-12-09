@@ -177,9 +177,26 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
     }
 }
 
+const getUserInfor = async (req,res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `http://dev.userbe.tuoitre.vn/users/users/me/`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        })
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getProfile,
     create_dep_pos_degree_jourCard,
     update_dep_pos_degress_jourCard,
-    getProfileByUserID
+    getProfileByUserID,
+    getUserInfor
 }
