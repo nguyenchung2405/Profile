@@ -51,7 +51,6 @@ export default function SubMenu() {
                         let decoded = jwt_decode(TOKEN);
                         let {id} = decoded;
                         navigate(`${uri}/myprofile/${id}`)
-                        dispatch(setIsLoading(true))
                     }
                 }}
             />
