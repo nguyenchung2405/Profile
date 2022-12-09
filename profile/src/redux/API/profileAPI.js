@@ -120,13 +120,13 @@ export async function getProfileByUserIDAPI(User_ID){
 export async function getProfileByToken(){
     try {
         const result = await axios({
-            url: `http://dev.userbe.tuoitre.vn/users/users/me/`,
+            url: `${local}/api/users/users/me/`,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
             }
         })
-        console.log(result.data)
+        // console.log(result.data)
         return result.data;
     } catch (error) {
         console.log(error)

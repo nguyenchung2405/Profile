@@ -33,7 +33,7 @@ export default function StepsAntd() {
   const { isLoading } = useSelector(state => state.loadingReducer);
   let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
   let { proID, userID, User_ID } = useParams();
-  console.log(proID, userID, User_ID)
+  // console.log(proID, userID, User_ID)
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
@@ -215,7 +215,11 @@ export default function StepsAntd() {
                 }}>Send</button>
               </>
             }
-          }
+          } else {
+            return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                dispatch(setIsSubmit(true))
+            }}>Tạo</button>
+        } 
       } else if(nextStep === 2){
           if(party.length > 0){
               return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{

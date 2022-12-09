@@ -10,7 +10,7 @@ const { partRouter } = require("./partRouter");
 const { uploadUserAvatar } = require("../controller/UploadAvatar.controller");
 const { uploadImageAvatar } = require("../middleware/upload");
 const { createProfile, checkUserID, updateProfile } = require("../middleware/profile.middleware");
-const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard } = require("../controller/Profile.controller");
+const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard, getUserInfor } = require("../controller/Profile.controller");
 const { depPosRouter } = require("./dep_pos");
 const { personalHistoryRouter } = require("./personal_history");
 const { partyRouter } = require("./party");
@@ -35,6 +35,7 @@ rootRouter.use("/training-fostering", trainingFosteringRouter)
 rootRouter.use("/reward-discipline", rewardDisciplineRouter)
 rootRouter.use("/family-relationship", familyRelationshipRouter)
 
+rootRouter.get("/users/users/me", getUserInfor)
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
 rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);
