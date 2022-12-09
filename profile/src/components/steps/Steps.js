@@ -11,7 +11,7 @@ import Step7 from '../profile/step7';
 import Step8 from '../profile/step8';
 import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
-import { moveToNextStep, setIsDone, setIsNextStep, setMessageAlert, setUserProfileID } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep, setIsDone, setIsNextStep, setMessageAlert, setStatus, setUserProfileID } from '../../redux/Steps/stepsSlice';
 import { useParams } from 'react-router-dom';
 import { GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID } from '../../title/title';
 import Loading from "../Loading"
@@ -123,7 +123,8 @@ export default function StepsAntd() {
         dispatch(clearParty());
         dispatch(setIsDone(false));
         dispatch(setIsSubmit(false))
-        dispatch(setValues(userInforEmpty))
+        dispatch(setValues(userInforEmpty));
+        dispatch(setStatus({state: "", can_action: false}))
       }
     },[])
     
@@ -187,7 +188,25 @@ export default function StepsAntd() {
           if(proID && proID !== undefined){
             if(decoded.id !== user_id && status.can_action){
                 if(status.state === "SENDING" || status.state === "SAVED"){
-                  return <>
+                    return <>
+                      <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                          dispatch(setIsSubmit(true))
+                          dispatch(setAction("save"))
+                      }}>Save</button>
+                      <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                          dispatch(setIsSubmit(true))
+                          dispatch(setAction("send"))
+                      }}>Send</button>
+                      <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
+                          dispatch(setIsSubmit(true))
+                          dispatch(setAction("reject"))
+                      }}>Rejcet</button>
+                  </>
+                  }
+                }
+            } else if(decoded.id === user_id && status.can_action){
+                if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
+                    return <>
                     <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
                         dispatch(setIsSubmit(true))
                         dispatch(setAction("save"))
@@ -196,31 +215,13 @@ export default function StepsAntd() {
                         dispatch(setIsSubmit(true))
                         dispatch(setAction("send"))
                     }}>Send</button>
-                    <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
-                        dispatch(setIsSubmit(true))
-                        dispatch(setAction("reject"))
-                    }}>Rejcet</button>
-                </>
-              }
-            }
-          } else if(decoded.id === user_id && status.can_action){
-            if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
-                return <>
-                <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                    dispatch(setIsSubmit(true))
-                    dispatch(setAction("save"))
-                }}>Save</button>
-                <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
-                    dispatch(setIsSubmit(true))
-                    dispatch(setAction("send"))
-                }}>Send</button>
-              </>
-            }
-          } else {
-            return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
-                dispatch(setIsSubmit(true))
-            }}>Tạo</button>
-        } 
+                  </>
+                }
+            } else if(!proID) {
+              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                  dispatch(setIsSubmit(true))
+              }}>Tạo</button>
+            } 
       } else if(nextStep === 2){
           if(party.length > 0){
               return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
