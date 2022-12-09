@@ -20,6 +20,42 @@ const getProfile = async (req,res)=>{
     }
 }
 
+const getProfileByUserID = async (req,res)=>{
+    try {
+        let {user_id} = req.params;
+        let {headers: {authorization}} = req;
+        const result_profile =  axios({
+            url: `${local}/profiles/user/${user_id}`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        const result_user =  axios({
+            url: `http://dev.userbe.tuoitre.vn/users/${user_id}`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        Promise.all([result_profile, result_user])
+        .then(resolve => {
+            let dataResponse = []
+            for(reso of resolve){
+                dataResponse.push(reso.data)
+            }
+            dataResponse.unshift({msg: "Thành công"})
+            res.send(dataResponse)
+        })
+        .catch(err => {
+            res.send(err)
+        })
+    } catch (error) {
+        console.log("lỗi ở getProfileByUserID" ,error)
+        res.send(error)
+    }
+}
+
 const create_dep_pos_degree_jourCard = (req,res)=>{
     try {
         let {depPos, userDegree, jourCard} = req.body;
@@ -144,5 +180,6 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
 module.exports = {
     getProfile,
     create_dep_pos_degree_jourCard,
-    update_dep_pos_degress_jourCard
+    update_dep_pos_degress_jourCard,
+    getProfileByUserID
 }

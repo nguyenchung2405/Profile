@@ -100,3 +100,36 @@ export async function deleteDepPosAPI(dep_pos_id){
         console.log(error)
     }
 }
+
+export async function getProfileByUserIDAPI(User_ID){
+    try {
+        const result = await axios({
+            url: `${local}/api/profiles/user/${User_ID}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+        })
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
+
+export async function getProfileByToken(){
+    try {
+        const result = await axios({
+            url: `http://dev.userbe.tuoitre.vn/users/users/me/`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        })
+        console.log(result.data)
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

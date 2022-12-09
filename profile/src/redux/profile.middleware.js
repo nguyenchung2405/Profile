@@ -1,9 +1,9 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE } from "../title/title";
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE } from "../title/title";
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
-import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
+import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { addPBCV, removePBCV, setAvatar, setIsCreateProfile, setIsNavigate, setIsSubmit, setValues } from "./Steps/step1/step1Slice";
+import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
 import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
@@ -48,6 +48,42 @@ function* getProfileByID(payload) {
         // failed thì chuyển trang đến 404 Page (url fail: /api/profile/:id
         // id trên url này không tồn tại trên DB )
         yield put(setIsNavigate(true))
+    }
+}
+
+function* getProfileByUserID(payload){
+    let {User_ID} = payload;
+    let result = yield call(getProfileByUserIDAPI, User_ID);
+    let profile = result[1].data;
+    let user = result[2].data;
+    if(result[0].msg === "Thành công"){
+        let { id, user_id } = profile;
+        let {email, phone} = user;
+        let jour_card_id = profile.journalist_card[0]?.id;
+        let user_degree_id = profile?.user_degree[0]?.id;
+        let {personal_history, party, organization, training_fostering, reward_discipline,
+            family_relationship, can_action, state} = profile;
+            yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
+            yield put(setStatus({state,can_action}))
+            yield put(setPersonalHistory(personal_history))
+            yield put(getParty(party))
+            yield put(setOrganization(organization))
+            yield put(setTrainingFostering(training_fostering))
+            yield put(setRewardDiscipline(reward_discipline))
+            yield put(setFamilyRelationship(mappingFamilyRelationship(family_relationship)))
+            let profileUser = mappingProfileAPI(profile)
+            profileUser["email"] = email;
+            profileUser["soDienThoai"] = phone;
+            let {phongBanCVObj} = profileUser;
+            // console.log(phongBanCVObj)
+            if(phongBanCVObj.length > 0){
+                yield put(addPBCV(phongBanCVObj))
+            }
+            // console.log(profile)
+            yield put(setValues(profileUser));
+            yield put(setIsLoading(false))
+    } else {
+            yield put(setIsNavigate(true))
     }
 }
 
@@ -110,6 +146,8 @@ function* getAvatar(payload) {
         if(avatar?.type === "3x4" && avatar.resource !== null){
             let { content } = avatar.resource;
             yield put(setAvatar(content));
+        } else {
+            yield put(setAvatar(""))
         }
         // let index = avatar.resource_content.length - 1;
     } else {
@@ -147,6 +185,49 @@ function* deleteDepPos(payload) {
     yield call(deleteDepPosAPI, dep_pos_id);
 }
 
+function* getProfileByTOKEN(){
+    let result_token = yield call(getProfileByToken);
+    if(result_token.message === "Success"){
+        let proID = result_token.data.profile.id;
+        let {email , phone: soDienThoai} = result_token.data;
+        const { status, data: { data, message } } = yield call(getProfileByID_API, proID);
+        if (status === 200 && message === "Success") {
+            // console.log(data)
+            let { id, user_id } = data;
+            let jour_card_id = data.journalist_card[0]?.id;
+            let user_degree_id = data?.user_degree[0]?.id;
+            let {personal_history, party, organization, training_fostering, reward_discipline,
+                family_relationship, can_action, state} = data;
+            // put pro_id và user_id lên reducer quản lý
+            yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
+            yield put(setStatus({state,can_action}))
+            yield put(setPersonalHistory(personal_history))
+            yield put(getParty(party))
+            yield put(setOrganization(organization))
+            yield put(setTrainingFostering(training_fostering))
+            yield put(setRewardDiscipline(reward_discipline))
+            yield put(setFamilyRelationship(mappingFamilyRelationship(family_relationship)))
+            // Thành công thì put lên reducer quản lý => render lại trang
+            let profile = mappingProfileAPI(data)
+            profile["email"] = email;
+            profile["soDienThoai"] = soDienThoai;
+            let {phongBanCVObj} = profile;
+            // console.log(phongBanCVObj)
+            if(phongBanCVObj.length > 0){
+                yield put(addPBCV(phongBanCVObj))
+            }
+            // console.log(profile)
+            yield put(setValues(profile));
+            yield put(setIsLoading(false))
+        } else {
+            // failed thì chuyển trang đến 404 Page (url fail: /api/profile/:id
+            // id trên url này không tồn tại trên DB )
+            yield put(setIsNavigate(true))
+        }
+    }
+    
+}
+
 export default function* Profile() {
     yield takeEvery(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
@@ -154,4 +235,6 @@ export default function* Profile() {
     yield takeLatest(GET_AVATAR, getAvatar)
     yield takeLatest(ONLY_CREATE_PROFILE, onlyCreateProfile)
     yield takeLatest(DELETE_DEP_POS, deleteDepPos)
+    yield takeLatest(GET_PROFILE_BY_USER_ID, getProfileByUserID)
+    yield takeLatest(GET_PROFILE_BY_TOKEN, getProfileByTOKEN)
 }
