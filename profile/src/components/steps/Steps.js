@@ -13,13 +13,14 @@ import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
 import { moveToNextStep, setIsDone, setIsNextStep, setMessageAlert, setUserProfileID } from '../../redux/Steps/stepsSlice';
 import { useParams } from 'react-router-dom';
-import { GET_AVATAR, GET_PROFILE_BY_ID } from '../../title/title';
+import { GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
 import { removePBCV, setAction, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setIsSubmit, setValues } from '../../redux/Steps/step1/step1Slice';
 import { clearParty } from '../../redux/Steps/step3.slice';
 import jwt_decode from "jwt-decode";
 import {TOKEN} from "../../title/title"
+import { userInforEmpty } from '../../ultils/defaultUserInfor';
 
 export default function StepsAntd() {
 
@@ -31,8 +32,8 @@ export default function StepsAntd() {
   let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
   const { isLoading } = useSelector(state => state.loadingReducer);
   let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
-  let { proID, userID } = useParams();
-  // console.log(proID, user_id)
+  let { proID, userID, User_ID } = useParams();
+  console.log(proID, userID, User_ID)
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
@@ -62,6 +63,8 @@ export default function StepsAntd() {
         });
         dispatch(setIsOnLyCreateProfile(false))
         dispatch(setIsLoading(true));
+      } else if(User_ID) {
+        dispatch(setIsCreateProfile(false))
       } else {
         dispatch(setIsCreateProfile(true))
       }
@@ -75,6 +78,22 @@ export default function StepsAntd() {
         dispatch(setUserProfileID({user_id: userID}))
       }
     },[userID])
+
+    useEffect(()=>{
+      // User_ID là id của thông tin cá nhân
+      if(User_ID){
+        let newUser_ID = parseInt(User_ID);
+        dispatch(setUserProfileID({user_id: newUser_ID}))
+        dispatch({
+          type: GET_PROFILE_BY_TOKEN
+        })
+        // ben dưới là dispatch lấy profile theo user_id mốt có cần thì mở ra xài
+        // dispatch({
+        //   type: GET_PROFILE_BY_USER_ID,
+        //   User_ID: newUser_ID
+        // })
+      }
+    }, [User_ID])
 
     useEffect(()=>{
       if(user_id){
@@ -103,6 +122,7 @@ export default function StepsAntd() {
         dispatch(clearParty());
         dispatch(setIsDone(false));
         dispatch(setIsSubmit(false))
+        dispatch(setValues(userInforEmpty))
       }
     },[])
     
@@ -164,21 +184,8 @@ export default function StepsAntd() {
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
           if(proID && proID !== undefined){
-            if(decoded.id === user_id && status.can_action){
-              if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
-                  return <>
-                  <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                      dispatch(setIsSubmit(true))
-                      dispatch(setAction("save"))
-                  }}>Save</button>
-                  <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
-                      dispatch(setIsSubmit(true))
-                      dispatch(setAction("send"))
-                  }}>Send</button>
-                </>
-              }
-            } else if(decoded.id !== user_id && status.can_action) {
-              if(status.state === "SENDING" || status.state === "SAVED"){
+            if(decoded.id !== user_id && status.can_action){
+                if(status.state === "SENDING" || status.state === "SAVED"){
                   return <>
                     <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
                         dispatch(setIsSubmit(true))
@@ -195,11 +202,20 @@ export default function StepsAntd() {
                 </>
               }
             }
-          } else {
-              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
-                  dispatch(setIsSubmit(true))
-              }}>Tạo</button>
-          } 
+          } else if(decoded.id === user_id && status.can_action){
+            if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
+                return <>
+                <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                    dispatch(setIsSubmit(true))
+                    dispatch(setAction("save"))
+                }}>Save</button>
+                <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                    dispatch(setIsSubmit(true))
+                    dispatch(setAction("send"))
+                }}>Send</button>
+              </>
+            }
+          }
       } else if(nextStep === 2){
           if(party.length > 0){
               return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{

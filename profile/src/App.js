@@ -26,6 +26,7 @@ function App() {
                 <Route path="/hr/profile/:proID" element={<StepsAntd />} />
                 <Route path="/hr/profile/create" element={<StepsAntd />} />
                 <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
+                <Route path="/myprofile/:User_ID" element={<StepsAntd />} />
 
                 <Route path="/hr/department" element={<TableDep />} />
                 <Route path="/hr/position" element={<TablePositions />} />
@@ -44,6 +45,7 @@ function App() {
               <Route path="/hr/profile/:proID" element={<StepsAntd />} />
               <Route path="/hr/profile/create" element={<StepsAntd />} />
               <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
+              <Route path="/myprofile/:User_ID" element={<StepsAntd />} />
 
               <Route path="/hr/department" element={<TableDep />} />
               <Route path="/hr/position" element={<TablePositions />} />

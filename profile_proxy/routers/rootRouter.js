@@ -23,6 +23,7 @@ const { importUser } = require("../controller/UploadFileImport.controller");
 
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter)
+rootRouter.use("/profiles", profileRouter)
 rootRouter.use("/departments", depRouter)
 rootRouter.use("/positions", positionRouter)
 rootRouter.use("/parts", partRouter)
