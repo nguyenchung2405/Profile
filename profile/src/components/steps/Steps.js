@@ -87,6 +87,7 @@ export default function StepsAntd() {
         dispatch({
           type: GET_PROFILE_BY_TOKEN
         })
+        dispatch(setIsLoading(true))
         // ben dưới là dispatch lấy profile theo user_id mốt có cần thì mở ra xài
         // dispatch({
         //   type: GET_PROFILE_BY_USER_ID,
