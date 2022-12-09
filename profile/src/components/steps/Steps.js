@@ -181,7 +181,7 @@ export default function StepsAntd() {
       content: <Step9 />,
     },
   ];
-
+  
   const showButton = ()=>{
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
@@ -217,7 +217,7 @@ export default function StepsAntd() {
                     }}>Send</button>
                   </>
                 }
-            } else if(!proID) {
+            } else if(status.state !== "ACTIVE" && proID === undefined) {
               return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                   dispatch(setIsSubmit(true))
               }}>Tạo</button>
