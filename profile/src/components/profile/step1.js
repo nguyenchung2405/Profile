@@ -6,7 +6,7 @@ import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setIsSubmit, setNoi
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
@@ -143,6 +143,7 @@ export default function SoYeuLyLich(props) {
     }, [isNavigateTo404])
     
     useEffect(()=>{
+        // console.log(status, isOnLyCreateProfile, isCreateProfile)
         if(isSubmit){
             // console.log("isSubmit true")
             let isNextStep = checkValueForm();
@@ -152,7 +153,7 @@ export default function SoYeuLyLich(props) {
                 dispatch(setIsSubmit(false))
            } else if(isNextStep){
             // console.log(isOnLyCreateProfile, isCreateProfile)
-                if(!isCreateProfile && !isOnLyCreateProfile){
+                if(!isCreateProfile && !isOnLyCreateProfile && status.can_action === true){
                     // console.log("Cập nhật profile")
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
@@ -171,6 +172,14 @@ export default function SoYeuLyLich(props) {
                         type: ONLY_CREATE_PROFILE,
                         valuesCreate: { valueForm, user_id, navigate }
                     })
+                } else if(!isCreateProfile && !isOnLyCreateProfile && status.state === "ACTIVE" && status["can_action"] === false) {
+                    // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
+                    let newValueForm = {...valueForm};
+                    newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+                    dispatch({
+                        type: UPDATE_PROFILE_ACTIVE,
+                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate}
+                    });
                 }
             }
         }

@@ -1,7 +1,7 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE } from "../title/title";
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from "../title/title";
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
-import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfile_API } from "./API/profileAPI";
+import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
@@ -102,7 +102,7 @@ function* updateProfile(payload){
     yield put(setValues(rest))
     let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)
     let msg = profileUpdated.data[0]?.msg;
-    console.log(msg)
+    // console.log(msg)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
         if(action === "send" || action === "reject"){
@@ -111,6 +111,25 @@ function* updateProfile(payload){
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
         yield put(setIsSubmit(false))
+    }
+}
+
+function* updateProfileActive(payload){
+    const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
+        navigate } = payload.valuesUpdate;
+    let {phongBanCVObj , ...rest} = newValueForm;
+    let depPos = mappingDepartmentPosition(newValueForm);
+    let userDegree = mappingUserDegree(newValueForm);
+    let jourCard = mappingJournalistCard(newValueForm);
+    let dataToUpdate = { userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
+    yield put(setIsNextStep(true))
+    yield put(setValues(rest))    
+    let profileUpdated = yield call(updateProfileActiveAPI, dataToUpdate)
+    let msg = profileUpdated.data[0]?.msg;
+    if(msg === "Thành công"){
+        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+    } else {
+        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
     }
 }
 
@@ -231,6 +250,7 @@ function* getProfileByTOKEN(){
 export default function* Profile() {
     yield takeEvery(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
+    yield takeLatest(UPDATE_PROFILE_ACTIVE, updateProfileActive)
     yield takeLatest(CREATE_PROFILE, createProfile)
     yield takeLatest(GET_AVATAR, getAvatar)
     yield takeLatest(ONLY_CREATE_PROFILE, onlyCreateProfile)

@@ -37,6 +37,7 @@ rootRouter.use("/family-relationship", familyRelationshipRouter)
 
 rootRouter.get("/users/users/me", getUserInfor)
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
+rootRouter.put("/profiles/updateactive", checkUserID, update_dep_pos_degress_jourCard)
 rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);
 rootRouter.post("/create/profile", checkUserID, createProfile, create_dep_pos_degree_jourCard);

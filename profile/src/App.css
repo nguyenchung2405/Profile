@@ -189,8 +189,8 @@ div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-step
     background-color: #35794a;
 }
 
-.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content,
-.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content {
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content a,
+.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content a{
     color: white;
     font-size: 16px;
 }
@@ -225,11 +225,11 @@ div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-step
     transition: all .3s;
 }
 
-.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-active span.ant-menu-title-content a,
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected svg, 
-.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover span.ant-menu-title-content,
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover span.ant-menu-title-content a,
 .sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item:hover svg,
-.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected span.ant-menu-title-content{
+.sidebar_SubMenu__XZeb6 ul li.ant-menu-submenu ul.ant-menu .ant-menu-item-selected span.ant-menu-title-content a{
     color: black;
 }
 

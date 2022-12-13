@@ -1,7 +1,7 @@
 import React from 'react'
 import { Menu } from "antd"
 import { MdPeopleOutline } from "react-icons/md"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsFileEarmarkFill } from "react-icons/bs"
 import { FcDepartment } from "react-icons/fc"
 import { checkMicroFe } from '../../ultils/helper';
@@ -78,10 +78,10 @@ export default function SubMenu() {
 
     const items = [
         getItem("Nhân sự", "sub1", <MdPeopleOutline />, [
-            getItem("Hồ sơ", "1", <BsFileEarmarkFill />),
-            getItem("Bộ phận công tác", "2", <FcDepartment />),
-            getItem("Chức danh, chức vụ", "3", positionItem()),
-            getItem("Thông tin cá nhân", "4", <ImProfile />)
+            getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />),
+            getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />),
+            getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", positionItem()),
+            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />)
         ])
     ]
 
@@ -91,19 +91,6 @@ export default function SubMenu() {
                 // defaultOpenKeys={[`sub1`]}
                 mode='inline'
                 items={items}
-                onClick={(e) => {
-                    if (e.key === "1") {
-                        navigate(`${uri}/hr/profile`)
-                    } else if (e.key === "2") {
-                        navigate(`${uri}/hr/department`)
-                    } else if (e.key === "3") {
-                        navigate(`${uri}/hr/position`);
-                    } else if(e.key === "4"){
-                        let decoded = jwt_decode(TOKEN);
-                        let {id} = decoded;
-                        navigate(`${uri}/myprofile/${id}`)
-                    }
-                }}
             />
         </div>
     )
