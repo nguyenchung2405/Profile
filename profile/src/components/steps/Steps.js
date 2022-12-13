@@ -181,7 +181,7 @@ export default function StepsAntd() {
       content: <Step9 />,
     },
   ];
-  console.log(status)
+  // console.log(status)
   const showButton = ()=>{
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
