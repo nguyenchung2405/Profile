@@ -181,54 +181,50 @@ export default function StepsAntd() {
       content: <Step9 />,
     },
   ];
-  // console.log(status)
+  console.log(status)
   const showButton = ()=>{
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
-          if(proID && proID !== undefined){
-              if(decoded.id !== user_id && status.can_action){
-                  if(status.state === "SENDING" || status.state === "SAVED"){
-                      return <>
-                        <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                            dispatch(setIsSubmit(true))
-                            dispatch(setAction("save"))
-                        }}>Save</button>
-                        <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
-                            dispatch(setIsSubmit(true))
-                            dispatch(setAction("send"))
-                        }}>Send</button>
-                        <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
-                            dispatch(setIsSubmit(true))
-                            dispatch(setAction("reject"))
-                        }}>Rejcet</button>
-                    </>
-                  }
-              } else if(decoded.id === user_id && status.can_action){
-                if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
-                    return <>
-                    <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                        dispatch(setIsSubmit(true))
-                        dispatch(setAction("save"))
-                    }}>Save</button>
-                    <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
-                        dispatch(setIsSubmit(true))
-                        dispatch(setAction("send"))
-                    }}>Send</button>
-                  </>
+            if(proID && proID !== undefined){
+                if(decoded.id !== user_id && status.can_action){
+                    if(status.state === "SENDING" || status.state === "SAVED"){
+                        return <>
+                          <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                              dispatch(setIsSubmit(true))
+                              dispatch(setAction("save"))
+                          }}>Save</button>
+                          <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                              dispatch(setIsSubmit(true))
+                              dispatch(setAction("send"))
+                          }}>Send</button>
+                          <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
+                              dispatch(setIsSubmit(true))
+                              dispatch(setAction("reject"))
+                          }}>Rejcet</button>
+                      </>
+                    }
                 }
-              } else if(status.state === "ACTIVE" && status.can_action === false) {
+            } else if(decoded.id === user_id && status.can_action){
+              if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
+                  return <>
+                  <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                      dispatch(setAction("save"))
+                  }}>Save</button>
+                  <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                      dispatch(setAction("send"))
+                  }}>Send</button>
+                </>
+              }
+            } else if(status.state !== "ACTIVE" && proID === undefined) {
+                return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+                    dispatch(setIsSubmit(true))
+                }}>Tạo</button>
+            } else if(status.state === "ACTIVE" && status["can_action"] === false) {
                 return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
                     dispatch(setIsSubmit(true))
                 }}>Cập nhật</button>
-              }
-            } else if(status.state !== "ACTIVE" && proID === undefined) {
-              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
-                  dispatch(setIsSubmit(true))
-              }}>Tạo</button>
-            } else if(status.state === "ACTIVE" && status["can_action"] === false) {
-              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
-                  dispatch(setIsSubmit(true))
-              }}>Cập nhật</button>
             }
       } else if(nextStep === 2){
           if(party.length > 0){
