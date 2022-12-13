@@ -79,14 +79,14 @@ export async function getUserList_API(page,pageSize){
 export function getDepPosList_API(){
     try {
         const res_dep =  axios({
-            url: `${local}/api/departments?per_page=150`,
+            url: `${local}/api/departments?per_page=300`,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
             }
         });
         const res_pos =  axios({
-            url: `${local}/api/positions?per_page=150`,
+            url: `${local}/api/positions?per_page=200`,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN

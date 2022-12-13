@@ -4,7 +4,7 @@ import {local , TOKEN} from "../../title/title"
 export async function getDepPosToSearch(){
     try {
         const depList = axios({
-            url: `${local}/api/departments/?page_size=200&page=1`,
+            url: `${local}/api/departments/?page_size=300&page=1`,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
