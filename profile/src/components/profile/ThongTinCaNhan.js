@@ -6,13 +6,14 @@ import { handleDateTime } from '../../ultils/helper';
 export default function ThongTinCaNhan(props) {
 
     let {setValueIntoForm, handleChangeGetValueInput, valueForm, setValueForm,
-        validateField, validateForm, showRequiredAlert, setValidateForm} = props;
+        validateField, validateForm, showRequiredAlert, setValidateForm, disabledInput} = props;
 
   return (
     <>
         <div className="SYLL__right__field">
         <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span></label>
         <input id="canCuocCD" name="canCuocCD" type="text" 
+        disabled={disabledInput()}
         value={setValueIntoForm("canCuocCD")}
         onBlur={validateField}
         onChange={(e)=>{
@@ -24,6 +25,7 @@ export default function ThongTinCaNhan(props) {
             <div className="fisrt__content ngayThamGiaCM">
                 <label >Ngày cấp:<span className="required__field"> *</span></label>
                 <DatePicker 
+                disabled={disabledInput()}
                 value={
                     valueForm.ngayCapCCCD !== "" && valueForm.ngayCapCCCD !== undefined && valueForm.ngayCapCCCD !== null
                     ? handleDateTime(valueForm.ngayCapCCCD)
@@ -58,7 +60,8 @@ export default function ThongTinCaNhan(props) {
             <div className="second__content toChuc">
                 <label htmlFor="noiCapCCCD">Nơi cấp:
                 </label>
-                <input id="noiCapCCCD" name="noiCapCCCD" type="text" 
+                <input id="noiCapCCCD" name="noiCapCCCD" type="text"
+                disabled={disabledInput()} 
                 value={setValueIntoForm("noiCapCCCD")}
                 onChange={(e)=>{
                     handleChangeGetValueInput(e)
@@ -71,6 +74,7 @@ export default function ThongTinCaNhan(props) {
                         <span className="required__field"> *</span> 
                     </label>
                     <input id="danToc" name="danToc" type="text" 
+                    disabled={disabledInput()}
                     value={setValueIntoForm("danToc")}
                     onBlur={validateField}
                     onChange={(e)=>{
@@ -82,6 +86,7 @@ export default function ThongTinCaNhan(props) {
                     <label htmlFor="tonGiao">Tôn giáo:
                     </label>
                     <input id="tonGiao" name="tonGiao" type="text" 
+                    disabled={disabledInput()}
                     value={setValueIntoForm("tonGiao")}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e)
@@ -93,6 +98,7 @@ export default function ThongTinCaNhan(props) {
                 <span className="required__field"> *</span>
             </label>
             <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" type="text"
+            disabled={disabledInput()}
             value={setValueIntoForm("thanhPhanXuatThan")} 
             onBlur={validateField}
             onChange={(e)=>{
@@ -103,6 +109,7 @@ export default function ThongTinCaNhan(props) {
         <div className="SYLL__right__field">
             <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
             <input id="ngheNghiep" name="ngheNghiep" type="text" 
+            disabled={disabledInput()}
             value={setValueIntoForm("ngheNghiep")}
             onChange={(e)=>{
                 handleChangeGetValueInput(e)

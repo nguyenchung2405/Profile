@@ -21,7 +21,8 @@ export default function SoYeuLyLich(props) {
     const { Option } = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id } } = useSelector(state => state.stepsReducer);
+    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id },
+    status } = useSelector(state => state.stepsReducer);
     let { phongBanChucVuArr, values, noiSinhTinh,
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan, queQuanHuyen,
         noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile, isNavigateTo404,
@@ -222,6 +223,17 @@ export default function SoYeuLyLich(props) {
     });
     // console.log(validateForm)
     // console.log(valueForm)
+
+    const disabledInput = () => {
+        let isDisabled;
+        let {state} = status;
+        if(state === "ACTIVE"){
+            isDisabled = true
+        } else {
+            isDisabled = false
+        }
+        return isDisabled;
+    }
 
     const renderTinh = (fieldName = "noiSinh") => {
         if (fieldName === "noiSinh") {
@@ -630,6 +642,7 @@ export default function SoYeuLyLich(props) {
                     setValidateForm={setValidateForm}
                     setValueForm={setValueForm}
                     handleChangeValueRadio={handleChangeValueRadio}
+                    disabledInput={disabledInput}
                 />
                 <div className="SYLL__left__field noiSinh">
                     <label>Nơi sinh:<span className="required__field"> *</span></label>
@@ -650,6 +663,7 @@ export default function SoYeuLyLich(props) {
                         renderQuan={renderQuan}
                         renderHuyen={renderHuyen}
                         showRequiredAlert={showRequiredAlert}
+                        disabledInput={disabledInput}
                     />
                     {valueForm.noiSinh?.huyen && valueForm.noiSinh?.quan && valueForm.noiSinh?.tinh
                         ? <p>{`${valueForm.noiSinh.huyen}, ${valueForm.noiSinh.quan}, ${valueForm.noiSinh.tinh}`}</p>
@@ -677,6 +691,7 @@ export default function SoYeuLyLich(props) {
                         getValueSelect_QueQuan_Quan_TP={getValueSelect_QueQuan_Quan_TP}
                         getValueSelect_QueQuan_Huyen={getValueSelect_QueQuan_Huyen}
                         showRequiredAlert={showRequiredAlert}
+                        disabledInput={disabledInput}
                     />
                     {valueForm.queQuan?.huyen && valueForm.queQuan?.quan && valueForm.queQuan?.tinh
                         ? <p>{`${valueForm.queQuan.huyen}, ${valueForm.queQuan.quan}, ${valueForm.queQuan.tinh}`}</p>
@@ -699,7 +714,8 @@ export default function SoYeuLyLich(props) {
                     showRequiredAlert={showRequiredAlert}
                     getValueSelect_HoKhau_Tinh_TP={getValueSelect_HoKhau_Tinh_TP}
                     getValueSelect_HoKhau_Quan_TP={getValueSelect_HoKhau_Quan_TP}
-                    getValueSelect_HoKhau_Huyen={getValueSelect_HoKhau_Huyen} />
+                    getValueSelect_HoKhau_Huyen={getValueSelect_HoKhau_Huyen}
+                    disabledInput={disabledInput} />
             </div>
             <div className="SoYeuLyLich__right">
                 <ThongTinCaNhan
@@ -710,7 +726,8 @@ export default function SoYeuLyLich(props) {
                     setValueForm={setValueForm}
                     validateField={validateField}
                     validateForm={validateForm}
-                    showRequiredAlert={showRequiredAlert} />
+                    showRequiredAlert={showRequiredAlert}
+                    disabledInput={disabledInput} />
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content hocVan">
                         <label htmlFor="hocVan">Trình độ học vấn:

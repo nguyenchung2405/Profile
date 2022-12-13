@@ -7,7 +7,7 @@ export default function ThongTinCoBan(props) {
 
     let {setValueIntoForm, validateField, handleChangeGetValueInput, 
         validateForm, showRequiredAlert, valueForm, setValidateForm,
-        setValueForm, handleChangeValueRadio} = props;
+        setValueForm, handleChangeValueRadio, disabledInput} = props;
 
   return (
     <div>
@@ -16,6 +16,7 @@ export default function ThongTinCoBan(props) {
             <span className="required__field"> *</span>
         </label>
         <input id="hoTen" name="hoTen" type="text"
+        disabled={disabledInput()}
         value={setValueIntoForm("hoTen")} 
         onBlur={validateField}
         onChange={(e)=>{
@@ -31,6 +32,7 @@ export default function ThongTinCoBan(props) {
         <div className="SYLL__left__field">
             <label htmlFor='tenThuongGoi'>Tên thường gọi:</label>
             <input id="tenThuongGoi" name="tenThuongGoi" type="text" 
+            disabled={disabledInput()}
             value={setValueIntoForm("tenThuongGoi")}
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
@@ -41,6 +43,7 @@ export default function ThongTinCoBan(props) {
                 <span className="required__field"> *</span>
             </label>
             <input id="email" name="email" type="text"
+            disabled={disabledInput()}
             value={setValueIntoForm("email")} 
             onBlur={validateField}
             onChange={(e)=>{
@@ -53,6 +56,7 @@ export default function ThongTinCoBan(props) {
                 <span className="required__field"> *</span>
             </label>
             <input id="soDienThoai" name="soDienThoai" type="text"
+            disabled={disabledInput()}
             value={setValueIntoForm("soDienThoai")} 
             onBlur={validateField}
             onChange={(e)=>{
@@ -63,6 +67,7 @@ export default function ThongTinCoBan(props) {
         <div className="SYLL__left__field">
             <label htmlFor='soDienThoaiNoiBo'>Số điện thoại nội bộ:</label>
             <input id="soDienThoaiNoiBo" name="soDienThoaiNoiBo" type="text"
+            disabled={disabledInput()}
             value={setValueIntoForm("soDienThoaiNoiBo")} 
             onBlur={validateField}
             onChange={(e)=>{
@@ -72,6 +77,7 @@ export default function ThongTinCoBan(props) {
         <div className="SYLL__left__field birthday">
             <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
             <DatePicker 
+                disabled={disabledInput()}
                 value={
                     valueForm.ngayThangNamSinh !== "" && valueForm.ngayThangNamSinh !== null
                     ? handleDateTime(valueForm.ngayThangNamSinh)
@@ -122,7 +128,10 @@ export default function ThongTinCoBan(props) {
         </div>
         <div className="SYLL__left__field gender">
             <label>Giới tính:</label>
-                <Radio.Group onChange={handleChangeValueRadio} value={setValueIntoForm("gioiTinh")}>
+                <Radio.Group 
+                disabled={disabledInput()} 
+                onChange={handleChangeValueRadio} 
+                value={setValueIntoForm("gioiTinh")}>
                     <Radio value={1}>Nam</Radio>
                     <Radio value={2}>Nữ</Radio>
                     <Radio value={3}>Khác</Radio>
