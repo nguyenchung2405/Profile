@@ -85,13 +85,21 @@ export default function SubMenu() {
         ])
     ]
 
-    return (
-        <div className="sidebar_SubMenu__XZeb6">
+    const renderSubMenu  = ()=>{
+        if(uri === "profile-service"){
+            return items;
+        } else {
+            return <div className="sidebar_SubMenu__XZeb6">
             <Menu
                 // defaultOpenKeys={[`sub1`]}
                 mode='inline'
                 items={items}
             />
-        </div>
+            </div>
+        }
+    }
+
+    return (
+       <>{renderSubMenu()}</>
     )
 }
