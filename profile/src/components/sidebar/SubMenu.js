@@ -1,19 +1,16 @@
 import React from 'react'
 import { Menu } from "antd"
 import { MdPeopleOutline } from "react-icons/md"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BsFileEarmarkFill } from "react-icons/bs"
 import { FcDepartment } from "react-icons/fc"
 import { checkMicroFe } from '../../ultils/helper';
 import {ImProfile} from "react-icons/im"
 import jwt_decode from "jwt-decode";
 import {TOKEN} from "../../title/title"
-import { useDispatch } from 'react-redux';
-import { setIsLoading } from '../../redux/Slice/loading';
 
 export default function SubMenu() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
+    
     let uri = checkMicroFe() === true ? "profile-service" : "";
 
     const getItem = (label, key, icon, children) => {
