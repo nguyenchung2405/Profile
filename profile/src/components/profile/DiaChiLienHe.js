@@ -4,8 +4,8 @@ import { Select } from 'antd';
 export default function DiaChiLienHe({valueForm, setValidateForm, validateForm, setValueForm
 , getValueSelect_NoiO_Tinh_TP, renderTinh, getValueSelect_NoiO_Quan_TP,
 renderQuan, getValueSelect_NoiO_Huyen, renderHuyen, showRequiredAlert,
-getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoKhau_Huyen}) {
-
+getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoKhau_Huyen, disabledInput}) {
+   
     const {Option} = Select;
 
   return (
@@ -15,6 +15,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         <span className="required__field"> *</span>
     </label>
     <input id="NoiOHienTai" name="diaChi" type="text" 
+    disabled={disabledInput()}
     value={valueForm.noiOHienTai.diaChi !== "" 
         ? valueForm.noiOHienTai.diaChi
         : ""
@@ -41,6 +42,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         })
     }} />
     <Select
+    disabled={disabledInput()}
     value={valueForm.noiOHienTai?.tinh !== ""
         ? valueForm.noiOHienTai?.tinh
         : ""
@@ -57,6 +59,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderTinh("noiO")}
     </Select>
     <Select
+    disabled={disabledInput()}
     value={valueForm.noiOHienTai?.quan !== ""
         ? valueForm.noiOHienTai?.quan
         : ""
@@ -73,6 +76,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderQuan("noiO")}
     </Select>
     <Select
+    disabled={disabledInput()}
     value={valueForm?.noiOHienTai?.huyen !== ""
         ? valueForm?.noiOHienTai?.huyen
         : ""
@@ -98,6 +102,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         <span className="required__field"> *</span>
     </label>
     <input id="hoKhauThuongTru" name="diaChi" type="text" 
+    disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.diaChi !== "" 
         ? valueForm.hoKhauThuongTru.diaChi
         : ""
@@ -124,6 +129,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         })
     }} />
     <Select
+    disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.tinh !== ""
         ? valueForm.hoKhauThuongTru.tinh
         : ""
@@ -140,6 +146,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderTinh("hoKhau")}
     </Select>
     <Select
+    disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.quan !== ""
         ? valueForm.hoKhauThuongTru.quan
         : ""
@@ -156,6 +163,7 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderQuan("hoKhau")}
     </Select>
     <Select
+    disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.huyen !== ""
         ? valueForm.hoKhauThuongTru.huyen
         : ""

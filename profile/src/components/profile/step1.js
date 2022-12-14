@@ -6,7 +6,7 @@ import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setIsSubmit, setNoi
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE } from '../../title/title';
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
@@ -21,7 +21,8 @@ export default function SoYeuLyLich(props) {
     const { Option } = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id } } = useSelector(state => state.stepsReducer);
+    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id },
+    status } = useSelector(state => state.stepsReducer);
     let { phongBanChucVuArr, values, noiSinhTinh,
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan, queQuanHuyen,
         noiOTinh, noiOQuan, noiOHuyen, isCreateProfile, isOnLyCreateProfile, isNavigateTo404,
@@ -142,6 +143,7 @@ export default function SoYeuLyLich(props) {
     }, [isNavigateTo404])
     
     useEffect(()=>{
+        // console.log(status, isOnLyCreateProfile, isCreateProfile)
         if(isSubmit){
             // console.log("isSubmit true")
             let isNextStep = checkValueForm();
@@ -151,7 +153,7 @@ export default function SoYeuLyLich(props) {
                 dispatch(setIsSubmit(false))
            } else if(isNextStep){
             // console.log(isOnLyCreateProfile, isCreateProfile)
-                if(!isCreateProfile && !isOnLyCreateProfile){
+                if(!isCreateProfile && !isOnLyCreateProfile && status.can_action === true){
                     // console.log("Cập nhật profile")
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
@@ -170,6 +172,14 @@ export default function SoYeuLyLich(props) {
                         type: ONLY_CREATE_PROFILE,
                         valuesCreate: { valueForm, user_id, navigate }
                     })
+                } else if(!isCreateProfile && !isOnLyCreateProfile && status.state === "ACTIVE" && status["can_action"] === false) {
+                    // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
+                    let newValueForm = {...valueForm};
+                    newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+                    dispatch({
+                        type: UPDATE_PROFILE_ACTIVE,
+                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate}
+                    });
                 }
             }
         }
@@ -222,6 +232,17 @@ export default function SoYeuLyLich(props) {
     });
     // console.log(validateForm)
     // console.log(valueForm)
+
+    const disabledInput = () => {
+        let isDisabled;
+        let {state} = status;
+        if(state === "ACTIVE"){
+            isDisabled = true
+        } else {
+            isDisabled = false
+        }
+        return isDisabled;
+    }
 
     const renderTinh = (fieldName = "noiSinh") => {
         if (fieldName === "noiSinh") {
@@ -630,6 +651,7 @@ export default function SoYeuLyLich(props) {
                     setValidateForm={setValidateForm}
                     setValueForm={setValueForm}
                     handleChangeValueRadio={handleChangeValueRadio}
+                    disabledInput={disabledInput}
                 />
                 <div className="SYLL__left__field noiSinh">
                     <label>Nơi sinh:<span className="required__field"> *</span></label>
@@ -650,6 +672,7 @@ export default function SoYeuLyLich(props) {
                         renderQuan={renderQuan}
                         renderHuyen={renderHuyen}
                         showRequiredAlert={showRequiredAlert}
+                        disabledInput={disabledInput}
                     />
                     {valueForm.noiSinh?.huyen && valueForm.noiSinh?.quan && valueForm.noiSinh?.tinh
                         ? <p>{`${valueForm.noiSinh.huyen}, ${valueForm.noiSinh.quan}, ${valueForm.noiSinh.tinh}`}</p>
@@ -677,6 +700,7 @@ export default function SoYeuLyLich(props) {
                         getValueSelect_QueQuan_Quan_TP={getValueSelect_QueQuan_Quan_TP}
                         getValueSelect_QueQuan_Huyen={getValueSelect_QueQuan_Huyen}
                         showRequiredAlert={showRequiredAlert}
+                        disabledInput={disabledInput}
                     />
                     {valueForm.queQuan?.huyen && valueForm.queQuan?.quan && valueForm.queQuan?.tinh
                         ? <p>{`${valueForm.queQuan.huyen}, ${valueForm.queQuan.quan}, ${valueForm.queQuan.tinh}`}</p>
@@ -699,7 +723,8 @@ export default function SoYeuLyLich(props) {
                     showRequiredAlert={showRequiredAlert}
                     getValueSelect_HoKhau_Tinh_TP={getValueSelect_HoKhau_Tinh_TP}
                     getValueSelect_HoKhau_Quan_TP={getValueSelect_HoKhau_Quan_TP}
-                    getValueSelect_HoKhau_Huyen={getValueSelect_HoKhau_Huyen} />
+                    getValueSelect_HoKhau_Huyen={getValueSelect_HoKhau_Huyen}
+                    disabledInput={disabledInput} />
             </div>
             <div className="SoYeuLyLich__right">
                 <ThongTinCaNhan
@@ -710,7 +735,8 @@ export default function SoYeuLyLich(props) {
                     setValueForm={setValueForm}
                     validateField={validateField}
                     validateForm={validateForm}
-                    showRequiredAlert={showRequiredAlert} />
+                    showRequiredAlert={showRequiredAlert}
+                    disabledInput={disabledInput} />
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content hocVan">
                         <label htmlFor="hocVan">Trình độ học vấn:

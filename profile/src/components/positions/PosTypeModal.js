@@ -11,7 +11,7 @@ export default function PosTypeModal(props) {
 
     const [valueField, setValueField] = useState({})
     const { positionTyleList, message: notification } = useSelector(state => state.positionReducer);
-    console.log(valueField)
+    // console.log(valueField)
     useEffect(() => {
         dispatch({
             type: GET_POSITION_TYPE_LIST

@@ -21,9 +21,26 @@ export async function updateProfile_API(valuesUpdate, action){
     try {
         // let {user_id, jour_card_id, user_degree_id, pro_id} = valuesUpdate;
         // console.log(user_id, jour_card_id, user_degree_id, pro_id)
-        console.log("update profile API",action)
+        // console.log("update profile API",action)
         const res = await axios({
             url: `${local}/api/profiles/update?action=${action}`,
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: valuesUpdate
+        })
+        return res;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
+
+export async function updateProfileActiveAPI(valuesUpdate){
+    try {
+        const res = await axios({
+            url: `${local}/api/profiles/updateactive`,
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + TOKEN

@@ -27,10 +27,10 @@ export default function TableDep() {
         /* lấy danh sách user về và render ra Table */
         dispatch({
             type: GET_DEPARTMENT_LIST,
-            table: {page,pageNumber}
+            table: {page:1,pageNumber:500}
         })
         dispatch(setIsLoading(true));
-    },[page,pageNumber,dispatch])
+    },[dispatch])
 
     useEffect(()=>{
       let addKeyToData = tableDepList.map((child,index)=>{
