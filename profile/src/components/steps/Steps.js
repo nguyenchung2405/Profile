@@ -217,7 +217,7 @@ export default function StepsAntd() {
                   }}>Send</button>
                 </>
               }
-            } else if(status.state !== "ACTIVE" && proID === undefined) {
+            } else if(status.state !== "SENDING" && proID === undefined) {
                 return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                     dispatch(setIsSubmit(true))
                 }}>Tạo</button>

@@ -27,7 +27,7 @@ const checkQuery = async (req, res, next) => {
                     Authorization: authorization
                 }
             });
-            // console.log(result)
+            // console.log(result.data)
             res.send(result.data);
         }
         // console.log("Xuống đây")
