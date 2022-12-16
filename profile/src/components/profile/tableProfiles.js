@@ -44,7 +44,7 @@ export default function TableProfiles() {
             data: {search, page, pageNumber}
           })
       } else {
-          // console.log("call tại đây")
+          console.log("call tại đây")
           dispatch({
             type: GET_USER_LIST,
             table: { page, pageNumber }
@@ -54,7 +54,8 @@ export default function TableProfiles() {
     }, [page, pageNumber, isSearch])
 
     useEffect(()=>{
-        if(search?.full_name === "" && search?.dep_ids === undefined && search?.pos_management_ids === undefined){
+        if(search?.full_name === "" && search?.dep_ids === undefined && search?.pos_management_ids === undefined && isSearch === true){
+          console.log("call tại đây 123123")
           dispatch({
             type: GET_USER_LIST,
             table: { page, pageNumber }

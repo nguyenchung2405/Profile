@@ -1,0 +1,16 @@
+.ant-modal-body .permission__transfer {
+    height: 300px;
+}
+
+.ant-modal-body .permission__transfer .ant-transfer-list {
+    width: calc((100% - 40px ) / 2);
+    height: 100%;
+}
+
+.ant-modal-body .permission__transfer__footer {
+    margin-top: 25px;
+}
+
+.ant-modal-body .permission__transfer__footer button:first-child {
+    margin-right: 10px;
+}
