@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Transfer, Modal } from 'antd';
-import "./permission.css"
+import "../permission.css"
+import { useDispatch } from 'react-redux';
+import { GET_PERMISSION_POSITION } from '../../../title/title';
 
-export default function PermissionPosition() {
+export default function PermissionPosition(props) {
+
+    const {isShowModal, setIsShowModal, pos_mana_id} = props;
+    const dispatch = useDispatch();
+    const [targetKeys, setTargetKeys] = useState([]);
     const data = [
       {
         "key": 4,
@@ -60,21 +66,40 @@ export default function PermissionPosition() {
         "created_at": "2022-12-13T13:28:11",
         "updated_at": "2022-12-13T13:28:11"
     }]
-    const [showModal, setShowModal] = useState(false)
-    const [targetKeys, setTargetKeys] = useState([]);
-    const [selectedKeys, setSelectedKeys] = useState([]);
     // console.log(targetKeys, selectedKeys)
+
+    {/**
+          // mảng gốc
+          let a = [1,2,3,6];
+          // mảng mới
+          let b = [1,2,4,5];
+          // phần tử đã bỏ ra khỏi mảng gôc => DELETE
+          let c = a.filter(item => !b.includes(item));
+          console.log(c) // [3,6]
+          // phần tử mới thêm => POST
+          let d = b.filter(item => !a.includes(item));
+          console.log(d) // [4,5]
+  */}
+
+    useEffect(()=>{
+        if(typeof pos_mana_id === "number"){
+            dispatch({
+              type: GET_PERMISSION_POSITION,
+              data: pos_mana_id
+            });
+        }
+    }, [pos_mana_id]);
+
     const onChange = (nextTargetKeys, direction, moveKeys) => {
       console.log('targetKeys:', nextTargetKeys);
       console.log('direction:', direction);
       console.log('moveKeys:', moveKeys);
       setTargetKeys(nextTargetKeys);
     };
-    const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-      console.log('sourceSelectedKeys:', sourceSelectedKeys);
-      console.log('targetSelectedKeys:', targetSelectedKeys);
-      setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-    };
+
+    const closeModal = ()=>{
+      setIsShowModal(false);
+    }
 
   return (
     <div>
@@ -84,8 +109,9 @@ export default function PermissionPosition() {
             closeIcon={<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.61719 6.5L13.4609 11.3438C13.5911 11.474 13.5911 11.6172 13.4609 11.7734L12.5625 12.6719C12.4062 12.8021 12.263 12.8021 12.1328 12.6719L11.3125 11.8125L7.28906 7.82812L2.44531 12.6719C2.3151 12.8021 2.17188 12.8021 2.01562 12.6719L1.11719 11.7734C0.986979 11.6172 0.986979 11.474 1.11719 11.3438L5.96094 6.5L1.11719 1.65625C0.986979 1.52604 0.986979 1.38281 1.11719 1.22656L2.01562 0.328125C2.17188 0.197917 2.3151 0.197917 2.44531 0.328125L7.28906 5.17188L12.1328 0.328125C12.263 0.197917 12.4062 0.197917 12.5625 0.328125L13.4609 1.22656C13.5911 1.38281 13.5911 1.52604 13.4609 1.65625L12.6016 2.47656L8.61719 6.5Z" fill="black"/>
             </svg>}
-            open={showModal}
+            open={isShowModal}
             footer={null}
+            onCancel={closeModal}
         >
             <Transfer
                 className="permission__transfer"
@@ -95,21 +121,19 @@ export default function PermissionPosition() {
                 showSearch
                 filterOption={(inputValue, option) => option.name.indexOf(inputValue) > -1}
                 targetKeys={targetKeys}
-                selectedKeys={selectedKeys}
                 onChange={onChange}
-                onSelectChange={onSelectChange}
                 render={item => item.name}    
             />
             <div className="alignCenter permission__transfer__footer">
                 <button type='button' className="dep__btn"
                   onClick={()=>{
-                      setShowModal(false)
+                      closeModal()
                   }}>
                       Tạo
                 </button>
                 <button type='button' className="dep__btn"
                   onClick={()=>{
-                    setShowModal(false)
+                    closeModal()
                   }}>
                     Cập nhật
                 </button>

@@ -6,7 +6,7 @@ import { Table, Popconfirm } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_POSITION_AND_MANAGEMENT, GET_POSITIONS_LIST } from "../../../title/title"
 import { setLoading, setMessage } from '../../../redux/Slice/positions.slice'
-import PermissionPosition from '../PermissionPosition'
+import PermissionPosition from './PermissionPosition'
 
 export default function TablePositionsPermission() {
 
@@ -17,11 +17,7 @@ export default function TablePositionsPermission() {
     const [pageNumber, setPageNumber] = useState(10);
     // State quản lý component PosModal 
     const [isShowModal, setIsShowModal] = useState(false)
-    const [dataToModal, setDataToModal] = useState({})
-    // State quản lý component PosTypeModal
-    const [isShowTypeModal, setIsShowTypeModal] = useState(false)
-    const [titleTypeModal, setTitleTypeModal] = useState("")
-    const [titlePosManageModal, setTitlePosManageModal] = useState("")
+    const [dataToModal, setDataToModal] = useState("");
 
     let { tablePosList, total, showLoading: showLoadingComponent } = useSelector(state => state.positionReducer)
 
@@ -99,9 +95,8 @@ export default function TablePositionsPermission() {
             render={(text, record) => {
               return <div className="thaoTac__Edit">
                 <button className="thaoTac__Edit__btn" onClick={() => {
-                  // setDataToModal(record)
-                  // setIsShowModal(true)
-                  // setTitlePosManageModal("Chỉnh sửa chức vụ")
+                    setDataToModal(record.id)
+                    setIsShowModal(true)
                 }}>
                   <SetPermissionIcon />
                 </button>
@@ -127,7 +122,10 @@ export default function TablePositionsPermission() {
             }}
           />
         </Table>
-        <PermissionPosition />
+        <PermissionPosition
+        pos_mana_id={dataToModal}
+        isShowModal={isShowModal} 
+        setIsShowModal={setIsShowModal} />
       </div>
     )
 }

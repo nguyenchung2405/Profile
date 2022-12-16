@@ -44,7 +44,7 @@ export default function TableProfiles() {
             data: {search, page, pageNumber}
           })
       } else {
-          console.log("call tại đây")
+          // console.log("call tại đây")
           dispatch({
             type: GET_USER_LIST,
             table: { page, pageNumber }

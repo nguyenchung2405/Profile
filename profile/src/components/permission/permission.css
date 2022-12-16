@@ -7,10 +7,54 @@
     height: 100%;
 }
 
-.ant-modal-body .permission__transfer__footer {
+.ant-modal-body .permission__transfer__footer,
+.ant-modal-body .permisstion__table__modal {
     margin-top: 25px;
 }
 
-.ant-modal-body .permission__transfer__footer button:first-child {
+.ant-modal-body .permission__transfer__footer button:first-child,
+.ant-modal-body .permisstion__table__modal button:first-child {
     margin-right: 10px;
+}
+
+.ant-modal-body .permission__modal__content {
+    text-align: center;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field {
+    margin-bottom: 10px;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field:last-child {
+    margin-bottom: 0;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field > label {
+    display: block;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field  > input,
+.permission__select {
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    width: 380px;
+    height: 40px;
+    outline: none;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field .ant-select-selector input {
+    height: 100%;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field .ant-select-selector .ant-select-selection-item {
+    line-height: 40px;
+}
+
+.ant-modal-body .permission__modal__content .permission__modal__field .ant-select-selector {
+    height: 100%;
+    background-color: #F0F5FA;
+    border-radius: 3px;
+    border-style: none;
+    outline: none;
 }
