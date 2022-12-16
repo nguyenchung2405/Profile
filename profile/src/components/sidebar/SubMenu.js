@@ -98,16 +98,13 @@ export default function SubMenu() {
             getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />),
             getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />),
             getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />),
-        ])
-    ]
-
-    const itemsPermission = [
+        ]),
         getItem("Quyền", "sub2", <PermissionMenu />, [
             getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement /> ),
             getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />),
 
         ])
-    ]
+    ];
 
     const renderSubMenu  = ()=>{
         if(uri === "profile-service"){
@@ -119,10 +116,6 @@ export default function SubMenu() {
                 mode='inline'
                 items={items}
             />
-            <Menu
-                mode='inline'
-                items={itemsPermission}
-             />
             </div>
         }
     }

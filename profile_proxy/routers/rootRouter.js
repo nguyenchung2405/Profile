@@ -20,6 +20,7 @@ const { rewardDisciplineRouter } = require("./rewardDisciplineRouter");
 const { familyRelationshipRouter } = require("./familyRelationshipRouter");
 const { uploadFileIport } = require("../middleware/importData.middleware");
 const { importUser } = require("../controller/UploadFileImport.controller");
+const { permissionRouter } = require("./permissionRouter");
 
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter)
@@ -34,6 +35,7 @@ rootRouter.use("/organization", organizationRouter)
 rootRouter.use("/training-fostering", trainingFosteringRouter)
 rootRouter.use("/reward-discipline", rewardDisciplineRouter)
 rootRouter.use("/family-relationship", familyRelationshipRouter)
+rootRouter.use("/permissions", permissionRouter)
 
 rootRouter.get("/users/users/me", getUserInfor)
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
