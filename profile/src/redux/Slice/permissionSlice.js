@@ -3,7 +3,8 @@ import {createSlice, current} from "@reduxjs/toolkit";
 const initialState = {
     permissionList: [],
     total: 0,
-    messageAlert: {type: "", msg:""}
+    messageAlert: {type: "", msg:""},
+    tableManagement: []
 };
 
 const permissionSlice = createSlice({
@@ -29,10 +30,13 @@ const permissionSlice = createSlice({
             let {id} = action.payload;
             let index = state.permissionList.findIndex(per => per.id === id);
             state.permissionList.splice(index, 1)
+        },
+        setTableManagement: (state, action)=>{
+            state.tableManagement = action.payload;
         }
     }
 });
 
 export const {setPermissionList, setMessageAlert, addPermission,
-updatePermissionSlice, deletePermissionSlice} = permissionSlice.actions;
+updatePermissionSlice, deletePermissionSlice, setTableManagement} = permissionSlice.actions;
 export default permissionSlice.reducer;

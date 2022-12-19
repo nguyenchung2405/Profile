@@ -26,7 +26,7 @@ const getDepartmentList = async (req,res)=>{
         // console.log("kết quả",result.data)
         res.send(result.data);
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         res.send(error)
     }
 }

@@ -1,13 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PERMISSION, DELETE_PERMISSION, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissionAPI, getPermissionListAPI, updatePermissionAPI } from "../API/permissionAPI";
-import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionList, updatePermissionSlice } from "../Slice/permissionSlice";
+import { CREATE_PERMISSION, DELETE_PERMISSION, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, UPDATE_PERMISSION } from "../../title/title";
+import { createPermissionAPI, deletePermissionAPI, getPermissionListAPI, getTableManagementAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionList, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
 
 function* getPermissionList(payload){
     let {data} = payload;
     let result = yield call(getPermissionListAPI, data);
     let {code, data: dataResponse, metadata: {total_items}} = result;
-    if(code == 200){
+    if(code && code == 200){
         yield put(setPermissionList({dataResponse, total: total_items}));
     }
 }
@@ -53,6 +53,14 @@ function* getPermissionPosition(payload){
     console.log(data)
 }
 
+function* getTableManagement(){
+    let result = yield call(getTableManagementAPI);
+    let {message , data} = result;
+    if(message === "Successfully"){
+        yield put(setTableManagement(data));
+    }
+}
+
 export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_LIST, getPermissionList);
     yield takeLatest(CREATE_PERMISSION, createPermission)
@@ -60,4 +68,6 @@ export default function* PermissionMiddleware(){
     yield takeLatest(DELETE_PERMISSION, deletePermission)
     // Middleware của Permission Position
     yield takeLatest(GET_PERMISSION_POSITION, getPermissionPosition);
+    // Middleware của Table management
+    yield takeLatest(GET_TABLE_MANAGEMENT, getTableManagement)
 }
