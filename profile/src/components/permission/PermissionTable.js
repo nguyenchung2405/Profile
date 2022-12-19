@@ -4,7 +4,7 @@ import { AiFillQuestionCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { FiMinusCircle } from 'react-icons/fi';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_PERMISSION, GET_PERMISSION_LIST } from '../../title/title';
+import { DELETE_PERMISSION, GET_PERMISSION_LIST, GET_TABLE_MANAGEMENT } from '../../title/title';
 import PermissionModal from './PermissionModal';
 
 export default function PermissionTable() {
@@ -30,6 +30,12 @@ export default function PermissionTable() {
             message[type](msg)
         }
     } , [messageAlert])
+
+    useEffect(()=>{
+        dispatch({
+          type: GET_TABLE_MANAGEMENT
+        });
+    }, []);
     
   return (
     <div className="tableProfiles table__position">

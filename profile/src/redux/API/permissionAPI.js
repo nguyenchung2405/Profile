@@ -20,7 +20,7 @@ export async function getPermissionListAPI(data){
 
 export async function createPermissionAPI(data){
     try {
-        let newData = {...data, "is_display": false, "table_management_id": 0,}
+        let newData = {...data}
         newData.method = newData.method.toLowerCase();
         const result = await axios({
             url: `${local}/api/permissions`,
@@ -61,6 +61,22 @@ export async function deletePermissionAPI(per_id){
         const result = await axios({
             url: `${local}/api/permissions/${per_id}`,
             method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+};
+
+export async function getTableManagementAPI(){
+    try {
+        const result = await axios({
+            url: `${local}/api/table-management`,
+            method: "GET",
             headers: {
                 Authorization: "Bearer " + TOKEN
             }

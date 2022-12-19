@@ -1,6 +1,6 @@
 import { Modal, Select, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CREATE_PERMISSION, UPDATE_PERMISSION } from '../../title/title';
 import "./permission.css"
 
@@ -10,8 +10,9 @@ export default function PermissionModal(props) {
     const {dataModal: {title, ...dataPermission}, showModal, setShowModal} = props;
     const dispatch = useDispatch();
     const [valueModal, setValueModal] = useState({});
-    // console.log(props.dataModal)
+    const {tableManagement} = useSelector(state => state.permissionReducer);
     // console.log(valueModal)
+    // console.log(tableManagement)
 
     useEffect(()=>{
         setValueModal({...dataPermission})
@@ -36,6 +37,18 @@ export default function PermissionModal(props) {
             ...valueModal,
             method: value
         })
+    };
+
+    const handleChangeSelectTableMana = (value)=>{
+        let tableManaSelected = tableManagement.find(table_mana => table_mana.id === value);
+        let {id, is_display} = tableManaSelected;
+        if(typeof id === "number" && typeof is_display === "number"){
+            setValueModal({
+                ...valueModal,
+                table_management_id: id,
+                is_display
+            })
+        }
     };
 
     const valueOfField = (name)=>{
@@ -103,6 +116,14 @@ export default function PermissionModal(props) {
                 </Option>
             }
         })
+    };
+
+    const renderTableManagement = ()=>{
+        if(tableManagement.length > 0){
+            return tableManagement.map((tableMana, index)=>{
+                return <Option value={tableMana.id} key={index}>{tableMana.name} - {tableMana.service_name}</Option>
+            })
+        }
     }
 
   return (
@@ -155,6 +176,15 @@ export default function PermissionModal(props) {
                     <input id="option" type="text" name="option" 
                     value={valueOfField("option")}
                     onChange={handleChangeInput} />
+                </div>
+                <div className="permission__modal__field">
+                    <label htmlFor="method">Bảng quản lý:</label>
+                    <Select id="method" className="permission__select" 
+                    value={valueOfField("table_management_id")}
+                    onChange={handleChangeSelectTableMana} 
+                    >
+                            {renderTableManagement()}
+                    </Select>
                 </div>
             </div>
             <div className="alignCenter permisstion__table__modal">
