@@ -4,7 +4,9 @@ const initialState = {
     permissionList: [],
     total: 0,
     messageAlert: {type: "", msg:""},
-    tableManagement: []
+    tableManagement: [],
+    permissionHave: [],
+    permissionNot: [],
 };
 
 const permissionSlice = createSlice({
@@ -33,10 +35,17 @@ const permissionSlice = createSlice({
         },
         setTableManagement: (state, action)=>{
             state.tableManagement = action.payload;
-        }
+        },
+        setPermissionHave: (state, action)=>{
+            state.permissionHave = action.payload;
+        },
+        setPermissionNot: (state, action)=>{
+            state.permissionNot = action.payload;
+        },
     }
 });
 
 export const {setPermissionList, setMessageAlert, addPermission,
-updatePermissionSlice, deletePermissionSlice, setTableManagement} = permissionSlice.actions;
+updatePermissionSlice, deletePermissionSlice, setTableManagement,
+setPermissionHave, setPermissionNot} = permissionSlice.actions;
 export default permissionSlice.reducer;

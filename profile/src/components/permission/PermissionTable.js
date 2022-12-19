@@ -4,6 +4,7 @@ import { AiFillQuestionCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { FiMinusCircle } from 'react-icons/fi';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
+import { setMessageAlert } from '../../redux/Slice/permissionSlice';
 import { DELETE_PERMISSION, GET_PERMISSION_LIST, GET_TABLE_MANAGEMENT } from '../../title/title';
 import PermissionModal from './PermissionModal';
 
@@ -35,6 +36,9 @@ export default function PermissionTable() {
         dispatch({
           type: GET_TABLE_MANAGEMENT
         });
+        return ()=>{
+            dispatch(setMessageAlert({type: "", msg: ""}))
+        }
     }, []);
     
   return (

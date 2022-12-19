@@ -86,4 +86,20 @@ export async function getTableManagementAPI(){
         console.log(error)
         return "Thất bại"
     }
+};
+
+export async function getPermissionPosListAPI(pos_mana_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-position/position-management?position_management_ids=${pos_mana_id}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
 }

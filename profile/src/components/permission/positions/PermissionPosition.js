@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Transfer, Modal } from 'antd';
 import "../permission.css"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GET_PERMISSION_POSITION } from '../../../title/title';
 
 export default function PermissionPosition(props) {
@@ -9,64 +9,66 @@ export default function PermissionPosition(props) {
     const {isShowModal, setIsShowModal, pos_mana_id} = props;
     const dispatch = useDispatch();
     const [targetKeys, setTargetKeys] = useState([]);
-    const data = [
-      {
-        "key": 4,
-        "name": "Tạo hồ sơ",
-        "table_management_id": 4,
-        "uri": "/profiles/",
-        "method": "post",
-        "param": null,
-        "body": null,
-        "option": null,
-        "is_display": false,
-        "id": 4,
-        "created_at": "2022-12-13T13:28:12",
-        "updated_at": "2022-12-13T13:28:12"
-      },
-      {
-        "key": 3,
-        "name": "Gỡ bỏ phòng ban và chức vụ của user",
-        "table_management_id": 6,
-        "uri": "/user-dep-pos/{id}",
-        "method": "delete",
-        "param": null,
-        "body": null,
-        "option": null,
-        "is_display": false,
-        "id": 3,
-        "created_at": "2022-12-13T13:28:12",
-        "updated_at": "2022-12-13T13:28:12"
-      },
-      {
-        "key": 2,
-        "name": "Luân chuyển phòng ban và chức vụ của user",
-        "table_management_id": 6,
-        "uri": "/user-dep-pos/{id}",
-        "method": "put",
-        "param": null,
-        "body": null,
-        "option": null,
-        "is_display": false,
-        "id": 2,
-        "created_at": "2022-12-13T13:28:12",
-        "updated_at": "2022-12-13T13:28:12"
-      },
-      {
-        "key": 1,
-        "name": "Phân bổ phòng ban và chức vụ cho user",
-        "table_management_id": 6,
-        "uri": "/user-dep-pos/",
-        "method": "post",
-        "param": null,
-        "body": null,
-        "option": null,
-        "is_display": false,
-        "id": 1,
-        "created_at": "2022-12-13T13:28:11",
-        "updated_at": "2022-12-13T13:28:11"
-    }]
-    // console.log(targetKeys, selectedKeys)
+    const [data, setData] = useState([]);
+    const {permissionHave, permissionNot} = useSelector(state => state.permissionReducer);
+    // console.log(permissionHave, permissionNot)
+    // console.log(targetKeys)
+
+    useEffect(()=>{
+        if(typeof pos_mana_id === "number"){
+            dispatch({
+              type: GET_PERMISSION_POSITION,
+              data: pos_mana_id
+            });
+        }
+    }, [pos_mana_id]);
+
+    useEffect(()=>{
+        let perArr = concatArr();
+        let perHaveArr = perArr.arrHave.map((item, index)=>{
+            let newItem = {
+              ...item,
+              key: item.id
+            }
+            return newItem
+        });
+        let perNotArr = perArr.arrNot.map((item, index)=>{
+            let newItem = {
+              ...item,
+              key: item.id
+            }
+            return newItem
+        })
+        let newData = [].concat(perHaveArr, perNotArr);
+        setTargetKeys([...perHaveArr.map((item)=>{
+          return item.key
+        })]);
+        setData([...newData]);
+    }, [permissionHave, permissionNot]);
+
+    const concatArr = ()=>{
+        let newArrHave = [];
+        let newArrNot = [];
+        if(permissionHave.length > 0){
+          for(let item of permissionHave){
+            for(let itemHave of item.groups){
+              newArrHave = newArrHave.concat(itemHave.permission)
+            }
+          }
+        }
+        if(permissionNot.length > 0){
+          for(let item of permissionNot){
+            for(let itemNot of item.groups){
+              newArrNot = newArrNot.concat(itemNot.permission)
+            }
+          }
+        }
+        // console.log(newArrHave, newArrNot)
+        return {
+            arrHave: newArrHave,
+            arrNot: newArrNot
+        }
+    }
 
     {/**
           // mảng gốc
@@ -81,14 +83,7 @@ export default function PermissionPosition(props) {
           console.log(d) // [4,5]
   */}
 
-    useEffect(()=>{
-        if(typeof pos_mana_id === "number"){
-            dispatch({
-              type: GET_PERMISSION_POSITION,
-              data: pos_mana_id
-            });
-        }
-    }, [pos_mana_id]);
+    
 
     const onChange = (nextTargetKeys, direction, moveKeys) => {
       console.log('targetKeys:', nextTargetKeys);
