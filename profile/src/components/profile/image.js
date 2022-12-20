@@ -46,7 +46,7 @@ export default function Image() {
                     setPath(`http://localhost:3001/${path}`)
                 } else {
                     // let index = result.data[0].resource_content.length - 1;
-                    let {content} = result.data.data.resource;
+                    let {content} = result.data.data[0].resource;
                     // console.log(content)
                     // console.log(Base64.decode(content));
                     setPath(`data:image/jpeg;base64,${content}`)

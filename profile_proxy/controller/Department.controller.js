@@ -16,7 +16,7 @@ const getDepartmentList = async (req,res)=>{
             });
         } else if(page, page_size) {
             result = await axios({
-                url: `${local}/departments/?page_size=${page_size}&page=${page}&order=asc&sort_by=parent_id`,
+                url: `${local}/departments/?page_size=${page_size}&page=${page}&order=desc&sort_by=parent_id`,
                 method: "GET",
                 headers: {
                     Authorization: authorization

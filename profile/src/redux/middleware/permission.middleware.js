@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { CREATE_PERMISSION, DELETE_PERMISSION, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissionAPI, getPermissionListAPI, getTableManagementAPI, updatePermissionAPI } from "../API/permissionAPI";
-import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionList, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
+import { createPermissionAPI, deletePermissionAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionHave, setPermissionList, setPermissionNot, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
 
 function* getPermissionList(payload){
     let {data} = payload;
@@ -50,7 +50,11 @@ function* deletePermission(payload){
 
 function* getPermissionPosition(payload){
     let {data} = payload;
-    console.log(data)
+    let result = yield call(getPermissionPosListAPI, data);
+    if(result[0].msg === "Thành công"){
+        yield put(setPermissionHave(result[1]));
+        yield put(setPermissionNot(result[2]));
+    }
 }
 
 function* getTableManagement(){

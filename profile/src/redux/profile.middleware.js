@@ -159,11 +159,10 @@ function* createProfile(payload) {
 function* getAvatar(payload) {
     let { user_id } = payload
     const res = yield call(getAvatar_API, user_id);
-    // console.log(res)
-    if (res.data !== null) {
+    if (res.data !== null || res.data.length > 0) {
         let avatar = res.data;
-        if(avatar?.type === "3x4" && avatar.resource !== null){
-            let { content } = avatar.resource;
+        if(avatar[0]?.type === "3x4" && avatar[0].resource.content !== null){
+            let { content } = avatar[0].resource;
             yield put(setAvatar(content));
         } else {
             yield put(setAvatar(""))

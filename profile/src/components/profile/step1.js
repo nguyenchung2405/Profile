@@ -876,6 +876,10 @@ export default function SoYeuLyLich(props) {
                                 <span className="required__field"> *</span>
                             </label>
                             <Select defaultValue="Phòng ban"
+                                showSearch
+                                filterOption={(input, option) =>
+                                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
                                 value={phongBanCVOb.phongBan === "" ? "" : phongBanCVOb.phongBan}
                                 onBlur={() => {
                                     if (phongBanCVOb.phongBan === "") {
@@ -902,6 +906,10 @@ export default function SoYeuLyLich(props) {
                                 <span className="required__field"> *</span>
                             </label>
                             <Select defaultValue="Chức vụ"
+                                showSearch
+                                filterOption={(input, option) =>
+                                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
                                 value={phongBanCVOb.chucVu === "" ? "" : phongBanCVOb.chucVu}
                                 onBlur={() => {
                                     if (phongBanCVOb.chucVu === "") {

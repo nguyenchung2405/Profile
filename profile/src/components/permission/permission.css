@@ -15,6 +15,13 @@
 .ant-modal-body .permission__transfer__footer button:first-child,
 .ant-modal-body .permisstion__table__modal button:first-child {
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.ant-modal-body .permission__transfer__footer button:first-child {
+    background: transparent;
+    color: #47a363;
+    border: 1px solid #47a363;
 }
 
 .ant-modal-body .permission__modal__content {

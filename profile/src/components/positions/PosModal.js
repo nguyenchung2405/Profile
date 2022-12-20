@@ -16,7 +16,7 @@ export default function PosModal(props) {
         identifier: false
     });
     // console.log("dataToModal",dataToModal)
-    // console.log("formValue",formValue)
+    console.log("formValue",formValue)
     
     useEffect(()=>{
         setFormValue(dataToModal)
@@ -84,18 +84,18 @@ export default function PosModal(props) {
         }
     }
 
+    const renderOption = ()=>{
+        return positionTyleList.map((postype,index)=>{
+            return <Option value={postype?.id.toString()} key={index}>{postype?.identifier}</Option>
+        })
+    }
+
     const valueOfField = (name)=>{
         if(name === "name"){
             return formValue.position?.name
         } else {
             return formValue.position_type?.id
         }
-    }
-
-    const renderOption = ()=>{
-        return positionTyleList.map((postype,index)=>{
-            return <Option value={postype?.id} key={index}>{postype?.identifier}</Option>
-        })
     }
 
     const checkValueForm = ()=>{
@@ -125,7 +125,7 @@ export default function PosModal(props) {
     const renderButton = ()=>{
         if(titlePosManageModal === "Thêm chức vụ"){
             return <div className="alignCenter">
-            <button type='submit' className="dep__btn"
+            <button className="dep__btn"
             onClick={()=>{
                 dispatch({
                     type: CREATE_POSITION_AND_MANAGEMENT,
@@ -134,7 +134,7 @@ export default function PosModal(props) {
                 dispatch(addItemToTablePosList(formValue))
                 setIsShowModal(false)
             }}>
-                Tạo
+                Tạo123
             </button>
         </div>
         } else if(titlePosManageModal === "Chỉnh sửa chức vụ"){

@@ -94,7 +94,7 @@ export default function TableProfiles() {
     const renderPosListOption = ()=>{
       if(posList.length > 0){
           return posList.map((pos, index)=>{
-              return <Option value={pos.id} >{pos.position?.name}</Option>
+              return <Option value={pos.id} key={index}>{`${pos.position?.name} - ${pos.position_type.identifier}`}</Option>
           })
       }
     }
@@ -241,8 +241,11 @@ export default function TableProfiles() {
               if (record?.resources?.length > 0) {
                 // let avatar = record?.user_resources.find(type => type.type === "3x4");
                 // console.log(avatar)
-                let index = record.resources.length - 1;
-                let avatarRender = record.resources[index].resource?.content;
+                // Thằng Đăng BE lại sửa data phía BE nên phải code lại
+                // let index = record.resources.length - 1;
+                // let avatarRender = record.resources[index].resource?.content;
+                // code lại hiển thị hình ảnh user do thằng Đăng trả data lung tung lúc này lúc khác
+                let avatarRender = record.resources[0].resource?.content;
                 return <img src={`data:image/png;base64,${avatarRender}`} alt="avatar of user" />
               } else {
                 if (record.profile?.gender === 1) {
@@ -255,30 +258,21 @@ export default function TableProfiles() {
               }
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Phòng ban" key="phongBan"
+          <Column className="tableProfiles__phongBan" title="Bộ phận công tấc" key="phongBan"
             render={(text, record, index) => {
-              // console.log(record)
-              if (record.primary_user_dep_pos.length > 0) {
-                return record.primary_user_dep_pos[0].department_name;
-              } else {
-                let tenPB = [];
+              let tenPB = [];
                 for(let PB of record.user_dep_pos){
                     tenPB.push(<p>{PB.department_name}</p>) 
                 }
                 return tenPB
-              }
             }} />
-          <Column className="tableProfiles__chucVu" title="Chức vụ" key="chucVu"
+          <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {
-              if (record.primary_user_dep_pos.length > 0) {
-                return record.primary_user_dep_pos[0].position.pos_name;
-              } else {
-                let tenCV = [];
+              let tenCV = [];
                 for(let PB of record.user_dep_pos){
                   tenCV.push(<p>{PB.position.pos_name}</p>) 
                 }
                 return tenCV
-              }
             }} />
           <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />
           <Column className="tableProfiles__thaoTac" key="thaoTac"

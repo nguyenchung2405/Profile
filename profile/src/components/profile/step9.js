@@ -9,7 +9,7 @@ import { setFamilyRelationshipExist } from '../../redux/Steps/step8Slice';
 import { setNoiOHienTaiHuyen_ST9 } from '../../redux/Steps/step9Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP9, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
-import { handleDateTime } from '../../ultils/helper';
+import { checkMicroFe, handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
 
 export default function Step8() {
@@ -27,6 +27,13 @@ export default function Step8() {
     // console.log(valueForm)
     // console.log(familyRelationship)
     // console.log(isDone)
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(setMessageAlert({}))
+        }
+    }, []);
+
     useEffect(()=>{
         dispatch({
             type: GET_PROVINCES
@@ -70,7 +77,12 @@ export default function Step8() {
     useEffect(()=>{
         if(isDone){
             dispatch(setMessageAlert({type: "success", msg: "Bạn đã hoàn tất hồ sơ cá nhân."}))
-            navigate("/hr/profile");
+            let checkMicroFE = checkMicroFe()
+            if(checkMicroFE){
+                navigate("/profile-service/hr/profile");
+            } else {
+                navigate("/hr/profile");
+            }
         }
     }, [isDone])
 
@@ -318,10 +330,10 @@ export default function Step8() {
                     </Select>
                     <Select defaultValue="Huyện" 
                     showSearch
-                    value={valueForm?.noiOHienTai?.huyen  ? valueForm?.noiOHienTai?.huyen : "Huyện (Xã)"}
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
+                    value={valueForm?.noiOHienTai?.huyen  ? valueForm?.noiOHienTai?.huyen : "Huyện (Xã)"}
                     onChange={getValueSelect_NoiO_Huyen}>
                         {renderHuyen()}
                     </Select>

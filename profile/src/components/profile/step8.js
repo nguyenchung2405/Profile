@@ -33,7 +33,8 @@ export default function Step8() {
 
     useEffect(()=>{
         return ()=>{
-            dispatch(setFamilyRelationshipExist(false))
+            dispatch(setFamilyRelationshipExist(false));
+            dispatch(setMessageAlert({}))
         }
     }, [])
 

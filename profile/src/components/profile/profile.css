@@ -86,6 +86,11 @@
     background-color: #F0F5FA;
 }
 
+.SYLL__right__field .ant-select .ant-select-selector .ant-select-selection-search > input,
+.SYLL__left__field .ant-select .ant-select-selector .ant-select-selection-search > input {
+    height: 100%;
+}
+
 .SYLL__left__field .ant-select .ant-select-selector {
     height: 100%;
     display: flex;
@@ -787,10 +792,17 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 
 .Step7 .vo .queQuan .ant-select .ant-select-selector,
 .Step7 .Step7__right .ant-select .ant-select-selector {
-    height: 100%;
+    height: 40px;
     display: flex;
     align-items: center;
     background-color: #F0F5FA;
+    width: 380px;
+    border-radius: 3px;
+}
+
+.Step7 .vo .queQuan .ant-select .ant-select-selector .ant-select-selection-search > input,
+.Step7 .Step7__right .ant-select .ant-select-selector .ant-select-selection-search > input {
+    height: 100%;
 }
 
 .Step7 .field>label {
@@ -910,21 +922,6 @@ input#diaChi {
     border-style: none;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector,
-.noiCuTru .ant-select .ant-select-selector {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    background-color: #F0F5FA;
-}
-
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
-    font-size: 16px;
-    font-weight: 300;
-    color: rgba(102, 102, 102, 0.5);
-}
-
 .Step8 .birthday>div.ant-select:nth-child(2),
 .noiCuTru>div.ant-select:nth-child(3) {
     margin-left: 0;
@@ -974,21 +971,6 @@ input#diaChi {
     border-style: none;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector,
-.noiCuTru .ant-select .ant-select-selector {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    background-color: #F0F5FA;
-}
-
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
-    font-size: 16px;
-    font-weight: 300;
-    color: rgba(102, 102, 102, 0.5);
-}
-
 .steps_steps__UOUsf .Step8__quaTrinh .Step8__content .ant-steps-vertical>.ant-steps-item .ant-steps-item-content {
     display: block;
     padding-top: 9px;
@@ -1034,7 +1016,7 @@ input#diaChi {
 }
 
 .Step8 .birthday .ant-select .ant-select-selector,
-.noiCuTru .ant-select .ant-select-selector {
+.Step8 div.field.noiCuTru .ant-select .ant-select-selector {
     height: 100%;
     display: flex;
     align-items: center;
@@ -1042,10 +1024,13 @@ input#diaChi {
 }
 
 .Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
-.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
+.Step8 div.field.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
     font-weight: 300;
     color: rgba(102, 102, 102, 0.5);
+}
+.Step8 .quanHeGiaDinh .ant-select-single.ant-select-open .ant-select-selection-item {
+    color: white;
 }
 
 .Step8 .Step8__content .ant-steps .ant-steps-item-description {
@@ -1127,18 +1112,27 @@ input#diaChi {
     color: #35794a;
 }
 
-.quanHeGiaDinh .ant-select {
+div.Step8 .quanHeGiaDinh .ant-select {
     width: 197px;
     height: 44px;
 }
 
-.quanHeGiaDinh .ant-select .ant-select-selector {
+div.Step8 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border: none;
+}
+
+div.Step8 div.quanHeGiaDinh .ant-select .ant-select-selector {
     background-color: #4794ff;
     color: white;
     text-align: center;
     height: 100%;
     display: flex;
     align-items: center;
+    border: none;
+}
+
+div.Step8 .ant-select-single.ant-select-open .ant-select-selection-item {
+    color: white;
 }
 
 .quanHeGiaDinh .ant-select-arrow span svg {
@@ -1300,7 +1294,7 @@ button.thaoTac__Edit__btn svg {
 }
 
 .tableProfiles .tools .tools__name::placeholder{
-    color: #bfbfbf;
+    color: rgba(14, 13, 13, 0.452);
 }
 
 .tableProfiles .tools .tools__name:hover {
@@ -1314,7 +1308,7 @@ button.thaoTac__Edit__btn svg {
     border-radius: 3px;
     overflow: hidden;
     margin-top: 0;
-    width: 195px;
+    width: 250px;
 }
 
 .tableProfiles .tools .tableProfiles__search > div.tool__search:nth-child(2) {
@@ -1333,6 +1327,11 @@ button.thaoTac__Edit__btn svg {
 .tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder,
 .tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
     line-height: 41px;
+    color: rgba(14, 13, 13, 0.452);
+}
+
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
+    color: black;
 }
 
 .tableProfiles .tools .tableProfiles__search__btn {
@@ -1515,7 +1514,7 @@ div.step3 {
     transform: translateY(0%);
 }
 
-.modal__update__select > div.ant-select > div.ant-select-selector {
+div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.ant-select-selector {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
@@ -1567,7 +1566,7 @@ div.step3 {
     margin: 2px 0 0 0px;
     cursor: pointer;
     position: absolute;
-    left: 178px;
+    left: 185px;
     font-size: 16px;
 }
 

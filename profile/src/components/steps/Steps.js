@@ -189,15 +189,15 @@ export default function StepsAntd() {
                 if(decoded.id !== user_id && status.can_action){
                     if(status.state === "SENDING" || status.state === "SAVED"){
                         return <>
-                          <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                          <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("save"))
                           }}>Save</button>
-                          <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                          <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("send"))
                           }}>Send</button>
-                          <button class="SoYeuLyLich__btn btn__reject" onClick={()=>{
+                          <button className="SoYeuLyLich__btn btn__reject" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("reject"))
                           }}>Rejcet</button>
@@ -207,11 +207,11 @@ export default function StepsAntd() {
             } else if(decoded.id === user_id && status.can_action){
               if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
                   return <>
-                  <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                  <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))
                       dispatch(setAction("save"))
                   }}>Save</button>
-                  <button class="SoYeuLyLich__btn btn__send" onClick={()=>{
+                  <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                       dispatch(setIsSubmit(true))
                       dispatch(setAction("send"))
                   }}>Send</button>
@@ -222,17 +222,17 @@ export default function StepsAntd() {
                     dispatch(setIsSubmit(true))
                 }}>Tạo</button>
             } else if(status.state === "ACTIVE" && status["can_action"] === false) {
-                return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+                return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                     dispatch(setIsSubmit(true))
                 }}>Cập nhật</button>
             }
       } else if(nextStep === 2){
           if(party.length > 0){
-              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                 dispatch(setIsSubmit(true))
               }}>Cập nhật</button>
           } else {
-              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__create" onClick={()=>{
                   dispatch(setIsSubmit(true))
               }}>Tạo</button>
           }
@@ -240,31 +240,31 @@ export default function StepsAntd() {
         let voChong = familyRelationship.find(item => item.type === "vo_chong");
         let con = familyRelationship.find(item => item.type === "con");
         if(voChong && con){
-            return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+            return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
               dispatch(setIsSubmit(true))
             }}>Cập nhật</button>
         } else {
-            return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+            return <button className="SoYeuLyLich__btn btn__create" onClick={()=>{
                 dispatch(setIsSubmit(true))
             }}>Tạo</button>
         } 
       } else if(nextStep === 7 ){
           if(familyRelationshipExist){
-              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                 dispatch(setIsSubmit(true))
               }}>Cập nhật</button>
           } else {
-              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__create" onClick={()=>{
                 dispatch(setIsSubmit(true))
               }}>Tạo</button>
           }
       } else if( nextStep === 8){
           if(familyRelationshipExist){
-              return <button class="SoYeuLyLich__btn btn__update" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                 dispatch(setIsSubmit(true))
               }}>Cập nhật</button>
           } else {
-              return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
+              return <button className="SoYeuLyLich__btn btn__create" onClick={()=>{
                 dispatch(setIsSubmit(true))
               }}>Tạo</button>
           }

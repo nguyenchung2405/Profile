@@ -25,6 +25,10 @@ export default function Modal_step1(props) {
             return (
                 <div className="SYLL__left__field noiSinh">
                 <Select 
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.noiSinh.tinh !== ""
                     ? valueForm.noiSinh.tinh
@@ -43,6 +47,10 @@ export default function Modal_step1(props) {
                     {renderTinh()}
                 </Select>
                 <Select
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.noiSinh.quan !== ""
                     ? valueForm.noiSinh.quan
@@ -61,6 +69,10 @@ export default function Modal_step1(props) {
                     {renderQuan()}
                 </Select>
                 <Select 
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.noiSinh.huyen !== ""
                     ? valueForm.noiSinh.huyen
@@ -87,6 +99,10 @@ export default function Modal_step1(props) {
             return (
                 <div className="SYLL__left__field queQuan">
                 <Select
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.queQuan.tinh !== ""
                     ? valueForm.queQuan.tinh
@@ -104,6 +120,10 @@ export default function Modal_step1(props) {
                     {renderTinh("queQuan")}
                 </Select>
                 <Select defaultValue="Quận (Thành phố)" 
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.queQuan.quan !== ""
                     ? valueForm.queQuan.quan
@@ -121,6 +141,10 @@ export default function Modal_step1(props) {
                     {renderQuan("queQuan")}
                 </Select>
                 <Select
+                showSearch
+                filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 disabled={disabledInput()}
                 value={valueForm.queQuan.huyen !== ""
                     ? valueForm.queQuan.huyen
