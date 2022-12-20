@@ -5,7 +5,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setDiaChiHuyen_ST7, setQueQuanHuyen_ST7 } from '../../redux/Steps/step7Slice';
-import { setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
@@ -28,7 +28,8 @@ export default function Step7() {
 
     useEffect(()=>{
         return ()=>{
-            dispatch(setIsSubmit(false))
+            dispatch(setIsSubmit(false));
+            dispatch(setMessageAlert({}))
         }
     }, [])
 
@@ -302,14 +303,26 @@ export default function Step7() {
                 <div className="field queQuan">
                     <label>Quê quán:</label>
                     <Select defaultValue="Tỉnh (Thành phố)"
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_Tinh}>
                         {renderTinh("quequan")}
                     </Select>
                     <Select defaultValue="Quận (Thành phố)" 
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_Quan}>
                         {renderQuan("quequan")}
                     </Select>
                     <Select defaultValue="Huyện" 
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     onChange={getValueSelect_Huyen}>
                         {renderHuyen("quequan")}
                     </Select>
@@ -422,20 +435,32 @@ export default function Step7() {
                     })
                 }}/>
                 <Select defaultValue="Tỉnh (Thành phố)"
+                showSearch
+                    filterOption={(input, option) =>
+                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                 value={valueFormCon.noiOHienTai?.tinh !== "" ? valueFormCon.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}    
                 onChange={ getValueSelect_Tinh_Con}>
                         { renderTinh("diaChi")}
-                    </Select>
-                    <Select defaultValue="Quận (Thành phố)" 
-                    value={valueFormCon.noiOHienTai?.quan !== "" ? valueFormCon.noiOHienTai?.quan : "Quận (Thành phố)"}    
-                    onChange={getValueSelect_Quan_Con}>
-                        {renderQuan("diaChi")}
-                    </Select>
-                    <Select defaultValue="Huyện" 
-                    value={valueFormCon.noiOHienTai?.huyen !== "" ? valueFormCon.noiOHienTai?.huyen : "Huyện"}    
-                    onChange={getValueSelect_Huyen_Con}>
-                        {renderHuyen("diaChi")}
-                    </Select>
+                </Select>
+                <Select defaultValue="Quận (Thành phố)" 
+                showSearch
+                filterOption={(input, option) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                value={valueFormCon.noiOHienTai?.quan !== "" ? valueFormCon.noiOHienTai?.quan : "Quận (Thành phố)"}    
+                onChange={getValueSelect_Quan_Con}>
+                    {renderQuan("diaChi")}
+                </Select>
+                <Select defaultValue="Huyện" 
+                showSearch
+                filterOption={(input, option) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                value={valueFormCon.noiOHienTai?.huyen !== "" ? valueFormCon.noiOHienTai?.huyen : "Huyện"}    
+                onChange={getValueSelect_Huyen_Con}>
+                    {renderHuyen("diaChi")}
+                </Select>
             </div>
             <div className="btn__ThemCon">
                 <Button type="default"

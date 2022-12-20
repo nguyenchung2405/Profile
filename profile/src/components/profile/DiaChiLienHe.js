@@ -42,6 +42,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         })
     }} />
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm.noiOHienTai?.tinh !== ""
         ? valueForm.noiOHienTai?.tinh
@@ -59,6 +63,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderTinh("noiO")}
     </Select>
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm.noiOHienTai?.quan !== ""
         ? valueForm.noiOHienTai?.quan
@@ -76,6 +84,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderQuan("noiO")}
     </Select>
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm?.noiOHienTai?.huyen !== ""
         ? valueForm?.noiOHienTai?.huyen
@@ -129,6 +141,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         })
     }} />
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.tinh !== ""
         ? valueForm.hoKhauThuongTru.tinh
@@ -146,6 +162,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderTinh("hoKhau")}
     </Select>
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.quan !== ""
         ? valueForm.hoKhauThuongTru.quan
@@ -163,6 +183,10 @@ getValueSelect_HoKhau_Tinh_TP, getValueSelect_HoKhau_Quan_TP, getValueSelect_HoK
         {renderQuan("hoKhau")}
     </Select>
     <Select
+    showSearch
+    filterOption={(input, option) =>
+        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+    }
     disabled={disabledInput()}
     value={valueForm.hoKhauThuongTru.huyen !== ""
         ? valueForm.hoKhauThuongTru.huyen

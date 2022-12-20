@@ -51,7 +51,7 @@ const tablePosListSlice = createSlice({
         },
         addItemToTablePosList: (state,action)=>{
             let {name, identifier: postype_id} = action.payload;
-            let pos_type = state.positionTyleList.find(postype => postype.id === postype_id)
+            let pos_type = state.positionTyleList.find(postype => +postype.id === +postype_id)
             let {identifier} = pos_type;
             let newObject = {
                 position: {

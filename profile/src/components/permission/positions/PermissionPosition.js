@@ -124,7 +124,7 @@ export default function PermissionPosition(props) {
                   onClick={()=>{
                       closeModal()
                   }}>
-                      Tạo
+                      Đóng
                 </button>
                 <button type='button' className="dep__btn"
                   onClick={()=>{
