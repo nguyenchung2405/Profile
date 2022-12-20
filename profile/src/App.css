@@ -205,10 +205,6 @@ div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-step
     color: white;
 }
 
-.sidebar_SubMenu__XZeb6 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
-    font-weight: bold;
-}
-
 .sidebar_SubMenu__XZeb6 .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
     color: #8bc34a;
 }
@@ -251,7 +247,6 @@ div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-step
     margin: 0;
     font-size: 16px;
     color: white;
-    font-weight: bold;
 }
 
 .sidebar_SubMenu__XZeb6 .ant-menu-inline .ant-menu-item:after {
