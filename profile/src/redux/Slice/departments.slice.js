@@ -43,12 +43,12 @@ const tableDepListSlice = createSlice({
                 let {children} = depParent
                 if(children === null || !children){
                     depParent.children =[]
-                    depParent.children.push(action.payload);
+                    depParent.children.unshift(action.payload);
                 } else {
-                    depParent.children.push(action.payload);
+                    depParent.children.unshift(action.payload);
                 }
             } else {
-                state.tableDepList.push(action.payload);
+                state.tableDepList.unshift(action.payload);
             }
         },
         setMessage: (state,action)=>{

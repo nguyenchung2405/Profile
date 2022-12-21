@@ -3,7 +3,7 @@ const local =  "http://dev.profilebe.tuoitre.vn";
 
 const getDepartmentList = async (req,res)=>{
     try {
-        let {per_page, page, page_size} = req.query;
+        let {per_page, page, page_size, name} = req.query;
         let {headers: {authorization}} = req;
         let result;
         if(per_page){
@@ -14,9 +14,18 @@ const getDepartmentList = async (req,res)=>{
                     Authorization: authorization
                 }
             });
-        } else if(page, page_size) {
+        } else if(page && page_size && !name) {
             result = await axios({
                 url: `${local}/departments/?page_size=${page_size}&page=${page}&order=desc&sort_by=parent_id`,
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
+            });
+        } else if(page && page_size && name){
+            let dep_name = encodeURI(name);
+            result = await axios({
+                url: `${local}/departments/?name=${dep_name}&page_size=${page_size}&page=${page}&order=desc&sort_by=id`,
                 method: "GET",
                 headers: {
                     Authorization: authorization

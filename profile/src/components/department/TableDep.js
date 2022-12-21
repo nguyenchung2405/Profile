@@ -3,7 +3,7 @@ import { Table, message, Select } from 'antd'
 import Loading from '../Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading } from '../../redux/Slice/loading';
-import { GET_DEPARTMENT_LIST } from '../../title/title';
+import { GET_DEPARTMENT_LIST, SEARCH_DEPARTMENT } from '../../title/title';
 import "./department.css"
 import {MdOutlineModeEditOutline} from "react-icons/md"
 import {AiOutlineUserAdd} from "react-icons/ai"
@@ -21,6 +21,8 @@ export default function TableDep() {
     const {isLoading} = useSelector(state => state.loadingReducer);
     const {tableDepList, message: status} = useSelector(state => state.departmentsReducer)
     let [newTableDepList, setNewTableDepList] = useState([]);
+    let [dataTable, setDataTable] = useState([]);
+    let [search, setSearch] = useState([]);
     let [isShowModal, setIsShowModal] = useState(false);
     let [dataToModal, setDataToModal] = useState()
     // console.log(tableDepList)
@@ -32,6 +34,16 @@ export default function TableDep() {
         })
         dispatch(setIsLoading(true));
     },[dispatch])
+
+    useEffect(()=>{
+      dataOfTable()
+    }, [newTableDepList])
+
+    useEffect(()=>{
+      if(dataTable.length >= 75){
+        setSearch([...dataTable]);
+      }
+    }, [dataTable]);
 
     useEffect(()=>{
       let addKeyToData = tableDepList.map((child,index)=>{
@@ -72,20 +84,20 @@ export default function TableDep() {
       let arrDepReturn =[];
       if(newTableDepList.length > 0){
         for(let dep of newTableDepList){
-          if(dep.parent_id === null){
+          if(dep?.parent_id === null){
             arrDepReturn.push(dep)
           }
         }
       } else {
         return null;
       }
-      return arrDepReturn
+      setDataTable([...arrDepReturn]);
     };
 
     const renderOption = ()=>{
-      if(dataOfTable()?.length > 0){
-        return dataOfTable().map((PB,index)=>{
-          return <Option value={PB?.id} key={index}>{PB?.name}</Option>
+      if(search?.length > 0){
+        return search.map((PB,index)=>{
+          return <Option value={PB?.name} key={index}>{PB?.name}</Option>
         })
       }
     };
@@ -112,7 +124,7 @@ export default function TableDep() {
               address: "",
               phone: "",
               note: "",
-              title: "Tạo phòng ban"
+              title: "Tạo tổ"
             })
             setIsShowModal(true)
           }}>
@@ -128,22 +140,25 @@ export default function TableDep() {
                   (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                 }
                 onChange={(value)=>{
-                    // handleChangeSearch("dep_ids",value)
+                  if(value !== undefined){
+                    dispatch({
+                      type: SEARCH_DEPARTMENT,
+                      table: {page:1,pageNumber:500, value}
+                    })
+                  } else {
+                    dispatch({
+                      type: GET_DEPARTMENT_LIST,
+                      table: {page:1,pageNumber:500}
+                    })
+                  }
                 }}
             >
                   {renderOption()}
             </Select>
           </div>
-          <div className="tableProfiles__search__btn table__dep__search">
-                <button className="create_acc_profile btn__search"
-                onClick={()=>{
-                    
-                    
-                }} >Tìm kiếm</button>
-          </div>
         </div>
         <Table
-          dataSource = {dataOfTable() }
+          dataSource = {dataTable}
           expandable={{
             expandedRowRender: (record)=>{
               if(record.childrens.length > 0){
@@ -178,7 +193,7 @@ export default function TableDep() {
             showExpandColumn: true,
             rowExpandable: (record)=>{
               // console.log(record)
-              return record.childrens.length > 0
+              return record?.childrens.length > 0
             }
           }}
           pagination={{
@@ -187,7 +202,7 @@ export default function TableDep() {
               locale: { items_per_page: "" },
               defaultCurrent: 1,
               showSizeChanger: true,
-              total: dataOfTable()?.length,
+              total: dataTable?.length,
               pageSizeOptions: [10,50,100],
               onChange: (page, pageNumber) => {
                 setPageNumber(pageNumber);
@@ -206,7 +221,7 @@ export default function TableDep() {
            <Column className="table__dep__phone" dataIndex= "phone" key="phone" title="Số điện thoại" />
            <Column className="table__dep__children" key="children" title="Phòng ban con"
              render={(text,record,index)=>{
-               if(record.childrens.length > 0){
+               if(record?.childrens.length > 0){
                  return record.childrens.map((child, index)=>{
                    return <p className="dep__children" key={index + child.id}>
                         {child.name}

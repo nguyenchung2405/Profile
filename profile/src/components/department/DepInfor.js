@@ -120,7 +120,7 @@ export default function DepInfor(props) {
     }
 
     const showDepParentSelect = ()=>{
-        if(!depID){
+        if(!depID && depInfor?.title === "Tạo tổ"){
             return <div className="dep__infor__parent onefield">
             <label htmlFor="parent">Phòng ban cha:</label>
             <Select
