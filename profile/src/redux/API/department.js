@@ -96,3 +96,18 @@ export async function createDepartmentAPI(data){
         console.log(error)
     }
 }
+
+export async function searchDepartmentAPI(page, pageSize, dep_name){
+    try {
+        const result = await axios({
+            url: `${local}/api/departments/?name=${dep_name}&page_size=${pageSize}&page=${page}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
