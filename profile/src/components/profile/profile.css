@@ -619,8 +619,8 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 .Step6__footer button,
 .Step7__footer button {
     background-color: transparent;
-    border: 1px solid #3699FF;
-    color: #3699FF;
+    border: 1px solid #35794a;
+    color: #35794a;
     display: flex;
     align-items: center;
     width: 132px;
@@ -1384,6 +1384,20 @@ input#import {
     border: 1px solid transparent;
 }
 
+.tableProfiles .tools  .table__dep__btn:first-child {
+    min-width: 173px;
+    margin-right: 10px;
+}
+
+.tableProfiles .tools .table__dep__search {
+    justify-content: left;
+    margin-left: 15px;
+}
+
+.tableProfiles .tools  .table__dep__btn:nth-child(2){
+    min-width: 95px;
+}
+
 .tableProfiles .tools .create_acc_profile:hover {
     border: 1px solid #459C60;
     background-color: white;
@@ -1512,6 +1526,10 @@ div.step3 {
 
 .modal__update__select > div.ant-select span.ant-select-arrow{
     transform: translateY(0%);
+}
+
+.content .modal__update__select .ant-select {
+    width: auto;
 }
 
 div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.ant-select-selector {

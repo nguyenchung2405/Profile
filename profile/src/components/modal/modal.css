@@ -23,7 +23,7 @@ div .ant-modal-root .ant-modal {
     
 }
 
-.btn__modal__step:hover {
+.ant-modal-footer > button.btn__modal__step:hover {
     opacity: 0.8;
     background-color: #459C60;
     border: 1px solid #459C60;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, message } from 'antd'
+import { Table, message, Select } from 'antd'
 import Loading from '../Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading } from '../../redux/Slice/loading';
@@ -13,6 +13,7 @@ import DepInfor from './DepInfor';
 export default function TableDep() {
 
     const {Column} = Table;
+    const {Option} = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
@@ -79,13 +80,21 @@ export default function TableDep() {
         return null;
       }
       return arrDepReturn
-    }
+    };
+
+    const renderOption = ()=>{
+      if(dataOfTable()?.length > 0){
+        return dataOfTable().map((PB,index)=>{
+          return <Option value={PB?.id} key={index}>{PB?.name}</Option>
+        })
+      }
+    };
 
   return (
     <div className="table__dep tableProfiles">
         {showLoading()}
         <div className="tools">
-          <button className="create_acc_profile" onClick={()=>{
+          <button className="create_acc_profile table__dep__btn" onClick={()=>{
             setDataToModal({
               name: "",
               address: "",
@@ -95,9 +104,43 @@ export default function TableDep() {
             })
             setIsShowModal(true)
           }}>
-            <AiOutlineUserAdd />
-            Tạo
+            Tạo phòng ban
           </button>
+          <button className="create_acc_profile table__dep__btn" onClick={()=>{
+            setDataToModal({
+              name: "",
+              address: "",
+              phone: "",
+              note: "",
+              title: "Tạo phòng ban"
+            })
+            setIsShowModal(true)
+          }}>
+            Tạo tổ
+          </button>
+          <div className="tableProfiles__search">
+            <Select
+                showSearch
+                allowClear
+                className="tool__search"
+                placeholder="Phòng ban"
+                filterOption={(input, option) =>
+                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                onChange={(value)=>{
+                    // handleChangeSearch("dep_ids",value)
+                }}
+            >
+                  {renderOption()}
+            </Select>
+          </div>
+          <div className="tableProfiles__search__btn table__dep__search">
+                <button className="create_acc_profile btn__search"
+                onClick={()=>{
+                    
+                    
+                }} >Tìm kiếm</button>
+          </div>
         </div>
         <Table
           dataSource = {dataOfTable() }
