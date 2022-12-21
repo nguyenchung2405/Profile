@@ -15,20 +15,21 @@ export default function DepInfor(props) {
         name: false,
         address: false,
         phone: false,
+        parent_id: false
     });
     // console.log(formValue)
     // console.log(tableDepList)
-
     useEffect(()=>{
         if(!isShowModal){
             setValidate({
                 name: false,
                 address: false,
                 phone: false,
+                parent_id: false
             })
         }
     },[isShowModal])
-
+    
     useEffect(()=>{
         setFormValue({...depInfor})
     }, [depInfor])
@@ -86,20 +87,34 @@ export default function DepInfor(props) {
     }
 
     const checkValueForm = ()=>{
-        let isNext;
-        let newValidate = {};
-        for(let prop in validate){
-            if(formValue[prop] && formValue[prop] !== ""){
-                isNext = true;
-                newValidate = {...newValidate, [prop]:false}
-            } else {
-                isNext = false;
-                newValidate = {...newValidate, [prop]:true}
+        let isNext = true;
+        let newValidate = {};  
+        if(depInfor?.title === "Tạo tổ"){
+            for(let prop in validate){
+                if(formValue[prop] && formValue[prop] !== ""){
+                    newValidate = {...newValidate, [prop]:false}
+                } else {
+                    isNext = false;
+                    newValidate = {...newValidate, [prop]:true}
+                }
             }
+            setValidate({
+                ...newValidate
+            })
+        } else if(depInfor?.title === "Tạo phòng ban"){
+            let {parent_id, ...rest} = validate;
+            for(let prop in rest){
+                if(formValue[prop] && formValue[prop] !== ""){
+                    newValidate = {...newValidate, [prop]:false}
+                } else {
+                    isNext = false;
+                    newValidate = {...newValidate, [prop]:true}
+                }
+            }
+            setValidate({
+                ...newValidate
+            })
         }
-        setValidate({
-            ...newValidate
-        })
         return isNext;
     }
 
@@ -122,7 +137,7 @@ export default function DepInfor(props) {
     const showDepParentSelect = ()=>{
         if(!depID && depInfor?.title === "Tạo tổ"){
             return <div className="dep__infor__parent onefield">
-            <label htmlFor="parent">Phòng ban cha:</label>
+            <label htmlFor="parent">Phòng ban cha:<span className="required__field"> *</span></label>
             <Select
             id="parent_id"
             showSearch
@@ -140,6 +155,7 @@ export default function DepInfor(props) {
                     }
                 })}
             </Select>
+            {showRemind("parent_id")}
         </div>
         }
     }
