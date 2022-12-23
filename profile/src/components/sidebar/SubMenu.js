@@ -106,17 +106,34 @@ export default function SubMenu() {
         ])
     ];
 
+    const items_user = [
+        getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
+            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />),
+        ])
+    ];
+
     const renderSubMenu  = ()=>{
         if(uri === "profile-service"){
             return items;
         } else {
-            return <div className="sidebar_SubMenu__XZeb6">
+            let decoded = jwt_decode(TOKEN);
+            if(decoded.id === 1){
+                return <div className="sidebar_SubMenu__XZeb6">
+                <Menu
+                    // defaultOpenKeys={[`sub1`]}
+                    mode='inline'
+                    items={items}
+                />
+                </div>
+            } else {
+                return <div className="sidebar_SubMenu__XZeb6">
             <Menu
                 // defaultOpenKeys={[`sub1`]}
                 mode='inline'
-                items={items}
+                items={items_user}
             />
             </div>
+            }
         }
     }
 
