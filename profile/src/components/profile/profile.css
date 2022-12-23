@@ -1386,7 +1386,7 @@ input#import {
 
 .tableProfiles .tools  .table__dep__btn:first-child {
     min-width: 173px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .tableProfiles .tools .table__dep__search {

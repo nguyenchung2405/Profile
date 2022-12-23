@@ -37,6 +37,7 @@ const step8Slice = createSlice({
             let {id} = action.payload;
             let index = state.familyRelationship.findIndex(fa_re => fa_re.id === id);
             state.familyRelationship[index] = action.payload;
+            state.familyRelationship = mappingFamilyRelationship(state.familyRelationship)
             // console.log("cập nhật xong")
         },
         setFamilyRelationshipExist: (state, action)=>{

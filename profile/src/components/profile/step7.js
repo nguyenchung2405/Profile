@@ -1,19 +1,18 @@
-import { Button, DatePicker, Select, Steps } from 'antd';
+import { Button, DatePicker, Select } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setDiaChiHuyen_ST7, setQueQuanHuyen_ST7 } from '../../redux/Steps/step7Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
-import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
+import { CREATE_FAMILY_RELATIONSHIP, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP, UPDATE_FAMILY_RELATIONSHIP_STEP7 } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
 
 export default function Step7() {
 
     const {Option} = Select;
-    const {Step} = Steps;
     const dispatch = useDispatch();
     const {queQuanTinh, queQuanQuan, queQuanHuyen, diaChiTinh, diaChiQuan, diaChiHuyen} = useSelector(state => state.step7Reducer);
     let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
@@ -32,49 +31,26 @@ export default function Step7() {
             dispatch(setMessageAlert({}))
         }
     }, [])
-
+    
     useEffect(()=>{
         if(isSubmit){
-            if(!valueForm.type){
-                console.log("Tạo vợ chồng")
+            if(!valueForm.type && !valueFormCon.type){
                 valueForm.type = "vo_chong"
                 valueForm.pro_id = pro_id;
+                valueFormCon.type="con"
+                valueFormCon.pro_id = pro_id;
+                console.log(valueForm, valueFormCon)
                 dispatch({
-                    type: CREATE_FAMILY_RELATIONSHIP,
-                    data: valueForm
-                })
-                if(!valueFormCon.type){
-                    valueFormCon.type="con"
-                    valueFormCon.pro_id = pro_id;
-                    dispatch({
-                        type: CREATE_FAMILY_RELATIONSHIP,
-                        data: valueFormCon
-                    })
-                } else {
-                    dispatch({
-                        type: UPDATE_FAMILY_RELATIONSHIP,
-                        data: valueFormCon
-                    })
-                }
+                    type: CREATE_FAMILY_RELATIONSHIP_STEP7,
+                    data: {valueForm, valueFormCon}
+                });
+                dispatch(setIsSubmit(false))
             } else {
-                console.log("Cập nhất vợ chồng")
                 dispatch({
-                    type: UPDATE_FAMILY_RELATIONSHIP,
-                    data: valueForm
-                })
-                if(valueFormCon.type){
-                    dispatch({
-                        type: UPDATE_FAMILY_RELATIONSHIP,
-                        data: valueFormCon
-                    })
-                } else {
-                    valueFormCon.type="con"
-                    valueFormCon.pro_id = pro_id;
-                    dispatch({
-                        type: CREATE_FAMILY_RELATIONSHIP,
-                        data: valueFormCon
-                    })
-                }
+                    type: UPDATE_FAMILY_RELATIONSHIP_STEP7,
+                    data: {valueForm, valueFormCon}
+                });
+                dispatch(setIsSubmit(false))
             }
         }
     }, [isSubmit])
@@ -97,17 +73,6 @@ export default function Step7() {
             dispatch(setIsNextStep(true))
         }
     }, [nextStep])
-
-    const dacDiemLichSu = [
-        {
-            title: '05/04/2003 - 10/05/2005',
-            description: "Nhân viên A"
-        },
-        {
-            title: '10/05/2005 - 10/05/2008',
-            description: "Quản lý B"
-        },
-    ];
 
     const closeModal = ()=>{
         setIsShowModal(false)
@@ -251,6 +216,32 @@ export default function Step7() {
         }
     }
 
+    const renderHistoryFeatures = ()=>{
+        if(valueForm?.historical_features?.length > 0 && typeof valueForm?.historical_features === "object"){
+            return valueForm?.historical_features?.map((item, index)=>{
+                let tuNgay = moment(new Date(item.his_from)).format("DD/MM/YYYY");
+                let denNgay = moment(new Date(item.his_to)).format("DD/MM/YYYY");
+                return <div className="center">
+                    <div className="process step8" key={index}>
+                        <div className="point"></div>
+                        <div className="process__infor">
+                            <p>{`${tuNgay} - ${denNgay}`}</p>
+                            <p>{item.content}</p>
+                        </div>
+                        <AiOutlineMinusCircle onClick={() => {
+                            let newHisArr = [...valueForm?.historical_features];
+                            newHisArr = newHisArr.filter(his => his.content !== item.content)
+                            setValueForm({
+                                ...valueForm,
+                                historical_features: [...newHisArr]
+                            });
+                        }} />
+                    </div>
+                </div>
+            })
+        }
+    }
+
   return (
     <div className="Step7">
         <div className="Step7__left">
@@ -307,6 +298,7 @@ export default function Step7() {
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
+                    value={valueForm?.queQuan?.tinh !== "" && valueForm?.queQuan?.tinh !== undefined ? valueForm?.queQuan?.tinh : ""}
                     onChange={getValueSelect_Tinh}>
                         {renderTinh("quequan")}
                     </Select>
@@ -315,6 +307,7 @@ export default function Step7() {
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
+                    value={valueForm?.queQuan?.quan !== "" && valueForm?.queQuan?.quan !== undefined ? valueForm?.queQuan?.quan : ""}
                     onChange={getValueSelect_Quan}>
                         {renderQuan("quequan")}
                     </Select>
@@ -323,6 +316,7 @@ export default function Step7() {
                     filterOption={(input, option) =>
                         (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                     }
+                    value={valueForm?.queQuan?.huyen !== "" && valueForm?.queQuan?.huyen !== undefined ? valueForm?.queQuan?.huyen : ""}
                     onChange={getValueSelect_Huyen}>
                         {renderHuyen("quequan")}
                     </Select>
@@ -330,11 +324,15 @@ export default function Step7() {
                 <div className="field two__content">
                     <div className="fisrt__content">
                         <label htmlFor="danToc">Dân tộc:</label>
-                        <input name="danToc" type="text" onChange={handleChange} />
+                        <input name="ethnic" type="text" 
+                        value={valueOfField("ethnic")}
+                        onChange={handleChange} />
                     </div>
                     <div className="second__content">
                         <label htmlFor="tonGiao">Tôn giáo:</label>
-                        <input name="tonGiao" type="text" onChange={handleChange} />
+                        <input name="religion" type="text" 
+                        value={valueOfField("religion")}
+                        onChange={handleChange} />
                     </div>
                 </div>
                 <div className="field">
@@ -346,13 +344,7 @@ export default function Step7() {
                 <div className="Step7__quaTrinh">
                     <div className="Step7__content">
                             <p>Đặc điểm lịch sử:</p>
-                            <Steps progressDot current={dacDiemLichSu.length - 1} direction="vertical">
-                                {
-                                    dacDiemLichSu.map( (item, index) => {
-                                            return <Step title={item.title} description={item.description} key={index} />
-                                    })
-                                }
-                            </Steps>
+                            {renderHistoryFeatures()}
                     </div>
                     <div className="Step7__footer">
                         <Button 
@@ -366,11 +358,15 @@ export default function Step7() {
                     <ModalComponent 
                     title={lichSuBanThan}
                     isShowModal={isShowModal}
-                    closeModal={closeModal} />
+                    closeModal={closeModal}
+                    valueForm={valueForm}
+                    setValueForm={setValueForm} />
                 </div>
                 <div className="field">
-                    <label htmlFor='thaiDoCT'>Thái độ chính trị:</label>
-                    <input id="thaiDoCT" type="text" name="chinhTri" onChange={handleChange} />
+                    <label htmlFor='political_attitude'>Thái độ chính trị:</label>
+                    <input id="political_attitude" type="text" name="political_attitude" 
+                    value={valueOfField("political_attitude")}
+                    onChange={handleChange} />
                 </div>
             </div>
         </div>
@@ -406,12 +402,16 @@ export default function Step7() {
                 onChange={handleChangeCon} />
             </div>
             <div className="field">
-                <label htmlFor='chucDanh'>Chức danh:</label>
-                <input id="chucDanh" type="text" onChange={handleChangeCon} />
+                <label htmlFor='job_title'>Chức danh:</label>
+                <input id="job_title" type="text" name="job_title"
+                value={valueOfFieldCon("job_title")}
+                onChange={handleChangeCon} />
             </div>
             <div className="field">
-                <label htmlFor='chucVu'>Chức vụ:</label>
-                <input id="chucVu" type="text" onChange={handleChangeCon} />
+                <label htmlFor='position_name'>Chức vụ:</label>
+                <input id="position_name" type="text" name="position_name"
+                value={valueOfFieldCon("position_name")}
+                onChange={handleChangeCon} />
             </div>
             <div className="field">
                 <label htmlFor='donViCongTac'>Đơn vị công tác:</label>
@@ -421,12 +421,14 @@ export default function Step7() {
             </div>
             <div className="field">
                 <label htmlFor='hocTap'>Học tập:</label>
-                <input id="hocTap" type="text" onChange={handleChangeCon} />
+                <input id="hocTap" type="text" name="study"
+                value={valueOfFieldCon("study")}
+                onChange={handleChangeCon} />
             </div>
             <div className="field diaChi">
                 <label htmlFor='diaChi'>Địa chỉ:</label>
                 <input id="diaChi" type="text" name="diaChi" 
-                value={valueFormCon.noiOHienTai?.diaChi !== "" ? valueFormCon.noiOHienTai?.diaChi : ""}
+                value={valueFormCon.noiOHienTai?.diaChi !== "" && valueFormCon.noiOHienTai?.diaChi !== "undefined" ? valueFormCon.noiOHienTai?.diaChi : ""}
                 onChange={(e)=>{
                     let {value, name} = e.target;
                     setValueFormCon({
@@ -436,10 +438,10 @@ export default function Step7() {
                 }}/>
                 <Select defaultValue="Tỉnh (Thành phố)"
                 showSearch
-                    filterOption={(input, option) =>
-                        (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                value={valueFormCon.noiOHienTai?.tinh !== "" ? valueFormCon.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}    
+                filterOption={(input, option) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                value={valueFormCon.noiOHienTai?.tinh !== "" && valueFormCon.noiOHienTai?.tinh !== "undefined" ? valueFormCon.noiOHienTai?.tinh : "Tỉnh (Thành phố)"}    
                 onChange={ getValueSelect_Tinh_Con}>
                         { renderTinh("diaChi")}
                 </Select>
@@ -448,7 +450,7 @@ export default function Step7() {
                 filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                 }
-                value={valueFormCon.noiOHienTai?.quan !== "" ? valueFormCon.noiOHienTai?.quan : "Quận (Thành phố)"}    
+                value={valueFormCon.noiOHienTai?.quan !== "" && valueFormCon.noiOHienTai?.quan !== "undefined" ? valueFormCon.noiOHienTai?.quan : "Quận (Thành phố)"}    
                 onChange={getValueSelect_Quan_Con}>
                     {renderQuan("diaChi")}
                 </Select>
@@ -457,7 +459,7 @@ export default function Step7() {
                 filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                 }
-                value={valueFormCon.noiOHienTai?.huyen !== "" ? valueFormCon.noiOHienTai?.huyen : "Huyện"}    
+                value={valueFormCon.noiOHienTai?.huyen !== "" && valueFormCon.noiOHienTai?.huyen !== "undefined" ? valueFormCon.noiOHienTai?.huyen : "Huyện"}    
                 onChange={getValueSelect_Huyen_Con}>
                     {renderHuyen("diaChi")}
                 </Select>

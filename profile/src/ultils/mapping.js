@@ -182,6 +182,11 @@ export function mappingFamilyRelationship(data){
           ...item,
           noiOHienTai: tachDuLieu(item.residence, 4)
         }
+      } else if(item.home_town && item.home_town !== null && item.home_town.length > 10) {
+        return {
+          ...item,
+          queQuan: tachDuLieu(item.home_town, 3)
+        }
       } else {
         return {...item}
       }
