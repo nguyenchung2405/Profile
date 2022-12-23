@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import { handleDateTime } from '../../ultils/helper';
+import { regexEmail, regexPhone } from '../../title/title';
 
 export default function ThongTinCoBan(props) {
 
     let {setValueIntoForm, validateField, handleChangeGetValueInput, 
         validateForm, showRequiredAlert, valueForm, setValidateForm,
         setValueForm, handleChangeValueRadio, disabledInput} = props;
+    const [checkEmailPhone, setCheckEmailPhone] = useState({});
+
+    const showRequiredAlertEmail = () => {
+        return <p className="required__field">* Email không hợp lệ</p>
+    };
+
+    const showRequiredAlertPhone = () => {
+        return <p className="required__field">* Số điện thoại không hợp lệ. (Bắt đầu bằng 0 hoặc 84 + 9 số)</p>
+    }
 
   return (
     <div>
@@ -45,11 +55,27 @@ export default function ThongTinCoBan(props) {
             <input id="email" name="email" type="text"
             disabled={disabledInput()}
             value={setValueIntoForm("email")} 
-            onBlur={validateField}
+            onBlur={(e)=>{
+                let {name, value} = e.target;
+                let testEmail = regexEmail.test(value);
+                if(testEmail === true){
+                    setCheckEmailPhone({email: false})
+                    setValidateForm({ ...validateForm, [name]: false });
+                } else {
+                    if(value === ""){
+                        setCheckEmailPhone({email: false});
+                        setValidateForm({ ...validateForm, [name]: true });
+                    } else {
+                        setCheckEmailPhone({email: true})
+                        setValidateForm({ ...validateForm, [name]: true });
+                    }
+                }
+            }}
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
             }} />
-            {validateForm.email ? showRequiredAlert() : ""}
+            {validateForm.email && !checkEmailPhone?.email ? showRequiredAlert() : ""}
+            {validateForm.email && checkEmailPhone?.email ? showRequiredAlertEmail() : ""}
         </div>
         <div className="SYLL__left__field">
             <label htmlFor='soDienThoai'>Số điện thoại:
@@ -58,11 +84,26 @@ export default function ThongTinCoBan(props) {
             <input id="soDienThoai" name="soDienThoai" type="text"
             disabled={disabledInput()}
             value={setValueIntoForm("soDienThoai")} 
-            onBlur={validateField}
+            onBlur={(e)=>{
+                let {value, name} = e.target;
+                if(regexPhone.test(value)){
+                    setCheckEmailPhone({phone: false})
+                    setValidateForm({ ...validateForm, [name]: false });
+                } else {
+                    if(value === ""){
+                        setCheckEmailPhone({phone: false})
+                        setValidateForm({ ...validateForm, [name]: true });
+                    } else {
+                        setCheckEmailPhone({phone: true})
+                        setValidateForm({ ...validateForm, [name]: true });
+                    }
+                }
+            }}
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
             }} />
-            {validateForm.soDienThoai ? showRequiredAlert() : ""}
+            {validateForm.soDienThoai && !checkEmailPhone?.phone ? showRequiredAlert() : ""}
+            {validateForm.soDienThoai && checkEmailPhone?.phone ? showRequiredAlertPhone() : ""}
         </div>
         <div className="SYLL__left__field">
             <label htmlFor='soDienThoaiNoiBo'>Số điện thoại nội bộ:</label>
@@ -112,7 +153,7 @@ export default function ThongTinCoBan(props) {
                             ngayThangNamSinh: dateString
                         })
                     } else {
-                        alert(`Ngày tháng năm sinh phải từ 31/12/${namHienTai - 18} trở về trước`)
+                        alert(`Ngày tháng năm sinh phải từ 31/12/${+namHienTai - 18} trở về trước`)
                     }
                    
                 }}

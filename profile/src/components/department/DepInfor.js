@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Select, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_DEPARTMENT, UPDATE_DEPARTMENT } from '../../title/title';
+import { CREATE_DEPARTMENT, regexPhone, UPDATE_DEPARTMENT } from '../../title/title';
 
 export default function DepInfor(props) {
 
@@ -11,6 +11,7 @@ export default function DepInfor(props) {
     const dispatch = useDispatch();
     const {tableDepList} = useSelector(state => state.departmentsReducer)
     let [formValue, setFormValue] = useState({});
+    let [checkPhone, setCheckPhone] = useState(false);
     let [validate, setValidate] = useState({
         name: false,
         address: false,
@@ -190,8 +191,33 @@ export default function DepInfor(props) {
                     <label htmlFor="phone">Số điện thoại phòng ban:<span className="required__field"> *</span></label>
                     <input id="phone" type="text" 
                     value={setValueField("phone")}
+                    onBlur={(e)=>{
+                        let {value, id} = e.target;
+                        if(regexPhone.test(value)){
+                            setValidate({
+                                ...validate,
+                                phone: false
+                            });
+                            setCheckPhone(false)
+                        } else {
+                            if(value === ""){
+                                setValidate({
+                                    ...validate,
+                                    phone: true
+                                });
+                                setCheckPhone(true)
+                            } else {
+                                setValidate({
+                                    ...validate,
+                                    phone: true
+                                });
+                                setCheckPhone(true)
+                            }
+                        }
+                    }}
                     onChange={handleChangeInput} />
-                    {showRemind("phone")}
+                    {validate["phone"] && checkPhone ? <p className="required__field">* Số điện thoại không hợp lệ. (Bắt đầu bằng 0 hoặc 84 + 9 số)</p> : ""}
+                    {validate["phone"] && !checkPhone ? <p className="required__field">* Trường này không được để trống</p> : ""}
                 </div>
                 <div className="dep__infor__note onefield">
                     <label htmlFor="note">Ghi chú:</label>

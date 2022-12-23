@@ -2,12 +2,11 @@ import { checkMicroFe, getTokenInCookie } from "../ultils/helper";
 
 export const TOKEN = getTokenInCookie();
 
-// TOKEN ADMIN, NHÂN SỰ
-// export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA";
-// TOKEN user
-// export const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoyNzUwNDY3MDkwfQ.jS2LpSrpCSosjuMLT1MJcuo1NIemmfv-hkqo4yciNy8"
 export const local = checkMicroFe() === true ? "https://profileservice.tuoitre.vn" : ""
 
+// Regex
+export const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+export const regexPhone = /(84[3|5|7|8|9]|0[3|5|7|8|9])+([0-9]{8}|[0-9]{9})\b/;
 
 export const quaTrinhLVHT = "Quá trình làm việc và học tập";
 export const thamGiaToChucCT = "Tham gia các tổ chức chính trị, các hôị nghề nghiệp";
