@@ -69,6 +69,7 @@ const tablePosListSlice = createSlice({
             state.tablePosList[index].position.name = pos_name;
             let postype = state.positionTyleList.find(postype => postype.id == pos_type_ID)
             // console.log(current(postype))
+            postype.id = postype.id.toString()
             state.tablePosList[index].position_type = postype;
         },
         deleteItemToTablePosList: (state, action)=>{

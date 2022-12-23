@@ -202,8 +202,13 @@ export default function StepsAntd() {
                               dispatch(setAction("reject"))
                           }}>Rejcet</button>
                       </>
-                    }
+                    } 
                 }
+                if(decoded.id !== user_id && status.state === "ACTIVE" && status["can_action"] === false){
+                  return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                  }}>Cập nhật</button>
+              }
             } else if(decoded.id === user_id && status.can_action){
               if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
                   return <>
@@ -217,15 +222,11 @@ export default function StepsAntd() {
                   }}>Send</button>
                 </>
               }
-            } else if(status.state !== "SENDING" && proID === undefined) {
+            } else if(status.state !== "SENDING" && status.state !== "SAVED" && proID === undefined && decoded.id === user_id) {
                 return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                     dispatch(setIsSubmit(true))
                 }}>Tạo</button>
-            } else if(status.state === "ACTIVE" && status["can_action"] === false) {
-                return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
-                    dispatch(setIsSubmit(true))
-                }}>Cập nhật</button>
-            }
+            } 
       } else if(nextStep === 2){
           if(party.length > 0){
               return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{

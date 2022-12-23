@@ -46,7 +46,6 @@ export default function PosModal(props) {
 
     const submitForm=(e)=>{
         e.preventDefault();
-        checkValueForm()
     }
 
     const handleChangeInput = (e)=>{
@@ -127,19 +126,22 @@ export default function PosModal(props) {
             return <div className="alignCenter">
             <button className="dep__btn"
             onClick={()=>{
-                dispatch({
-                    type: CREATE_POSITION_AND_MANAGEMENT,
-                    data: formValue
-                })
-                dispatch(addItemToTablePosList(formValue))
-                setIsShowModal(false)
+                let isNext = checkValueForm();
+                if(isNext){
+                    dispatch({
+                        type: CREATE_POSITION_AND_MANAGEMENT,
+                        data: formValue
+                    })
+                    dispatch(addItemToTablePosList(formValue))
+                    setIsShowModal(false)
+                }
             }}>
-                Tạo123
+                Tạo
             </button>
         </div>
         } else if(titlePosManageModal === "Chỉnh sửa chức vụ"){
             return <div className="alignCenter">
-                <button type='submit' className="dep__btn"
+                <button className="dep__btn"
                 onClick={()=>{
                     let {name, id: pos_id} = formValue.position
                     let {id: pos_type_id} = formValue.position_type;
@@ -157,7 +159,15 @@ export default function PosModal(props) {
                             }
                         }
                     })
-                    setIsShowModal(false)
+                    setIsShowModal(false);
+                    setFormValue({
+                        position: {
+                            name:""
+                        },
+                        position_type: {
+                            id: ""
+                        }
+                    })
                 }}>
                     Cập nhật
                 </button>

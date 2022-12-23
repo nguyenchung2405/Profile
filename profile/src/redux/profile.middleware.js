@@ -91,13 +91,14 @@ function* updateProfile(payload){
     // console.log(payload.valuesUpdate)
     const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
         navigate, action } = payload.valuesUpdate;
-    // console.log(newValueForm)
+    let {hoTen, email, soDienThoai} = newValueForm;
+    let userInfor = {full_name: hoTen, email, phone: soDienThoai};
     let {phongBanCVObj , ...rest} = newValueForm;
     let profile = mappingProfileStep1(newValueForm);
     let depPos = mappingDepartmentPosition(newValueForm);
     let userDegree = mappingUserDegree(newValueForm);
     let jourCard = mappingJournalistCard(newValueForm);
-    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
+    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, userInfor};
     yield put(setIsNextStep(true))
     yield put(setValues(rest))
     let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)

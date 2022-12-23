@@ -9,7 +9,7 @@ const checkQuery = async (req, res, next) => {
         if(full_name || dep_ids || pos_management_ids){
             // console.log("Vô đây")
             const result = await axios({
-                url: `http://dev.userbe.tuoitre.vn/users/?full_name=${encodeURI(full_name)}&dep_ids=${dep_ids}&pos_management_ids=${pos_management_ids}&is_in_user_group=true&page_size=${page_size}&page=${page}&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/?full_name=${encodeURI(full_name)}&dep_ids=${dep_ids}&pos_management_ids=${pos_management_ids}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization

@@ -279,7 +279,7 @@ export default function Step7() {
                                 birthday: dateString
                             })
                         } else {
-                            alert(`Ngày tháng năm sinh phải từ 31/12/${namHienTai - 18} trở về trước`)
+                            alert(`Ngày tháng năm sinh phải từ 31/12/${+namHienTai - 18} trở về trước`)
                         }
                     
                     }}

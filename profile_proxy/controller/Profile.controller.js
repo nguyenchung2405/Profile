@@ -116,7 +116,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
 const update_dep_pos_degress_jourCard = (req,res)=>{
     try {
         console.log("update_dep_pos_degress_jourCard")
-        let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id} = req.body;
+        let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor} = req.body;
         // console.log(jourCard)
         let {headers: {authorization}} = req;
         let promiseArr = [];
@@ -157,7 +157,15 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             },
             data: restJourCard
         });
-        Promise.all([ ...promiseArr,updateDegree,updateJourCard ])
+        const updateUserInfor = axios({
+            url: `http://dev.userbe.tuoitre.vn/users/${user_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: {...userInfor, service_management_id: 2}
+        });
+        Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor])
         .then((resolve)=>{
             let result = [];
             for(let i = 0; i < resolve.length; i++){
