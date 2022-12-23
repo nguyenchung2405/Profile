@@ -75,7 +75,9 @@ export default function DepInfor(props) {
     }
 
     const setValueField = (name)=>{
-        if(formValue[name] || formValue[name] === ""){
+        if(formValue[name] === null) {
+            return ""
+        } else if(formValue[name] || formValue[name] === ""){
             return formValue[name]
         }
     }
@@ -101,7 +103,7 @@ export default function DepInfor(props) {
             setValidate({
                 ...newValidate
             })
-        } else if(depInfor?.title === "Tạo phòng ban"){
+        } else if(depInfor?.title === "Tạo phòng ban" || depInfor?.title === "Chỉnh sửa phòng ban"){
             let {parent_id, ...rest} = validate;
             for(let prop in rest){
                 if(formValue[prop] && formValue[prop] !== ""){
@@ -114,7 +116,7 @@ export default function DepInfor(props) {
             setValidate({
                 ...newValidate
             })
-        }
+        } 
         return isNext;
     }
 

@@ -20,11 +20,6 @@ export async function createFamilyRelationshipAPI(data){
             ...rest,
             residence: `${noiOHienTai?.diaChi}, ${noiOHienTai?.huyen}, ${noiOHienTai?.quan}, ${noiOHienTai?.tinh}`
         }
-        // let newData = {
-        //     ...rest,
-        //     residence: "abc"
-        // }
-        // console.log(newData)
         const res = await axios({
             url: `${local}/api/family-relationship`,
             method: "POST",

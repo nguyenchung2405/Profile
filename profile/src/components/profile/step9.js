@@ -100,17 +100,6 @@ export default function Step8() {
         });
     }, [noiOHienTaiHuyen])
 
-    const dacDiemLichSu = [
-        {
-            title: '05/04/2003 - 10/05/2005',
-            description: "Nhân viên A"
-        },
-        {
-            title: '10/05/2005 - 10/05/2008',
-            description: "Quản lý B"
-        },
-    ];
-
     const closeModal = ()=>{
         setIsShowModal(false)
     }
@@ -189,23 +178,29 @@ export default function Step8() {
     }
 
     const renderHistoryFeatures = ()=>{
-        return dacDiemLichSu.map((item, index)=>{
-            return <div className="center">
-                <div className="process step8" key={index}>
-                    <div className="point"></div>
-                    <div className="process__infor">
-                        <p>{item.title}</p>
-                        <p>{item.description}</p>
+        if(valueForm?.historical_features?.length > 0 && typeof valueForm?.historical_features === "object"){
+            return valueForm?.historical_features?.map((item, index)=>{
+                let tuNgay = moment(new Date(item.his_from)).format("DD/MM/YYYY");
+                let denNgay = moment(new Date(item.his_to)).format("DD/MM/YYYY");
+                return <div className="center">
+                    <div className="process step8" key={index}>
+                        <div className="point"></div>
+                        <div className="process__infor">
+                            <p>{`${tuNgay} - ${denNgay}`}</p>
+                            <p>{item.content}</p>
+                        </div>
+                        <AiOutlineMinusCircle onClick={() => {
+                            let newHisArr = [...valueForm?.historical_features];
+                            newHisArr = newHisArr.filter(his => his.content !== item.content)
+                            setValueForm({
+                                ...valueForm,
+                                historical_features: [...newHisArr]
+                            });
+                        }} />
                     </div>
-                    <AiOutlineMinusCircle onClick={() => {
-                        // dispatch({
-                        //     type: DELETE_REWARD_DISCIPLINE,
-                        //     re_dis_id: item.re_dis_id
-                        // })
-                    }} />
                 </div>
-            </div>
-        })
+            })
+        }
     }
 
     const handleChangeValue = (e)=>{
@@ -272,7 +267,9 @@ export default function Step8() {
             </div>
             <div className="field">
                 <label htmlFor="congTac">Công tác:</label>
-                <input id="congTac" />
+                <input id="congTac" name="mission"
+                value={valueOfField("mission")}
+                onChange={handleChangeValue} />
             </div>
             <div className="Step8__quaTrinh">
                     <div className="Step8__content">
@@ -292,15 +289,18 @@ export default function Step8() {
                     <ModalComponent 
                     title={lichSuBanThan}
                     isShowModal={isShowModal}
-                    closeModal={closeModal} />
+                    closeModal={closeModal}
+                    valueForm={valueForm}
+                    setValueForm={setValueForm} />
             </div>
             <div className="field">
                 <label htmlFor="congViecHienTai">Công việc hiện tại:</label>
-                <input id="congViecHienTai" />
+                <input id="congViecHienTai" name="current_job"
+                value={valueOfField("current_job")}
+                onChange={handleChangeValue} />
             </div>
             <div className="field noiCuTru">
-                    <label htmlFor='noiCuTru'>Nơi ở hiện tại:
-                    </label>
+                    <label htmlFor='noiCuTru'>Nơi ở hiện tại:</label>
                     <input id="NoiOHienTai" name="diaChi" type="text" 
                     value={valueForm?.noiOHienTai?.diaChi ? valueForm?.noiOHienTai?.diaChi : ""}
                     onChange={(e)=>{

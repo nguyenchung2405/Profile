@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, DatePicker, Button } from 'antd';
 import "./modal.css"
-import { boiDuong, CREATE_ORGANIZATION, CREATE_PERSONAL_HISTORY, CREATE_REWARD_DISCIPLINE, CREATE_TRAINING, daoTao, khenThuong, kyLuat, quaTrinhLVHT, thamGiaToChucCT } from '../../title/title';
+import { boiDuong, CREATE_ORGANIZATION, CREATE_PERSONAL_HISTORY, CREATE_REWARD_DISCIPLINE, CREATE_TRAINING, daoTao, khenThuong, kyLuat, lichSuBanThan, quaTrinhLVHT, thamGiaToChucCT } from '../../title/title';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import {handleDateTime} from "../../ultils/helper"
 
 export default function ModalComponent(props) {
 
-    let { title, isShowModal, closeModal } = props;
+    let { title, isShowModal, closeModal, setValueForm, valueForm } = props;
     const dispatch = useDispatch()
     let { user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
     const [valueModal, setValueModal] = useState({});
-    // console.log(valueModal)
+
+    useEffect(()=>{
+        if(!isShowModal){
+            setValueModal({});
+        }
+    }, [isShowModal]);
 
     const handleOk = () => {
         if(title === quaTrinhLVHT){
@@ -55,10 +61,26 @@ export default function ModalComponent(props) {
                 type: CREATE_REWARD_DISCIPLINE,
                 data: valueModal
             })
+        } else if(title === lichSuBanThan){
+            let newHistorical_features = [];
+            if(valueForm?.historical_features?.length > 0){
+                newHistorical_features = [...valueForm.historical_features];
+                newHistorical_features.push(valueModal);
+                setValueForm({
+                    ...valueForm,
+                    historical_features: [...newHistorical_features]
+                })
+            } else {
+                newHistorical_features.push(valueModal);
+                setValueForm({
+                    ...valueForm,
+                    historical_features: [...newHistorical_features]
+                })
+            }
         }
         closeModal()
     };
-
+    
     const handleCancel = () => {
         closeModal()
     };
@@ -84,8 +106,12 @@ export default function ModalComponent(props) {
                 ...valueModal,
                 time_from: moment(dateString, "DD/MM/YYYY").toISOString()
             })
+        } else if(title === lichSuBanThan){
+            setValueModal({
+                ...valueModal,
+                his_from: moment(dateString, "DD/MM/YYYY").toISOString()
+            })
         }
-        
     };
 
     const getDateValue_DenNgay = (date, dateString) => {
@@ -149,6 +175,26 @@ export default function ModalComponent(props) {
                 }
             }
         }
+        if(title === lichSuBanThan){
+            if(!valueModal?.his_from){
+                alert("Vui lòng chọn Từ ngày trước.")
+                setValueModal({
+                    ...valueModal
+                })
+            } else {
+                if(Date.parse(denNgay) > Date.parse(valueModal?.his_from)) {
+                    setValueModal({
+                        ...valueModal,
+                        his_to: denNgay
+                    })
+                } else {
+                    alert("Đến ngày phải lớn hơn Từ ngày.")
+                    setValueModal({
+                        ...valueModal
+                    })
+                }
+            }
+        }
     };
 
     const handleContent = (e) => {
@@ -173,6 +219,36 @@ export default function ModalComponent(props) {
                 ...valueModal,
                 note: value
             })
+        } else if(title === lichSuBanThan){
+            setValueModal({
+                ...valueModal,
+                content: value
+            })
+        }
+    }
+    // console.log(isShowModal)
+    const valueOfField = (from_or_to)=>{
+        // Đang làm step 8 cái modal => khi đóng modal thì clear data các field
+        if(title === lichSuBanThan){
+            if(from_or_to === "from"){
+                if(valueModal?.his_from && valueModal?.his_from !== ""){
+                    return handleDateTime(valueModal["his_from"])
+                } else {
+                    return ""
+                }
+            } else if(from_or_to === "to"){
+                if(valueModal?.his_to && valueModal?.his_to !== ""){
+                    return handleDateTime(valueModal["his_to"])
+                } else {
+                    return ""
+                }
+            } else {
+                if(valueModal?.content && valueModal?.content !== ""){
+                    return valueModal["content"]
+                } else {
+                    return ""
+                }
+            }
         }
     }
 
@@ -186,7 +262,8 @@ export default function ModalComponent(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue} />
+                    onChange={getDateValue}
+                 />
             </>
         } else if (title === kyLuat) {
             return <>
@@ -197,7 +274,8 @@ export default function ModalComponent(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue} />
+                    onChange={getDateValue}
+                 />
             </>
         } else {
             return <>
@@ -208,7 +286,8 @@ export default function ModalComponent(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue} />
+                    onChange={getDateValue}
+                    value={valueOfField("from")} />
                 <span>Đến ngày:</span>
                 <DatePicker
                     suffixIcon={<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -216,7 +295,8 @@ export default function ModalComponent(props) {
                     </svg>}
                     format="DD-MM-YYYY"
                     placeholder=''
-                    onChange={getDateValue_DenNgay} />
+                    onChange={getDateValue_DenNgay}
+                    value={valueOfField("to")}/>
             </>
         }
     }
@@ -251,7 +331,7 @@ export default function ModalComponent(props) {
                         :
                         ""
                     }
-                    <textarea onChange={handleContent}></textarea>
+                    <textarea onChange={handleContent} value={valueOfField("content")}></textarea>
                 </div>
             </Modal>
         </div>
