@@ -1,7 +1,7 @@
 import { call, takeLatest, put } from "redux-saga/effects";
 import { CREATE_POSITION_AND_MANAGEMENT, CREATE_POSITION_TYPE, DELETE_POSITION_AND_MANAGEMENT, DELETE_POSITION_TYPE, GET_POSITIONS_LIST, GET_POSITION_TYPE_LIST, UPDATE_POSITION_AND_MANAGEMENT, UPDATE_POSITION_TYPE } from "../../title/title";
 import { createPositionAndManagementAPI, createPosTypeAPI, deletePositionAndManagementAPI, deletePosTypeAPI, getPositionListAPI, getPositionTypeListAPI, updatePositionAndManagementAPI, updatePosTypeAPI } from "../API/positionAPI";
-import { addPosTypeAndMessage, deleteItemToTablePosList, deletePosTypeAndMessage, setLoading, setMessage, setPositionTyleList, setTablePosList, updateItemToTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
+import { addItemToTablePosList, addPosTypeAndMessage, deleteItemToTablePosList, deletePosTypeAndMessage, setLoading, setMessage, setPositionTyleList, setTablePosList, updateItemToTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
 
 function* getPositionList(payload){
     let {page,pageNumber} = payload.table;
@@ -58,6 +58,7 @@ function* createPositionAndManagement(payload){
     let result = yield call(createPositionAndManagementAPI, data)
     let {code, data: dataResponse, message} = result;
     if(code == 200 && message === "Success"){
+        yield put(addItemToTablePosList({dataResponse, data}))
         yield put(setMessage({type: "success", msg:"Thao tác thành công"}))
     } else {
         yield put(setMessage({type: "error", msg:"Thao tác thất bại"}))
@@ -65,6 +66,7 @@ function* createPositionAndManagement(payload){
 }
 
 function* updatePositionAndManagement(payload){
+    // Đang sửa bug ở đây, sau khi tạo xong => thằng mới không sửa, xóa được
     let {pos_management_id, pos_type: {pos_type_id}, position: {name, pos_id}} = payload.data;
     let data = { pos_management_id, pos_type_id, name, pos_id };
     // console.log(data)

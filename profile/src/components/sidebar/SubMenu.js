@@ -114,7 +114,12 @@ export default function SubMenu() {
 
     const renderSubMenu  = ()=>{
         if(uri === "profile-service"){
-            return items;
+            let decoded = jwt_decode(TOKEN);
+            if(decoded.id === 1){
+                return items;
+            } else {
+                return items_user;
+            }
         } else {
             let decoded = jwt_decode(TOKEN);
             if(decoded.id === 1){

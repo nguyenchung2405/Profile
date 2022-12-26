@@ -45,7 +45,7 @@ const getPositionTypeList = async (req, res) => {
         // console.log(result)
         res.send(result.data)
     } catch (error) {
-        console.log("lỗi", error)
+        // console.log("lỗi", error)
         res.send(error)
     }
 }
