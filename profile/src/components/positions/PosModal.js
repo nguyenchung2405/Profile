@@ -91,9 +91,17 @@ export default function PosModal(props) {
 
     const valueOfField = (name)=>{
         if(name === "name"){
-            return formValue.position?.name
+            if(formValue?.name !== undefined && formValue?.name !== ""){
+                return formValue?.name
+            } else {
+                return ""
+            }
         } else {
-            return formValue.position_type?.id
+            if(formValue?.identifier !== undefined && formValue?.identifier !== ""){
+                return formValue?.identifier
+            } else {
+                return ""
+            }
         }
     }
 
@@ -132,8 +140,9 @@ export default function PosModal(props) {
                         type: CREATE_POSITION_AND_MANAGEMENT,
                         data: formValue
                     })
-                    dispatch(addItemToTablePosList(formValue))
+                    // dispatch(addItemToTablePosList(formValue))
                     setIsShowModal(false)
+                    setFormValue({})
                 }
             }}>
                 Tạo

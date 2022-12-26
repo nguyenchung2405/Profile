@@ -50,10 +50,16 @@ const tablePosListSlice = createSlice({
             state.message = action.payload;
         },
         addItemToTablePosList: (state,action)=>{
-            let {name, identifier: postype_id} = action.payload;
+            console.log(action.payload)
+            let {data} = action.payload;
+            let {dataResponse} = action.payload;
+            let {name, identifier: postype_id} = data;
+            let {id, pos_id} = dataResponse;
             let pos_type = state.positionTyleList.find(postype => +postype.id === +postype_id)
             let {identifier} = pos_type;
             let newObject = {
+                id,
+                pos_id,
                 position: {
                     name: name
                 },
