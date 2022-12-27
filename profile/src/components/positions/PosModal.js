@@ -16,7 +16,7 @@ export default function PosModal(props) {
         identifier: false
     });
     // console.log("dataToModal",dataToModal)
-    console.log("formValue",formValue)
+    // console.log("formValue",formValue)
     
     useEffect(()=>{
         setFormValue(dataToModal)

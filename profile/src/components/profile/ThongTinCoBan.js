@@ -58,18 +58,20 @@ export default function ThongTinCoBan(props) {
             onBlur={(e)=>{
                 let {name, value} = e.target;
                 let testEmail = regexEmail.test(value);
+                let newCheckEmail = {};
                 if(testEmail === true){
-                    setCheckEmailPhone({email: false})
+                    newCheckEmail = {email:false};
                     setValidateForm({ ...validateForm, [name]: false });
                 } else {
                     if(value === ""){
-                        setCheckEmailPhone({email: false});
+                        newCheckEmail = {email:false};
                         setValidateForm({ ...validateForm, [name]: true });
                     } else {
-                        setCheckEmailPhone({email: true})
+                        newCheckEmail = {email:true};
                         setValidateForm({ ...validateForm, [name]: true });
                     }
                 }
+                setCheckEmailPhone({ ...checkEmailPhone ,...newCheckEmail})
             }}
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
@@ -86,18 +88,20 @@ export default function ThongTinCoBan(props) {
             value={setValueIntoForm("soDienThoai")} 
             onBlur={(e)=>{
                 let {value, name} = e.target;
+                let newCheckPhone = {};
                 if(regexPhone.test(value)){
-                    setCheckEmailPhone({phone: false})
+                    newCheckPhone = {phone: false}
                     setValidateForm({ ...validateForm, [name]: false });
                 } else {
                     if(value === ""){
-                        setCheckEmailPhone({phone: false})
+                        newCheckPhone = {phone: false}
                         setValidateForm({ ...validateForm, [name]: true });
                     } else {
-                        setCheckEmailPhone({phone: true})
+                        newCheckPhone = {phone: true}
                         setValidateForm({ ...validateForm, [name]: true });
                     }
                 }
+                setCheckEmailPhone({ ...checkEmailPhone ,...newCheckPhone})
             }}
             onChange={(e)=>{
                 handleChangeGetValueInput(e);

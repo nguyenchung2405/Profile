@@ -164,7 +164,7 @@ export default function TableProfiles() {
                   showSearch
                   allowClear
                   className="tool__search"
-                  placeholder="Phòng ban"
+                  placeholder="Bộ phận công tác"
                   filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                   }
@@ -178,7 +178,7 @@ export default function TableProfiles() {
                   showSearch
                   allowClear
                   className="tool__search"
-                  placeholder="Chức vụ"
+                  placeholder="Chức danh, chức vụ"
                   filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                   }

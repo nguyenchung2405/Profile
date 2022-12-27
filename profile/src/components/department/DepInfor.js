@@ -140,7 +140,7 @@ export default function DepInfor(props) {
     const showDepParentSelect = ()=>{
         if(!depID && depInfor?.title === "Tạo tổ"){
             return <div className="dep__infor__parent onefield">
-            <label htmlFor="parent">Phòng ban cha:<span className="required__field"> *</span></label>
+            <label htmlFor="parent">Bộ phận công tác:<span className="required__field"> *</span></label>
             <Select
             id="parent_id"
             showSearch
@@ -174,21 +174,21 @@ export default function DepInfor(props) {
         <div className="dep__infor">
             <form onSubmit={submitForm}>
                 <div className="dep__infor__name onefield">
-                    <label htmlFor="name">Tên phòng ban:<span className="required__field"> *</span></label>
+                    <label htmlFor="name">{depInfor?.title === "Tạo tổ" ? "Tạo tổ ": "Tên phòng ban"}:<span className="required__field"> *</span></label>
                     <input id="name" type="text" 
                     value={setValueField("name")}
                     onChange={handleChangeInput} />
                     {showRemind("name")}
                 </div>
                 <div className="dep__infor__address onefield">
-                    <label htmlFor="address">Địa chỉ phòng ban:<span className="required__field"> *</span></label>
+                    <label htmlFor="address">{depInfor?.title === "Tạo tổ" ? "Địa chỉ tổ ": "Địa chỉ phòng ban"}:<span className="required__field"> *</span></label>
                     <input id="address" type="text" 
                     value={setValueField("address")}
                     onChange={handleChangeInput} />
                     {showRemind("address")}
                 </div>
                 <div className="dep__infor__phone onefield">
-                    <label htmlFor="phone">Số điện thoại phòng ban:<span className="required__field"> *</span></label>
+                    <label htmlFor="phone">{depInfor?.title === "Tạo tổ" ? "Số điện thoại tổ ": "Số điện thoại phòng ban"}:<span className="required__field"> *</span></label>
                     <input id="phone" type="text" 
                     value={setValueField("phone")}
                     onBlur={(e)=>{

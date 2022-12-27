@@ -6,7 +6,7 @@ import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setIsSubmit, setNoi
 import { AiOutlineMinus } from "react-icons/ai"
 import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from '../../title/title';
+import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, regexEmail, regexPhone, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
 import Image from './image';
 import Modal_Step1 from '../modal/modal_step1';
@@ -403,6 +403,18 @@ export default function SoYeuLyLich(props) {
                     newValueForm = { ...newValueForm, [value]: { ...newValueForm[value], chucVu: true } }
                     // newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
                     isNextStep = false
+                }
+            } else if(value === "email" || value === "soDienThoai"){
+                if(value === "email"){
+                    if(!regexEmail.test(valueForm[value])){
+                        newValueForm = {...newValueForm, [value]: true};
+                        isNextStep = false;
+                    }
+                } else if(value === "soDienThoai") {
+                    if(!regexPhone.test(valueForm[value])){
+                        newValueForm = {...newValueForm, [value]: true};
+                        isNextStep = false;
+                    }
                 }
             } else {
                 if (valueForm[value] === "" || valueForm[value] === undefined || valueForm[value] === null) {

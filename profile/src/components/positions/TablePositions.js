@@ -126,7 +126,7 @@ export default function TablePositions() {
           title=""
           key="thaoTac"
           render={(text, record) => {
-            console.log(record)
+            // console.log(record)
             return <div className="thaoTac__Edit">
               <button className="thaoTac__Edit__btn" onClick={() => {
                 setDataToModal(record)
