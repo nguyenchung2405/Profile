@@ -174,7 +174,7 @@ export default function DepInfor(props) {
         <div className="dep__infor">
             <form onSubmit={submitForm}>
                 <div className="dep__infor__name onefield">
-                    <label htmlFor="name">{depInfor?.title === "Tạo tổ" ? "Tạo tổ ": "Tên phòng ban"}:<span className="required__field"> *</span></label>
+                    <label htmlFor="name">{depInfor?.title === "Tạo tổ" ? "Tên tổ ": "Tên phòng ban"}:<span className="required__field"> *</span></label>
                     <input id="name" type="text" 
                     value={setValueField("name")}
                     onChange={handleChangeInput} />

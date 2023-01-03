@@ -1,5 +1,6 @@
 p.dep__children {
     margin-bottom: 0;
+    color: black;
 }
 
 .table__dep__name {
@@ -127,6 +128,7 @@ div.onefield textarea {
 .alignCenter {
     text-align: center;
     padding: 0px 0 20px 0;
+    position: relative;
 }
 
 .dep__infor__parent div.ant-select-selector {

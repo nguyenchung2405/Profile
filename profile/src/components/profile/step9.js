@@ -26,7 +26,33 @@ export default function Step8() {
     const [valueForm, setValueForm] = useState({});
     // console.log(valueForm)
     // console.log(familyRelationship)
-    // console.log(isDone)
+    // console.log(isDone, isUpdate, isCreated)
+
+    const filterRelationship = ()=>{
+        let a =familyRelationship.map((item)=>{
+            if(item.type.toLowerCase().includes("cấp") || item.type.toLowerCase().includes("đồng")){
+                return item
+            }
+        });
+        let b = a.filter(item => item !== undefined);
+        return b.map((item) => {
+            return <li className={valueForm.id === item.id ? "activate__li" : ""} onClick={(e)=>{
+                let {className} = e.target;
+                let itemExist = familyRelationship.find(relation => relation.id === item.id)
+                if(itemExist && !className.includes("activate__li")){
+                    setValueForm({...itemExist});
+                    dispatch(setFamilyRelationshipExist(true))
+                    setIsUpdate(true);
+                    // e.target.className = "activate__li"
+                } else {
+                    setValueForm({});
+                    setIsUpdate(false);
+                    dispatch(setFamilyRelationshipExist(false))
+                    // e.target.className = ""
+                }
+            }}>{`${item.full_name} - ${item.type}`}</li>
+        })
+    }
 
     useEffect(()=>{
         return ()=>{
@@ -170,7 +196,6 @@ export default function Step8() {
     const renderQuanHe = ()=>{
         let htmlRendered = [];
         let quanHeArr = ["Cấp trên","Cấp dưới","Đồng nghiệp","Sếp lớn"];
-        // htmlRendered.push(<Option value="">Phòng ban</Option>)
         for(let quanHe of quanHeArr){
             htmlRendered.push(<Option value={quanHe}>{quanHe}</Option>) 
         }
@@ -212,30 +237,50 @@ export default function Step8() {
     }
 
     const handleChangQuanHe = (value)=>{
-        if(familyRelationship.length > 0){
-            let itemIsExist = familyRelationship.find(item => item.type === value);
-            if(itemIsExist){
-                setValueForm({...itemIsExist});
-                dispatch(setFamilyRelationshipExist(true))
-                setIsUpdate(true);
-            } else {
-                setValueForm({
-                    type: value
-                })
-                setIsUpdate(false);
-                dispatch(setFamilyRelationshipExist(false))
-            }
-        } else {
-            setValueForm({
-                ...valueForm,
-                type: value
-            })
-        }
+        setValueForm({
+            ...valueForm,
+            type: value
+        })
+        // if(familyRelationship.length > 0){
+        //     let itemIsExist = familyRelationship.find(item => item.type === value);
+        //     if(itemIsExist){
+        //         setValueForm({...itemIsExist});
+        //         dispatch(setFamilyRelationshipExist(true))
+        //         setIsUpdate(true);
+        //     } else {
+        //         setValueForm({
+        //             type: value
+        //         })
+        //         setIsUpdate(false);
+        //         dispatch(setFamilyRelationshipExist(false))
+        //     }
+        // } else {
+        //     setValueForm({
+        //         ...valueForm,
+        //         type: value
+        //     })
+        // }
     }
 
   return (
     <div className="alignCenter">
+        <div className="fami__rela__position">
+            <h3>Danh sách quan hệ xã hội:</h3>
+            <ol>
+                {filterRelationship()}
+            </ol>
+        </div>
         <div className="Step8">
+            <div className="quanHeGiaDinh">
+                <Select
+                value={valueForm?.type !== "" && valueForm?.type !== undefined ? valueForm?.type : "Quan hệ xã hội"}
+                dropdownStyle={{minWidth: "277px"}}
+                popupClassName="quanHeList"
+                onChange={handleChangQuanHe}
+                >
+                    {renderQuanHe()}
+                </Select>
+            </div>
             <div className="field">
                 <label htmlFor="hoTen">Họ tên:</label>
                 <input id="hoTen" name="full_name" 
@@ -337,16 +382,6 @@ export default function Step8() {
                     onChange={getValueSelect_NoiO_Huyen}>
                         {renderHuyen()}
                     </Select>
-            </div>
-            <div className="quanHeGiaDinh">
-                <Select
-                defaultValue="Quan hệ gia đình"
-                dropdownStyle={{minWidth: "277px"}}
-                popupClassName="quanHeList"
-                onChange={handleChangQuanHe}
-                >
-                    {renderQuanHe()}
-                </Select>
             </div>
         </div>
     </div>
