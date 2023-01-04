@@ -11,9 +11,14 @@ export let handleDateTime = (date) => {
         } else {
             // let convertToNumber = Date.parse(date)
             // console.log(convertToNumber)
-            let convert1 = moment(new Date(date)).format("DD-MM-YYYY")
+            if(date.includes(".000Z")){
+                let convert1 = moment(new Date(date)).format("DD-MM-YYYY")
+                convert = moment(convert1, "DD-MM-YYYY")
+            } else {
+                let convert1 = moment(new Date(date.concat(".000Z"))).format("DD-MM-YYYY")
+                convert = moment(convert1, "DD-MM-YYYY")
+            }
             // console.log(convert1)
-            convert = moment(convert1, "DD-MM-YYYY")
         }
         // console.log(convert)
         return convert

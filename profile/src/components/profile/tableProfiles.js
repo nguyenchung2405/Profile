@@ -1,21 +1,18 @@
-import { Table, Select, message } from 'antd'
+import { Table, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH, TOKEN, local } from '../../title/title';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { AiFillFileAdd } from "react-icons/ai";
-import {BiImport} from "react-icons/bi"
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
-import unknownGenderIMG from "../../img/unknownGender.png"
 import { checkMicroFe } from '../../ultils/helper';
-import axios from 'axios';
 
 export default function TableProfiles() {
     let uri = checkMicroFe() === true ? "/profile-service" : "";
@@ -97,36 +94,6 @@ export default function TableProfiles() {
           })
       }
     }
-    
-    const uploadFileImport = async (e)=>{
-      let file = e.target.files[0];
-      let form = new FormData();
-      form.append("file", file);
-      message.open({
-        type: 'loading',
-        content: 'Đang import dữ liệu. Vui lòng chờ',
-        duration: 0,
-        key: "import"
-      })
-      const result = await axios({
-          url: `${local}/api/profiles/importation?start_row=3&end_row=498`,
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + TOKEN
-          },
-          data: form
-      })
-      message.destroy("import")
-      let {message: msgResponse} = result;
-      if(msgResponse === "Success"){
-        message.success("Import thành công.")
-        setTimeout(()=>{
-            navigate(0);  
-        }, 2000)     
-      } else {
-        message.error("Import thất bại.")
-      }
-}
 
     const femaleAvatar = () => {
       return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
@@ -137,7 +104,7 @@ export default function TableProfiles() {
     }
 
     const unknownSexAvatar = () => {
-      return <img className="avatarUser" src={unknownGenderIMG} alt="avatar unknown gender" />
+      return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
     }
 
     return (
@@ -159,17 +126,37 @@ export default function TableProfiles() {
                   let {value} = e.target;
                   handleChangeSearch("full_name",value)
               }}
+              onKeyDown={(e)=>{
+                let {key} = e;
+                if(key.toLowerCase() === "enter"){
+                  setIsSearch(true)
+                    dispatch({
+                      type: SEARCH,
+                      data: {search, page, pageNumber}
+                  })
+                }
+              }}
               />
               <Select
                   showSearch
                   allowClear
                   className="tool__search"
-                  placeholder="Phòng ban"
+                  placeholder="Bộ phận công tác"
                   filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                   }
                   onChange={(value)=>{
                       handleChangeSearch("dep_ids",value)
+                  }}
+                  onKeyDown={(e)=>{
+                    let {key} = e;
+                    if(key.toLowerCase() === "enter"){
+                      setIsSearch(true)
+                        dispatch({
+                          type: SEARCH,
+                          data: {search, page, pageNumber}
+                      })
+                    }
                   }}
               >
                     {renderDepListOption()}
@@ -178,12 +165,22 @@ export default function TableProfiles() {
                   showSearch
                   allowClear
                   className="tool__search"
-                  placeholder="Chức vụ"
+                  placeholder="Chức danh, chức vụ"
                   filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
                   }
                   onChange={(value)=>{
                       handleChangeSearch("pos_management_ids",value)
+                  }}
+                  onKeyDown={(e)=>{
+                    let {key} = e;
+                    if(key.toLowerCase() === "enter"){
+                      setIsSearch(true)
+                        dispatch({
+                          type: SEARCH,
+                          data: {search, page, pageNumber}
+                      })
+                    }
                   }}
               >
                     {renderPosListOption()}
@@ -203,13 +200,6 @@ export default function TableProfiles() {
                     }
                     
                 }} >Tìm kiếm</button>
-                <label htmlFor='import' className="create_acc_profile btn__import" >
-                    <span>
-                        <BiImport /> 
-                        Import
-                    </span>
-                </label>
-                <input id="import" type="file" onChange={uploadFileImport} />
           </div>
         </div>
         <Table
@@ -257,7 +247,7 @@ export default function TableProfiles() {
               }
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Bộ phận công tấc" key="phongBan"
+          <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
             render={(text, record, index) => {
               let tenPB = [];
                 for(let PB of record.user_dep_pos){

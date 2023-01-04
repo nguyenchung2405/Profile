@@ -1,4 +1,4 @@
-import { Button, DatePicker, Select, Steps } from 'antd'
+import { Button, DatePicker, Select } from 'antd'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
@@ -13,7 +13,6 @@ import ModalComponent from '../modal/modal';
 export default function Step8() {
 
     const {Option} = Select;
-    const {Step} = Steps;
     const dispatch = useDispatch();
     let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
     let {isSubmit} = useSelector(state => state.steps1Reducer);
@@ -22,8 +21,37 @@ export default function Step8() {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isUpdate, setIsUpdate ] = useState(false);
     const [valueForm, setValueForm] = useState({});
-    // console.log(valueForm)
+    console.log(valueForm)
     // console.log(familyRelationship)
+    // console.log(isCreated, isUpdate)
+
+    const filterRelationship = ()=>{
+        let a =familyRelationship.map((item)=>{
+            if(item.type.toLowerCase().includes("cha") || item.type.toLowerCase().includes("mẹ") ||
+            item.type.toLowerCase().includes("anh") || item.type.toLowerCase().includes("em") ||
+            item.type.toLowerCase().includes("chị")){
+                return item
+            }
+        });
+        let b = a.filter(item => item !== undefined);
+        return b.map((item) => {
+            return <li className={valueForm.id === item.id ? "activate__li" : ""} onClick={(e)=>{
+                let {className} = e.target;
+                let itemExist = familyRelationship.find(relation => relation.id === item.id)
+                if(itemExist && !className.includes("activate__li")){
+                    setValueForm({...itemExist});
+                    dispatch(setFamilyRelationshipExist(true))
+                    setIsUpdate(true);
+                    // e.target.className = "activate__li"
+                } else {
+                    setValueForm({});
+                    setIsUpdate(false);
+                    dispatch(setFamilyRelationshipExist(false))
+                    // e.target.className = ""
+                }
+            }}>{`${item.full_name} - ${item.type}`}</li>
+        })
+    }
 
     useEffect(()=>{
         dispatch({
@@ -53,22 +81,32 @@ export default function Step8() {
                     dispatch(setIsSubmit(false))
                     dispatch(setMessageAlert({type: "error", msg: "Thao tác thất bại."}))
                 } else {
-                    if(!isUpdate){
-                        // console.log("Tạo family")
-                        valueForm.pro_id = pro_id;
-                        dispatch({
-                            type: CREATE_FAMILY_RELATIONSHIP,
-                            data: valueForm
-                        })
+                    let relationExisted = familyRelationship.find(rela => rela.type === valueForm.type);
+                    if(relationExisted !== undefined && (relationExisted.type === "Ông nội" || relationExisted.type === "Ông ngoại" ||
+                    relationExisted.type === "Bà nội" || relationExisted.type === "Bà ngoại" ||
+                    relationExisted.type === "Cha" || relationExisted.type === "Mẹ")){
+                        setValueForm({...relationExisted});
+                        setIsUpdate(true);
+                        dispatch(setFamilyRelationshipExist(true))
                         dispatch(setIsSubmit(false))
                     } else {
-                        // console.log("Cập nhật family")
-                        dispatch({
-                            type: UPDATE_FAMILY_RELATIONSHIP,
-                            data: valueForm
-                        })
-                        dispatch(setIsSubmit(false))
-                    }
+                        if(!isUpdate){
+                            // console.log("Tạo family")
+                            valueForm.pro_id = pro_id;
+                            dispatch({
+                                type: CREATE_FAMILY_RELATIONSHIP,
+                                data: valueForm
+                            })
+                            dispatch(setIsSubmit(false))
+                        } else {
+                            // console.log("Cập nhật family")
+                            dispatch({
+                                type: UPDATE_FAMILY_RELATIONSHIP,
+                                data: valueForm
+                            })
+                            dispatch(setIsSubmit(false))
+                        }
+                    } 
                 }
             }
     }, [isSubmit])
@@ -162,10 +200,9 @@ export default function Step8() {
 
     const renderQuanHe = ()=>{
         let htmlRendered = [];
-        let quanHeArr = ["Cha","Mẹ","Anh trai","Em trai"];
-        // htmlRendered.push(<Option value="">Phòng ban</Option>)
+        let quanHeArr = ["Ông nội","Bà nội","Ông ngoại","Bà ngoại","Cha","Mẹ","Anh","Chị","Em"];
         for(let quanHe of quanHeArr){
-            htmlRendered.push(<Option value={quanHe}>{quanHe}</Option>) 
+            htmlRendered.push(<Option key={quanHe.trim()} value={quanHe}>{quanHe}</Option>) 
         }
         return htmlRendered
     }
@@ -205,30 +242,50 @@ export default function Step8() {
     }
 
     const handleChangeQuanHe = (value)=>{
-        if(familyRelationship.length > 0){
-            let itemIsExist = familyRelationship.find(item => item.type === value);
-            if(itemIsExist){
-                setValueForm({...itemIsExist});
-                dispatch(setFamilyRelationshipExist(true))
-                setIsUpdate(true);
-            } else {
-                setValueForm({
+        setValueForm({
+                    ...valueForm,
                     type: value
-                })
-                setIsUpdate(false);
-                dispatch(setFamilyRelationshipExist(false))
-            }
-        } else {
-            setValueForm({
-                ...valueForm,
-                type: value
-            })
-        }
+        })
+        // if(familyRelationship.length > 0){
+        //     let itemIsExist = familyRelationship.find(item => item.type === value);
+        //     if(itemIsExist){
+        //         setValueForm({...itemIsExist});
+        //         dispatch(setFamilyRelationshipExist(true))
+        //         setIsUpdate(true);
+        //     } else {
+        //         setValueForm({
+        //             type: value
+        //         })
+        //         setIsUpdate(false);
+        //         dispatch(setFamilyRelationshipExist(false))
+        //     }
+        // } else {
+        //     setValueForm({
+        //         ...valueForm,
+        //         type: value
+        //     })
+        // }
     }
 
   return (
     <div className="alignCenter">
+        <div className="fami__rela__position">
+            <h3>Danh sách gia đình, thân tộc:</h3>
+            <ol>
+                {filterRelationship()}
+            </ol>
+        </div>
         <div className="Step8">
+            <div className="quanHeGiaDinh">
+                <Select
+                value={valueForm?.type !== "" && valueForm?.type !== undefined ? valueForm?.type : "Quan hệ gia đình"}
+                dropdownStyle={{minWidth: "277px"}}
+                popupClassName="quanHeList"
+                onChange={handleChangeQuanHe}
+                >
+                    {renderQuanHe()}
+                </Select>
+            </div>
             <div className="field">
                 <label htmlFor="hoTen">Họ tên:</label>
                 <input id="hoTen" name="full_name" 
@@ -330,16 +387,6 @@ export default function Step8() {
                     onChange={getValueSelect_NoiO_Huyen}>
                         {renderHuyen()}
                     </Select>
-            </div>
-            <div className="quanHeGiaDinh">
-                <Select
-                defaultValue="Quan hệ gia đình"
-                dropdownStyle={{minWidth: "277px"}}
-                popupClassName="quanHeList"
-                onChange={handleChangeQuanHe}
-                >
-                    {renderQuanHe()}
-                </Select>
             </div>
         </div>
     </div>

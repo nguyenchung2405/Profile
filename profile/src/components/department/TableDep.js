@@ -116,7 +116,7 @@ export default function TableDep() {
             })
             setIsShowModal(true)
           }}>
-            Tạo phòng ban
+            Tạo bộ phận công tác
           </button>
           <button className="create_acc_profile table__dep__btn" onClick={()=>{
             setDataToModal({
@@ -219,7 +219,7 @@ export default function TableDep() {
            <Column className="table__dep__name" dataIndex= "name" key="name" title="Tên phòng ban" />
            <Column className="table__dep__address" dataIndex= "address" key="address" title="Địa chỉ" />
            <Column className="table__dep__phone" dataIndex= "phone" key="phone" title="Số điện thoại" />
-           <Column className="table__dep__children" key="children" title="Phòng ban con"
+           <Column className="table__dep__children" key="children" title="Tổ"
              render={(text,record,index)=>{
                if(record?.childrens.length > 0){
                  return record.childrens.map((child, index)=>{
