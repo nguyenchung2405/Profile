@@ -1023,11 +1023,11 @@ input#diaChi {
     background-color: #F0F5FA;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
 .Step8 div.field.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     color: rgba(102, 102, 102, 0.5);
+    display: block;
 }
 .Step8 .quanHeGiaDinh .ant-select-single.ant-select-open .ant-select-selection-item {
     color: white;
@@ -1083,6 +1083,7 @@ input#diaChi {
     width: 450px;
     padding: 0;
     background-color: #F0F5FA;
+    height: 100%;
 }
 
 .Step8 .birthday .ant-picker .ant-picker-input span.ant-picker-suffix,
@@ -1311,6 +1312,29 @@ button.thaoTac__Edit__btn svg {
     width: 250px;
 }
 
+.tableProfiles .tools .auto__complete {
+    outline: none;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0;
+    width: 250px;
+    margin-right: 20px;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector {
+    height: 100%;
+    background-color: #F0F5FA;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector {
+    height: 100%;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector span input {
+    height: 100%;
+}
+
 .tableProfiles .tools .tableProfiles__search > div.tool__search:nth-child(2) {
     margin-right: 20px;
 }
@@ -1325,7 +1349,8 @@ button.thaoTac__Edit__btn svg {
 }
 
 .tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder,
-.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item,
+.tableProfiles .tools .auto__complete .ant-select-selector .ant-select-selection-placeholder {
     line-height: 41px;
     color: rgba(14, 13, 13, 0.452);
 }

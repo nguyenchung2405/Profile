@@ -5,7 +5,8 @@ const initialState = {
     total: "",
     positionTyleList: [],
     message: {},
-    showLoading: false
+    showLoading: false,
+    positionsNameList: []
 }
 
 const tablePosListSlice = createSlice({
@@ -50,7 +51,7 @@ const tablePosListSlice = createSlice({
             state.message = action.payload;
         },
         addItemToTablePosList: (state,action)=>{
-            console.log(action.payload)
+            // console.log(action.payload)
             let {data} = action.payload;
             let {dataResponse} = action.payload;
             let {name, identifier: postype_id} = data;
@@ -61,10 +62,12 @@ const tablePosListSlice = createSlice({
                 id,
                 pos_id,
                 position: {
-                    name: name
+                    name: name,
+                    id: pos_id
                 },
                 position_type: {
-                    identifier: identifier
+                    identifier: identifier,
+                    id: postype_id
                 }
             }
             state.tablePosList.unshift(newObject)
@@ -81,11 +84,15 @@ const tablePosListSlice = createSlice({
         deleteItemToTablePosList: (state, action)=>{
             let index = state.tablePosList.findIndex(pos_mana => pos_mana.id === action.payload);
             state.tablePosList.splice(index, 1)
+        },
+        setPositionsNameList: (state, action)=>{
+            state.positionsNameList = action.payload;
         }
     }
 })
 
 export const {setTablePosList, setPositionTyleList, addPosTypeAndMessage,
 updatePosTypeAndMessage, deletePosTypeAndMessage, setLoading, setMessage,
-addItemToTablePosList, updateItemToTablePosList, deleteItemToTablePosList} = tablePosListSlice.actions;
+addItemToTablePosList, updateItemToTablePosList, deleteItemToTablePosList,
+setPositionsNameList} = tablePosListSlice.actions;
 export default tablePosListSlice.reducer;

@@ -2,14 +2,14 @@ const axios = require("axios")
 
 const checkQuery = async (req, res, next) => {
     try {
-        let { page, page_size, full_name, dep_ids, pos_management_ids, per_page } = req.query;
+        let { page, page_size, full_name, dep_names, pos_names, per_page } = req.query;
         let { headers: { authorization } } = req;
-        // console.log(`full_name: ${full_name}, dep_ids: ${dep_ids}, 
-        // pos_management_ids: ${pos_management_ids}, page: ${page}, page_size: ${page_size}`)
-        if(full_name || dep_ids || pos_management_ids){
+        // console.log(`full_name: ${full_name}, dep_names: ${dep_names}, 
+        // pos_names: ${pos_names}, page: ${page}, page_size: ${page_size}`)
+        if(full_name || dep_names || pos_names){
             // console.log("Vô đây")
             const result = await axios({
-                url: `http://dev.userbe.tuoitre.vn/users/?full_name=${encodeURI(full_name)}&dep_ids=${dep_ids}&pos_management_ids=${pos_management_ids}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/?full_name=${encodeURI(full_name)}&dep_names=${encodeURI(dep_names)}&pos_names=${encodeURI(pos_names)}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -40,7 +40,7 @@ const checkQuery = async (req, res, next) => {
 const createNewUser = async (req, res, next) => {
     try {
         let { profile: { full_name }, email, soDienThoai } = req.body;
-        console.log(full_name, email, soDienThoai);
+        // console.log(full_name, email, soDienThoai);
         let { headers: { authorization } } = req;
         // console.log("createNewUser")
         const result = await axios({

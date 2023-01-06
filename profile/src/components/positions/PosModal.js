@@ -90,17 +90,33 @@ export default function PosModal(props) {
     }
 
     const valueOfField = (name)=>{
-        if(name === "name"){
-            if(formValue?.name !== undefined && formValue?.name !== ""){
-                return formValue?.name
+        if(titlePosManageModal === "Thêm chức vụ"){
+            if(name === "name"){
+                if(formValue?.name !== undefined && formValue?.name !== ""){
+                    return formValue?.name
+                } else {
+                    return ""
+                }
             } else {
-                return ""
+                if(formValue?.identifier !== undefined && formValue?.identifier !== ""){
+                    return formValue?.identifier
+                } else {
+                    return ""
+                }
             }
         } else {
-            if(formValue?.identifier !== undefined && formValue?.identifier !== ""){
-                return formValue?.identifier
+            if(name === "name"){
+                if(formValue?.position?.name !== undefined && formValue?.position?.name !== ""){
+                    return formValue?.position?.name
+                } else {
+                    return ""
+                }
             } else {
-                return ""
+                if(formValue?.position_type?.id !== undefined && formValue?.position_type?.id !== ""){
+                    return formValue?.position_type?.id
+                } else {
+                    return ""
+                }
             }
         }
     }

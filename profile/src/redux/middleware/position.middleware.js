@@ -1,7 +1,7 @@
 import { call, takeLatest, put } from "redux-saga/effects";
-import { CREATE_POSITION_AND_MANAGEMENT, CREATE_POSITION_TYPE, DELETE_POSITION_AND_MANAGEMENT, DELETE_POSITION_TYPE, GET_POSITIONS_LIST, GET_POSITION_TYPE_LIST, UPDATE_POSITION_AND_MANAGEMENT, UPDATE_POSITION_TYPE } from "../../title/title";
-import { createPositionAndManagementAPI, createPosTypeAPI, deletePositionAndManagementAPI, deletePosTypeAPI, getPositionListAPI, getPositionTypeListAPI, updatePositionAndManagementAPI, updatePosTypeAPI } from "../API/positionAPI";
-import { addItemToTablePosList, addPosTypeAndMessage, deleteItemToTablePosList, deletePosTypeAndMessage, setLoading, setMessage, setPositionTyleList, setTablePosList, updateItemToTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
+import { CREATE_POSITION_AND_MANAGEMENT, CREATE_POSITION_TYPE, DELETE_POSITION_AND_MANAGEMENT, DELETE_POSITION_TYPE, GET_POSITIONS_MANA_LIST, GET_POSITION_TYPE_LIST, GET_POS_LIST, SEARCH_POSITION, UPDATE_POSITION_AND_MANAGEMENT, UPDATE_POSITION_TYPE } from "../../title/title";
+import { createPositionAndManagementAPI, createPosTypeAPI, deletePositionAndManagementAPI, deletePosTypeAPI, getPositionListAPI, getPositionsNameListAPI, getPositionTypeListAPI, searchPositionAPI, updatePositionAndManagementAPI, updatePosTypeAPI } from "../API/positionAPI";
+import { addItemToTablePosList, addPosTypeAndMessage, deleteItemToTablePosList, deletePosTypeAndMessage, setLoading, setMessage, setPositionsNameList, setPositionTyleList, setTablePosList, updateItemToTablePosList, updatePosTypeAndMessage } from "../Slice/positions.slice";
 
 function* getPositionList(payload){
     let {page,pageNumber} = payload.table;
@@ -89,7 +89,7 @@ function* deletePositionAndManagement(payload){
     // console.log(pos_mana_id, pos_id)
     let data = {pos_mana_id, pos_id};
     let result = yield call(deletePositionAndManagementAPI, data);
-    console.log(result)
+    // console.log(result)
     let {status} = result[2];
     if(status === 200){
         yield put(deleteItemToTablePosList(pos_mana_id));
@@ -99,8 +99,25 @@ function* deletePositionAndManagement(payload){
     }
 }
 
+function* getPositionNameList(){
+    let result = yield call(getPositionsNameListAPI);
+    let {code, data, message} = result;
+    if(+code === 200 && message === "Success"){
+        yield put(setPositionsNameList(data))
+    }
+}
+
+function* searchPosition(payload){
+    let {data} = payload;
+    let result = yield call(searchPositionAPI, data);
+    let {code, message, data: dataResponse, metadata: {total_items}} = result;
+    if(+code === 200 && message === "Success"){
+        yield put(setTablePosList({positionList: dataResponse, total: total_items}))
+    }
+}
+
 export default function* Positions(){
-    yield takeLatest(GET_POSITIONS_LIST, getPositionList)
+    yield takeLatest(GET_POSITIONS_MANA_LIST, getPositionList)
     yield takeLatest(GET_POSITION_TYPE_LIST, getPositionTypeList)
     yield takeLatest(CREATE_POSITION_TYPE, createPosType)
     yield takeLatest(UPDATE_POSITION_TYPE, updatePosType)
@@ -108,4 +125,6 @@ export default function* Positions(){
     yield takeLatest(CREATE_POSITION_AND_MANAGEMENT, createPositionAndManagement)
     yield takeLatest(UPDATE_POSITION_AND_MANAGEMENT, updatePositionAndManagement)
     yield takeLatest(DELETE_POSITION_AND_MANAGEMENT, deletePositionAndManagement)
+    yield takeLatest(GET_POS_LIST, getPositionNameList)
+    yield takeLatest(SEARCH_POSITION, searchPosition)
 }

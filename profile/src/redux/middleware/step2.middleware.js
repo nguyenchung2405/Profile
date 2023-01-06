@@ -34,7 +34,7 @@ function* updatePersonalHistory(payload){
     let {data} = payload;
     // console.log(data)
     let result = yield call(updatePersonalHistoryAPI, data)
-    console.log(result)
+    // console.log(result)
     let { code, message, data: dataResponse } = result;
     if (code == 200, message === "Success") {
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))

@@ -132,3 +132,38 @@ export async function deletePositionAndManagementAPI(data){
         return "Thất bại"
     }
 }
+
+export async function getPositionsNameListAPI(){
+    try {
+        const result = await axios({
+            url: `${local}/api/positions/list`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+};
+
+export async function searchPositionAPI(data){
+    try {
+        let pos_name = data?.pos_name || "";
+        let identifier = data?.identifier || "";
+        let level = data?.level || "";
+        const result = await axios({
+            url: `${local}/api/positions/position-management/?pos_name=${pos_name}&identifier=${identifier}&level=${level}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

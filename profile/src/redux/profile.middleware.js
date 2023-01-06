@@ -187,7 +187,7 @@ function* onlyCreateProfile(payload) {
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
     let result = yield call(onlyCreateProfileAPI, dataToCreate)
-    console.log(result)
+    // console.log(result)
     let msg = result?.message;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))

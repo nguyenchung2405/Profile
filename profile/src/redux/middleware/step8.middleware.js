@@ -34,7 +34,7 @@ function* updateFamilyRelationship(payload){
         yield put(updateFamilyRelationshipSlice(dataResponse))
         yield put(setMessageAlert({type: "success", msg: "Thao tác thành công"}))
     } else {
-        console.log("fail step8")
+        // console.log("fail step8")
         yield put(setMessageAlert({type: "error", msg: "Thao tác thất bại"}))
     }
 }

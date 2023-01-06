@@ -22,7 +22,7 @@ const tableDepListSlice = createSlice({
         },
         updateDepartmentSlice: (state,action)=>{
             let {parent_id, id} = action.payload;
-            console.log(action.payload)
+            // console.log(action.payload)
             if(parent_id !== null && id){
                 // Cập nhật children => tìm ra cha nó => tìm ra nó trong children của cha => chỉnh sửa
                 let depUpdate = state.tableDepList.find(dep => dep.id === parent_id)
@@ -39,7 +39,7 @@ const tableDepListSlice = createSlice({
             // console.log(action.payload)
             if(parent_id !== null && id){
                 let depParent = state.tableDepList.find(dep => dep.id === parent_id);
-                console.log(current(depParent))
+                // console.log(current(depParent))
                 let {children} = depParent
                 if(children === null || !children){
                     depParent.children =[]

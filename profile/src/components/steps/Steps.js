@@ -192,15 +192,15 @@ export default function StepsAntd() {
                           <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("save"))
-                          }}>Save</button>
+                          }}>Lưu</button>
                           <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("send"))
-                          }}>Send</button>
+                          }}>Kích hoạt</button>
                           <button className="SoYeuLyLich__btn btn__reject" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("reject"))
-                          }}>Rejcet</button>
+                          }}>Trả về</button>
                       </>
                     } 
                 }
@@ -215,11 +215,11 @@ export default function StepsAntd() {
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))
                       dispatch(setAction("save"))
-                  }}>Save</button>
+                  }}>Lưu</button>
                   <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                       dispatch(setIsSubmit(true))
                       dispatch(setAction("send"))
-                  }}>Send</button>
+                  }}>Gửi</button>
                 </>
               }
             } else if(status.state !== "SENDING" && status.state !== "SAVED" && proID === undefined) {

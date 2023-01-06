@@ -6,7 +6,7 @@ import { setMessageAlert } from "../Steps/stepsSlice";
 
 function* createTraining(payload){
     let {data} = payload;
-    console.log(data)
+    // console.log(data)
     if(data.diploma){
         data.diploma = data.diploma.toLowerCase();
     }

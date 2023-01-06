@@ -23,9 +23,9 @@ export default function Step4() {
         }
     }, [nextStep])
     
-    const quaTrinhThamGiaCacToChuc = organization.map((organ, index)=>{
-        let tuNgay = moment(new Date(organ.time_from)).format("DD/MM/YYYY");
-        let denNgay = moment(new Date(organ.time_to)).format("DD/MM/YYYY");
+    const quaTrinhThamGiaCacToChuc = organization.map((organ)=>{
+        let tuNgay = moment(new Date(organ.time_from.concat(".000Z"))).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(organ.time_to.concat(".000Z"))).format("DD/MM/YYYY");
         return {
             title: `${tuNgay} - ${denNgay}`,
             description: organ.note,

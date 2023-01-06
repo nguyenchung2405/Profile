@@ -217,6 +217,49 @@ const deletePositionAndManagement = async (req, res) => {
     }
 }
 
+const searchPosition = async (req, res)=>{
+    try {
+        let { headers: { authorization } } = req;
+        let {pos_name, identifier, level} = req.query;
+        let url;
+        if(pos_name !== ""){
+            url = `pos_name=${encodeURI(pos_name)}`
+        }
+        if(identifier !== ""){
+            url = url + `&identifier=${identifier}`
+        }
+        if(level !== ""){
+            url = url + `&level=${level}`
+        }
+        const result = await axios({
+            url: `${local}/position-management/?${url}&page_size=100&page=1&sort_by=id&order=desc`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const getPositionsNameList = async (req, res)=>{
+    try {
+        let { headers: { authorization } } = req;
+        const result = await axios({
+            url: `${local}/positions/?page_size=5000&page=1&sort_by=id&order=desc`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getPositionList,
     getPositionTypeList,
@@ -225,5 +268,7 @@ module.exports = {
     deletePosType,
     createPositionAndManagement,
     updatePositionAndManagement,
-    deletePositionAndManagement
+    deletePositionAndManagement,
+    getPositionsNameList,
+    searchPosition
 }
