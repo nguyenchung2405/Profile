@@ -1023,11 +1023,11 @@ input#diaChi {
     background-color: #F0F5FA;
 }
 
-.Step8 .birthday .ant-select .ant-select-selector .ant-select-selection-item,
 .Step8 div.field.noiCuTru .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     color: rgba(102, 102, 102, 0.5);
+    display: block;
 }
 .Step8 .quanHeGiaDinh .ant-select-single.ant-select-open .ant-select-selection-item {
     color: white;
@@ -1083,6 +1083,7 @@ input#diaChi {
     width: 450px;
     padding: 0;
     background-color: #F0F5FA;
+    height: 100%;
 }
 
 .Step8 .birthday .ant-picker .ant-picker-input span.ant-picker-suffix,
