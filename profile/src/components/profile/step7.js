@@ -39,7 +39,7 @@ export default function Step7() {
                 valueForm.pro_id = pro_id;
                 valueFormCon.type="con"
                 valueFormCon.pro_id = pro_id;
-                console.log(valueForm, valueFormCon)
+                // console.log(valueForm, valueFormCon)
                 dispatch({
                     type: CREATE_FAMILY_RELATIONSHIP_STEP7,
                     data: {valueForm, valueFormCon}

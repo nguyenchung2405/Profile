@@ -27,8 +27,8 @@ export default function Step5() {
     }, [nextStep])
 
     const daoTao = trainingFostering.map((tr_fos, index)=>{
-        let tuNgay = moment(new Date(tr_fos.time_from)).format("DD/MM/YYYY");
-        let denNgay = moment(new Date(tr_fos.time_to)).format("DD/MM/YYYY");
+        let tuNgay = moment(new Date(tr_fos.time_from.concat(".000Z"))).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(tr_fos.time_to.concat(".000Z"))).format("DD/MM/YYYY");
         if(tr_fos.study_mode === "training"){
             return {
                 title: `${tuNgay} - ${denNgay}`,
@@ -40,8 +40,8 @@ export default function Step5() {
     })
 
     const boiDuong = trainingFostering.map((tr_fos, index)=>{
-        let tuNgay = moment(new Date(tr_fos.time_from)).format("DD/MM/YYYY");
-        let denNgay = moment(new Date(tr_fos.time_to)).format("DD/MM/YYYY");
+        let tuNgay = moment(new Date(tr_fos.time_from.concat(".000Z"))).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(tr_fos.time_to.concat(".000Z"))).format("DD/MM/YYYY");
         if(tr_fos.study_mode === "fostering"){
             return {
                 title: `${tuNgay} - ${denNgay}`,

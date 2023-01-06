@@ -7,7 +7,7 @@ import { setMessageAlert } from "../Steps/stepsSlice";
 function* createRewardDiscipline(payload){
     let {data} = payload;
     let result = yield call(createRewardDisciplineAPI, data)
-    console.log(result)
+    // console.log(result)
     let {code, message, data: dataResponse} = result;
     if(code == 200, message === "Success"){
         yield put(addRewardDiscipline(dataResponse))

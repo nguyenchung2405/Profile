@@ -1,12 +1,7 @@
 import React from 'react'
-import { FaRegUser } from "react-icons/fa";
-import { BiBriefcase } from "react-icons/bi";
 import SubMenu from './SubMenu';
-import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
-
-    const { avatar } = useSelector(state => state.steps1Reducer)
 
     return (
         <div className="sidebar">
@@ -32,12 +27,6 @@ export default function Sidebar() {
                     <p>Dương Mai Hoàng Lan</p>
                     <p>Vợ anh Chung</p>
                 </div>
-            </div>
-            <div className="sidebar__personal__information bg_pri_blue">
-                <p>
-                    <FaRegUser />
-                    Thông tin cá nhân
-                </p>
             </div>
             {/* <div className="sidebar__sub__menu">
             <ul>

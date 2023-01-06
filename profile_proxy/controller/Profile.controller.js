@@ -115,7 +115,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
 
 const update_dep_pos_degress_jourCard = (req,res)=>{
     try {
-        console.log("update_dep_pos_degress_jourCard")
+        // console.log("update_dep_pos_degress_jourCard")
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor} = req.body;
         // console.log(jourCard)
         let {headers: {authorization}} = req;

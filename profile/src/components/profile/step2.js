@@ -17,9 +17,9 @@ export default function Step2() {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     // console.log(personal_history, pro_id)
-    const quaTrinh = personal_history.map((history, index)=>{
-        let tuNgay = moment(new Date(history.work_from)).format("DD/MM/YYYY");
-        let denNgay = moment(new Date(history.work_to)).format("DD/MM/YYYY");
+    const quaTrinh = personal_history.map((history)=>{
+        let tuNgay = moment(new Date(history.work_from.concat(".000Z"))).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(history.work_to.concat(".000Z"))).format("DD/MM/YYYY");
         let description = history.work_place;
         return {
             title: `${tuNgay} - ${denNgay}`,

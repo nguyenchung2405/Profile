@@ -25,6 +25,7 @@
 .table__position .tools {
     display: flex;
     justify-content: space-between;
+    height: 41px;
 }
 
 div.pos__type {
@@ -123,4 +124,8 @@ div.ant-popover .ant-popover-content button.ant-btn-primary {
 div.ant-popover .ant-popover-content button.ant-btn-default:hover {
     border-color: #459c60;
     color: #459c60;
+}
+
+.table__position .tools .search__tool .auto__complete .ant-select-selection-placeholder {
+    line-height: 41px;
 }

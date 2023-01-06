@@ -42,7 +42,7 @@ export default function Step6() {
     }
 
     const khenThuong = rewardDiscipline.map((item, index)=>{
-        let ngayKhenThuong = moment(new Date(item.time_from)).format("DD/MM/YYYY")
+        let ngayKhenThuong = moment(new Date(item.time_from.concat(".000Z"))).format("DD/MM/YYYY")
         if(item.type === "reward"){
             return {
                 title: `${ngayKhenThuong}`,
@@ -53,7 +53,7 @@ export default function Step6() {
     })
 
     const kyLuat = rewardDiscipline.map((item, index)=>{
-        let ngayKyLuat = moment(new Date(item.time_from)).format("DD/MM/YYYY")
+        let ngayKyLuat = moment(new Date(item.time_from.concat(".000Z"))).format("DD/MM/YYYY")
         if(item.type === "discipline"){
             return {
                 title: `${ngayKyLuat}`,

@@ -21,7 +21,7 @@ export default function Step8() {
     let [isShowModal, setIsShowModal] = useState(false)
     let [isUpdate, setIsUpdate ] = useState(false);
     const [valueForm, setValueForm] = useState({});
-    console.log(valueForm)
+    // console.log(valueForm)
     // console.log(familyRelationship)
     // console.log(isCreated, isUpdate)
 

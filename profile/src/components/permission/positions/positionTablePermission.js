@@ -4,7 +4,7 @@ import { AiFillQuestionCircle } from "react-icons/ai"
 import { FiMinusCircle } from "react-icons/fi"
 import { Table, Popconfirm } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_POSITION_AND_MANAGEMENT, GET_POSITIONS_LIST } from "../../../title/title"
+import { DELETE_POSITION_AND_MANAGEMENT, GET_POSITIONS_MANA_LIST } from "../../../title/title"
 import { setLoading, setMessage } from '../../../redux/Slice/positions.slice'
 import PermissionPosition from './PermissionPosition'
 
@@ -23,7 +23,7 @@ export default function TablePositionsPermission() {
 
     useEffect(() => {
       dispatch({
-        type: GET_POSITIONS_LIST,
+        type: GET_POSITIONS_MANA_LIST,
         table: { page, pageNumber }
       })
       dispatch(setLoading(true))

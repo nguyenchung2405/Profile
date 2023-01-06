@@ -29,13 +29,13 @@ export default function Step3Component() {
             valueForm.pro_id = pro_id
             // console.log(valueForm)
             if(party.length > 0){
-                console.log("Cập nhật Party")
+                // console.log("Cập nhật Party")
                 dispatch({
                     type: UPDATE_PARTY,
                     data: valueForm
                 })
             } else {
-                console.log("Tạo Party")
+                // console.log("Tạo Party")
                 dispatch({
                     type: CREATE_PARTY,
                     data: valueForm

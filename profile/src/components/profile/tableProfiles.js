@@ -1,7 +1,7 @@
-import { Table, Select } from 'antd'
+import { Table, Select, AutoComplete } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH, TOKEN, local } from '../../title/title';
+import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH } from '../../title/title';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { AiFillFileAdd } from "react-icons/ai";
 import { AiOutlineUserAdd } from "react-icons/ai"
@@ -24,8 +24,8 @@ export default function TableProfiles() {
     const [pageNumber, setPageNumber] = useState(10);
     const [search, setSearch] = useState({
       full_name: "",
-      dep_ids: undefined,
-      pos_management_ids: undefined
+      dep_names: "",
+      pos_names: ""
     })
     const [isSearch, setIsSearch] = useState(false)
     const { userList, total } = useSelector(state => state.userListReducer)
@@ -51,7 +51,7 @@ export default function TableProfiles() {
     }, [page, pageNumber, isSearch])
 
     useEffect(()=>{
-        if(search?.full_name === "" && search?.dep_ids === undefined && search?.pos_management_ids === undefined && isSearch === true){
+        if(search?.full_name === "" && search?.dep_names === "" && search?.pos_names === "" && isSearch === true){
           dispatch({
             type: GET_USER_LIST,
             table: { page, pageNumber }
@@ -107,6 +107,29 @@ export default function TableProfiles() {
       return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
     }
 
+    const dataOfAutoComplete = (name)=>{
+      if(name === "dep"){
+        return depList.map(item => {
+          return {
+            label: item.name,
+            value: item.name
+          }
+        })
+      } else if(name === "pos") {
+        let arrName = posList.map(item => {
+          let {name} = item.position;
+          return name;
+        });
+        let nameUniqueArr = [... new Set(arrName)];
+        return nameUniqueArr.map(item => {
+          return {
+            label: item,
+            value: item
+          }
+        })
+      }
+    }
+    
     return (
       <div className="tableProfiles">
         <div className="tools">
@@ -137,59 +160,105 @@ export default function TableProfiles() {
                 }
               }}
               />
-              <Select
-                  showSearch
-                  allowClear
-                  className="tool__search"
-                  placeholder="Bộ phận công tác"
-                  filterOption={(input, option) =>
-                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+              <AutoComplete
+                allowClear
+                className="auto__complete"
+                options={dataOfAutoComplete("dep")}
+                filterOption={(input, option)=>
+                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                onChange={(value)=>{
+                  handleChangeSearch("dep_names",value)
+                }}
+                onKeyDown={(e)=>{
+                  let {key} = e;
+                  if(key.toLowerCase() === "enter"){
+                    setIsSearch(true)
+                      dispatch({
+                        type: SEARCH,
+                        data: {search, page, pageNumber}
+                    })
                   }
-                  onChange={(value)=>{
-                      handleChangeSearch("dep_ids",value)
-                  }}
-                  onKeyDown={(e)=>{
-                    let {key} = e;
-                    if(key.toLowerCase() === "enter"){
-                      setIsSearch(true)
-                        dispatch({
-                          type: SEARCH,
-                          data: {search, page, pageNumber}
-                      })
-                    }
-                  }}
-              >
-                    {renderDepListOption()}
-              </Select>
-              <Select
-                  showSearch
-                  allowClear
-                  className="tool__search"
-                  placeholder="Chức danh, chức vụ"
-                  filterOption={(input, option) =>
-                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                }}
+                placeholder="Bộ phận công tác"
+              />
+              <AutoComplete
+                allowClear
+                className="auto__complete"
+                options={dataOfAutoComplete("pos")}
+                filterOption={(input, option)=>
+                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                onChange={(value)=>{
+                  handleChangeSearch("pos_names",value)
+                }}
+                onKeyDown={(e)=>{
+                  let {key} = e;
+                  if(key.toLowerCase() === "enter"){
+                    setIsSearch(true)
+                      dispatch({
+                        type: SEARCH,
+                        data: {search, page, pageNumber}
+                    })
                   }
-                  onChange={(value)=>{
-                      handleChangeSearch("pos_management_ids",value)
-                  }}
-                  onKeyDown={(e)=>{
-                    let {key} = e;
-                    if(key.toLowerCase() === "enter"){
-                      setIsSearch(true)
-                        dispatch({
-                          type: SEARCH,
-                          data: {search, page, pageNumber}
-                      })
-                    }
-                  }}
-              >
-                    {renderPosListOption()}
-              </Select>
+                }}
+                placeholder="Chức danh, chức vụ"
+              />
+              {/*
+              <Select
+              showSearch
+              allowClear
+              className="tool__search"
+              placeholder="Bộ phận công tác"
+              filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              onChange={(value)=>{
+                  handleChangeSearch("dep_ids",value)
+              }}
+              onKeyDown={(e)=>{
+                let {key} = e;
+                if(key.toLowerCase() === "enter"){
+                  setIsSearch(true)
+                    dispatch({
+                      type: SEARCH,
+                      data: {search, page, pageNumber}
+                  })
+                }
+              }}
+          >
+                {renderDepListOption()}
+          </Select>
+          <Select
+              showSearch
+              allowClear
+              className="tool__search"
+              placeholder="Chức danh, chức vụ"
+              filterOption={(input, option) =>
+                (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              onChange={(value)=>{
+                  handleChangeSearch("pos_management_ids",value)
+              }}
+              onKeyDown={(e)=>{
+                let {key} = e;
+                if(key.toLowerCase() === "enter"){
+                  setIsSearch(true)
+                    dispatch({
+                      type: SEARCH,
+                      data: {search, page, pageNumber}
+                  })
+                }
+              }}
+          >
+                {renderPosListOption()}
+          </Select>
+              */}
           </div>
           <div className="tableProfiles__search__btn">
                 <button className="create_acc_profile btn__search"
                 onClick={()=>{
-                    if(!search?.full_name && !search?.dep_ids && !search?.pos_management_ids){
+                    if(!search?.full_name && !search?.dep_names && !search?.pos_names){
                         alert("Vui lòng nhập thông tin cần tìm");
                     } else {
                         setIsSearch(true)

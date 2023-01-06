@@ -1311,6 +1311,29 @@ button.thaoTac__Edit__btn svg {
     width: 250px;
 }
 
+.tableProfiles .tools .auto__complete {
+    outline: none;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0;
+    width: 250px;
+    margin-right: 20px;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector {
+    height: 100%;
+    background-color: #F0F5FA;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector {
+    height: 100%;
+}
+
+.tableProfiles .tools .auto__complete .ant-select-selector span input {
+    height: 100%;
+}
+
 .tableProfiles .tools .tableProfiles__search > div.tool__search:nth-child(2) {
     margin-right: 20px;
 }
@@ -1325,7 +1348,8 @@ button.thaoTac__Edit__btn svg {
 }
 
 .tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-placeholder,
-.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item {
+.tableProfiles .tools .tool__search .ant-select-selector .ant-select-selection-item,
+.tableProfiles .tools .auto__complete .ant-select-selector .ant-select-selection-placeholder {
     line-height: 41px;
     color: rgba(14, 13, 13, 0.452);
 }
