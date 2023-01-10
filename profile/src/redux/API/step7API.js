@@ -15,18 +15,12 @@ export async function getDistrictsStep7API(codeProvince){
 
 export async function createFamilyRelaAPI(data){
     try {
-        let {valueForm, valueFormCon} = data;
+        let {valueForm} = data;
         let {queQuan, ...restVoChong} = valueForm;
-        let {noiOHienTai, ...restCon} = valueFormCon;
         let newVoChong = {
             ...restVoChong,
             home_town: `${queQuan?.huyen}, ${queQuan?.quan}, ${queQuan?.tinh}`
         };
-        let newCon = {
-            ...restCon,
-            residence: `${noiOHienTai?.diaChi}, ${noiOHienTai?.huyen}, ${noiOHienTai?.quan}, ${noiOHienTai?.tinh}`
-        }
-        // console.log(newVoChong, newCon)
         const result = await axios({
             url: `${local}/api/family-relationship/step7`,
             method: "POST",
@@ -35,7 +29,7 @@ export async function createFamilyRelaAPI(data){
             },
             data: {
                 valueForm: newVoChong,
-                valueFormCon: newCon
+                // valueFormCon: newCon
             }
         });
         return result.data;
@@ -45,19 +39,36 @@ export async function createFamilyRelaAPI(data){
     }
 };
 
-export async function updateFamilyRelaAPI(data){
+export async function createFamilyRelaConAPI(data){
     try {
-        let {valueForm, valueFormCon} = data;
-        let {queQuan, ...restVoChong} = valueForm;
-        let {noiOHienTai, ...restCon} = valueFormCon;
-        let newVoChong = {
-            ...restVoChong,
-            home_town: `${queQuan?.huyen}, ${queQuan?.quan}, ${queQuan?.tinh}`
-        };
+        let {noiOHienTai, ...restCon} = data;
         let newCon = {
             ...restCon,
             residence: `${noiOHienTai?.diaChi}, ${noiOHienTai?.huyen}, ${noiOHienTai?.quan}, ${noiOHienTai?.tinh}`
         }
+        const result = await axios({
+            url: `${local}/api/family-relationship/con-step7`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: newCon
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
+
+export async function updateFamilyRelaAPI(data){
+    try {
+        let {valueForm} = data;
+        let {queQuan, ...restVoChong} = valueForm;
+        let newVoChong = {
+            ...restVoChong,
+            home_town: `${queQuan?.huyen}, ${queQuan?.quan}, ${queQuan?.tinh}`
+        };
         const result = await axios({
             url: `${local}/api/family-relationship/step7`,
             method: "PUT",
@@ -65,11 +76,32 @@ export async function updateFamilyRelaAPI(data){
                 Authorization: "Bearer " + TOKEN
             },
             data: {
-                valueForm: newVoChong,
-                valueFormCon: newCon
+                valueForm: newVoChong
             }
         });
         return result.data;
+    } catch (error) {
+        console.log(error.response)
+        return "Thất bại"
+    }
+}
+
+export async function updateFamilyRelaConAPI(data){
+    try {
+        let {noiOHienTai, ...restCon} = data;
+        let newCon = {
+            ...restCon,
+            residence: `${noiOHienTai?.diaChi}, ${noiOHienTai?.huyen}, ${noiOHienTai?.quan}, ${noiOHienTai?.tinh}`
+        };
+        const result = await axios({
+            url: `${local}/api/family-relationship/con-step7`,
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: newCon
+        });
+        return result.data
     } catch (error) {
         console.log(error.response)
         return "Thất bại"

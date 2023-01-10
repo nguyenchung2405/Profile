@@ -1,7 +1,7 @@
 import { Button, DatePicker, Select } from 'antd'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
@@ -23,7 +23,9 @@ export default function Step8() {
     let { noiOHienTaiTinh, noiOHienTaiQuan , noiOHienTaiHuyen } = useSelector(state => state.step9Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
     let [isUpdate, setIsUpdate ] = useState(false);
+    let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     const [valueForm, setValueForm] = useState({});
+    const [valueIntoModal, setValueIntoModal] = useState({});
     // console.log(valueForm)
     // console.log(familyRelationship)
     // console.log(isDone, isUpdate, isCreated)
@@ -107,7 +109,7 @@ export default function Step8() {
             if(checkMicroFE){
                 navigate("/profile-service/hr/profile");
             } else {
-                navigate("/hr/profile");
+                navigate("/");
             }
         }
     }, [isDone])
@@ -128,6 +130,10 @@ export default function Step8() {
 
     const closeModal = ()=>{
         setIsShowModal(false)
+    }
+
+    const closeModalUpdate = ()=>{
+        setIsShowModalUpdate(false)
     }
 
     const valueOfField = (name)=>{
@@ -222,6 +228,12 @@ export default function Step8() {
                                 historical_features: [...newHisArr]
                             });
                         }} />
+                        <AiOutlineEdit className="icon__update" onClick={()=>{
+                            let newHisArr = [...valueForm?.historical_features];
+                            newHisArr = newHisArr.filter(his => his.content === item.content)
+                            setIsShowModalUpdate(true)
+                            setValueIntoModal({...newHisArr[0], index})
+                        }}/>
                     </div>
                 </div>
             })
@@ -337,6 +349,14 @@ export default function Step8() {
                     closeModal={closeModal}
                     valueForm={valueForm}
                     setValueForm={setValueForm} />
+                    <ModalComponent 
+                    title={lichSuBanThan}
+                    isShowModal={isShowModalUpdate}
+                    closeModal={closeModalUpdate}
+                    valueForm={valueForm}
+                    setValueForm={setValueForm}
+                    valueIntoModal={valueIntoModal}
+                    setValueIntoModal={setValueIntoModal} />
             </div>
             <div className="field">
                 <label htmlFor="congViecHienTai">Công việc hiện tại:</label>

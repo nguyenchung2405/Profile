@@ -40,7 +40,7 @@ export default function Image() {
                     },
                     data: form
                 });
-                // console.log(result.data)
+                console.log(result.data)
                 let { path } = result.data;
                 if(path){
                     setPath(`http://localhost:3001/${path}`)

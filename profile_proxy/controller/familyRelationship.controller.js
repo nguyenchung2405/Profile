@@ -21,7 +21,7 @@ const createFamilyRelationship = async (req, res)=>{
 const createFamilyRelaStep7 = async (req,res)=>{
     try {
         let {headers: {authorization}} = req;
-        let {valueForm, valueFormCon} = req.body;
+        let {valueForm} = req.body;
         const result_voChong = await axios({
             url: `${local}/family-relationship`,
             method: "POST",
@@ -30,17 +30,9 @@ const createFamilyRelaStep7 = async (req,res)=>{
             },
             data: valueForm
         });
-        const result_con = await axios({
-            url: `${local}/family-relationship`,
-            method: "POST",
-            headers:{
-                Authorization: authorization
-            },
-            data: valueFormCon
-        });
         let resArr = [];
         resArr.push(result_voChong.data)
-        resArr.push(result_con.data)
+        // resArr.push(result_con.data)
         resArr.unshift({msg: "Thành công"})
         res.send(resArr)
     } catch (error) {
@@ -48,12 +40,29 @@ const createFamilyRelaStep7 = async (req,res)=>{
     }
 };
 
+const createFamilyRelaStep7Con = async (req,res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        const result_con = await axios({
+            url: `${local}/family-relationship`,
+            method: "POST",
+            headers:{
+                Authorization: authorization
+            },
+            data: req.body
+        });
+        res.send({msg: "Thành công", dataResponse: result_con.data})
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 const updateFamilyRelaStep7 = async (req, res)=>{
     try {
         let {headers: {authorization}} = req;
-        let {valueForm, valueFormCon} = req.body;
+        let {valueForm} = req.body;
         let {id: idVoChong, ...restVoChong} = valueForm;
-        let {id: idCon, ...restCon} = valueFormCon;
+        // let {id: idCon, ...restCon} = valueFormCon;
         const result_voChong = await axios({
             url: `${local}/family-relationship/${idVoChong}`,
             method: "PUT",
@@ -62,19 +71,29 @@ const updateFamilyRelaStep7 = async (req, res)=>{
             },
             data: restVoChong
         });
+        let resArr = [];
+        resArr.push(result_voChong.data)
+        // resArr.push(result_con.data)
+        resArr.unshift({msg: "Thành công"})
+        res.send(resArr)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+const updateFamilyRelaConStep7 = async (req, res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        let {id: idCon} = req.body;
         const result_con = await axios({
             url: `${local}/family-relationship/${idCon}`,
             method: "PUT",
             headers:{
                 Authorization: authorization
             },
-            data: restCon
+            data: req.body
         });
-        let resArr = [];
-        resArr.push(result_voChong.data)
-        resArr.push(result_con.data)
-        resArr.unshift({msg: "Thành công"})
-        res.send(resArr)
+        res.send(result_con.data)
     } catch (error) {
         res.send(error)
     }
@@ -102,5 +121,7 @@ module.exports = {
     createFamilyRelationship,
     updateFamilyRelationship,
     createFamilyRelaStep7,
-    updateFamilyRelaStep7
+    updateFamilyRelaStep7,
+    createFamilyRelaStep7Con,
+    updateFamilyRelaConStep7
 }
