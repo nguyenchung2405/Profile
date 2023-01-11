@@ -1573,6 +1573,11 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     height: 90px;
 }
 
+.steps-content .process .process__infor {
+    min-width: 190px;
+    max-width: 190px;
+}
+
 .steps-content .process > div.point{
     width: 10px;
     height: 10px;
@@ -1606,17 +1611,22 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     color: red;
     margin: 2px 0 0 0px;
     cursor: pointer;
-    position: absolute;
-    left: 210px;
+    position: relative;
+    left: 0px;
     font-size: 18px;
+}
+
+.steps-content .process.step6 .process__infor {
+    min-width: 150px;
+    max-width: 150px;
 }
 
 .steps-content .process.step6 > svg {
     color: red;
     margin: 2px 0 0 0px;
     cursor: pointer;
-    position: absolute;
-    left: 115px;
+    position: relative;
+    left: 0px;
 }
 
 .steps-content .Step8__quaTrinh .Step8__content .process.step8 {
@@ -1663,7 +1673,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
 
 .upload__section {
     position: relative;
-    left: 40px;
+    left: 10px;
     top: 1px;
 }
 
@@ -1683,16 +1693,19 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
 }
 
 .image__files {
-    /* position: absolute;
-    left: 210px;
-    top: 65.5%;
-    transform: translateY(-50%); */
+    position: relative;
+    left: 20px;
     height: calc(100% - 20px);
     overflow: hidden;
-    width: auto;
+    width: 100px;
 }
 
-.image__files > img {
+.image__files .ant-image {
+    width: 100%;
+    height: 100%;
+}
+
+.image__files img {
     width: 100%;
     height: 100%;
 }

@@ -303,8 +303,18 @@ export default function TableProfiles() {
                 // let index = record.resources.length - 1;
                 // let avatarRender = record.resources[index].resource?.content;
                 // code lại hiển thị hình ảnh user do thằng Đăng trả data lung tung lúc này lúc khác
-                let avatarRender = record.resources[0].resource?.content;
-                return <img src={`data:image/png;base64,${avatarRender}`} alt="avatar of user" />
+                let avatarRender = record.resources.find(img => img.type === "3x4");
+                if(avatarRender !== undefined){
+                  return <img src={`data:image/png;base64,${avatarRender?.resource.content}`} alt="avatar of user" />
+                } else {
+                  if (record.profile?.gender === 1) {
+                    return maleAvatar()
+                  } else if (record.profile?.gender === 2) {
+                    return femaleAvatar()
+                  } else {
+                    return unknownSexAvatar()
+                  }
+                }
               } else {
                 if (record.profile?.gender === 1) {
                   return maleAvatar()

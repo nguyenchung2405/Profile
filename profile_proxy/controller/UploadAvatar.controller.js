@@ -60,7 +60,7 @@ const uploadUserAvatar = async (req,res)=>{
 
 const uploadFileStep5 = async (req,res)=>{
     try {
-        let {user_id, type} = req.body;
+        let {user_id, type, imgIdExsisted} = req.body;
         let {file, headers: {authorization}} = req;
         const pathFile = path.join(path.dirname(file.path), file.filename);
         const formData = new FormData();
@@ -76,6 +76,15 @@ const uploadFileStep5 = async (req,res)=>{
             },
             data: formData
         });
+        if(imgIdExsisted && typeof +imgIdExsisted === "number" ){
+            axios({
+                url: `${local}/user-resources/${imgIdExsisted}`,
+                method: "DELETE",
+                headers: {
+                    Authorization: authorization
+                }
+            })
+        }
         let {message} = result.data;
         if(message === 'Success'){
             const result_getIMG = await axios({
@@ -85,7 +94,6 @@ const uploadFileStep5 = async (req,res)=>{
                     Authorization: authorization
                 }
             })
-            // console.log(result_getIMG)
             res.send(result_getIMG.data);
         } else {
             res.send(result.data);

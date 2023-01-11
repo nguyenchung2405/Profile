@@ -20,6 +20,24 @@ const getAvatar = async (req,res)=>{
     }
 }
 
+const deleteResource = async (req, res)=>{
+    try {
+        let {id} = req.params;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/user-resources/${id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
-    getAvatar
+    getAvatar,
+    deleteResource
 }
