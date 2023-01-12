@@ -74,10 +74,12 @@ export default function Step5() {
                         type: DELETE_TRAINING,
                         tr_fos_id: item.tr_fos_id
                     })
-                    dispatch({
-                        type: DELETE_RESOURCE,
-                        resource_id: item?.imgStudy?.id
-                    })
+                    if(item?.imgStudy?.id && typeof +item?.imgStudy?.id ==="number"){
+                        dispatch({
+                            type: DELETE_RESOURCE,
+                            resource_id: item?.imgStudy?.id
+                        })
+                    }
                 }} />
                 <div className="upload__section">
                     <label className="upload__label" htmlFor={`training_${item.tr_fos_id}`}>
@@ -124,10 +126,12 @@ export default function Step5() {
                         type: DELETE_TRAINING,
                         tr_fos_id: item.tr_fos_id
                     })
-                    dispatch({
-                        type: DELETE_RESOURCE,
-                        resource_id: item?.imgStudy?.id
-                    })
+                    if(item?.imgStudy?.id && typeof +item?.imgStudy?.id ==="number"){
+                        dispatch({
+                            type: DELETE_RESOURCE,
+                            resource_id: item?.imgStudy?.id
+                        })
+                    }
                 }} />
                 <div className="upload__section">
                     <label className="upload__label" htmlFor={`fostering_${item.tr_fos_id}`}>

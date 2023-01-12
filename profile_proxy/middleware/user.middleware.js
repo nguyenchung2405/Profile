@@ -5,7 +5,7 @@ const checkQuery = async (req, res, next) => {
         let { page, page_size, full_name, dep_names, pos_names, per_page } = req.query;
         let { headers: { authorization } } = req;
         // console.log(`full_name: ${full_name}, dep_names: ${dep_names}, 
-        // pos_names: ${pos_names}, page: ${page}, page_size: ${page_size}`)
+        // pos_names: ${pos_names}, page: ${page}, page_size: ${page_size}, per_page: ${per_page}`)
         if(full_name || dep_names || pos_names){
             // console.log("Vô đây")
             const result = await axios({

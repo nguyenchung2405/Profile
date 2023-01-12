@@ -36,10 +36,12 @@ export default function Image() {
                     data: form
                 });
                 let imgIdExsisted = resources.find(img => img?.type === "3x4");
-                dispatch({
-                    type: DELETE_RESOURCE,
-                    resource_id: imgIdExsisted?.id
-                })
+                if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
+                    dispatch({
+                        type: DELETE_RESOURCE,
+                        resource_id: imgIdExsisted?.id
+                    })
+                }
                 dispatch(setResources(result?.data?.data))
                 let {content} = result.data.data[0].resource;
                 dispatch(setAvatar(content))
