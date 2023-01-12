@@ -66,10 +66,12 @@ export default function Step2() {
                                 type: DELETE_PERSONAL_HISTORY,
                                 personal_history_id: item.id
                             })
-                            dispatch({
-                                type: DELETE_RESOURCE,
-                                resource_id: item?.imgStudy?.id
-                            })
+                            if(item?.imgStudy?.id && typeof +item?.imgStudy?.id ==="number"){
+                                dispatch({
+                                    type: DELETE_RESOURCE,
+                                    resource_id: item?.imgStudy?.id
+                                })
+                            }
                         }} />
                         <div className="upload__section">
                             <label className="upload__label" htmlFor={`history_${item.id}`}>

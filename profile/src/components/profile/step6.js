@@ -86,10 +86,12 @@ export default function Step6() {
                         type: DELETE_REWARD_DISCIPLINE,
                         re_dis_id: item.re_dis_id
                     })
-                    dispatch({
-                        type: DELETE_RESOURCE,
-                        resource_id: item?.imgStudy?.id
-                    })
+                    if(item?.imgStudy?.id && typeof +item?.imgStudy?.id ==="number"){
+                        dispatch({
+                            type: DELETE_RESOURCE,
+                            resource_id: item?.imgStudy?.id
+                        })
+                    }
                 }} />
                 <div className="upload__section">
                 <label className="upload__label" htmlFor={`reward_${item.re_dis_id}`}>
@@ -136,10 +138,12 @@ export default function Step6() {
                     type: DELETE_REWARD_DISCIPLINE,
                     re_dis_id: item.re_dis_id
                 })
-                dispatch({
-                    type: DELETE_RESOURCE,
-                    resource_id: item?.imgStudy?.id
-                })
+                if(item?.imgStudy?.id && typeof +item?.imgStudy?.id ==="number"){
+                    dispatch({
+                        type: DELETE_RESOURCE,
+                        resource_id: item?.imgStudy?.id
+                    })
+                }
             }} />
             <div className="upload__section">
                 <label className="upload__label" htmlFor={`discipline_${item.re_dis_id}`}>
