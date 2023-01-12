@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { Steps, Button } from 'antd';
+import { Steps, Button, Image } from 'antd';
 import { AiOutlinePlusCircle, AiOutlineEdit, AiOutlineMinusCircle} from "react-icons/ai"
 import ModalComponent from '../modal/modal';
-import { DELETE_PERSONAL_HISTORY, quaTrinhLVHT } from '../../title/title';
+import { DELETE_PERSONAL_HISTORY, DELETE_RESOURCE, local, quaTrinhLVHT, TOKEN } from '../../title/title';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { setIsNextStep } from '../../redux/Steps/stepsSlice';
 import ModalUpdate from '../modal/modalUpdate';
+import { FcAddImage } from 'react-icons/fc';
+import axios from "axios"
+import { setResources } from '../../redux/Steps/step1/step1Slice';
 
 export default function Step2() {
 
     const { Step } = Steps;
     const dispatch = useDispatch()
     const {personal_history} = useSelector(state => state.step2Reducer)
-    let {nextStep} = useSelector(state => state.stepsReducer);
+    let {nextStep, user_profile_id} = useSelector(state => state.stepsReducer);
+    let {resources} = useSelector(state => state.steps1Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-    // console.log(personal_history, pro_id)
+    
     const quaTrinh = personal_history.map((history)=>{
         let tuNgay = moment(new Date(history.work_from.concat(".000Z"))).format("DD/MM/YYYY");
         let denNgay = moment(new Date(history.work_to.concat(".000Z"))).format("DD/MM/YYYY");
         let description = history.work_place;
+        let imgType = `history_${history.id}`;
+        let imgStudy = resources.find(img => img.type === imgType);
         return {
             title: `${tuNgay} - ${denNgay}`,
             description,
-            id: history.id
+            id: history.id,
+            imgStudy
         }
     });
 
@@ -54,12 +61,43 @@ export default function Step2() {
                             <p>{item.title}</p>
                             <p>{item.description}</p>
                         </div>
-                            <AiOutlineMinusCircle onClick={() => {
-                                dispatch({
-                                    type: DELETE_PERSONAL_HISTORY,
-                                    personal_history_id: item.id
-                                })
-                            }} />
+                        <AiOutlineMinusCircle onClick={() => {
+                            dispatch({
+                                type: DELETE_PERSONAL_HISTORY,
+                                personal_history_id: item.id
+                            })
+                            dispatch({
+                                type: DELETE_RESOURCE,
+                                resource_id: item?.imgStudy?.id
+                            })
+                        }} />
+                        <div className="upload__section">
+                            <label className="upload__label" htmlFor={`history_${item.id}`}>
+                                <FcAddImage />
+                            </label>
+                            <input id={`history_${item.id}`} type="file" className="upload__input"
+                            onChange={async (e)=>{
+                                const form = new FormData();
+                                let imgIdExsisted = item?.imgStudy?.id;
+                                form.append("file", e.target.files[0]);
+                                form.append("user_id", user_profile_id.user_id);
+                                form.append("type", `history_${item.id}`);
+                                form.append("imgIdExsisted", imgIdExsisted);
+                                const uploadFile = await axios({
+                                    url: `${local}/api/upload/step5`,
+                                    method: "POST",
+                                    headers: {
+                                        Authorization: "Bearer " + TOKEN
+                                    },
+                                    data: form
+                                });
+                                dispatch(setResources(uploadFile?.data?.data))
+                            }}
+                            />
+                        </div>
+                        <div className="image__files">
+                            <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đào tạo" />
+                        </div>
                     </div> 
                     })
                 }

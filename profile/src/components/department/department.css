@@ -193,10 +193,5 @@ button.ant-table-row-expand-icon:hover, button.ant-table-row-expand-icon:active 
 
     .dep__children__div p.dep__children {
         margin-bottom: 0;
-        /* width: calc(100% - 93px); */
     }
-
-    /* .dep__children__div div.thaoTac__Edit {
-        width: 93px;
-    } */
 }

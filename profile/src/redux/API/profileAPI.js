@@ -150,3 +150,19 @@ export async function getProfileByToken(){
         return "Thất bại"
     }
 }
+
+export async function deleteResourceAPI(resource_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/user/resources/${resource_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

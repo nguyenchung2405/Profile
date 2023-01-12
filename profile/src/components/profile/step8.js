@@ -1,7 +1,7 @@
 import { Button, DatePicker, Select } from 'antd'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setFamilyRelationshipExist, setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
@@ -19,8 +19,10 @@ export default function Step8() {
     let {noiOHienTaiTinh, noiOHienTaiQuan, noiOHienTaiHuyen, 
         familyRelationship, isCreated} = useSelector(state => state.step8Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
+    let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     let [isUpdate, setIsUpdate ] = useState(false);
     const [valueForm, setValueForm] = useState({});
+    const [valueIntoModal, setValueIntoModal] = useState({});
     // console.log(valueForm)
     // console.log(familyRelationship)
     // console.log(isCreated, isUpdate)
@@ -84,7 +86,7 @@ export default function Step8() {
                     let relationExisted = familyRelationship.find(rela => rela.type === valueForm.type);
                     if(relationExisted !== undefined && (relationExisted.type === "Ông nội" || relationExisted.type === "Ông ngoại" ||
                     relationExisted.type === "Bà nội" || relationExisted.type === "Bà ngoại" ||
-                    relationExisted.type === "Cha" || relationExisted.type === "Mẹ")){
+                    relationExisted.type === "Cha" || relationExisted.type === "Mẹ") && !isUpdate){
                         setValueForm({...relationExisted});
                         setIsUpdate(true);
                         dispatch(setFamilyRelationshipExist(true))
@@ -133,6 +135,10 @@ export default function Step8() {
 
     const closeModal = ()=>{
         setIsShowModal(false)
+    }
+
+    const closeModalUpdate = ()=>{
+        setIsShowModalUpdate(false)
     }
     
     const valueOfField = (name)=>{
@@ -227,6 +233,12 @@ export default function Step8() {
                                 historical_features: [...newHisArr]
                             });
                         }} />
+                        <AiOutlineEdit className="icon__update" onClick={()=>{
+                            let newHisArr = [...valueForm?.historical_features];
+                            newHisArr = newHisArr.filter(his => his.content === item.content)
+                            setIsShowModalUpdate(true)
+                            setValueIntoModal({...newHisArr[0], index})
+                        }}/>
                     </div>
                 </div>
             })
@@ -342,6 +354,14 @@ export default function Step8() {
                     closeModal={closeModal}
                     valueForm={valueForm}
                     setValueForm={setValueForm} />
+                    <ModalComponent 
+                    title={lichSuBanThan}
+                    isShowModal={isShowModalUpdate}
+                    closeModal={closeModalUpdate}
+                    valueForm={valueForm}
+                    setValueForm={setValueForm}
+                    valueIntoModal={valueIntoModal}
+                    setValueIntoModal={setValueIntoModal} />
             </div>
             <div className="field">
                 <label htmlFor="congViecHienTai">Công việc hiện tại:</label>

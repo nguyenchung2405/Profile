@@ -43,7 +43,7 @@ const uploadUserAvatar = async (req,res)=>{
                         Authorization: authorization
                     }
                 })
-                // console.log(result_getIMG)
+                // console.log(result_getIMG.data)
                 res.send(result_getIMG.data);
             } else {
                 // Nếu post ảnh fail thì trả về  kết quả báo lỗi gì đó
@@ -58,6 +58,53 @@ const uploadUserAvatar = async (req,res)=>{
     }
 }
 
+const uploadFileStep5 = async (req,res)=>{
+    try {
+        let {user_id, type, imgIdExsisted} = req.body;
+        let {file, headers: {authorization}} = req;
+        const pathFile = path.join(path.dirname(file.path), file.filename);
+        const formData = new FormData();
+        formData.append("files", fs.readFileSync(pathFile), file.filename);
+        formData.append("resource_type", "image")
+        formData.append("user_id", +user_id)
+        formData.append("user_resource_type", type);
+        const result = await axios({
+            url: `${local}/user-resources`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: formData
+        });
+        if(imgIdExsisted && typeof +imgIdExsisted === "number" ){
+            axios({
+                url: `${local}/user-resources/${imgIdExsisted}`,
+                method: "DELETE",
+                headers: {
+                    Authorization: authorization
+                }
+            })
+        }
+        let {message} = result.data;
+        if(message === 'Success'){
+            const result_getIMG = await axios({
+                url: `${local}/user-resources/user/${user_id}`,
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
+            })
+            res.send(result_getIMG.data);
+        } else {
+            res.send(result.data);
+        }
+    } catch (error) {
+        console.log(error);
+        res.send(error)
+    }
+}
+
 module.exports = {
-    uploadUserAvatar
+    uploadUserAvatar,
+    uploadFileStep5
 }

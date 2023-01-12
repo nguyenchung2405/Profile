@@ -7,8 +7,8 @@ const { profileRouter } = require("./profileRouter");
 const { depRouter } = require("./depRouter");
 const { positionRouter } = require("./positionRouter");
 const { partRouter } = require("./partRouter");
-const { uploadUserAvatar } = require("../controller/UploadAvatar.controller");
-const { uploadImageAvatar } = require("../middleware/upload");
+const { uploadUserAvatar, uploadFileStep5 } = require("../controller/UploadAvatar.controller");
+const { uploadImageAvatar, uploadStep5 } = require("../middleware/upload");
 const { createProfile, checkUserID, updateProfile } = require("../middleware/profile.middleware");
 const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard, getUserInfor } = require("../controller/Profile.controller");
 const { depPosRouter } = require("./dep_pos");
@@ -45,6 +45,7 @@ rootRouter.get("/users/users/me", getUserInfor)
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
 rootRouter.put("/profiles/updateactive", checkUserID, update_dep_pos_degress_jourCard)
 rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
+rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);
 rootRouter.post("/create/profile", checkUserID, createProfile, create_dep_pos_degree_jourCard);
 rootRouter.post("/profiles/importation", uploadFileIport(), importUser)

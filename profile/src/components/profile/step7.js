@@ -1,12 +1,12 @@
 import { Button, DatePicker, Select } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setDiaChiHuyen_ST7, setQueQuanHuyen_ST7 } from '../../redux/Steps/step7Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
-import { CREATE_FAMILY_RELATIONSHIP, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP, UPDATE_FAMILY_RELATIONSHIP_STEP7 } from '../../title/title';
+import { CREATE_FAMILY_RELATIONSHIP, CREATE_FAMILY_RELATIONSHIP_CON_STEP7, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP, UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, UPDATE_FAMILY_RELATIONSHIP_STEP7 } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
 
@@ -16,11 +16,13 @@ export default function Step7() {
     const dispatch = useDispatch();
     const {queQuanTinh, queQuanQuan, queQuanHuyen, diaChiTinh, diaChiQuan, diaChiHuyen} = useSelector(state => state.step7Reducer);
     let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
-    let { familyRelationship } = useSelector(state => state.step8Reducer);
+    let { familyRelationship, isCreated } = useSelector(state => state.step8Reducer);
     let {isSubmit} = useSelector(state => state.steps1Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
+    let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     const [valueForm, setValueForm] = useState({});
     const [valueFormCon, setValueFormCon] = useState({});
+    const [valueIntoModal, setValueIntoModal] = useState({});
     // console.log(valueForm)
     // console.log(valueFormCon)
     // console.log(familyRelationship)
@@ -42,13 +44,13 @@ export default function Step7() {
                 // console.log(valueForm, valueFormCon)
                 dispatch({
                     type: CREATE_FAMILY_RELATIONSHIP_STEP7,
-                    data: {valueForm, valueFormCon}
+                    data: {valueForm}
                 });
                 dispatch(setIsSubmit(false))
             } else {
                 dispatch({
                     type: UPDATE_FAMILY_RELATIONSHIP_STEP7,
-                    data: {valueForm, valueFormCon}
+                    data: {valueForm}
                 });
                 dispatch(setIsSubmit(false))
             }
@@ -63,10 +65,15 @@ export default function Step7() {
 
     useEffect(()=>{
         let voChong = familyRelationship.find(item => item.type === "vo_chong");
-        let con = familyRelationship.find(item => item.type === "con");
         setValueForm({...voChong});
-        setValueFormCon({...con});
     }, [familyRelationship])
+
+    useEffect(()=>{
+        if(isCreated){
+            let lengthArr = familyRelationship.length;
+            setValueFormCon({... familyRelationship[lengthArr - 1]})
+        }
+    }, [isCreated])
 
     useEffect(()=>{
         if(nextStep !== 6){
@@ -76,6 +83,10 @@ export default function Step7() {
 
     const closeModal = ()=>{
         setIsShowModal(false)
+    }
+
+    const closeModalUpdate = ()=>{
+        setIsShowModalUpdate(false)
     }
 
     const valueOfField = (name)=>{
@@ -95,6 +106,8 @@ export default function Step7() {
             }
         } else if(valueFormCon[name] && valueFormCon[name] !== null && valueFormCon[name] !== undefined && valueFormCon[name] !== "") {
             return valueFormCon[name]
+        } else {
+            return ""
         }
     }
 
@@ -236,10 +249,38 @@ export default function Step7() {
                                 historical_features: [...newHisArr]
                             });
                         }} />
+                        <AiOutlineEdit
+                        className="icon__update"
+                        onClick={()=>{
+                            let newHisArr = [...valueForm?.historical_features];
+                            newHisArr = newHisArr.filter(his => his.content === item.content)
+                            setIsShowModalUpdate(true)
+                            setValueIntoModal({...newHisArr[0], index})
+                        }}/>
                     </div>
                 </div>
             })
         }
+    }
+    
+    const filterRelationship = ()=>{
+        let a =familyRelationship.map((item)=>{
+            if(item.type.toLowerCase().includes("con")){
+                return item
+            }
+        });
+        let b = a.filter(item => item !== undefined);
+        return b.map((item) => {
+            return <li className={valueFormCon.id === item.id ? "activate__li" : ""} onClick={(e)=>{
+                let {className} = e.target;
+                let itemExist = familyRelationship.find(relation => relation.id === item.id)
+                if(itemExist && !className.includes("activate__li")){
+                    setValueFormCon({...itemExist});
+                } else {
+                    setValueFormCon({});
+                }
+            }}>{`${item.full_name} - ${item.type}`}</li>
+        })
     }
 
   return (
@@ -361,6 +402,14 @@ export default function Step7() {
                     closeModal={closeModal}
                     valueForm={valueForm}
                     setValueForm={setValueForm} />
+                    <ModalComponent 
+                    title={lichSuBanThan}
+                    isShowModal={isShowModalUpdate}
+                    closeModal={closeModalUpdate}
+                    valueForm={valueForm}
+                    setValueForm={setValueForm}
+                    valueIntoModal={valueIntoModal}
+                    setValueIntoModal={setValueIntoModal} />
                 </div>
                 <div className="field">
                     <label htmlFor='political_attitude'>Thái độ chính trị:</label>
@@ -428,7 +477,7 @@ export default function Step7() {
             <div className="field diaChi">
                 <label htmlFor='diaChi'>Địa chỉ:</label>
                 <input id="diaChi" type="text" name="diaChi" 
-                value={valueFormCon.noiOHienTai?.diaChi !== "" && valueFormCon.noiOHienTai?.diaChi !== "undefined" ? valueFormCon.noiOHienTai?.diaChi : ""}
+                value={valueFormCon?.noiOHienTai?.diaChi !== "" && valueFormCon?.noiOHienTai?.diaChi !== undefined ? valueFormCon?.noiOHienTai?.diaChi : ""}
                 onChange={(e)=>{
                     let {value, name} = e.target;
                     setValueFormCon({
@@ -437,6 +486,7 @@ export default function Step7() {
                     })
                 }}/>
                 <Select defaultValue="Tỉnh (Thành phố)"
+                placeholder="Tỉnh (Thành phố)"
                 showSearch
                 filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
@@ -446,6 +496,7 @@ export default function Step7() {
                         { renderTinh("diaChi")}
                 </Select>
                 <Select defaultValue="Quận (Thành phố)" 
+                placeholder="Quận (Thành phố)"
                 showSearch
                 filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
@@ -455,6 +506,7 @@ export default function Step7() {
                     {renderQuan("diaChi")}
                 </Select>
                 <Select defaultValue="Huyện" 
+                placeholder="Huyện" 
                 showSearch
                 filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
@@ -466,7 +518,31 @@ export default function Step7() {
             </div>
             <div className="btn__ThemCon">
                 <Button type="default"
-                icon={<AiOutlinePlusCircle />}>Con</Button>
+                icon={<AiOutlinePlusCircle />}
+                onClick={()=>{
+                    valueFormCon.type="con"
+                    valueFormCon.pro_id = pro_id;
+                    dispatch({
+                        type: CREATE_FAMILY_RELATIONSHIP_CON_STEP7,
+                        data: valueFormCon
+                    });
+                }} 
+                >Thêm</Button>
+                <Button type="default"
+                icon={<AiOutlineEdit />}
+                onClick={()=>{
+                    dispatch({
+                        type: UPDATE_FAMILY_RELATIONSHIP_CON_STEP7,
+                        data: valueFormCon
+                    });
+                }} 
+                >Cập nhật</Button>
+            </div>
+            <div className="son__list">
+                <h3>Danh sách con cái:</h3>
+                <ol>
+                    {filterRelationship()}
+                </ol>
             </div>
         </div>
     </div>

@@ -186,7 +186,9 @@ export default function StepsAntd() {
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
             if(proID && proID !== undefined){
+                // proID có tồn tại => có profile thì check id user xem có phải admin ko
                 if(decoded.id !== user_id && status.can_action){
+                  // user_id admin = 1 phải khác user_id bình thường và action = true thì mới hiện nút
                     if(status.state === "SENDING" || status.state === "SAVED"){
                         return <>
                           <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
@@ -204,12 +206,14 @@ export default function StepsAntd() {
                       </>
                     } 
                 }
+                // khi kích hoạt profile rồi thì chỉ hiện nút cập nhật thôi
                 if(decoded.id !== user_id && status.state === "ACTIVE" && status["can_action"] === false){
                   return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))
                   }}>Cập nhật</button>
               }
             } else if(decoded.id === user_id && status.can_action){
+              // khi user vô hồ sơ của mình thì hiện 2 nút lưu, gửi
               if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
                   return <>
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{

@@ -8,7 +8,8 @@ import {handleDateTime} from "../../ultils/helper"
 
 export default function ModalComponent(props) {
 
-    let { title, isShowModal, closeModal, setValueForm, valueForm } = props;
+    let { title, isShowModal, closeModal, setValueForm, valueForm,
+        valueIntoModal, setValueIntoModal } = props;
     const dispatch = useDispatch()
     let { user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
     const [valueModal, setValueModal] = useState({});
@@ -18,6 +19,10 @@ export default function ModalComponent(props) {
             setValueModal({});
         }
     }, [isShowModal]);
+
+    useEffect(()=>{
+        setValueModal({...valueIntoModal})
+    }, [valueIntoModal])
 
     const handleOk = () => {
         if(title === quaTrinhLVHT){
@@ -65,11 +70,19 @@ export default function ModalComponent(props) {
             let newHistorical_features = [];
             if(valueForm?.historical_features?.length > 0){
                 newHistorical_features = [...valueForm.historical_features];
-                newHistorical_features.push(valueModal);
-                setValueForm({
-                    ...valueForm,
-                    historical_features: [...newHistorical_features]
-                })
+                if(valueModal?.index === undefined){
+                    newHistorical_features.push(valueModal);
+                    setValueForm({
+                        ...valueForm,
+                        historical_features: [...newHistorical_features]
+                    })
+                } else {
+                    newHistorical_features[valueModal.index] = {...valueModal};
+                    setValueForm({
+                        ...valueForm,
+                        historical_features: [...newHistorical_features]
+                    })
+                }
             } else {
                 newHistorical_features.push(valueModal);
                 setValueForm({
@@ -226,7 +239,7 @@ export default function ModalComponent(props) {
             })
         }
     }
-    // console.log(isShowModal)
+    
     const valueOfField = (from_or_to)=>{
         // Đang làm step 8 cái modal => khi đóng modal thì clear data các field
         if(title === lichSuBanThan){
@@ -309,7 +322,7 @@ export default function ModalComponent(props) {
                 </svg>}
                 footer={<Button className='btn__modal__step' type="primary" onClick={() => {
                     handleOk()
-                }}>Gửi</Button>}
+                }}>Thêm</Button>}
                 style={{ width: "600px" }}
                 width="600px"
                 title={<span class="modal__title">{title}</span>}

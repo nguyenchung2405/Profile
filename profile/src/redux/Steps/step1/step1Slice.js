@@ -55,7 +55,8 @@ const initialState = {
     to: [],
     avatar: "",
     emailPhone: {},
-    action: ""
+    action: "",
+    resources: []
 }
 
 const step1Slice = createSlice({
@@ -157,6 +158,9 @@ const step1Slice = createSlice({
         },
         setAction: (state, action)=>{
             state.action = action.payload;
+        },
+        setResources: (state, action)=>{
+            state.resources = action.payload;
         }
     }
 })
@@ -165,6 +169,6 @@ export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
 setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
-setHoKhauQuan, setEmailPhone, setIsSubmit, setAction } = step1Slice.actions;
+setHoKhauQuan, setEmailPhone, setIsSubmit, setAction, setResources } = step1Slice.actions;
 
 export default step1Slice.reducer;

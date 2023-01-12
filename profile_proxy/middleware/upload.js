@@ -11,6 +11,12 @@ const uploadImageAvatar = ()=>{
     return upload.single("image3x4");
 };
 
+const uploadStep5 = ()=>{
+    const upload = multer({ dest : "./profile_proxy/public/files"})
+    return upload.single("file");
+}
+
 module.exports = {
-    uploadImageAvatar
+    uploadImageAvatar,
+    uploadStep5
 }

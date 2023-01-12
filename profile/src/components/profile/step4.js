@@ -44,7 +44,7 @@ export default function Step4() {
   return (
     <div className="Step4">
         <div className="Step4__content">
-                <p>Tham gia các tổ chức chính trị, các hôị nghề nghiệp:</p>
+                <p>Tham gia các tổ chức chính trị, các hội nghề nghiệp:</p>
             {
                 quaTrinhThamGiaCacToChuc.map((item, index) => {
                     return <div className="process" >

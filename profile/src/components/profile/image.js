@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
-import { TOKEN, local } from '../../title/title';
+import { TOKEN, local, DELETE_RESOURCE } from '../../title/title';
+import { setAvatar, setResources } from '../../redux/Steps/step1/step1Slice';
 
 export default function Image() {
 
     const [path, setPath] = useState("");
     let { user_id } = useSelector(state => state.stepsReducer.user_profile_id);
-    let {avatar} = useSelector(state => state.steps1Reducer);
+    let {avatar, resources} = useSelector(state => state.steps1Reducer);
     const dispatch = useDispatch();
     // console.log(avatar)
     useEffect(()=>{
         setPath(`data:image/jpeg;base64,${avatar}`)
     }, [avatar]);
-
-    // useEffect(()=>{
-    //     return ()=>{
-    //         dispatch(setAvatar(""))
-    //     }
-    // }, [])
 
   return (
     <div className="image">
@@ -40,17 +35,14 @@ export default function Image() {
                     },
                     data: form
                 });
-                // console.log(result.data)
-                let { path } = result.data;
-                if(path){
-                    setPath(`http://localhost:3001/${path}`)
-                } else {
-                    // let index = result.data[0].resource_content.length - 1;
-                    let {content} = result.data.data[0].resource;
-                    // console.log(content)
-                    // console.log(Base64.decode(content));
-                    setPath(`data:image/jpeg;base64,${content}`)
-                }
+                let imgIdExsisted = resources.find(img => img?.type === "3x4");
+                dispatch({
+                    type: DELETE_RESOURCE,
+                    resource_id: imgIdExsisted?.id
+                })
+                dispatch(setResources(result?.data?.data))
+                let {content} = result.data.data[0].resource;
+                dispatch(setAvatar(content))
             } 
         }} />
         <label className="file-input__label" htmlFor="img-input">

@@ -1,9 +1,9 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import { CREATE_PROFILE, DELETE_DEP_POS, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from "../title/title";
+import { CREATE_PROFILE, DELETE_DEP_POS, DELETE_RESOURCE, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, TOKEN, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from "../title/title";
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
-import { createProfile_API, deleteDepPosAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
+import { createProfile_API, deleteDepPosAPI, deleteResourceAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setValues } from "./Steps/step1/step1Slice";
+import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setResources, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
 import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
@@ -11,6 +11,7 @@ import { setTrainingFostering } from "./Steps/step5.slice";
 import { setRewardDiscipline } from "./Steps/step6Slice";
 import { setFamilyRelationship } from "./Steps/step8Slice";
 import { setStatus, setIsNextStep, setMessageAlert, setUserProfileID } from "./Steps/stepsSlice";
+import jwt_decode from "jwt-decode";
 
 function* getProfileByID(payload) {
     let { proID, email, soDienThoai } = payload.data;
@@ -106,8 +107,13 @@ function* updateProfile(payload){
     // console.log(msg)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+        let decoded = jwt_decode(TOKEN);
         if(action === "send" || action === "reject"){
-            navigate("/hr/profile")
+            if(+decoded.id === 1){
+                navigate("/profile-service/hr/profile");
+            } else {
+                navigate("/");
+            }
         }
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
@@ -161,9 +167,11 @@ function* getAvatar(payload) {
     let { user_id } = payload
     const res = yield call(getAvatar_API, user_id);
     if (res.data !== null || res.data.length > 0) {
+        yield put(setResources(res.data))
         let avatar = res.data;
-        if(avatar[0]?.type === "3x4" && avatar[0].resource.content !== null){
-            let { content } = avatar[0].resource;
+        let indexAvatar = avatar.findIndex(resoures => resoures.type === "3x4");
+        if(indexAvatar !== -1 && avatar[indexAvatar].resource.content !== null){
+            let { content } = avatar[indexAvatar].resource;
             yield put(setAvatar(content));
         } else {
             yield put(setAvatar(""))
@@ -247,6 +255,11 @@ function* getProfileByTOKEN(){
     
 }
 
+function* deleteResource(payload){
+    let {resource_id} = payload;
+    yield call(deleteResourceAPI, resource_id);
+}
+
 export default function* Profile() {
     yield takeEvery(GET_PROFILE_BY_ID, getProfileByID)
     yield takeLatest(UPDATE_PROFILE, updateProfile)
@@ -257,4 +270,5 @@ export default function* Profile() {
     yield takeLatest(DELETE_DEP_POS, deleteDepPos)
     yield takeLatest(GET_PROFILE_BY_USER_ID, getProfileByUserID)
     yield takeLatest(GET_PROFILE_BY_TOKEN, getProfileByTOKEN)
+    yield takeLatest(DELETE_RESOURCE, deleteResource)
 }

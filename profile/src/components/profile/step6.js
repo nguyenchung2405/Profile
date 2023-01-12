@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { AiOutlinePlusCircle, AiOutlineEdit, AiOutlineMinusCircle } from 'react-icons/ai';
-import { Button, Steps } from 'antd'
+import { Button, Image } from 'antd'
 import ModalComponent from '../modal/modal';
-import {DELETE_REWARD_DISCIPLINE, khenThuong as khenThuongTitle, kyLuat as kyLuatTitle} from "../../title/title"
+import {DELETE_RESOURCE, DELETE_REWARD_DISCIPLINE, khenThuong as khenThuongTitle, kyLuat as kyLuatTitle, local, TOKEN} from "../../title/title"
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import ModalUpdate from '../modal/modalUpdate';
 import { setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { FcAddImage } from 'react-icons/fc';
+import axios from "axios"
+import { setResources } from '../../redux/Steps/step1/step1Slice';
 
 export default function Step6() {
 
-    const {Step} = Steps;
     const dispatch = useDispatch();
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModal2, setIsShowModal2] = useState(false)
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     let [isShowModalUpdate2, setIsShowModalUpdate2] = useState(false)
     let {rewardDiscipline} = useSelector(state => state.step6Reducer);
-    let {nextStep} = useSelector(state => state.stepsReducer);
-
+    let {nextStep, user_profile_id} = useSelector(state => state.stepsReducer);
+    let {resources} = useSelector(state => state.steps1Reducer);
+    
     useEffect(()=>{
         if(nextStep !== 5){
             dispatch(setIsNextStep(true))
@@ -44,10 +47,13 @@ export default function Step6() {
     const khenThuong = rewardDiscipline.map((item, index)=>{
         let ngayKhenThuong = moment(new Date(item.time_from.concat(".000Z"))).format("DD/MM/YYYY")
         if(item.type === "reward"){
+            let imgType = `${item.type}_${item.id}`;
+            let imgStudy = resources.find(img => img.type === imgType);
             return {
                 title: `${ngayKhenThuong}`,
                 description: item.note,
-                re_dis_id: item.id
+                re_dis_id: item.id,
+                imgStudy
             }
         }
     })
@@ -55,10 +61,13 @@ export default function Step6() {
     const kyLuat = rewardDiscipline.map((item, index)=>{
         let ngayKyLuat = moment(new Date(item.time_from.concat(".000Z"))).format("DD/MM/YYYY")
         if(item.type === "discipline"){
+            let imgType = `${item.type}_${item.id}`;
+            let imgStudy = resources.find(img => img.type === imgType);
             return {
                 title: `${ngayKyLuat}`,
                 description: item.note,
-                re_dis_id: item.id
+                re_dis_id: item.id,
+                imgStudy
             }
         }
     })
@@ -77,7 +86,38 @@ export default function Step6() {
                         type: DELETE_REWARD_DISCIPLINE,
                         re_dis_id: item.re_dis_id
                     })
+                    dispatch({
+                        type: DELETE_RESOURCE,
+                        resource_id: item?.imgStudy?.id
+                    })
                 }} />
+                <div className="upload__section">
+                <label className="upload__label" htmlFor={`reward_${item.re_dis_id}`}>
+                    <FcAddImage />
+                </label>
+                <input id={`reward_${item.re_dis_id}`} type="file" className="upload__input"
+                onChange={async (e)=>{
+                    const form = new FormData();
+                    let imgIdExsisted = item?.imgStudy?.id;
+                    form.append("file", e.target.files[0]);
+                    form.append("user_id", user_profile_id.user_id);
+                    form.append("type", `reward_${item.re_dis_id}`);
+                    form.append("imgIdExsisted", imgIdExsisted);
+                    const uploadFile = await axios({
+                        url: `${local}/api/upload/step5`,
+                        method: "POST",
+                        headers: {
+                            Authorization: "Bearer " + TOKEN
+                        },
+                        data: form
+                    });
+                    dispatch(setResources(uploadFile?.data?.data))
+                }}
+                />
+                </div>
+                <div className="image__files">
+                    <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đào tạo" />
+                </div>
         </div>
         })
    }
@@ -96,7 +136,38 @@ export default function Step6() {
                     type: DELETE_REWARD_DISCIPLINE,
                     re_dis_id: item.re_dis_id
                 })
-        }} />
+                dispatch({
+                    type: DELETE_RESOURCE,
+                    resource_id: item?.imgStudy?.id
+                })
+            }} />
+            <div className="upload__section">
+                <label className="upload__label" htmlFor={`discipline_${item.re_dis_id}`}>
+                    <FcAddImage />
+                </label>
+                <input id={`discipline_${item.re_dis_id}`} type="file" className="upload__input"
+                onChange={async (e)=>{
+                    const form = new FormData();
+                    let imgIdExsisted = item?.imgStudy?.id;
+                    form.append("file", e.target.files[0]);
+                    form.append("user_id", user_profile_id.user_id);
+                    form.append("type", `discipline_${item.re_dis_id}`);
+                    form.append("imgIdExsisted", imgIdExsisted);
+                    const uploadFile = await axios({
+                        url: `${local}/api/upload/step5`,
+                        method: "POST",
+                        headers: {
+                            Authorization: "Bearer " + TOKEN
+                        },
+                        data: form
+                    });
+                    dispatch(setResources(uploadFile?.data?.data))
+                }}
+                />
+            </div>
+            <div className="image__files">
+                <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đào tạo" />
+            </div>
     </div>
     })
 }
