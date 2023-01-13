@@ -111,3 +111,19 @@ export async function searchDepartmentAPI(page, pageSize, dep_name){
         console.log(error)
     }
 }
+
+export async function deleteDepartmentAPI(dep_id){
+    try {
+        let result = await axios({
+            url: `${local}/api/departments/${dep_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

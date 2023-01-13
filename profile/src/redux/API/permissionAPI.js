@@ -103,3 +103,43 @@ export async function getPermissionPosListAPI(pos_mana_id){
         return "Thất bại"
     }
 }
+
+export async function deletePermissionPositionAPI(deleteArr, pos_mana_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-position`,
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: {
+                position_management_ids: [ pos_mana_id ],
+                permission_ids: deleteArr
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
+
+export async function postPermissionPositionAPI(postArr, pos_mana_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-position/`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data: {
+                position_management_ids: [ pos_mana_id ],
+                permission_ids: postArr
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

@@ -96,9 +96,27 @@ const createDepartment = async (req,res) => {
     }
 }
 
+const deleteDepartment = async (req, res)=>{
+    try {
+        let {dep_id} = req.params;
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/departments/${dep_id}`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getDepartmentList,
     getDepInfor,
     updateDepInfor,
-    createDepartment
+    createDepartment,
+    deleteDepartment
 }
