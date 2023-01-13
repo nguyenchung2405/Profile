@@ -100,7 +100,8 @@ export default function TablePositionsPermission() {
                 }}>
                   <SetPermissionIcon />
                 </button>
-                <Popconfirm
+                {/*
+              <Popconfirm
                   title="Bạn có chắc muốn thực hiện thao tác này ?"
                   okText="Có"
                   cancelText="Không"
@@ -118,6 +119,7 @@ export default function TablePositionsPermission() {
                     <FiMinusCircle />
                   </button>
                 </Popconfirm>
+              */}
               </div>
             }}
           />

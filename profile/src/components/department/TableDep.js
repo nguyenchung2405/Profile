@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Table, message, Select } from 'antd'
+import { Table, message, Select, AutoComplete, Popconfirm } from 'antd'
 import Loading from '../Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading } from '../../redux/Slice/loading';
-import { GET_DEPARTMENT_LIST, SEARCH_DEPARTMENT } from '../../title/title';
+import { DELETE_DEPARTMENT, GET_DEPARTMENT_LIST, SEARCH_DEPARTMENT } from '../../title/title';
 import "./department.css"
 import {MdOutlineModeEditOutline} from "react-icons/md"
-import {AiOutlineUserAdd} from "react-icons/ai"
-import { useNavigate } from 'react-router-dom';
 import DepInfor from './DepInfor';
+import { AiFillQuestionCircle } from 'react-icons/ai';
+import { FiMinusCircle } from 'react-icons/fi';
 
 export default function TableDep() {
 
     const {Column} = Table;
-    const {Option} = Select;
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(10);
     const {isLoading} = useSelector(state => state.loadingReducer);
@@ -40,10 +38,12 @@ export default function TableDep() {
     }, [newTableDepList])
 
     useEffect(()=>{
-      if(dataTable.length >= 75){
-        setSearch([...dataTable]);
-      }
-    }, [dataTable]);
+      if(search === ""){
+        dispatch({
+          type: GET_DEPARTMENT_LIST,
+          table: {page:1,pageNumber:500}
+      })}
+    }, [search]);
 
     useEffect(()=>{
       let addKeyToData = tableDepList.map((child,index)=>{
@@ -95,9 +95,12 @@ export default function TableDep() {
     };
 
     const renderOption = ()=>{
-      if(search?.length > 0){
-        return search.map((PB,index)=>{
-          return <Option value={PB?.name} key={index}>{PB?.name}</Option>
+      if(dataTable?.length > 0){
+        return dataTable.map((PB,index)=>{
+          return {
+            label: PB.name,
+            value: PB.name
+          }
         })
       }
     };
@@ -131,30 +134,28 @@ export default function TableDep() {
             Tạo tổ
           </button>
           <div className="tableProfiles__search">
-            <Select
-                showSearch
+            <AutoComplete
                 allowClear
-                className="tool__search"
-                placeholder="Phòng ban"
-                filterOption={(input, option) =>
-                  (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                className="auto__complete"
+                options={renderOption()}
+                filterOption={(input, option)=>
+                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
                 }
                 onChange={(value)=>{
-                  if(value !== undefined){
+                    setSearch(value)
+                }}
+                onKeyDown={(e)=>{
+                  let {key} = e;
+                  let {value} = e.target;
+                  if(key.toLowerCase() === "enter"){
                     dispatch({
                       type: SEARCH_DEPARTMENT,
                       table: {page:1,pageNumber:500, value}
                     })
-                  } else {
-                    dispatch({
-                      type: GET_DEPARTMENT_LIST,
-                      table: {page:1,pageNumber:500}
-                    })
                   }
                 }}
-            >
-                  {renderOption()}
-            </Select>
+                placeholder="Bộ phận công tác"
+              />
           </div>
         </div>
         <Table
@@ -184,6 +185,24 @@ export default function TableDep() {
                           }}>
                             <MdOutlineModeEditOutline/>
                           </button>
+                          <Popconfirm
+                            title="Bạn có chắc muốn thực hiện thao tác này ?"
+                            okText="Có"
+                            cancelText="Không"
+                            icon={<AiFillQuestionCircle />}
+                            placement="topRight"
+                            onConfirm={() => {
+                              let { id } = child;
+                              dispatch({
+                                type: DELETE_DEPARTMENT,
+                                dep_id: id
+                              })
+                            }}
+                          >
+                            <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
+                              <FiMinusCircle />
+                            </button>
+                          </Popconfirm>
                       </div>
                   </div>
                 })
@@ -232,14 +251,32 @@ export default function TableDep() {
            />
            <Column className="table__dep__thaoTac" key="thao tac" render={(text,record,index)=>{
                return <div className="thaoTac__Edit">
-                     <button className="thaoTac__Edit__btn" onClick={()=>{
+                    <button className="thaoTac__Edit__btn" onClick={()=>{
                         // navigate(`/hr/department/${record.id}`);
                         record.title = "Chỉnh sửa phòng ban"
                         setDataToModal(record)
                         setIsShowModal(true)
-                      }}>
-                         <MdOutlineModeEditOutline/>
-                     </button>
+                    }}>
+                        <MdOutlineModeEditOutline/>
+                    </button>
+                    <Popconfirm
+                    title="Bạn có chắc muốn thực hiện thao tác này ?"
+                    okText="Có"
+                    cancelText="Không"
+                    icon={<AiFillQuestionCircle />}
+                    placement="topRight"
+                    onConfirm={() => {
+                      let { id } = record;
+                      dispatch({
+                        type: DELETE_DEPARTMENT,
+                        dep_id: id
+                      })
+                    }}
+                  >
+                    <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
+                      <FiMinusCircle />
+                    </button>
+                  </Popconfirm>
                </div>
            }} />
           </Table>
