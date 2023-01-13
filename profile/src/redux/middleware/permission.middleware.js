@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PERMISSION, DELETE_PERMISSION, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissionAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_POS, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
+import { createPermissionAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
 import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionHave, setPermissionList, setPermissionNot, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
 
 function* getPermissionList(payload){
@@ -65,6 +65,26 @@ function* getTableManagement(){
     }
 }
 
+function* deletePermissionPosition(payload){
+    let {deleteArr, pos_mana_id} = payload.data;
+    yield call(deletePermissionPositionAPI, deleteArr, pos_mana_id);
+    let result = yield call(getPermissionPosListAPI, pos_mana_id);
+    if(result[0].msg === "Thành công"){
+        yield put(setPermissionHave(result[1]));
+        yield put(setPermissionNot(result[2]));
+    }
+}
+
+function* postPermissionPosition(payload){
+    let {postArr, pos_mana_id} = payload.data;
+    yield call(postPermissionPositionAPI, postArr, pos_mana_id);
+    let result = yield call(getPermissionPosListAPI, pos_mana_id);
+    if(result[0].msg === "Thành công"){
+        yield put(setPermissionHave(result[1]));
+        yield put(setPermissionNot(result[2]));
+    }
+}
+
 export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_LIST, getPermissionList);
     yield takeLatest(CREATE_PERMISSION, createPermission)
@@ -72,6 +92,8 @@ export default function* PermissionMiddleware(){
     yield takeLatest(DELETE_PERMISSION, deletePermission)
     // Middleware của Permission Position
     yield takeLatest(GET_PERMISSION_POSITION, getPermissionPosition);
+    yield takeLatest(DELETE_PERMISSION_POS, deletePermissionPosition);
+    yield takeLatest(POST_PERMISSION_POS, postPermissionPosition);
     // Middleware của Table management
     yield takeLatest(GET_TABLE_MANAGEMENT, getTableManagement)
 }

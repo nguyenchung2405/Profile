@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Transfer, Modal } from 'antd';
 import "../permission.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_PERMISSION_POSITION } from '../../../title/title';
+import { DELETE_PERMISSION_POS, GET_PERMISSION_POSITION, POST_PERMISSION_POS } from '../../../title/title';
 
 export default function PermissionPosition(props) {
 
@@ -10,18 +10,19 @@ export default function PermissionPosition(props) {
     const dispatch = useDispatch();
     const [targetKeys, setTargetKeys] = useState([]);
     const [data, setData] = useState([]);
+    const [rootPermissionArr, setRootPermissionArr] = useState([]);
     const {permissionHave, permissionNot} = useSelector(state => state.permissionReducer);
     // console.log(permissionHave, permissionNot)
-    // console.log(targetKeys)
+    // console.log(data.sort((a,b) => a.id - b.id), rootPermissionArr)
 
     useEffect(()=>{
-        if(typeof pos_mana_id === "number"){
+        if(typeof pos_mana_id === "number" && isShowModal){
             dispatch({
               type: GET_PERMISSION_POSITION,
               data: pos_mana_id
             });
         }
-    }, [pos_mana_id]);
+    }, [pos_mana_id, isShowModal]);
 
     useEffect(()=>{
         let perArr = concatArr();
@@ -43,6 +44,9 @@ export default function PermissionPosition(props) {
         setTargetKeys([...perHaveArr.map((item)=>{
           return item.key
         })]);
+        setRootPermissionArr([...perHaveArr.map((item)=>{
+          return item.key
+        })])
         setData([...newData]);
     }, [permissionHave, permissionNot]);
 
@@ -86,14 +90,32 @@ export default function PermissionPosition(props) {
     
 
     const onChange = (nextTargetKeys, direction, moveKeys) => {
-      console.log('targetKeys:', nextTargetKeys);
-      console.log('direction:', direction);
-      console.log('moveKeys:', moveKeys);
+      // console.log('targetKeys:', nextTargetKeys);
+      // console.log('direction:', direction);
+      // console.log('moveKeys:', moveKeys);
       setTargetKeys(nextTargetKeys);
     };
 
     const closeModal = ()=>{
       setIsShowModal(false);
+    }
+
+    const handleClickButton = ()=>{
+      let deleteArr = rootPermissionArr.filter(per => !targetKeys.includes(per));
+      let postArr = targetKeys.filter(per => !rootPermissionArr.includes(per));
+      if(deleteArr.length > 0){
+        dispatch({
+          type: DELETE_PERMISSION_POS,
+          data: {deleteArr, pos_mana_id}
+        })
+      }
+      if(postArr.length > 0){
+        dispatch({
+          type: POST_PERMISSION_POS,
+          data: {postArr, pos_mana_id}
+        })
+      }
+      closeModal()
     }
 
   return (
@@ -127,9 +149,8 @@ export default function PermissionPosition(props) {
                       Đóng
                 </button>
                 <button type='button' className="dep__btn"
-                  onClick={()=>{
-                    closeModal()
-                  }}>
+                  onClick={handleClickButton}
+                >
                     Cập nhật
                 </button>
             </div>

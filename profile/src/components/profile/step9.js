@@ -8,9 +8,10 @@ import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setFamilyRelationshipExist } from '../../redux/Steps/step8Slice';
 import { setNoiOHienTaiHuyen_ST9 } from '../../redux/Steps/step9Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
-import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP9, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
+import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP9, GET_PROVINCES, lichSuBanThan, TOKEN, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
 import { checkMicroFe, handleDateTime } from '../../ultils/helper';
 import ModalComponent from '../modal/modal';
+import jwt_decode from "jwt-decode";
 
 export default function Step8() {
 
@@ -106,8 +107,13 @@ export default function Step8() {
         if(isDone){
             dispatch(setMessageAlert({type: "success", msg: "Bạn đã hoàn tất hồ sơ cá nhân."}))
             let checkMicroFE = checkMicroFe()
+            let decoded = jwt_decode(TOKEN);
             if(checkMicroFE){
-                navigate("/profile-service/hr/profile");
+                if(+decoded.id === 1){
+                    navigate("/profile-service/hr/profile");
+                } else {
+                    navigate("/");
+                }
             } else {
                 navigate("/");
             }

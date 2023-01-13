@@ -36,6 +36,42 @@ const getPermissionPos = (req, res)=>{
     }
 };
 
+const deletePermissionPosition = async (req, res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/permission-position/`,
+            method: "DELETE",
+            headers: {
+                Authorization: authorization
+            },
+            data: req.body
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+};
+
+const postPermissionPosition = async (req, res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        const result = await axios({
+            url: `${local}/permission-position/`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: req.body
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
-    getPermissionPos
+    getPermissionPos,
+    deletePermissionPosition,
+    postPermissionPosition
 }
