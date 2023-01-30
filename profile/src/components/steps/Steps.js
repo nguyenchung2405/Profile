@@ -189,7 +189,7 @@ export default function StepsAntd() {
                 // proID có tồn tại => có profile thì check id user xem có phải admin ko
                 if(decoded.id !== user_id && status.can_action){
                   // user_id admin = 1 phải khác user_id bình thường và action = true thì mới hiện nút
-                    if(status.state === "SENDING" || status.state === "SAVED"){
+                    if(status.state === "SENDING" || status.state === "SAVED" || status.state === "NEW"){
                         return <>
                           <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                               dispatch(setIsSubmit(true))
@@ -198,8 +198,8 @@ export default function StepsAntd() {
                           <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("send"))
-                          }}>Kích hoạt</button>
-                          <button className="SoYeuLyLich__btn btn__reject" onClick={()=>{
+                          }}>{status.state === "NEW" ? "Gửi" : "Kích hoạt"}</button>
+                          <button className={status.state === "NEW" ? "btn__none" : "SoYeuLyLich__btn btn__reject"} onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("reject"))
                           }}>Trả về</button>
@@ -214,7 +214,7 @@ export default function StepsAntd() {
               }
             } else if(decoded.id === user_id && status.can_action){
               // khi user vô hồ sơ của mình thì hiện 2 nút lưu, gửi
-              if(status.state === "NEW" || status.state === "SAVED" || status.state === "REJECTED"){
+              if(status.state === "SENDING" || status.state === "SAVED" || status.state === "REJECTED"){
                   return <>
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))

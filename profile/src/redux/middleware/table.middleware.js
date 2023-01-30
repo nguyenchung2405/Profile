@@ -6,6 +6,7 @@ import { setIsLoading } from "../Slice/loading"
 import { getDepPosToSearch } from "../API/department";
 import { setDepList, setPosList } from "../Slice/tableSlice";
 import { searchAPI } from "../API/tableProfileAPI";
+import { setDepPosList } from "../Slice/permissionSlice";
 
 function* getUserList(payload) {
     let { table: { page, pageNumber } } = payload;
@@ -29,6 +30,7 @@ function* getDepPosSearch(){
     let {data: posList} = result[1].data;
     yield put(setDepList(depList))
     yield put(setPosList(posList))
+    yield put(setDepPosList([depList, posList]))
 }
 
 function* search(payload){

@@ -1710,4 +1710,24 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     height: 100%;
 }
 
+.btn__none {
+    display: none;
+}
+
+.select__dep__pos {
+    margin-bottom: 10px;
+}
+
+.select__dep__pos > div.ant-select {
+    width: 354px;
+}
+
+.select__dep__pos > div.ant-select:first-child {
+    margin-right: 42px;
+}
+
+.select__dep__pos > div.ant-select:last-child {
+    margin-top: 0px;
+}
+
 /* Kết thúc */

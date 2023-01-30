@@ -13,6 +13,7 @@ import TablePositions from './components/positions/TablePositions';
 import { checkMicroFe } from './ultils/helper';
 import TablePositionsPermission from './components/permission/positions/positionTablePermission';
 import PermissionTable from './components/permission/PermissionTable';
+import DepartmentPermissionTable from './components/permission/department/DepartmentPermissionTable';
 
 function App() {
   const renderMF = () => {
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/hr/position" element={<TablePositions />} />
                 <Route path="/hr/permission/manage" element={<PermissionTable /> } />
                 <Route path="/hr/permission/position" element={<TablePositionsPermission /> } />
+                <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable /> } />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
@@ -55,6 +57,7 @@ function App() {
               <Route path="/hr/position" element={<TablePositions />} />
               <Route path="/hr/permission/manage" element={<PermissionTable /> } />
               <Route path="/hr/permission/position" element={<TablePositionsPermission /> } />
+              <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable /> } />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </div>

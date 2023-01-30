@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_POS, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
-import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionHave, setPermissionList, setPermissionNot, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
+import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
+import { createPermissionAPI, deletePermissDepPosAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionDepPosAPI, getPermissionDepPosListAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissDepPosAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionDepPosList, setPermissionHave, setPermissionList, setPermissionNot, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
 
 function* getPermissionList(payload){
     let {data} = payload;
@@ -85,6 +85,55 @@ function* postPermissionPosition(payload){
     }
 }
 
+function* getPermissionDepPos(payload){
+    console.log(payload)
+    let dep_id = payload?.data?.dep_id;
+    let pos_id = payload?.data?.pos_id;
+    if(dep_id && pos_id){
+        let result = yield call(getPermissionDepPosAPI, dep_id, pos_id);
+        yield put(setPermissionHave(result[1]));
+        yield put(setPermissionNot(result[2]));
+    } else {
+        let result = yield call(getPermissionDepPosAPI, 0,0);
+        yield put(setPermissionHave(result[1]));
+        yield put(setPermissionNot(result[2]));
+    }
+}
+
+function* deletePermissionDepPos(payload){
+    let {deleteArr, depPos} = payload.data;
+    let data = {
+        department_id: depPos.dep_id,
+        position_management_id: depPos.pos_id,
+        permission_ids: deleteArr
+    };
+    if(typeof +data.department_id === "number" && typeof +data.position_management_id === "number"){
+        yield call(deletePermissDepPosAPI, data);
+    }
+}
+
+function* postPermissionDepPos(payload){
+    let {postArr, depPos} = payload.data;
+    let data = {
+        department_id: depPos.dep_id,
+        position_management_id: depPos.pos_id,
+        permission_ids: postArr
+    };
+    if(typeof +data.department_id === "number" && typeof +data.position_management_id === "number"
+    && data.department_id !== "" && data.position_management_id !== ""){
+        yield call(postPermissDepPosAPI, data);
+    } else {
+        yield put(setMessageAlert({type: "error", msg: "Tạo thất bại"}));
+    }
+}
+
+function* getPermissionDepPosList(payload){
+    let {page, pageNumber} = payload.data;
+    let result = yield call(getPermissionDepPosListAPI, page, pageNumber);
+    let {data: dataResponse, metadata: {total_items: total}} = result;
+    yield put(setPermissionDepPosList({dataResponse, total}));
+}
+
 export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_LIST, getPermissionList);
     yield takeLatest(CREATE_PERMISSION, createPermission)
@@ -96,4 +145,9 @@ export default function* PermissionMiddleware(){
     yield takeLatest(POST_PERMISSION_POS, postPermissionPosition);
     // Middleware của Table management
     yield takeLatest(GET_TABLE_MANAGEMENT, getTableManagement)
+    yield takeLatest(GET_PERMISSION_DEP_POS_LIST, getPermissionDepPosList)
+    // Middleware của Permission Dep Pos
+    yield takeLatest(GET_PERMISSION_DEP_POS, getPermissionDepPos)
+    yield takeLatest(DELETE_PERMISSION_DEP_POS, deletePermissionDepPos)
+    yield takeLatest(POST_PERMISSION_DEP_POS, postPermissionDepPos)
 }

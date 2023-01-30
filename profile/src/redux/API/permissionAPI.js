@@ -143,3 +143,69 @@ export async function postPermissionPositionAPI(postArr, pos_mana_id){
         return "Thất bại"
     }
 }
+
+export async function getPermissionDepPosAPI(dep_id, pos_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-department-position/position-management?department_position_management_ids=${dep_id}%2C${pos_id}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        })
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+};
+
+export async function deletePermissDepPosAPI(data){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-department-position/`,
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+};
+
+export async function postPermissDepPosAPI(data){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-department-position/`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+};
+
+export async function getPermissionDepPosListAPI(page, pageNumber){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-department-position/exists-dep-pos/list?page_size=${pageNumber}&page=${page}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
