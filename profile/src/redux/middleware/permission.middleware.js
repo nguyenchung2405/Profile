@@ -1,7 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_TABLE_MANAGEMENT, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissDepPosAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionDepPosAPI, getPermissionDepPosListAPI, getPermissionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissDepPosAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
-import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionDepPosList, setPermissionHave, setPermissionList, setPermissionNot, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
+import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_PERMISSION_POS_LIST, GET_TABLE_MANAGEMENT, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
+import { createPermissionAPI, deletePermissDepPosAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionDepPosAPI, getPermissionDepPosListAPI, getPermissionListAPI, getPermissionPositionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissDepPosAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionDepPosList, setPermissionHave, setPermissionList, setPermissionNot, setPermissionPosList, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
+import { setLoading } from "../Slice/positions.slice";
 
 function* getPermissionList(payload){
     let {data} = payload;
@@ -86,7 +87,6 @@ function* postPermissionPosition(payload){
 }
 
 function* getPermissionDepPos(payload){
-    console.log(payload)
     let dep_id = payload?.data?.dep_id;
     let pos_id = payload?.data?.pos_id;
     if(dep_id && pos_id){
@@ -130,8 +130,20 @@ function* postPermissionDepPos(payload){
 function* getPermissionDepPosList(payload){
     let {page, pageNumber} = payload.data;
     let result = yield call(getPermissionDepPosListAPI, page, pageNumber);
+    // let {data: dataResponse, metadata: {total_items: total}} = result;
+    let dataResponse = result?.data;
+    let total = result?.metadata?.total_items;
+    if(dataResponse !== undefined && total !== undefined){
+        yield put(setPermissionDepPosList({dataResponse, total}));
+    }
+}
+
+function* getPermissionPosList(payload){
+    let {page, pageNumber} = payload.table;
+    let result = yield call(getPermissionPositionListAPI, page, pageNumber);
     let {data: dataResponse, metadata: {total_items: total}} = result;
-    yield put(setPermissionDepPosList({dataResponse, total}));
+    yield put(setPermissionPosList({dataResponse, total}))
+    yield put(setLoading(false))
 }
 
 export default function* PermissionMiddleware(){
@@ -143,6 +155,7 @@ export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_POSITION, getPermissionPosition);
     yield takeLatest(DELETE_PERMISSION_POS, deletePermissionPosition);
     yield takeLatest(POST_PERMISSION_POS, postPermissionPosition);
+    yield takeLatest(GET_PERMISSION_POS_LIST, getPermissionPosList)
     // Middleware của Table management
     yield takeLatest(GET_TABLE_MANAGEMENT, getTableManagement)
     yield takeLatest(GET_PERMISSION_DEP_POS_LIST, getPermissionDepPosList)

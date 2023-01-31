@@ -208,4 +208,20 @@ export async function getPermissionDepPosListAPI(page, pageNumber){
         console.log(error)
         return "Thất bại"
     }
+};
+
+export async function getPermissionPositionListAPI(page, pageNumber){
+    try {
+        const result = await axios({
+            url: `${local}/api/permission-position/exists-dep-pos/list?page_size=${pageNumber}&page=${page}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
 }

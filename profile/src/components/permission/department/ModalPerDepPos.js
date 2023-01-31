@@ -3,22 +3,30 @@ import { Transfer, Modal, Select } from 'antd';
 import "../permission.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_POSITION, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS } from '../../../title/title';
+import { setPermissionHave, setPermissionNot } from '../../../redux/Slice/permissionSlice';
 
 export default function ModalPerDepPos(props) {
 
-    const {isShowModal, setIsShowModal, pos_dep_mana_id, depList, posList, isUpdate} = props;
+    const {isShowModal, setIsShowModal, pos_dep_mana_id, depList, posList, isUpdate, permissionList} = props;
     const dispatch = useDispatch();
     const {Option} = Select;
     const [depPos, setDepPos] = useState({dep_id: "", pos_id: ""});
     const [targetKeys, setTargetKeys] = useState([]);
+    const [selectedKeys, setSelectedKeys] = useState([]);
     const [data, setData] = useState([]);
     const [rootPermissionArr, setRootPermissionArr] = useState([]);
     const {permissionHave, permissionNot} = useSelector(state => state.permissionReducer);
     // console.log(permissionHave, permissionNot)
-    // console.log(isUpdate)
+    // console.log(data, targetKeys)
 
     useEffect(()=>{
-      console.log(isUpdate, isShowModal)
+      return ()=>{
+        dispatch(setPermissionHave([]))
+        dispatch(setPermissionNot([]))
+      }
+    }, [])
+
+    useEffect(()=>{
         if(isUpdate && isShowModal){
             dispatch({
               type: GET_PERMISSION_DEP_POS,
@@ -28,16 +36,21 @@ export default function ModalPerDepPos(props) {
         } else {
             if(!isShowModal){
               setDepPos({dep_id: "", pos_id: ""})
+              setTargetKeys([])
+              setSelectedKeys([])
             } else {
-              dispatch({
-                type: GET_PERMISSION_DEP_POS
-              })
+              let newPermissionArr = permissionList.map((item)=>{
+                return {
+                  ...item,
+                  key: item.id
+                }
+              });
+              setData([...newPermissionArr]);
             }
         }
     }, [pos_dep_mana_id, isShowModal, isUpdate]);
 
     useEffect(()=>{
-      console.log(permissionHave, permissionNot)
         let perArr = concatArr();
         let perHaveArr = perArr.arrHave.map((item, index)=>{
             let newItem = {
@@ -115,7 +128,7 @@ export default function ModalPerDepPos(props) {
       }
       closeModal()
     }
-
+    
     const renderDepOption = ()=>{
         return depList?.map((item)=>{
           return <Option value={+item.id}>{item.name}</Option>
@@ -127,6 +140,12 @@ export default function ModalPerDepPos(props) {
           return <Option value={+item.id}>{item.position.name}</Option>
         })
     }
+
+    const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+      // console.log('sourceSelectedKeys:', sourceSelectedKeys);
+      // console.log('targetSelectedKeys:', targetSelectedKeys);
+      setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+    };
 
   return (
     <div>
@@ -180,9 +199,11 @@ export default function ModalPerDepPos(props) {
                 locale={{searchPlaceholder: "Tìm kiếm quyền", itemsUnit: "quyền", itemUnit: "quyền"}}
                 titles={['Quyền chưa có', 'Quyền đã có']}
                 showSearch
-                filterOption={(inputValue, option) => option.name.indexOf(inputValue) > -1}
+                filterOption={(inputValue, option) => option.name.toLowerCase().indexOf(inputValue) > -1}
                 targetKeys={targetKeys}
+                selectedKeys={selectedKeys}
                 onChange={onChange}
+                onSelectChange={onSelectChange}
                 render={item => item.name}    
             />
             <div className="alignCenter permission__transfer__footer">

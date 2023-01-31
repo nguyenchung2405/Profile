@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Table, message} from "antd"
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_DEP_POS_TO_SEARCH, GET_PERMISSION_DEP_POS_LIST } from '../../../title/title';
+import { GET_DEP_POS_TO_SEARCH, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST } from '../../../title/title';
 import ModalPerDepPos from './ModalPerDepPos';
 
 export default function DepartmentPermissionTable() {
@@ -13,12 +13,16 @@ export default function DepartmentPermissionTable() {
     const [isShowModal, setIsShowModal] = useState(false)
     const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
     const [dataToModal, setDataToModal] = useState({});
-    const {depList, posList, permissionDepPosList, totalDepPos, messageAlert} = useSelector(state => state.permissionReducer);
+    const {depList, posList, permissionDepPosList, totalDepPos, messageAlert, permissionList} = useSelector(state => state.permissionReducer);
     
     useEffect(()=>{
         dispatch({
           type: GET_DEP_POS_TO_SEARCH
         })
+        dispatch({
+          type: GET_PERMISSION_LIST,
+          data: {page: 1, pageNumber: 1000}
+        });
     }, [dispatch])
 
     useEffect(()=>{
@@ -54,7 +58,7 @@ export default function DepartmentPermissionTable() {
     )
 
     const PermissionAdd = ()=>(
-      <svg class="svg-icon" stroke="currentColor" color="currentColor" fill="currentColor"
+      <svg className="svg-icon" stroke="currentColor" color="currentColor" fill="currentColor"
       style={{width: "1em", height: "1em",verticalAlign: "middle",overflow: "hidden"}} 
       viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M776.68864 226.46784c-24.54528-141.58336-158.12096-236.032-298.28608-211.13344-139.9808 24.90368-258.26304 133.93408-233.53856 275.33824 5.33504 30.592 20.096 78.26432 37.5296 112.59392L28.04224 770.20672c-9.42592 13.5168-14.76608 37.888-11.91936 54.25152l11.02848 62.78656c-10.496-60.47232 2.84672 21.87776 11.02336 21.51936l83.77344 1.24416c16.18944-2.8416 36.46464-16.54272 45.35808-30.4128l100.67456-157.4144 0.88576-1.07008 87.86944 6.9376 117.57056-184.27392s26.16832-53.53984 123.07456-105.05728c88.69376-41.06752 163.04128-32.49152 163.04128-32.49152 21.57056-53.99552 27.20256-117.66784 16.26624-179.75808zM96.86528 795.38176l-22.00064 13.8496 5.12512-24.8832 238.70464-341.62688 16.50688 11.56096-238.336 341.09952zM652.71296 298.8544c-38.59456 55.49568-77.90592 16.36864-132.864-22.58944-54.9632-38.95296-104.94464-62.78144-66.34496-118.45632 38.59456-55.49056 114.36544-69.18656 169.32864-30.23872 54.95808 39.13216 68.47488 115.79392 29.88032 171.28448z" fill="" /><path d="M1013.38112 742.5024c0 148.32128-120.23808 268.55424-268.55424 268.55424s-268.55424-120.23808-268.55424-268.55424 120.23808-268.55424 268.55424-268.55424 268.55424 120.23808 268.55424 268.55424z m-309.00224-136.2432c-0.10752 1.77152 0 96.01024 0 96.01024H606.6688c-43.16672 2.54464-42.37312 40.23296-42.37312 40.23296s0 37.9392 42.37312 40.23296h97.70496v96.01024c3.01056 42.9568 40.23296 42.37312 40.23296 42.37312s38.15424 0 40.23296-42.37312v-96.01024h94.31552c42.37312-2.42176 42.37312-40.23296 42.37312-40.23296s0-37.56032-42.37312-40.23296h-94.3104V606.2592c-2.26816-42.37312-40.23296-42.37312-40.23296-42.37312s-37.71904-0.00512-40.23296 42.37312z" fill="" /></svg>
     )
@@ -155,6 +159,7 @@ export default function DepartmentPermissionTable() {
         depList={depList}
         posList={posList}
         isUpdate={isShowModalUpdate}
+        permissionList={permissionList}
         />
         <ModalPerDepPos
           isShowModal={isShowModalUpdate} 

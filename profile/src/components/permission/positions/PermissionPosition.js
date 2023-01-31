@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { Transfer, Modal } from 'antd';
+import { Transfer, Modal, Select } from 'antd';
 import "../permission.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_PERMISSION_POS, GET_PERMISSION_POSITION, POST_PERMISSION_POS } from '../../../title/title';
+import { setPermissionHave, setPermissionNot } from '../../../redux/Slice/permissionSlice';
 
 export default function PermissionPosition(props) {
 
-    const {isShowModal, setIsShowModal, pos_mana_id} = props;
+    const {isShowModal, setIsShowModal, pos_mana_id, permissionList, posList} = props;
     const dispatch = useDispatch();
+    const {Option} = Select;
     const [targetKeys, setTargetKeys] = useState([]);
+    const [selectedKeys, setSelectedKeys] = useState([]);
     const [data, setData] = useState([]);
     const [rootPermissionArr, setRootPermissionArr] = useState([]);
+    const [depPos, setDepPos] = useState({ pos_mana_id: ""});
     const {permissionHave, permissionNot} = useSelector(state => state.permissionReducer);
     // console.log(permissionHave, permissionNot)
-    // console.log(data.sort((a,b) => a.id - b.id), rootPermissionArr)
+    // console.log(data, targetKeys)
+
+    useEffect(()=>{
+      return ()=>{
+        dispatch(setPermissionHave([]))
+        dispatch(setPermissionNot([]))
+      }
+    }, [])
 
     useEffect(()=>{
         if(typeof pos_mana_id === "number" && isShowModal){
@@ -21,6 +32,21 @@ export default function PermissionPosition(props) {
               type: GET_PERMISSION_POSITION,
               data: pos_mana_id
             });
+            setDepPos({pos_mana_id: pos_mana_id})
+        } else {
+          if(pos_mana_id === ""){
+            let newPermissionArr = permissionList.map((item)=>{
+              return {
+                ...item,
+                key: item.id
+              }
+            });
+            setData([...newPermissionArr]);
+          }
+          if(!isShowModal){
+            setTargetKeys([])
+            setSelectedKeys([])
+          }
         }
     }, [pos_mana_id, isShowModal]);
 
@@ -106,17 +132,29 @@ export default function PermissionPosition(props) {
       if(deleteArr.length > 0){
         dispatch({
           type: DELETE_PERMISSION_POS,
-          data: {deleteArr, pos_mana_id}
+          data: {deleteArr, pos_mana_id: depPos.pos_mana_id}
         })
       }
       if(postArr.length > 0){
         dispatch({
           type: POST_PERMISSION_POS,
-          data: {postArr, pos_mana_id}
+          data: {postArr, pos_mana_id: depPos.pos_mana_id}
         })
       }
       closeModal()
     }
+
+    const renderPosOption = ()=>{
+      return posList?.map((item)=>{
+        return <Option value={+item.id}>{item.position.name}</Option>
+      })
+    } 
+
+    const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+      // console.log('sourceSelectedKeys:', sourceSelectedKeys);
+      // console.log('targetSelectedKeys:', targetSelectedKeys);
+      setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+    };
 
   return (
     <div>
@@ -130,6 +168,24 @@ export default function PermissionPosition(props) {
             footer={null}
             onCancel={closeModal}
         >
+        <div className="select__dep__pos">
+              <Select
+                    allowClear
+                    showSearch
+                    placeholder="Chức vụ"
+                    filterOption={(input, option) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())}
+                    value={depPos.pos_id !== "" ? depPos.pos_id : null}
+                    onChange={(value)=>{
+                      setDepPos({
+                        ...depPos,
+                        pos_mana_id: value
+                      })
+                  }}
+                >
+                        {renderPosOption()}
+              </Select>
+        </div>
             <Transfer
                 className="permission__transfer"
                 dataSource={data}   
@@ -138,7 +194,9 @@ export default function PermissionPosition(props) {
                 showSearch
                 filterOption={(inputValue, option) => option.name.indexOf(inputValue) > -1}
                 targetKeys={targetKeys}
+                selectedKeys={selectedKeys}
                 onChange={onChange}
+                onSelectChange={onSelectChange}
                 render={item => item.name}    
             />
             <div className="alignCenter permission__transfer__footer">

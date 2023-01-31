@@ -10,7 +10,9 @@ const initialState = {
     depList: [],
     posList: [],
     permissionDepPosList: [],
-    totalDepPos: 0
+    totalDepPos: 0,
+    permissionPosList: [],
+    totalPosList: []
 };
 
 const permissionSlice = createSlice({
@@ -24,6 +26,10 @@ const permissionSlice = createSlice({
         setPermissionDepPosList: (state, action)=>{
             state.permissionDepPosList = action.payload.dataResponse;
             state.totalDepPos = action.payload.total;
+        },
+        setPermissionPosList: (state, action)=>{
+            state.permissionPosList = action.payload.dataResponse;
+            state.totalPosList = action.payload.total;
         },
         setMessageAlert: (state, action)=>{
             state.messageAlert = action.payload;
@@ -59,5 +65,6 @@ const permissionSlice = createSlice({
 
 export const {setPermissionList, setMessageAlert, addPermission,
 updatePermissionSlice, deletePermissionSlice, setTableManagement,
-setPermissionHave, setPermissionNot, setDepPosList, setPermissionDepPosList} = permissionSlice.actions;
+setPermissionHave, setPermissionNot, setDepPosList, setPermissionDepPosList,
+setPermissionPosList} = permissionSlice.actions;
 export default permissionSlice.reducer;

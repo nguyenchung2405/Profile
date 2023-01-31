@@ -70,8 +70,26 @@ const postPermissionPosition = async (req, res)=>{
     }
 }
 
+const getPermissionPositionList = async (req, res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        let {page_size, page} = req.query;
+        let result = await axios({
+            url: `${local}/permission-position/exists-dep-pos/list?page_size=${page_size}&page=${page}`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getPermissionPos,
     deletePermissionPosition,
-    postPermissionPosition
+    postPermissionPosition,
+    getPermissionPositionList
 }
