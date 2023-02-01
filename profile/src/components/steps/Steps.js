@@ -181,7 +181,7 @@ export default function StepsAntd() {
       content: <Step9 />,
     },
   ];
-  console.log(status)
+  console.log(status, proID)
   const showButton = ()=>{
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
@@ -226,7 +226,7 @@ export default function StepsAntd() {
                   }}>Gửi</button>
                 </>
               }
-            } else if(status.state !== "SENDING" && status.state !== "SAVED" && proID === undefined) {
+            } else if( proID === undefined && decoded.id !== user_id) {
                 return <button class="SoYeuLyLich__btn btn__create" onClick={()=>{
                     dispatch(setIsSubmit(true))
                 }}>Tạo</button>
