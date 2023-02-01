@@ -91,7 +91,7 @@ export default function TablePositions() {
     <div className="tableProfiles table__position">
       {showLoading()}
       <div className="tools">
-        <button className="create_acc_profile" onClick={() => {
+        <button className="create_acc_profile btn__position__table" onClick={() => {
           setDataToModal({})
           setIsShowModal(true)
           setTitlePosManageModal("Thêm chức vụ")

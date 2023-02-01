@@ -225,3 +225,19 @@ export async function getPermissionPositionListAPI(page, pageNumber){
         return "Thất bại"
     }
 }
+
+export async function getUserPermisssionAPI(user_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/user/users/me/permissions`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

@@ -12,7 +12,7 @@ import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
-import { checkMicroFe } from '../../ultils/helper';
+import { checkMicroFe, checkUserPermission } from '../../ultils/helper';
 
 export default function TableProfiles() {
     let uri = checkMicroFe() === true ? "/profile-service" : "";
@@ -31,6 +31,7 @@ export default function TableProfiles() {
     const { userList, total } = useSelector(state => state.userListReducer)
     const { isLoading } = useSelector(state => state.loadingReducer);
     const {depList, posList} = useSelector(state => state.tableReducer);
+    const {userPermission} = useSelector(state => state.permissionReducer);
     
     useEffect(() => {
       /* lấy danh sách user về và render ra Table */
@@ -133,7 +134,9 @@ export default function TableProfiles() {
     return (
       <div className="tableProfiles">
         <div className="tools">
-          <button className="create_acc_profile" onClick={() => {
+          { checkUserPermission(userPermission, "tạo hồ sơ")
+            ?
+            <button className="create_acc_profile" onClick={() => {
             dispatch(removePBCV("all"))
             dispatch(setValues(userInforEmpty))
             navigate(`${uri}/hr/profile/create`)
@@ -141,6 +144,8 @@ export default function TableProfiles() {
             <AiOutlineUserAdd />
             Tạo
           </button>
+          : ""
+          }
           <div className="tableProfiles__search">
               <input 
               className="tool__search tools__name"

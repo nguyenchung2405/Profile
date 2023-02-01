@@ -156,10 +156,10 @@ function* createProfile(payload) {
     let msg = result.data.message;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
-        navigate("/hr/profile")
+        navigate("/profile-service/hr/profile")
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
-        navigate("/hr/profile")
+        navigate("/profile-service/hr/profile")
     }
 }
 
@@ -199,10 +199,10 @@ function* onlyCreateProfile(payload) {
     let msg = result?.message;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
-        navigate("/hr/profile");
+        navigate("/profile-service/hr/profile");
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
-        navigate("/hr/profile");
+        navigate("/profile-service/hr/profile");
     }
 }
 
