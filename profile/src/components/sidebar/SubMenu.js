@@ -8,22 +8,22 @@ import { checkMicroFe } from '../../ultils/helper';
 import {ImProfile} from "react-icons/im"
 import jwt_decode from "jwt-decode";
 import {GET_PERMISSION_OF_USER, TOKEN} from "../../title/title"
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 
 export default function SubMenu() {
 
-    const dispatch = useDispatch();
-    const {userPermission} = useSelector(state => state.permissionReducer);
-    console.log(userPermission)
-    useEffect(()=>{
-        if(TOKEN !== undefined){
-            let decoded = jwt_decode(TOKEN);
-            dispatch({
-                type: GET_PERMISSION_OF_USER,
-                user_id: decoded.id
-            })
-        }
-    }, [dispatch])
+    // const dispatch = useDispatch();
+    // const {userPermission} = useSelector(state => state.permissionReducer);
+    // console.log(userPermission)
+    // useEffect(()=>{
+    //     if(TOKEN !== undefined){
+    //         let decoded = jwt_decode(TOKEN);
+    //         dispatch({
+    //             type: GET_PERMISSION_OF_USER,
+    //             user_id: decoded.id
+    //         })
+    //     }
+    // }, [dispatch])
     
     let uri = checkMicroFe() === true ? "profile-service" : "";
 
