@@ -1,8 +1,9 @@
 const express = require("express");
-const { getPermissionPos, deletePermissionPosition, postPermissionPosition } = require("../controller/permissionPos.controller");
+const { getPermissionPos, deletePermissionPosition, postPermissionPosition, getPermissionPositionList } = require("../controller/permissionPos.controller");
 const permissionPosRouter = express.Router();
 
 permissionPosRouter.get("/position-management", getPermissionPos);
+permissionPosRouter.get("/exists-dep-pos/list", getPermissionPositionList);
 permissionPosRouter.delete("/", deletePermissionPosition);
 permissionPosRouter.post("/", postPermissionPosition);
 

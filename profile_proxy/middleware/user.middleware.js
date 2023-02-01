@@ -57,7 +57,8 @@ const createNewUser = async (req, res, next) => {
             }
         });
         console.log({ user_id: result.data.data.id })
-        let user_id = result.data.data.id;
+        console.log("user_id:", result.data.data?.id)
+        let user_id = result.data?.data?.id;
         req.user_id = user_id;
         next();
     } catch (error) {
