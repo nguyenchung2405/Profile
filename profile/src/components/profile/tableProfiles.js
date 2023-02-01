@@ -134,7 +134,7 @@ export default function TableProfiles() {
     return (
       <div className="tableProfiles">
         <div className="tools">
-          { checkUserPermission(userPermission, "tạo hồ sơ")
+          { /* checkUserPermission(userPermission, "tạo hồ sơ")
             ?
             <button className="create_acc_profile" onClick={() => {
             dispatch(removePBCV("all"))
@@ -145,7 +145,15 @@ export default function TableProfiles() {
             Tạo
           </button>
           : ""
-          }
+        */}
+          <button className="create_acc_profile" onClick={() => {
+            dispatch(removePBCV("all"))
+            dispatch(setValues(userInforEmpty))
+            navigate(`${uri}/hr/profile/create`)
+          }}>
+            <AiOutlineUserAdd />
+            Tạo
+          </button>
           <div className="tableProfiles__search">
               <input 
               className="tool__search tools__name"
