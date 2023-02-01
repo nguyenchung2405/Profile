@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST, GET_PERMISSION_POSITION, GET_PERMISSION_POS_LIST, GET_TABLE_MANAGEMENT, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
-import { createPermissionAPI, deletePermissDepPosAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionDepPosAPI, getPermissionDepPosListAPI, getPermissionListAPI, getPermissionPositionListAPI, getPermissionPosListAPI, getTableManagementAPI, postPermissDepPosAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
-import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionDepPosList, setPermissionHave, setPermissionList, setPermissionNot, setPermissionPosList, setTableManagement, updatePermissionSlice } from "../Slice/permissionSlice";
+import { CREATE_PERMISSION, DELETE_PERMISSION, DELETE_PERMISSION_DEP_POS, DELETE_PERMISSION_POS, GET_PERMISSION_DEP_POS, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST, GET_PERMISSION_OF_USER, GET_PERMISSION_POSITION, GET_PERMISSION_POS_LIST, GET_TABLE_MANAGEMENT, POST_PERMISSION_DEP_POS, POST_PERMISSION_POS, UPDATE_PERMISSION } from "../../title/title";
+import { createPermissionAPI, deletePermissDepPosAPI, deletePermissionAPI, deletePermissionPositionAPI, getPermissionDepPosAPI, getPermissionDepPosListAPI, getPermissionListAPI, getPermissionPositionListAPI, getPermissionPosListAPI, getTableManagementAPI, getUserPermisssionAPI, postPermissDepPosAPI, postPermissionPositionAPI, updatePermissionAPI } from "../API/permissionAPI";
+import { addPermission, deletePermissionSlice, setMessageAlert, setPermissionDepPosList, setPermissionHave, setPermissionList, setPermissionNot, setPermissionPosList, setTableManagement, setUserPermission, updatePermissionSlice } from "../Slice/permissionSlice";
 import { setLoading } from "../Slice/positions.slice";
 
 function* getPermissionList(payload){
@@ -146,6 +146,23 @@ function* getPermissionPosList(payload){
     yield put(setLoading(false))
 }
 
+function* getUserPermission(payload){
+    let {user_id} = payload;
+    let result = yield call(getUserPermisssionAPI, user_id);
+    let {code, message, data} = result;
+    if(+code === 200 && message === "Success"){
+        let perArr = []
+        for(let item of data){
+            for(let itemHave of item.groups){
+                for(let perUser of itemHave.permission){
+                    perArr.push(perUser.name.toLowerCase())
+                }
+            }
+        }
+        yield put(setUserPermission(perArr))
+    }
+}
+
 export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_LIST, getPermissionList);
     yield takeLatest(CREATE_PERMISSION, createPermission)
@@ -163,4 +180,6 @@ export default function* PermissionMiddleware(){
     yield takeLatest(GET_PERMISSION_DEP_POS, getPermissionDepPos)
     yield takeLatest(DELETE_PERMISSION_DEP_POS, deletePermissionDepPos)
     yield takeLatest(POST_PERMISSION_DEP_POS, postPermissionDepPos)
+    // Lấy Permission của user
+    yield takeLatest(GET_PERMISSION_OF_USER, getUserPermission)
 }

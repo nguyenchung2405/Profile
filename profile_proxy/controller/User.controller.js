@@ -37,7 +37,24 @@ const deleteResource = async (req, res)=>{
     }
 }
 
+const getUserPermission = async (req,res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        let result = await axios({
+            url: `${local}/users/users/me/permissions`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getAvatar,
-    deleteResource
+    deleteResource,
+    getUserPermission
 }

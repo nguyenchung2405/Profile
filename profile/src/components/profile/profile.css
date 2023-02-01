@@ -1304,7 +1304,7 @@ button.thaoTac__Edit__btn svg {
 }
 
 .tableProfiles .tools .tableProfiles__search {
-    margin-left: 50px;
+    /* margin-left: 50px; */
     display: flex;
 }
 
@@ -1404,6 +1404,14 @@ div.tableProfiles div.tools div.tableProfiles__search__btn button {
     align-items: center;
     transition: all 0.3s;
     border: 1px solid transparent;
+    margin-right: 50px;
+}
+
+.tableProfiles .tools .create_acc_profile.btn__position__table,
+.tableProfiles .tools .create_acc_profile.create_pos_type,
+.tableProfiles .tools .create_acc_profile.update_pos_type,
+.tableProfiles .tools .create_acc_profile.delete_pos_type {
+    margin-right: 0;
 }
 
 .tableProfiles .tools  .table__dep__btn:first-child {
