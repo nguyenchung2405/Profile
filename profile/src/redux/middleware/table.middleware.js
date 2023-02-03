@@ -25,7 +25,6 @@ function* getUserList(payload) {
 
 function* getDepPosSearch(){
     let result = yield call (getDepPosToSearch);
-    // console.log(result)
     let {data: depList} = result[0].data;
     let {data: posList} = result[1].data;
     yield put(setDepList(depList))

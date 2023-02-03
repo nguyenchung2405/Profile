@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Transfer, Modal, Select } from 'antd';
 import "../permission.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_PERMISSION_POS, GET_PERMISSION_POSITION, POST_PERMISSION_POS } from '../../../title/title';
+import { DELETE_PERMISSION_POS, GET_PERMISSION_POSITION, GET_PERMISSION_POS_LIST, POST_PERMISSION_POS } from '../../../title/title';
 import { setPermissionHave, setPermissionNot } from '../../../redux/Slice/permissionSlice';
 
 export default function PermissionPosition(props) {
@@ -141,6 +141,10 @@ export default function PermissionPosition(props) {
           data: {postArr, pos_mana_id: depPos.pos_mana_id}
         })
       }
+      dispatch({
+        type: GET_PERMISSION_POS_LIST,
+        table: { page: 1, pageNumber: 10 }
+      })
       closeModal()
     }
 

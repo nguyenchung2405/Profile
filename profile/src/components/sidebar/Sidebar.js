@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { GET_PERMISSION_OF_USER, TOKEN } from '../../title/title';
 import SubMenu from './SubMenu';
+import jwt_decode from "jwt-decode";
 
 export default function Sidebar() {
+
+    const dispatch = useDispatch();
+    const {userPermission} = useSelector(state => state.permissionReducer);
+    // console.log(userPermission)
+    useEffect(()=>{
+        if(TOKEN !== undefined){
+            let decoded = jwt_decode(TOKEN);
+            dispatch({
+                type: GET_PERMISSION_OF_USER,
+                user_id: decoded.id
+            })
+        }
+    }, [dispatch])
 
     return (
         <div className="sidebar">
@@ -58,7 +74,7 @@ export default function Sidebar() {
                 
             </ul>
         </div> */}
-            <SubMenu />
+            <SubMenu userPermission={userPermission} />
         </div>
     )
 }

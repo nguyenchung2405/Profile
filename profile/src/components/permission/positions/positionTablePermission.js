@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Loading from '../../Loading'
 import { AiFillQuestionCircle } from "react-icons/ai"
 import { FiMinusCircle } from "react-icons/fi"
-import { Table, Popconfirm } from 'antd'
+import { Table, Popconfirm, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_POSITION_AND_MANAGEMENT, GET_DEP_POS_TO_SEARCH, GET_PERMISSION_LIST, GET_PERMISSION_POS_LIST, GET_POSITIONS_MANA_LIST } from "../../../title/title"
 import { setLoading, setMessage } from '../../../redux/Slice/positions.slice'
 import PermissionPosition from './PermissionPosition'
+import { setMessageAlert } from '../../../redux/Slice/permissionSlice'
 
 export default function TablePositionsPermission() {
 
@@ -20,7 +21,16 @@ export default function TablePositionsPermission() {
     const [dataToModal, setDataToModal] = useState("");
 
     let { showLoading: showLoadingComponent } = useSelector(state => state.positionReducer)
-    let {permissionPosList, totalPosList, permissionList, posList} = useSelector(state => state.permissionReducer)
+    let {permissionPosList, totalPosList, permissionList, posList, messageAlert} = useSelector(state => state.permissionReducer)
+   
+    useEffect(()=>{
+      let {type, msg} = messageAlert;
+        if(type !== "" && msg !== ""){
+            message[type](msg)
+            dispatch(setMessageAlert({type: "", msg: ""}))
+        }
+    } , [messageAlert])
+    
     useEffect(() => {
       dispatch({
         type: GET_PERMISSION_POS_LIST,
