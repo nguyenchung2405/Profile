@@ -8,11 +8,12 @@ import { checkMicroFe } from '../../ultils/helper';
 import {ImProfile} from "react-icons/im"
 import jwt_decode from "jwt-decode";
 import {TOKEN} from "../../title/title"
+import { useSelector } from 'react-redux';
 
-export default function SubMenu({userPermission}) {
+export default function SubMenu() {
     
     let uri = checkMicroFe() === true ? "profile-service" : "";
-
+    const {userPermission} = useSelector(state => state.permissionReducer);
     const getItem = (label, key, icon, children) => {
         return {
             label,
