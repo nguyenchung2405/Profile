@@ -18,15 +18,15 @@ function* getProfileByID(payload) {
     const { status, data: { data, message } } = yield call(getProfileByID_API, proID);
     // console.log(data)
     if (status === 200 && message === "Success") {
-        // console.log(data)
+        console.log(data)
         let { id, user_id } = data;
         let jour_card_id = data.journalist_card[0]?.id;
         let user_degree_id = data?.user_degree[0]?.id;
         let {personal_history, party, organization, training_fostering, reward_discipline,
-            family_relationship, can_action, state} = data;
+            family_relationship, can_action, state, current_target: {type}} = data;
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
-        yield put(setStatus({state,can_action}))
+        yield put(setStatus({state,can_action, type}))
         yield put(setPersonalHistory(personal_history))
         yield put(getParty(party))
         yield put(setOrganization(organization))

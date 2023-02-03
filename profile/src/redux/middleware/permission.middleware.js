@@ -78,7 +78,10 @@ function* deletePermissionPosition(payload){
 
 function* postPermissionPosition(payload){
     let {postArr, pos_mana_id} = payload.data;
-    yield call(postPermissionPositionAPI, postArr, pos_mana_id);
+    let resultPost = yield call(postPermissionPositionAPI, postArr, pos_mana_id);
+    if(+resultPost?.code === 200 && resultPost?.message === "Success"){
+        yield put(setMessageAlert({type: "success", msg: "Gán quyền thành công"}))
+    }
     let result = yield call(getPermissionPosListAPI, pos_mana_id);
     if(result[0].msg === "Thành công"){
         yield put(setPermissionHave(result[1]));
@@ -121,9 +124,13 @@ function* postPermissionDepPos(payload){
     };
     if(typeof +data.department_id === "number" && typeof +data.position_management_id === "number"
     && data.department_id !== "" && data.position_management_id !== ""){
-        yield call(postPermissDepPosAPI, data);
+        let result = yield call(postPermissDepPosAPI, data);
+        let {code, message} = result;
+        if(+code === 200 && message === "Success"){
+            yield put(setMessageAlert({type: "success", msg: "Gán quyền thành công"}));
+        }
     } else {
-        yield put(setMessageAlert({type: "error", msg: "Tạo thất bại"}));
+        yield put(setMessageAlert({type: "error", msg: "Gán quyền thất bại"}));
     }
 }
 
@@ -135,6 +142,7 @@ function* getPermissionDepPosList(payload){
     let total = result?.metadata?.total_items;
     if(dataResponse !== undefined && total !== undefined){
         yield put(setPermissionDepPosList({dataResponse, total}));
+        yield put(setLoading(false))
     }
 }
 

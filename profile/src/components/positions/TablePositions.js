@@ -10,12 +10,14 @@ import "./position.css"
 import PosModal from './PosModal'
 import PosTypeModal from './PosTypeModal'
 import { setLoading, setMessage } from '../../redux/Slice/positions.slice'
+import { checkUserPermission } from '../../ultils/helper'
+import { useNavigate } from 'react-router-dom'
 
 export default function TablePositions() {
 
   const { Column } = Table;
   const dispatch = useDispatch()
-
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(10);
   // State quản lý component PosModal 
@@ -30,7 +32,7 @@ export default function TablePositions() {
   const [isSearch, setIsSearch] = useState(false)
 
   let { tablePosList, total, showLoading: showLoadingComponent, positionTyleList, positionsNameList } = useSelector(state => state.positionReducer)
-
+  const {userPermission} = useSelector(state => state.permissionReducer);
   useEffect(() => {
     dispatch({
       type: GET_POSITIONS_MANA_LIST,
@@ -43,6 +45,9 @@ export default function TablePositions() {
   }, [page, pageNumber, dispatch])
 
   useEffect(() => {
+    if(!userPermission.includes("xem danh sách chức vụ")){
+      navigate("/404notfound", {replace: true})
+    }
     return () => {
       dispatch(setMessage({}))
     }
@@ -91,14 +96,19 @@ export default function TablePositions() {
     <div className="tableProfiles table__position">
       {showLoading()}
       <div className="tools">
-        <button className="create_acc_profile btn__position__table" onClick={() => {
-          setDataToModal({})
-          setIsShowModal(true)
-          setTitlePosManageModal("Thêm chức vụ")
-        }}>
-          <AiOutlinePlusCircle />
-          Tạo
-        </button>
+      {  checkUserPermission(userPermission, "tạo chức vụ")
+            ?
+            <button className="create_acc_profile btn__position__table" onClick={() => {
+              setDataToModal({})
+              setIsShowModal(true)
+              setTitlePosManageModal("Thêm chức vụ")
+            }}>
+              <AiOutlinePlusCircle />
+              Tạo
+            </button>
+          : ""
+        }
+       
         <div className="search__tool">
             <AutoComplete
                 allowClear
@@ -170,25 +180,37 @@ export default function TablePositions() {
             />
         </div>
         <div className="pos__type">
-          <button className="create_acc_profile create_pos_type" onClick={() => {
-            setIsShowTypeModal(true)
-            setTitleTypeModal("Tạo loại chức vụ")
-          }}>
-            <AiOutlinePlusCircle />
-            Tạo loại chức vụ
-          </button>
-          <button className="create_acc_profile update_pos_type" onClick={() => {
-            setIsShowTypeModal(true)
-            setTitleTypeModal("Sửa loại chức vụ")
-          }}>
-            Sửa loại chức vụ
-          </button>
-          <button className="create_acc_profile delete_pos_type" onClick={() => {
-            setIsShowTypeModal(true)
-            setTitleTypeModal("Xóa loại chức vụ")
-          }}>
-            Xóa loại chức vụ
-          </button>
+          {  checkUserPermission(userPermission, "tạo loại chức vụ")
+            ? 
+            <button className="create_acc_profile create_pos_type" onClick={() => {
+              setIsShowTypeModal(true)
+              setTitleTypeModal("Tạo loại chức vụ")
+            }}>
+              <AiOutlinePlusCircle />
+              Tạo loại chức vụ
+            </button>
+            : ""
+          }
+          {  checkUserPermission(userPermission, "sửa loại chức vụ", "xem chi tiết loại chức vụ")
+            ? 
+            <button className="create_acc_profile update_pos_type" onClick={() => {
+              setIsShowTypeModal(true)
+              setTitleTypeModal("Sửa loại chức vụ")
+            }}>
+              Sửa loại chức vụ
+            </button>
+            : ""
+          }
+          {  checkUserPermission(userPermission, "xoá loại chức vụ")
+            ? 
+            <button className="create_acc_profile delete_pos_type" onClick={() => {
+              setIsShowTypeModal(true)
+              setTitleTypeModal("Xóa loại chức vụ")
+            }}>
+              Xóa loại chức vụ
+            </button>
+            : ""
+          }
         </div>
       </div>
       <Table
@@ -235,6 +257,8 @@ export default function TablePositions() {
           render={(text, record) => {
             // console.log(record)
             return <div className="thaoTac__Edit">
+            {  checkUserPermission(userPermission, "sửa chức vụ", "xem chi tiết chức vụ")
+              ? 
               <button className="thaoTac__Edit__btn" onClick={() => {
                 setDataToModal(record)
                 setIsShowModal(true)
@@ -242,25 +266,30 @@ export default function TablePositions() {
               }}>
                 <MdOutlineModeEditOutline />
               </button>
-              <Popconfirm
-                title="Bạn có chắc muốn thực hiện thao tác này ?"
-                okText="Có"
-                cancelText="Không"
-                icon={<AiFillQuestionCircle />}
-                placement="topRight"
-                onConfirm={() => {
-                  let { id, pos_id } = record;
-                  dispatch({
-                    type: DELETE_POSITION_AND_MANAGEMENT,
-                    data: { pos_mana_id: id, pos_id }
-                  })
-                }}
-              >
-                <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
-                  <FiMinusCircle />
-                </button>
-              </Popconfirm>
-
+              : ""
+            }
+            {  checkUserPermission(userPermission, "xoá chức vụ")
+              ? 
+                <Popconfirm
+                  title="Bạn có chắc muốn thực hiện thao tác này ?"
+                  okText="Có"
+                  cancelText="Không"
+                  icon={<AiFillQuestionCircle />}
+                  placement="topRight"
+                  onConfirm={() => {
+                    let { id, pos_id } = record;
+                    dispatch({
+                      type: DELETE_POSITION_AND_MANAGEMENT,
+                      data: { pos_mana_id: id, pos_id }
+                    })
+                  }}
+                >
+                  <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
+                    <FiMinusCircle />
+                  </button>
+                </Popconfirm>
+              : ""
+            }
             </div>
           }}
         />

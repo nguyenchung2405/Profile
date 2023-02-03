@@ -7,7 +7,7 @@ import { AiFillFileAdd } from "react-icons/ai";
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
-import { useNavigate } from 'react-router-dom';
+import { useHref, useLocation, useNavigate } from 'react-router-dom';
 import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
@@ -33,6 +33,12 @@ export default function TableProfiles() {
     const {depList, posList} = useSelector(state => state.tableReducer);
     const {userPermission} = useSelector(state => state.permissionReducer);
     
+    useEffect(()=>{
+      if(!userPermission.includes("xem danh sách hồ sơ")){
+          navigate("/404notfound", {replace: true})
+      }
+    } , [])
+
     useEffect(() => {
       /* lấy danh sách user về và render ra Table */
       if(isSearch === true){
@@ -107,7 +113,7 @@ export default function TableProfiles() {
     const unknownSexAvatar = () => {
       return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
     }
-
+    
     const dataOfAutoComplete = (name)=>{
       if(name === "dep"){
         return depList.map(item => {
@@ -134,7 +140,7 @@ export default function TableProfiles() {
     return (
       <div className="tableProfiles">
         <div className="tools">
-          { /* checkUserPermission(userPermission, "tạo hồ sơ")
+          {  checkUserPermission(userPermission, "tạo hồ sơ")
             ?
             <button className="create_acc_profile" onClick={() => {
             dispatch(removePBCV("all"))
@@ -145,7 +151,8 @@ export default function TableProfiles() {
             Tạo
           </button>
           : ""
-        */}
+        }
+          { /*
           <button className="create_acc_profile" onClick={() => {
             dispatch(removePBCV("all"))
             dispatch(setValues(userInforEmpty))
@@ -154,6 +161,7 @@ export default function TableProfiles() {
             <AiOutlineUserAdd />
             Tạo
           </button>
+        */}
           <div className="tableProfiles__search">
               <input 
               className="tool__search tools__name"
@@ -361,17 +369,20 @@ export default function TableProfiles() {
               if (record.profile !== null) {
                 let { email, phone } = record;
                 let id = record.profile?.id;
-                if (id && typeof id === "number" && id !== null) {
-                  return <div>
-                    <button onClick={() => {
-                      dispatch(setIsCreateProfile(false))
-                      dispatch(setEmailPhone({ email, soDienThoai: phone }))
-                      navigate(`${uri}/hr/profile/${id}`)
-                    }}>
-                      <MdOutlineModeEditOutline />
-                    </button>
-                  </div>
+                if(checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ")){
+                  if (id && typeof id === "number" && id !== null) {
+                    return <div>
+                      <button onClick={() => {
+                        dispatch(setIsCreateProfile(false))
+                        dispatch(setEmailPhone({ email, soDienThoai: phone }))
+                        navigate(`${uri}/hr/profile/${id}`)
+                      }}>
+                        <MdOutlineModeEditOutline />
+                      </button>
+                    </div>
+                  }
                 }
+                
               } else {
                 // console.log(record)
                 let { email, phone, full_name } = record;
@@ -380,7 +391,8 @@ export default function TableProfiles() {
                 newData.hoTen = full_name;
                 newData.email = email;
                 newData.soDienThoai = phone;
-                return <div>
+                if(checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ", "tạo hồ sơ")){
+                  return <div>
                   <button onClick={() => {
                     dispatch(setValues(newData))
                     dispatch(setIsCreateProfile(false))
@@ -389,7 +401,7 @@ export default function TableProfiles() {
                     <AiFillFileAdd />
                   </button>
                 </div>
-
+                }
               }
             }} />
         </Table>

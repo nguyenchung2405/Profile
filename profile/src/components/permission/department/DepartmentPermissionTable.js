@@ -3,6 +3,9 @@ import {Table, message} from "antd"
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_DEP_POS_TO_SEARCH, GET_PERMISSION_DEP_POS_LIST, GET_PERMISSION_LIST } from '../../../title/title';
 import ModalPerDepPos from './ModalPerDepPos';
+import { setMessageAlert } from '../../../redux/Slice/permissionSlice';
+import Loading from '../../Loading';
+import { setLoading } from '../../../redux/Slice/positions.slice';
 
 export default function DepartmentPermissionTable() {
 
@@ -14,7 +17,7 @@ export default function DepartmentPermissionTable() {
     const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
     const [dataToModal, setDataToModal] = useState({});
     const {depList, posList, permissionDepPosList, totalDepPos, messageAlert, permissionList} = useSelector(state => state.permissionReducer);
-    
+    let { showLoading: showLoadingComponent } = useSelector(state => state.positionReducer);
     useEffect(()=>{
         dispatch({
           type: GET_DEP_POS_TO_SEARCH
@@ -41,14 +44,22 @@ export default function DepartmentPermissionTable() {
         type: GET_PERMISSION_DEP_POS_LIST,
         data: {page, pageNumber}
       })
+      dispatch(setLoading(true))
     }, [page, pageNumber])
 
     useEffect(()=>{
       let {type, msg} = messageAlert;
         if(type !== "" && msg !== ""){
             message[type](msg)
+            dispatch(setMessageAlert({type: "", msg: ""}))
         }
     } , [messageAlert])
+
+    const showLoading = () => {
+      if (showLoadingComponent) {
+        return <Loading />
+      }
+    }
 
     const SetPermissionIcon = ()=>(
       <svg stroke="currentColor" color="currentColor" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
@@ -65,6 +76,7 @@ export default function DepartmentPermissionTable() {
 
   return (
     <div className="tableProfiles table__permission__deppos">
+        {showLoading()}
         <div className="tools">
             <button className="create_acc_profile" onClick={() => {
               // dispatch(removePBCV("all"))

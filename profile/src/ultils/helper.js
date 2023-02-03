@@ -48,13 +48,15 @@ export let getTokenInCookie = ()=>{
     }
 }
 
-export let checkUserPermission = (permissionList, namePermission)=>{
+export let checkUserPermission = (permissionList, ...namePermission)=>{
     try {
-        if(permissionList.includes(namePermission)){
-            return true
-        } else {
-            return false
+        let result = true;
+        for(let perName of namePermission){
+            if(!permissionList.includes(perName)){
+                result = false;
+            }
         }
+        return result;
     } catch (error) {
         console.log(error)
     }

@@ -9,21 +9,32 @@ import {MdOutlineModeEditOutline} from "react-icons/md"
 import DepInfor from './DepInfor';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { FiMinusCircle } from 'react-icons/fi';
+import { checkUserPermission } from '../../ultils/helper';
+import { useNavigate } from 'react-router-dom';
 
 export default function TableDep() {
 
     const {Column} = Table;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [pageNumber, setPageNumber] = useState(10);
     const {isLoading} = useSelector(state => state.loadingReducer);
     const {tableDepList, message: status} = useSelector(state => state.departmentsReducer)
+    const {userPermission} = useSelector(state => state.permissionReducer);
     let [newTableDepList, setNewTableDepList] = useState([]);
     let [dataTable, setDataTable] = useState([]);
     let [search, setSearch] = useState([]);
     let [isShowModal, setIsShowModal] = useState(false);
     let [dataToModal, setDataToModal] = useState()
     // console.log(tableDepList)
+
+    useEffect(()=>{
+      if(!userPermission.includes("xem danh sách phòng ban")){
+          navigate("/404notfound", {replace: true})
+      }
+    } , [])
+
     useEffect(()=>{
         /* lấy danh sách user về và render ra Table */
         dispatch({
@@ -109,6 +120,9 @@ export default function TableDep() {
     <div className="table__dep tableProfiles">
         {showLoading()}
         <div className="tools">
+        { checkUserPermission(userPermission, "tạo phòng ban")
+          ? 
+          <>
           <button className="create_acc_profile table__dep__btn" onClick={()=>{
             setDataToModal({
               name: "",
@@ -133,6 +147,10 @@ export default function TableDep() {
           }}>
             Tạo tổ
           </button>
+          </>
+          : ""
+        }
+          
           <div className="tableProfiles__search">
             <AutoComplete
                 allowClear
@@ -177,32 +195,39 @@ export default function TableDep() {
                           </p>    
                       </div>
                       <div className="thaoTac__Edit">
+                        { checkUserPermission(userPermission, "sửa phòng ban", "xem chi tiết phòng ban")
+                          ?
                           <button className="thaoTac__Edit__btn" onClick={()=>{
-                              // navigate(`/hr/department/${child.id}`);
-                              child.title = "Chỉnh sửa phòng ban"
-                              setDataToModal(child)
-                              setIsShowModal(true)
+                            // navigate(`/hr/department/${child.id}`);
+                            child.title = "Chỉnh sửa phòng ban"
+                            setDataToModal(child)
+                            setIsShowModal(true)
                           }}>
                             <MdOutlineModeEditOutline/>
                           </button>
-                          <Popconfirm
-                            title="Bạn có chắc muốn thực hiện thao tác này ?"
-                            okText="Có"
-                            cancelText="Không"
-                            icon={<AiFillQuestionCircle />}
-                            placement="topRight"
-                            onConfirm={() => {
-                              let { id } = child;
-                              dispatch({
-                                type: DELETE_DEPARTMENT,
-                                dep_id: id
-                              })
-                            }}
-                          >
-                            <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
-                              <FiMinusCircle />
-                            </button>
-                          </Popconfirm>
+                          : ""
+                        }
+                         { checkUserPermission(userPermission, "xoá phòng ban") 
+                        ? <Popconfirm
+                        title="Bạn có chắc muốn thực hiện thao tác này ?"
+                        okText="Có"
+                        cancelText="Không"
+                        icon={<AiFillQuestionCircle />}
+                        placement="topRight"
+                        onConfirm={() => {
+                          let { id } = child;
+                          dispatch({
+                            type: DELETE_DEPARTMENT,
+                            dep_id: id
+                          })
+                        }}
+                      >
+                        <button className="thaoTac__Edit__btn thaoTac__Delete__btn">
+                          <FiMinusCircle />
+                        </button>
+                      </Popconfirm>
+                        : ""} 
+                          
                       </div>
                   </div>
                 })
@@ -251,14 +276,20 @@ export default function TableDep() {
            />
            <Column className="table__dep__thaoTac" key="thao tac" render={(text,record,index)=>{
                return <div className="thaoTac__Edit">
-                    <button className="thaoTac__Edit__btn" onClick={()=>{
-                        // navigate(`/hr/department/${record.id}`);
-                        record.title = "Chỉnh sửa phòng ban"
-                        setDataToModal(record)
-                        setIsShowModal(true)
-                    }}>
-                        <MdOutlineModeEditOutline/>
-                    </button>
+               { checkUserPermission(userPermission, "sửa phòng ban", "xem chi tiết phòng ban")
+                  ?
+                  <button className="thaoTac__Edit__btn" onClick={()=>{
+                    // navigate(`/hr/department/${record.id}`);
+                    record.title = "Chỉnh sửa phòng ban"
+                    setDataToModal(record)
+                    setIsShowModal(true)
+                  }}>
+                      <MdOutlineModeEditOutline/>
+                  </button>
+                : ""
+                }
+                  { checkUserPermission(userPermission, "xoá phòng ban")
+                    ?
                     <Popconfirm
                     title="Bạn có chắc muốn thực hiện thao tác này ?"
                     okText="Có"
@@ -277,6 +308,8 @@ export default function TableDep() {
                       <FiMinusCircle />
                     </button>
                   </Popconfirm>
+                  : ""
+                  }
                </div>
            }} />
           </Table>

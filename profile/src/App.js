@@ -14,6 +14,8 @@ import { checkMicroFe } from './ultils/helper';
 import TablePositionsPermission from './components/permission/positions/positionTablePermission';
 import PermissionTable from './components/permission/PermissionTable';
 import DepartmentPermissionTable from './components/permission/department/DepartmentPermissionTable';
+import RouteClient from './RouteClient';
+import RouteServer from './RouteServer';
 
 function App() {
   const renderMF = () => {
@@ -24,20 +26,7 @@ function App() {
             <div className="App_Profile_service">
               
               <Sidebar />
-              <Routes>
-                <Route path="/hr/profile" element={<TableProfiles />} />
-                <Route path="/hr/profile/:proID" element={<StepsAntd />} />
-                <Route path="/hr/profile/create" element={<StepsAntd />} />
-                <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
-                <Route path="/myprofile/:User_ID" element={<StepsAntd />} />
-
-                <Route path="/hr/department" element={<TableDep />} />
-                <Route path="/hr/position" element={<TablePositions />} />
-                <Route path="/hr/permission/manage" element={<PermissionTable /> } />
-                <Route path="/hr/permission/position" element={<TablePositionsPermission /> } />
-                <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable /> } />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
+              <RouteClient />
             </div>
           </BrowserRouter>
         </Provider>
@@ -46,20 +35,7 @@ function App() {
       return (
         <Provider store={store}>
           <div className="App_Profile_service">
-            <Routes>
-              <Route path="/hr/profile" element={<TableProfiles />} />
-              <Route path="/hr/profile/:proID" element={<StepsAntd />} />
-              <Route path="/hr/profile/create" element={<StepsAntd />} />
-              <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
-              <Route path="/myprofile/:User_ID" element={<StepsAntd />} />
-
-              <Route path="/hr/department" element={<TableDep />} />
-              <Route path="/hr/position" element={<TablePositions />} />
-              <Route path="/hr/permission/manage" element={<PermissionTable /> } />
-              <Route path="/hr/permission/position" element={<TablePositionsPermission /> } />
-              <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable /> } />
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
+              <RouteServer />
           </div>
         </Provider>
       )
