@@ -17,14 +17,21 @@ import DepartmentPermissionTable from './components/permission/department/Depart
 import RouteClient from './RouteClient';
 import RouteServer from './RouteServer';
 
+import { GET_PERMISSION_OF_USER, TOKEN } from './title/title';
+import jwt_decode from "jwt-decode";
+import { useEffect } from 'react';
+
+
 function App() {
+
   const renderMF = () => {
+
     if (checkMicroFe() === false) {
       return (
         <Provider store={store}>
           <BrowserRouter>
             <div className="App_Profile_service">
-              
+
               <Sidebar />
               <RouteClient />
             </div>
@@ -35,7 +42,7 @@ function App() {
       return (
         <Provider store={store}>
           <div className="App_Profile_service">
-              <RouteServer />
+            <RouteServer />
           </div>
         </Provider>
       )
@@ -50,16 +57,4 @@ function App() {
 }
 
 export default App;
-// import React from 'react';
-
-// const App = () => {
-//   return (
-//     <div>
-//       App
-//     </div>
-//   );
-// }
-
-// export default App;
-
 

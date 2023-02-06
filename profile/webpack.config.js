@@ -19,6 +19,7 @@ module.exports = {
             exposes: {
                 "./ButtonProfileService": "./src/App.js",
                 "./MenuProfileService": "./src/components/sidebar/SubMenu.js",
+                "./InitProfileService": "./src/InitProfile.js",
             },
             shared: {
                 ...deps,
