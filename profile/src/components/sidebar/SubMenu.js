@@ -167,7 +167,7 @@ export default function SubMenu(permission) {
                 }
                 subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
 
-                if (url !== "") {
+                if (uri !== "") {
                     return menu_profile.concat(menu_permission)
                 } else {
                     return <div className="sidebar_SubMenu__XZeb6">
