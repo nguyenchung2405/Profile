@@ -1,7 +1,8 @@
 import React from 'react'
 import SubMenu from './SubMenu';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+
     return (
         <div className="sidebar">
             <div className="sidebar__logo bg_pri_blue">
@@ -23,8 +24,8 @@ export default function Sidebar() {
                     <img src={"https://cdn-icons-png.flaticon.com/512/1177/1177568.png"} alt="anh_nhan_vien" />
                 </div>
                 <div className="sidebar__infor__employee">
-                    <p>Dương Mai Hoàng Lan</p>
-                    <p>Vợ anh Chung</p>
+                    <p>XXXX</p>
+                    <p>XXX</p>
                 </div>
             </div>
             {/* <div className="sidebar__sub__menu">
@@ -57,7 +58,9 @@ export default function Sidebar() {
                 
             </ul>
         </div> */}
-            <SubMenu />
+            <SubMenu
+                userPermission={props.userPermission}
+            />
         </div>
     )
 }
