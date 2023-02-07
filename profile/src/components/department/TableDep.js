@@ -27,13 +27,14 @@ export default function TableDep() {
     let [search, setSearch] = useState([]);
     let [isShowModal, setIsShowModal] = useState(false);
     let [dataToModal, setDataToModal] = useState()
-    // console.log(tableDepList)
 
     useEffect(()=>{
-      if(!userPermission.includes("xem danh sách phòng ban")){
+      if(!userPermission.includes("xem danh sách phòng ban") && userPermission.length > 0){
           navigate("/404notfound", {replace: true})
+      } else if(userPermission.length === 0) {
+        dispatch(setIsLoading(true));
       }
-    } , [])
+    } , [userPermission])
 
     useEffect(()=>{
         /* lấy danh sách user về và render ra Table */
@@ -116,8 +117,9 @@ export default function TableDep() {
       }
     };
 
-  return (
-    <div className="table__dep tableProfiles">
+    const renderTable = ()=>{
+      if(userPermission.length > 0){
+        return <div className="table__dep tableProfiles">
         {showLoading()}
         <div className="tools">
         { checkUserPermission(userPermission, "tạo phòng ban")
@@ -315,5 +317,14 @@ export default function TableDep() {
           </Table>
           <DepInfor isShowModal={isShowModal} setIsShowModal={setIsShowModal} dataToModal={dataToModal} />
     </div>
+      } else {
+        return <div>{showLoading()}</div>
+      }
+    }
+
+  return (
+    <>
+      {renderTable()}
+    </>
   )
 }

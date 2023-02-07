@@ -2,6 +2,7 @@ const path = require("path")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
 const deps = require("./package.json").dependencies
+const peerDeps = require("./package.json").peerDependencies
 module.exports = {
     entry: path.join(__dirname, "./src/index.js"),
     output: {
@@ -23,6 +24,7 @@ module.exports = {
             },
             shared: {
                 ...deps,
+                ...peerDeps,
                 react: {
                     singleton: true,
                     requiredVersion: deps.react,
