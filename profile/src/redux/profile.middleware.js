@@ -14,7 +14,8 @@ import { setStatus, setIsNextStep, setMessageAlert, setUserProfileID } from "./S
 import jwt_decode from "jwt-decode";
 
 function* getProfileByID(payload) {
-    let { proID} = payload.data;
+    let { proID , email, soDienThoai} = payload.data;
+    let EMAIL, SĐT;
     const { status, data: { data, message } } = yield call(getProfileByID_API, proID);
     // console.log(data)
     if (status === 200 && message === "Success") {
@@ -24,7 +25,16 @@ function* getProfileByID(payload) {
         let {personal_history, party, organization, training_fostering, reward_discipline,
             family_relationship, can_action, state, current_target: {type}} = data;
         // call API lấy phone, email
-        const {data: {email, phone}} = yield call(getDetailUserAPI, user_id);
+        if(email === undefined &&  soDienThoai === undefined){
+            const {data: {email: emailResponse, phone}} = yield call(getDetailUserAPI, user_id);
+            EMAIL = emailResponse;
+            SĐT = phone;
+            console.log("1")
+        } else {
+            EMAIL = email;
+            SĐT = soDienThoai;
+            console.log("2")
+        }
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
         yield put(setStatus({state,can_action, type}))
@@ -36,8 +46,8 @@ function* getProfileByID(payload) {
         yield put(setFamilyRelationship(mappingFamilyRelationship(family_relationship)))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
-        profile["email"] = email;
-        profile["soDienThoai"] = phone;
+        profile["email"] = EMAIL;
+        profile["soDienThoai"] = SĐT;
         // console.log(profile)
         let {phongBanCVObj} = profile;
         // console.log(phongBanCVObj)
