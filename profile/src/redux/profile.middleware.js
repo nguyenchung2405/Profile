@@ -29,11 +29,9 @@ function* getProfileByID(payload) {
             const {data: {email: emailResponse, phone}} = yield call(getDetailUserAPI, user_id);
             EMAIL = emailResponse;
             SĐT = phone;
-            console.log("1")
         } else {
             EMAIL = email;
             SĐT = soDienThoai;
-            console.log("2")
         }
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
