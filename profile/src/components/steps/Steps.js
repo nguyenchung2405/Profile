@@ -33,7 +33,7 @@ export default function StepsAntd() {
   const { isLoading } = useSelector(state => state.loadingReducer);
   let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
   let { proID, userID, User_ID } = useParams();
-  console.log(proID, userID, User_ID, user_id)
+  // console.log(proID, userID, User_ID, user_id)
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
