@@ -1,6 +1,6 @@
 import React from 'react';
 import { store } from "./redux/configStore"
-import { Provider } from "react-redux"
+import { Provider, useSelector } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
@@ -23,7 +23,6 @@ import { useEffect } from 'react';
 
 
 function App() {
-
   const renderMF = () => {
 
     if (checkMicroFe() === false) {

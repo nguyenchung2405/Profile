@@ -45,13 +45,18 @@ export default function TablePositions() {
   }, [page, pageNumber, dispatch])
 
   useEffect(() => {
-    if(!userPermission.includes("xem danh sách chức vụ")){
-      navigate("/404notfound", {replace: true})
-    }
     return () => {
       dispatch(setMessage({}))
     }
   }, [])
+
+  useEffect(()=>{
+    if(!userPermission.includes("xem danh sách chức vụ")  && userPermission.length > 0){
+      navigate("/404notfound", {replace: true})
+    } else if(userPermission.length === 0) {
+      dispatch(setLoading(true))
+    }
+  } , [userPermission])
 
   useEffect(()=>{
     if(search?.pos_name === "" && search?.identifier === "" && search?.level === "" && isSearch === true){
@@ -92,8 +97,9 @@ export default function TablePositions() {
     }
   }
 
-  return (
-    <div className="tableProfiles table__position">
+  const renderTable =()=>{
+    if(userPermission.length > 0){
+      return <div className="tableProfiles table__position">
       {showLoading()}
       <div className="tools">
       {  checkUserPermission(userPermission, "tạo chức vụ")
@@ -306,5 +312,14 @@ export default function TablePositions() {
         titleTypeModal={titleTypeModal}
       />
     </div>
+    } else {
+      return <div>{showLoading()}</div>
+    }
+  }
+
+  return (
+    <>
+        {renderTable()}
+    </>
   )
 }

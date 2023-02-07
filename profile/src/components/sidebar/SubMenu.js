@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 let userPermissionApi = []
 let userPermission = [];
 export default function SubMenu(permission) {
-
     let uri = checkMicroFe() === true ? "profile-service" : "";
     if (permission !== undefined) {
         userPermissionApi = permission[2];
@@ -20,7 +19,6 @@ export default function SubMenu(permission) {
     if (uri === "") {
         userPermission = useSelector(state => state.permissionReducer.userPermission);
     }
-    console.log(userPermission)
 
     const getItem = (label, key, icon, children) => {
         return {
@@ -133,8 +131,6 @@ export default function SubMenu(permission) {
         let menu_profile = [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, subMenu)];
         let subMenu_Per = [];
         let menu_permission = [getItem("Quyền", "sub-menu-2", <PermissionMenu />, subMenu_Per)];
-        console.log(userPermissionApi)
-        console.log(userPermission)
         if (uri !== "") {
             for (let item of userPermissionApi) {
                 for (let itemHave of item.groups) {
@@ -147,7 +143,7 @@ export default function SubMenu(permission) {
 
         if (userPermission.length > 0) {
             if (uri === "profile-service") {
-                if (userPermission.includes("xem danh sách hồ sơ")) {
+                if (userPermission.includes("xem danh sách user")) {
                     subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
                 }
                 if (userPermission.includes("xem danh sách phòng ban")) {
@@ -166,21 +162,11 @@ export default function SubMenu(permission) {
                     subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
                 }
                 subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
+                return menu_profile.concat(menu_permission)
 
-                if (uri !== "") {
-                    return menu_profile.concat(menu_permission)
-                } else {
-                    return <div className="sidebar_SubMenu__XZeb6">
-                        <Menu
-                            // defaultOpenKeys={[`sub1`]}
-                            mode='inline'
-                            items={menu_profile.concat(menu_permission)}
-                        />
-                    </div>
-                }
             } else {
 
-                if (userPermission.includes("xem danh sách hồ sơ")) {
+                if (userPermission.includes("xem danh sách user")) {
                     subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
                 }
                 if (userPermission.includes("xem danh sách phòng ban")) {
@@ -199,9 +185,7 @@ export default function SubMenu(permission) {
                     subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
                 }
                 subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
-                if (uri !== "") {
-                    return menu_profile.concat(menu_permission);
-                } else {
+                
                     return <div className="sidebar_SubMenu__XZeb6">
                         <Menu
                             // defaultOpenKeys={[`sub1`]}
@@ -209,7 +193,7 @@ export default function SubMenu(permission) {
                             items={menu_profile.concat(menu_permission)}
                         />
                     </div>
-                }
+                
 
             }
         } else {

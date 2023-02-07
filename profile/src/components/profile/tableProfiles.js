@@ -34,10 +34,12 @@ export default function TableProfiles() {
     const {userPermission} = useSelector(state => state.permissionReducer);
     
     useEffect(()=>{
-      if(!userPermission.includes("xem danh sách hồ sơ")){
-          navigate("/404notfound", {replace: true})
+      if(!userPermission.includes("xem danh sách user") && userPermission.length > 0){
+        navigate("/404notfound", {replace: true})
+      } else if(userPermission.length === 0) {
+        dispatch(setIsLoading(true));
       }
-    } , [])
+    } , [userPermission])
 
     useEffect(() => {
       /* lấy danh sách user về và render ra Table */
@@ -137,8 +139,9 @@ export default function TableProfiles() {
       }
     }
     
-    return (
-      <div className="tableProfiles">
+    const renderTable = ()=>{
+      if(userPermission.length > 0 ){
+        return <div className="tableProfiles">
         <div className="tools">
           {  checkUserPermission(userPermission, "tạo hồ sơ")
             ?
@@ -407,5 +410,14 @@ export default function TableProfiles() {
         </Table>
         {showLoading()}
       </div>
+      } else {
+        return <div>{showLoading()}</div>
+      }
+    }
+
+    return (
+      <>
+      {renderTable()}
+      </>
     )
   }
