@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import { handleDateTime } from '../../ultils/helper';
@@ -31,11 +31,6 @@ export default function ThongTinCoBan(props) {
         onBlur={validateField}
         onChange={(e)=>{
             handleChangeGetValueInput(e);
-            window.addEventListener("beforeunload", function (e) {
-                var confirmationMessage = "\o/";
-                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-                return confirmationMessage;                            //Webkit, Safari, Chrome
-            });
         }} />
         {validateForm.hoTen ? showRequiredAlert() : ""}
         </div>

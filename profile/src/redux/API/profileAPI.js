@@ -166,3 +166,19 @@ export async function deleteResourceAPI(resource_id){
         return "Thất bại"
     }
 }
+
+export async function getDetailUserAPI(user_id){
+    try {
+        const result = await axios({
+            url: `${local}/api/user/${user_id}`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            }
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}
