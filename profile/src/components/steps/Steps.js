@@ -33,7 +33,7 @@ export default function StepsAntd() {
   const { isLoading } = useSelector(state => state.loadingReducer);
   let { familyRelationship, familyRelationshipExist } = useSelector(state => state.step8Reducer);
   let { proID, userID, User_ID } = useParams();
-  // console.log(proID, userID, User_ID)
+  // console.log(proID, userID, User_ID, user_id)
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export default function StepsAntd() {
           type: GET_PROFILE_BY_ID,
           // user_id này là API cũ cần để lấy profile nhưng do API mới cần là pro_id 
           // nên truyền vào pro_id còn tên user_id thì giư để khỏi thay đổi code ở redux, saga
-          data: {proID, email, soDienThoai}
+          data: {proID, email, soDienThoai }
         });
         dispatch(setIsOnLyCreateProfile(false))
         dispatch(setIsLoading(true));

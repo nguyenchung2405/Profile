@@ -1,7 +1,7 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { CREATE_PROFILE, DELETE_DEP_POS, DELETE_RESOURCE, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, TOKEN, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from "../title/title";
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
-import { createProfile_API, deleteDepPosAPI, deleteResourceAPI, getAvatar_API, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
+import { createProfile_API, deleteDepPosAPI, deleteResourceAPI, getAvatar_API, getDetailUserAPI, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setResources, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
@@ -14,16 +14,25 @@ import { setStatus, setIsNextStep, setMessageAlert, setUserProfileID } from "./S
 import jwt_decode from "jwt-decode";
 
 function* getProfileByID(payload) {
-    let { proID, email, soDienThoai } = payload.data;
+    let { proID , email, soDienThoai} = payload.data;
+    let EMAIL, SĐT;
     const { status, data: { data, message } } = yield call(getProfileByID_API, proID);
     // console.log(data)
     if (status === 200 && message === "Success") {
-        console.log(data)
         let { id, user_id } = data;
         let jour_card_id = data.journalist_card[0]?.id;
         let user_degree_id = data?.user_degree[0]?.id;
         let {personal_history, party, organization, training_fostering, reward_discipline,
             family_relationship, can_action, state, current_target: {type}} = data;
+        // call API lấy phone, email
+        if(email === undefined &&  soDienThoai === undefined){
+            const {data: {email: emailResponse, phone}} = yield call(getDetailUserAPI, user_id);
+            EMAIL = emailResponse;
+            SĐT = phone;
+        } else {
+            EMAIL = email;
+            SĐT = soDienThoai;
+        }
         // put pro_id và user_id lên reducer quản lý
         yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
         yield put(setStatus({state,can_action, type}))
@@ -35,14 +44,15 @@ function* getProfileByID(payload) {
         yield put(setFamilyRelationship(mappingFamilyRelationship(family_relationship)))
         // Thành công thì put lên reducer quản lý => render lại trang
         let profile = mappingProfileAPI(data)
-        profile["email"] = email;
-        profile["soDienThoai"] = soDienThoai;
+        profile["email"] = EMAIL;
+        profile["soDienThoai"] = SĐT;
+        // console.log(profile)
         let {phongBanCVObj} = profile;
         // console.log(phongBanCVObj)
         if(phongBanCVObj.length > 0){
             yield put(addPBCV(phongBanCVObj))
         }
-        // console.log(profile)
+        console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))
     } else {
@@ -156,7 +166,9 @@ function* createProfile(payload) {
     let msg = result.data.message;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
-        navigate("/profile-service/hr/profile")
+        setTimeout(()=>{
+            navigate("/profile-service/hr/profile")
+        }, 1000)
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
         navigate("/profile-service/hr/profile")

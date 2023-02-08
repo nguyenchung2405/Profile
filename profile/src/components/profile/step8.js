@@ -31,7 +31,8 @@ export default function Step8() {
         let a =familyRelationship.map((item)=>{
             if(item.type.toLowerCase().includes("cha") || item.type.toLowerCase().includes("mẹ") ||
             item.type.toLowerCase().includes("anh") || item.type.toLowerCase().includes("em") ||
-            item.type.toLowerCase().includes("chị")){
+            item.type.toLowerCase().includes("chị") || item.type.toLowerCase().includes("ông")
+            || item.type.toLowerCase().includes("bà")){
                 return item
             }
         });

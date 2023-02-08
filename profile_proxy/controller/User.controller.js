@@ -53,8 +53,26 @@ const getUserPermission = async (req,res)=>{
     }
 }
 
+const getDetailUser = async (req, res)=>{
+    try {
+        let {headers: {authorization}} = req;
+        let {user_id} = req.params;
+        let result = await axios({
+            url: `${local}/users/${user_id}`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        });
+        res.send(result.data);
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     getAvatar,
     deleteResource,
-    getUserPermission
+    getUserPermission,
+    getDetailUser
 }

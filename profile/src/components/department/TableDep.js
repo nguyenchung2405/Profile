@@ -27,7 +27,7 @@ export default function TableDep() {
     let [search, setSearch] = useState([]);
     let [isShowModal, setIsShowModal] = useState(false);
     let [dataToModal, setDataToModal] = useState()
-
+    
     useEffect(()=>{
       if(!userPermission.includes("xem danh sách phòng ban") && userPermission.length > 0){
           navigate("/404notfound", {replace: true})
