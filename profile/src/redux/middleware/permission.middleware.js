@@ -158,7 +158,7 @@ function* getUserPermission(payload){
     let {user_id} = payload;
     let result = yield call(getUserPermisssionAPI, user_id);
     let {code, message, data} = result;
-    if(+code === 200 && message === true){
+    if(+code === 200 && message === "Success"){
         let perArr = []
         for(let item of data){
             for(let itemHave of item.groups){
