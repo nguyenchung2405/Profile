@@ -52,7 +52,7 @@ function* getProfileByID(payload) {
         if(phongBanCVObj.length > 0){
             yield put(addPBCV(phongBanCVObj))
         }
-        console.log(profile)
+        // console.log(profile)
         yield put(setValues(profile));
         yield put(setIsLoading(false))
     } else {
