@@ -4,7 +4,7 @@ const initialState = {
     nextStep: 0,
     isNextStep: false,
     user_profile_id: {},
-    messageAlert: {},
+    messageAlert: {type: "", msg: ""},
     isDone: false,
     status: {state: "", can_action: false}
 }
