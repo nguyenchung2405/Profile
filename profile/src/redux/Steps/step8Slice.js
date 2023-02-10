@@ -42,11 +42,14 @@ const step8Slice = createSlice({
         },
         setFamilyRelationshipExist: (state, action)=>{
             state.familyRelationshipExist = action.payload;
+        },
+        setIsCreatedSlice: (state, action)=>{
+            state.isCreated = action.payload;
         }
     }
 });
 
 export const {setNoiOHienTaiTinh, setNoiOHienTaiQuan, setNoiOHienTaiHuyen,
 setFamilyRelationship, addFamilyRelationship, updateFamilyRelationshipSlice,
-setFamilyRelationshipExist} = step8Slice.actions;
+setFamilyRelationshipExist, setIsCreatedSlice} = step8Slice.actions;
 export default step8Slice.reducer;

@@ -1,4 +1,4 @@
-import { Table, Select, AutoComplete } from 'antd'
+import { Table, Select, AutoComplete, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH } from '../../title/title';
@@ -32,7 +32,16 @@ export default function TableProfiles() {
     const { isLoading } = useSelector(state => state.loadingReducer);
     const {depList, posList} = useSelector(state => state.tableReducer);
     const {userPermission} = useSelector(state => state.permissionReducer);
+    let { messageAlert } = useSelector(state => state.stepsReducer);
     
+    useEffect(()=>{
+      let {type, msg} = messageAlert;
+      console.log(type, msg)
+        if(type !== "" && msg !== ""){
+            message[type](msg)
+        }
+    } , [messageAlert])
+
     useEffect(()=>{
       if(!userPermission.includes("xem danh sách user") && userPermission.length > 0){
         navigate("/404notfound", {replace: true})

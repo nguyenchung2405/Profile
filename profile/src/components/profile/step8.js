@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
-import { setFamilyRelationshipExist, setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
+import { setFamilyRelationshipExist, setIsCreatedSlice, setNoiOHienTaiHuyen } from '../../redux/Steps/step8Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP8, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
@@ -74,6 +74,7 @@ export default function Step8() {
             setIsUpdate(true)
             let lengthArr = familyRelationship.length;
             setValueForm({... familyRelationship[lengthArr - 1]})
+            dispatch(setIsCreatedSlice(false))
         }
     }, [isCreated])
 

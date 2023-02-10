@@ -5,7 +5,7 @@ import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
-import { setFamilyRelationshipExist } from '../../redux/Steps/step8Slice';
+import { setFamilyRelationshipExist, setIsCreatedSlice } from '../../redux/Steps/step8Slice';
 import { setNoiOHienTaiHuyen_ST9 } from '../../redux/Steps/step9Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import { CREATE_FAMILY_RELATIONSHIP, GET_DISTRICTS_STEP9, GET_PROVINCES, lichSuBanThan, TOKEN, UPDATE_FAMILY_RELATIONSHIP } from '../../title/title';
@@ -33,7 +33,8 @@ export default function Step8() {
 
     const filterRelationship = ()=>{
         let a =familyRelationship.map((item)=>{
-            if(item.type.toLowerCase().includes("cấp") || item.type.toLowerCase().includes("đồng")){
+            if(item.type.toLowerCase().includes("cấp") || item.type.toLowerCase().includes("đồng")
+            || item.type.toLowerCase().includes("sếp")){
                 return item
             }
         });
@@ -74,6 +75,7 @@ export default function Step8() {
             setIsUpdate(true)
             let lengthArr = familyRelationship.length;
             setValueForm({... familyRelationship[lengthArr - 1]})
+            dispatch(setIsCreatedSlice(false))
         }
     }, [isCreated])
 

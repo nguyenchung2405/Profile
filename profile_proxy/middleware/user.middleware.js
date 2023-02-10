@@ -17,8 +17,7 @@ const checkQuery = async (req, res, next) => {
             });
             // console.log(result)
             res.send(result.data)
-        }
-        if (page && per_page) {
+        } else if (page && per_page) {
             // console.log("Vô đây 2")
             const result = await axios({
                 url: `http://dev.userbe.tuoitre.vn/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
@@ -29,9 +28,10 @@ const checkQuery = async (req, res, next) => {
             });
             // console.log(result.data)
             res.send(result.data);
+        } else {
+            // console.log("Xuống đây")
+            next()
         }
-        // console.log("Xuống đây")
-        next()
     } catch (error) {
         res.send(error)
     }

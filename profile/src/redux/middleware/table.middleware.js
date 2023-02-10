@@ -7,6 +7,7 @@ import { getDepPosToSearch } from "../API/department";
 import { setDepList, setPosList } from "../Slice/tableSlice";
 import { searchAPI } from "../API/tableProfileAPI";
 import { setDepPosList } from "../Slice/permissionSlice";
+import { setMessageAlert } from "../Steps/stepsSlice";
 
 function* getUserList(payload) {
     let { table: { page, pageNumber } } = payload;
@@ -19,6 +20,9 @@ function* getUserList(payload) {
     // console.log(userList, status, total)
     if (userList.length > 0) {
         yield put(setUserList({ userList, total }))
+        yield put(setIsLoading(false))
+    } else {
+        yield put(setMessageAlert({ type: "error", msg: "Tải trang thất bại" }))
         yield put(setIsLoading(false))
     }
 }
