@@ -33,15 +33,18 @@ export default function TablePositions() {
 
   let { tablePosList, total, showLoading: showLoadingComponent, positionTyleList, positionsNameList } = useSelector(state => state.positionReducer)
   const {userPermission} = useSelector(state => state.permissionReducer);
+
   useEffect(() => {
-    dispatch({
-      type: GET_POSITIONS_MANA_LIST,
-      table: { page, pageNumber }
-    })
-    dispatch({
-      type: GET_POS_LIST
-    });
-    dispatch(setLoading(true))
+    if(!isSearch){
+      dispatch({
+        type: GET_POSITIONS_MANA_LIST,
+        table: { page, pageNumber }
+      })
+      dispatch({
+        type: GET_POS_LIST
+      });
+      dispatch(setLoading(true))
+    }
   }, [page, pageNumber, dispatch])
 
   useEffect(() => {
@@ -64,6 +67,7 @@ export default function TablePositions() {
         type: GET_POSITIONS_MANA_LIST,
         table: { page, pageNumber }
       })
+      setIsSearch(false)
     }
   }, [search])
 

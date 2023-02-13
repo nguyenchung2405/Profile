@@ -55,18 +55,18 @@ const tableDepListSlice = createSlice({
             state.message = action.payload
         },
         deleteDepartmentSlice: (state, action)=>{
-            console.log(action, current(state.tableDepList))
+            // console.log(action, current(state.tableDepList))
             let {id, parent_id} = action.payload;
             if(parent_id && typeof +parent_id === "number"){
                 let index = state.tableDepList.findIndex(dep => dep.id === parent_id);
-                console.log("index CHa", index)
+                // console.log("index CHa", index)
                 let depParent = state.tableDepList[index];
                 let indexChild = depParent.children.findIndex(depChild => depChild.id === id);
-                console.log("index Con", indexChild)
+                // console.log("index Con", indexChild)
                 state.tableDepList[index].children.splice(indexChild, 1);
             } else {
                 let index = state.tableDepList.findIndex(dep => dep.id === id);
-                console.log("index CHa", index)
+                // console.log("index CHa", index)
                 state.tableDepList.splice(index, 1)
             }
         }

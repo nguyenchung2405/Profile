@@ -36,7 +36,6 @@ export default function TableProfiles() {
     
     useEffect(()=>{
       let {type, msg} = messageAlert;
-      console.log(type, msg)
         if(type !== "" && msg !== ""){
             message[type](msg)
         }
