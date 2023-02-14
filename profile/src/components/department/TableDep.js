@@ -24,7 +24,7 @@ export default function TableDep() {
     const {userPermission} = useSelector(state => state.permissionReducer);
     let [newTableDepList, setNewTableDepList] = useState([]);
     let [dataTable, setDataTable] = useState([]);
-    let [search, setSearch] = useState([]);
+    let [search, setSearch] = useState("");
     let [isShowModal, setIsShowModal] = useState(false);
     let [dataToModal, setDataToModal] = useState()
     
@@ -156,11 +156,26 @@ export default function TableDep() {
           <div className="tableProfiles__search">
             <AutoComplete
                 allowClear
+                value={search}
                 className="auto__complete"
                 options={renderOption()}
-                filterOption={(input, option)=>
-                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                filterOption={(input, option)=>{
+                    let index = input.lastIndexOf(",");
+                    let str_replace = input.slice(0, index + 1);
+                    input = input.replace(str_replace, "");
+                    return(option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
                 }
+                onSelect={(value)=>{
+                  if(search !== ""){
+                    let index = search.lastIndexOf(",");
+                    let str_replace = search.slice(0, index + 1);
+                    value = str_replace + value;
+                    setSearch(value)
+                  } else {
+                    setSearch(value)
+                  }
+                }}
                 onChange={(value)=>{
                     setSearch(value)
                 }}

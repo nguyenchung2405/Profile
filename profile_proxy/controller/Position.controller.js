@@ -223,7 +223,8 @@ const searchPosition = async (req, res)=>{
         let {pos_name, identifier, level} = req.query;
         let url;
         if(pos_name !== ""){
-            url = `pos_name=${encodeURI(pos_name)}`
+            url = `pos_names=${encodeURI(pos_name)}`
+            // url = `pos_name=${pos_name}`
         }
         if(identifier !== ""){
             url = url + `&identifier=${identifier}`
@@ -232,12 +233,13 @@ const searchPosition = async (req, res)=>{
             url = url + `&level=${level}`
         }
         const result = await axios({
-            url: `${local}/position-management/?${url}&page_size=100&page=1&sort_by=id&order=desc`,
+            url: `${local}/position-management/?${url}&page_size=200&page=1&sort_by=id&order=desc`,
             method: "GET",
             headers: {
                 Authorization: authorization
             }
         });
+        result.data.url = `${local}/position-management/?${url}&page_size=100&page=1&sort_by=id&order=desc`
         res.send(result.data)
     } catch (error) {
         res.send(error)

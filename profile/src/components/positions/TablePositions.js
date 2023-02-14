@@ -122,11 +122,26 @@ export default function TablePositions() {
         <div className="search__tool">
             <AutoComplete
                 allowClear
+                value={search.pos_name}
                 className="auto__complete"
                 options={dataOfAutoComplete("pos")}
-                filterOption={(input, option)=>
-                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                filterOption={(input, option)=>{
+                    let index = input.lastIndexOf(",");
+                    let str_replace = input.slice(0, index + 1);
+                    input = input.replace(str_replace, "");
+                    return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
                 }
+                onSelect={(value)=>{
+                  if(search.pos_name !== ""){
+                    let index = search.pos_name.lastIndexOf(";");
+                    let str_replace = search.pos_name.slice(0, index + 1);
+                    value = str_replace + value;
+                    handleSearch("pos_name", value)
+                  } else {
+                    handleSearch("pos_name", value)
+                  }
+                }}
                 onChange={(value)=>{
                   handleSearch("pos_name", value)
                 }}

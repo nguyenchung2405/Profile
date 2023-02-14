@@ -146,7 +146,7 @@ export default function TableProfiles() {
         })
       }
     }
-    
+   
     const renderTable = ()=>{
       if(userPermission.length > 0 ){
         return <div className="tableProfiles">
@@ -163,16 +163,6 @@ export default function TableProfiles() {
           </button>
           : ""
         }
-          { /*
-          <button className="create_acc_profile" onClick={() => {
-            dispatch(removePBCV("all"))
-            dispatch(setValues(userInforEmpty))
-            navigate(`${uri}/hr/profile/create`)
-          }}>
-            <AiOutlineUserAdd />
-            Tạo
-          </button>
-        */}
           <div className="tableProfiles__search">
               <input 
               className="tool__search tools__name"
@@ -195,12 +185,27 @@ export default function TableProfiles() {
               <AutoComplete
                 allowClear
                 className="auto__complete"
+                value={search.dep_names}
                 options={dataOfAutoComplete("dep")}
-                filterOption={(input, option)=>
-                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                filterOption={(input, option)=>{
+                    let index = input.lastIndexOf(";");
+                    let str_replace = input.slice(0, index + 1);
+                    input = input.replace(str_replace, "");
+                    return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
                 }
+                onSelect={(value)=>{
+                  if(search.dep_names !== ""){
+                    let index = search.dep_names.lastIndexOf(";");
+                    let str_replace = search.dep_names.slice(0, index + 1);
+                    value = str_replace + value;
+                    handleChangeSearch("dep_names",value)
+                  } else {
+                    handleChangeSearch("dep_names",value)
+                  }
+                }}
                 onChange={(value)=>{
-                  handleChangeSearch("dep_names",value)
+                    handleChangeSearch("dep_names",value)
                 }}
                 onKeyDown={(e)=>{
                   let {key} = e;
@@ -217,10 +222,25 @@ export default function TableProfiles() {
               <AutoComplete
                 allowClear
                 className="auto__complete"
+                value={search.pos_names}
                 options={dataOfAutoComplete("pos")}
-                filterOption={(input, option)=>
-                  (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                filterOption={(input, option)=>{
+                    let index = input.lastIndexOf(";");
+                    let str_replace = input.slice(0, index + 1);
+                    input = input.replace(str_replace, "");
+                    return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
                 }
+                onSelect={(value)=>{
+                  if(search.pos_names !== ""){
+                    let index = search.pos_names.lastIndexOf(";");
+                    let str_replace = search.pos_names.slice(0, index + 1);
+                    value = str_replace + value;
+                    handleChangeSearch("pos_names",value)
+                  } else {
+                    handleChangeSearch("pos_names",value)
+                  }
+                }}
                 onChange={(value)=>{
                   handleChangeSearch("pos_names",value)
                 }}

@@ -118,7 +118,7 @@ export default function StepsAntd() {
         dispatch(setUserProfileID({}))
         dispatch(setAvatar(""))
         dispatch(setEmailPhone({}))
-        dispatch(setMessageAlert({}))
+        dispatch(setMessageAlert({type: "", msg:""}))
         dispatch(setIsLoading(false));
         dispatch(clearParty());
         dispatch(setIsDone(false));

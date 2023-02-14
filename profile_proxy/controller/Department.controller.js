@@ -25,7 +25,7 @@ const getDepartmentList = async (req,res)=>{
         } else if(page && page_size && name){
             let dep_name = encodeURI(name);
             result = await axios({
-                url: `${local}/departments/?name=${dep_name}&page_size=${page_size}&page=${page}&order=desc&sort_by=id`,
+                url: `${local}/departments/?names=${dep_name}&page_size=${page_size}&page=${page}&order=desc&sort_by=id`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
