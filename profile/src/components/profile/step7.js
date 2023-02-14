@@ -30,29 +30,33 @@ export default function Step7() {
     useEffect(()=>{
         return ()=>{
             dispatch(setIsSubmit(false));
-            dispatch(setMessageAlert({}))
+            dispatch(setMessageAlert({type: "", msg:""}))
         }
     }, [])
     
     useEffect(()=>{
         if(isSubmit){
-            if(!valueForm.type && !valueFormCon.type){
+            if(!valueForm.type){
                 valueForm.type = "vo_chong"
                 valueForm.pro_id = pro_id;
-                valueFormCon.type="con"
-                valueFormCon.pro_id = pro_id;
                 // console.log(valueForm, valueFormCon)
                 dispatch({
                     type: CREATE_FAMILY_RELATIONSHIP_STEP7,
                     data: {valueForm}
                 });
                 dispatch(setIsSubmit(false))
+                setTimeout(()=>{
+                    dispatch(setMessageAlert({type: "", msg:""}))
+                }, 1000)
             } else {
                 dispatch({
                     type: UPDATE_FAMILY_RELATIONSHIP_STEP7,
                     data: {valueForm}
                 });
                 dispatch(setIsSubmit(false))
+                setTimeout(()=>{
+                    dispatch(setMessageAlert({type: "", msg:""}))
+                }, 1000)
             }
         }
     }, [isSubmit])
@@ -526,6 +530,9 @@ export default function Step7() {
                         type: CREATE_FAMILY_RELATIONSHIP_CON_STEP7,
                         data: valueFormCon
                     });
+                    setTimeout(()=>{
+                        dispatch(setMessageAlert({type: "", msg:""}))
+                    }, 1000)
                 }} 
                 >Thêm</Button>
                 <Button type="default"
@@ -535,6 +542,9 @@ export default function Step7() {
                         type: UPDATE_FAMILY_RELATIONSHIP_CON_STEP7,
                         data: valueFormCon
                     });
+                    setTimeout(()=>{
+                        dispatch(setMessageAlert({type: "", msg:""}))
+                    }, 1000)
                 }} 
                 >Cập nhật</Button>
             </div>
