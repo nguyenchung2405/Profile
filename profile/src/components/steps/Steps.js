@@ -214,7 +214,7 @@ export default function StepsAntd() {
               }
             } else if(decoded.id === user_id && status.can_action){
               // khi user vô hồ sơ của mình thì hiện 2 nút lưu, gửi
-              if(status.state === "SENDING" || status.state === "SAVED" || status.state === "REJECTED"){
+              if(status.state === "SENDING" || status.state === "SAVED" || status.state === "REJECTED" || status.state === "NEW"){
                   return <>
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))
