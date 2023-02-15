@@ -106,7 +106,7 @@ export default function Step5() {
                     />
                 </div>
                 <div className="image__files">
-                    <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đào tạo" />
+                    <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đính kèm" />
                 </div>
         </div>
         })
@@ -158,7 +158,7 @@ export default function Step5() {
                     />
                 </div>
                 <div className="image__files">
-                    <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đào tạo" />
+                    <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đính kèm" />
                 </div>
             </div>
     })
