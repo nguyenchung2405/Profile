@@ -100,7 +100,7 @@ export default function TablePositions() {
       return [{label: "100",value: "100"},{label: "200",value: "200"},{label: "300",value: "300"},{label: "400",value: "400"}];
     }
   }
-  console.log(search)
+  
   const renderTable =()=>{
     if(userPermission.length > 0){
       return <div className="tableProfiles table__position">
