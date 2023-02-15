@@ -243,8 +243,7 @@ export default function StepsAntd() {
           }
       } else if(nextStep === 6){
         let voChong = familyRelationship.find(item => item.type === "vo_chong");
-        let con = familyRelationship.find(item => item.type === "con");
-        if(voChong && con){
+        if(voChong){
             return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
               dispatch(setIsSubmit(true))
             }}>Cập nhật</button>
