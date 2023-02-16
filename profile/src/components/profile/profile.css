@@ -1582,12 +1582,12 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     margin-bottom: 10px;
     padding-left: 12px;
     position: relative;
-    height: 90px;
+    height: fit-content;
 }
 
 .steps-content .process .process__infor {
     min-width: 190px;
-    max-width: 190px;
+    max-width: 220px;
 }
 
 .steps-content .process > div.point{
@@ -1603,6 +1603,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     margin-bottom: 0;
     padding-left: 5px;
     font-size: 16px;
+    overflow-wrap: break-word;
 }
 
 .steps-content .process div.process__infor p.diploma {
@@ -1643,6 +1644,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
 
 .steps-content .Step8__quaTrinh .Step8__content .process.step8 {
     justify-content: center;
+    height: fit-content;
 }
 
 .steps-content .process.step8 > svg {
