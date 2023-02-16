@@ -1582,7 +1582,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     margin-bottom: 10px;
     padding-left: 12px;
     position: relative;
-    height: 90px;
+    height: fit-content;
 }
 
 .steps-content .process .process__infor {
