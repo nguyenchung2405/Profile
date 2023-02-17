@@ -1587,7 +1587,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
 
 .steps-content .process .process__infor {
     min-width: 190px;
-    max-width: 220px;
+    max-width: 390px;
 }
 
 .steps-content .process > div.point{
@@ -1616,10 +1616,31 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     color: #459c60;
 }
 
-.steps-content .process div.process__infor > p:first-child{
-    font-weight: bold;
+.steps-content .process div.process__infor > div {
+    display: flex;
 }
 
+.history__content {
+    width: 50%;
+    overflow-wrap: anywhere;
+    transform: translateX(50%);
+    text-align: justify;
+}
+
+.history__content__7 {
+    width: 100%;
+    overflow-wrap: anywhere;
+    padding-left: 12px;
+    text-align: justify;
+}
+
+.steps-content .process div.process__infor > div p:first-child{
+    font-weight: bold;
+    text-align: left;
+    width: fit-content;
+}
+
+.steps-content .process > div svg,
 .steps-content .process > svg {
     color: red;
     margin: 2px 0 0 0px;
@@ -1647,6 +1668,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     height: fit-content;
 }
 
+.steps-content .process.step8 > div svg,
 .steps-content .process.step8 > svg {
     position: initial;
     margin-left: 8px;
