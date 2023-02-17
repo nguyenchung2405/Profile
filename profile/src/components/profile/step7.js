@@ -242,26 +242,29 @@ export default function Step7() {
                     <div className="process step8" key={index}>
                         <div className="point"></div>
                         <div className="process__infor">
+                            <div>
                             <p>{`${tuNgay} - ${denNgay}`}</p>
-                            <p>{item.content}</p>
-                        </div>
-                        <AiOutlineMinusCircle onClick={() => {
-                            let newHisArr = [...valueForm?.historical_features];
-                            newHisArr = newHisArr.filter(his => his.content !== item.content)
-                            setValueForm({
-                                ...valueForm,
-                                historical_features: [...newHisArr]
-                            });
-                        }} />
-                        <AiOutlineEdit
-                        className="icon__update"
-                        onClick={()=>{
-                            let newHisArr = [...valueForm?.historical_features];
-                            newHisArr = newHisArr.filter(his => his.content === item.content)
-                            setIsShowModalUpdate(true)
-                            setValueIntoModal({...newHisArr[0], index})
-                        }}/>
-                    </div>
+                            <AiOutlineMinusCircle onClick={() => {
+                                let newHisArr = [...valueForm?.historical_features];
+                                newHisArr = newHisArr.filter(his => his.content !== item.content)
+                                setValueForm({
+                                    ...valueForm,
+                                    historical_features: [...newHisArr]
+                                });
+                            }} />
+                            <AiOutlineEdit
+                            className="icon__update"
+                            onClick={()=>{
+                                let newHisArr = [...valueForm?.historical_features];
+                                newHisArr = newHisArr.filter(his => his.content === item.content)
+                                setIsShowModalUpdate(true)
+                                setValueIntoModal({...newHisArr[0], index})
+                            }}/>
+                            </div>
+                            </div>
+                            
+                            </div>
+                            <p className="history__content__7">{item.content}</p>
                 </div>
             })
         }

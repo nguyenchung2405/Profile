@@ -65,7 +65,7 @@ export default function Step8() {
     useEffect(()=>{
         return ()=>{
             dispatch(setFamilyRelationshipExist(false));
-            dispatch(setMessageAlert({}))
+            dispatch(setMessageAlert({type: "", msg: ""}))
         }
     }, [])
 
@@ -224,24 +224,26 @@ export default function Step8() {
                     <div className="process step8" key={index}>
                         <div className="point"></div>
                         <div className="process__infor">
+                            <div>
                             <p>{`${tuNgay} - ${denNgay}`}</p>
-                            <p>{item.content}</p>
+                            <AiOutlineMinusCircle onClick={() => {
+                                let newHisArr = [...valueForm?.historical_features];
+                                newHisArr = newHisArr.filter(his => his.content !== item.content)
+                                setValueForm({
+                                    ...valueForm,
+                                    historical_features: [...newHisArr]
+                                });
+                            }} />
+                            <AiOutlineEdit className="icon__update" onClick={()=>{
+                                let newHisArr = [...valueForm?.historical_features];
+                                newHisArr = newHisArr.filter(his => his.content === item.content)
+                                setIsShowModalUpdate(true)
+                                setValueIntoModal({...newHisArr[0], index})
+                            }}/>
+                            </div>
                         </div>
-                        <AiOutlineMinusCircle onClick={() => {
-                            let newHisArr = [...valueForm?.historical_features];
-                            newHisArr = newHisArr.filter(his => his.content !== item.content)
-                            setValueForm({
-                                ...valueForm,
-                                historical_features: [...newHisArr]
-                            });
-                        }} />
-                        <AiOutlineEdit className="icon__update" onClick={()=>{
-                            let newHisArr = [...valueForm?.historical_features];
-                            newHisArr = newHisArr.filter(his => his.content === item.content)
-                            setIsShowModalUpdate(true)
-                            setValueIntoModal({...newHisArr[0], index})
-                        }}/>
-                    </div>
+                        </div>
+                        <p className="history__content">{item.content}</p>
                 </div>
             })
         }

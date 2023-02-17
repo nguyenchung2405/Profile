@@ -60,7 +60,7 @@ export default function Step8() {
 
     useEffect(()=>{
         return ()=>{
-            dispatch(setMessageAlert({}))
+            dispatch(setMessageAlert({type: "", msg: ""}))
         }
     }, []);
 
@@ -225,9 +225,8 @@ export default function Step8() {
                     <div className="process step8" key={index}>
                         <div className="point"></div>
                         <div className="process__infor">
-                            <p>{`${tuNgay} - ${denNgay}`}</p>
-                            <p>{item.content}</p>
-                        </div>
+                        <div>
+                        <p>{`${tuNgay} - ${denNgay}`}</p>
                         <AiOutlineMinusCircle onClick={() => {
                             let newHisArr = [...valueForm?.historical_features];
                             newHisArr = newHisArr.filter(his => his.content !== item.content)
@@ -242,7 +241,10 @@ export default function Step8() {
                             setIsShowModalUpdate(true)
                             setValueIntoModal({...newHisArr[0], index})
                         }}/>
-                    </div>
+                        </div>
+                        </div>
+                        </div>
+                        <p className="history__content">{item.content}</p>
                 </div>
             })
         }
