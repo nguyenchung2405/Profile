@@ -60,6 +60,12 @@ export default function PosTypeModal(props) {
             } else {
                 return ""
             }
+        } else if(titleTypeModal === "Tạo loại chức vụ") {
+            if (valueField[name] && valueField[name] !== undefined && valueField[name] !== "") {
+                return valueField[name]
+            } else {
+                return ""
+            }
         }
     }
 
@@ -68,29 +74,39 @@ export default function PosTypeModal(props) {
             return <Option value={postype?.id}>{postype?.identifier}</Option>
         })
     }
+
     const renderContentOfModal = () => {
         if (titleTypeModal === "Tạo loại chức vụ") {
             return <div className="pos__type__modal__content">
                 <div className="pos__type__modal__field onefield">
                     <label htmlFor="dinhDanh">Loại chức vụ:</label>
-                    <input type="text" name="identifier" id="dinhDanh" onChange={handleChangeInput} />
+                    <input type="text" name="identifier" id="dinhDanh" 
+                    value={valueOfField("identifier")}
+                    onChange={handleChangeInput} />
                 </div>
                 <div className="pos__type__modal__field onefield">
                     <label htmlFor="capBac">Cấp bậc:</label>
                     <input type="text" name="level" id="capBac" key='123'
-                        onChange={handleChangeInput} />
+                    value={valueOfField("level")}
+                    onChange={handleChangeInput} />
                 </div>
                 <div className="pos__type__modal__field onefield">
                     <label htmlFor="moTa">Mô tả:</label>
                     <textarea type="text" name="description" id="moTa" key='1234'
-                        onChange={handleChangeInput} />
+                    value={valueOfField("description")}    
+                    onChange={handleChangeInput} />
                 </div>
                 <button className="dep__btn" onClick={() => {
                     dispatch({
                         type: CREATE_POSITION_TYPE,
                         data: valueField
                     })
-                    setValueField({})
+                    setValueField({
+                        identifier: "",
+                        level: "",
+                        description: "",
+                        id: ""
+                    })
                     setIsShowTypeModal(false);
                 }}>Tạo</button>
             </div>

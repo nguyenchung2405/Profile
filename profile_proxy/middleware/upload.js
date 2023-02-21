@@ -16,7 +16,13 @@ const uploadStep5 = ()=>{
     return upload.single("file");
 }
 
+const uploadStep7 = ()=>{
+    const upload = multer({ dest : "./profile_proxy/public/asset"})
+    return upload.single("filePDF");
+}
+
 module.exports = {
     uploadImageAvatar,
-    uploadStep5
+    uploadStep5,
+    uploadStep7
 }

@@ -1,6 +1,7 @@
-import { call, takeLatest, put } from "redux-saga/effects";
-import { CREATE_FAMILY_RELATIONSHIP_CON_STEP7, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, UPDATE_FAMILY_RELATIONSHIP_STEP7 } from "../../title/title";
-import { createFamilyRelaAPI, createFamilyRelaConAPI, getDistrictsStep7API, updateFamilyRelaAPI, updateFamilyRelaConAPI } from "../API/step7API";
+import { call, takeLatest, put, delay } from "redux-saga/effects";
+import { CREATE_FAMILY_RELATIONSHIP_CON_STEP7, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, UPDATE_FAMILY_RELATIONSHIP_STEP7, UPLOAD_PDF_STEP7 } from "../../title/title";
+import { createFamilyRelaAPI, createFamilyRelaConAPI, getDistrictsStep7API, updateFamilyRelaAPI, updateFamilyRelaConAPI, uploadPDFAPI } from "../API/step7API";
+import { setResources } from "../Steps/step1/step1Slice";
 import { setDiaChiQuan_ST7, setQueQuanQuan_ST7 } from "../Steps/step7Slice";
 import { addFamilyRelationship, updateFamilyRelationshipSlice } from "../Steps/step8Slice";
 import { setMessageAlert } from "../Steps/stepsSlice";
@@ -65,6 +66,23 @@ function* updateFamilyRelaConStep7(payload){
     }
 }
 
+function* uploadPDF(payload){
+    try {
+        const form = payload.data;
+        const result = yield call(uploadPDFAPI, form);
+        let {message, data} = result;
+        if(message === "Success"){
+            console.log(data)
+            yield put(setResources(data))
+            yield put(setMessageAlert({type: "success", msg: "Tải file thành công"}))
+        } else {
+            yield put(setMessageAlert({type: "error", msg: "Tải file thất bại"}))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export default function* step7Middleware(){
     yield takeLatest(GET_DISTRICTS_STEP7, getDistrictsStep7);
     yield takeLatest(GET_DISTRICTS_STEP7_CON, getDistrictsStep7_Con);
@@ -72,4 +90,5 @@ export default function* step7Middleware(){
     yield takeLatest(CREATE_FAMILY_RELATIONSHIP_CON_STEP7, createFamilyRelaConStep7)
     yield takeLatest(UPDATE_FAMILY_RELATIONSHIP_STEP7, updateFamilyRelaStep7)
     yield takeLatest(UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, updateFamilyRelaConStep7)
+    yield takeLatest(UPLOAD_PDF_STEP7, uploadPDF)
 }

@@ -355,6 +355,32 @@ div.next {
     color: white;
 }
 
+.SoYeuLyLich__btn.btn__inactive {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid #3ea9db;
+    color: #3ea9db;
+    cursor: pointer;
+    transition: all 0.8s;
+}
+
+.SoYeuLyLich__btn.btn__inactive:hover {
+    background-color: #3ea9db;
+    box-shadow: 0 0 50px #3ea9db;
+    color: white;
+}
+
+.Step7__left .banThan .step7__asset {
+    display: flex;
+    align-items: center;
+}
+
+.Step7__left .banThan .step7__asset > svg {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
 .SoYeuLyLich__btn {
     border-radius: 3px;
     background-color: #35794a;

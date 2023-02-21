@@ -104,7 +104,45 @@ const uploadFileStep5 = async (req,res)=>{
     }
 }
 
+const uploadFileStep7 = async (req, res)=>{
+    try {
+        let {user_id} = req.body;
+        let {file, headers: {authorization}} = req;
+        const pathFile = path.join(path.dirname(file.path), file.filename);
+        const formData = new FormData();
+        formData.append("files", fs.readFileSync(pathFile), file.filename);
+        formData.append("user_id", user_id);
+        formData.append("resource_type", "document");
+        formData.append("user_resource_type", "asset");
+        const uploadFile = await axios({
+            url: `${local}/user-resources`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: formData
+        });
+        let {message} = uploadFile.data;
+        if(message === "Success"){
+            const result_getResources = await axios({
+                url: `${local}/user-resources/user/${user_id}`,
+                method: "GET",
+                headers: {
+                    Authorization: authorization
+                }
+            })
+            res.send(result_getResources.data);
+        } else {
+            res.send(uploadFile.data);
+        }
+    } catch (error) {
+        console.log(error);
+        res.send(error)
+    }
+}
+
 module.exports = {
     uploadUserAvatar,
-    uploadFileStep5
+    uploadFileStep5,
+    uploadFileStep7
 }

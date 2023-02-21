@@ -49,7 +49,7 @@ const updateProfile = async (req, res, next) => {
         let { user_id, ...rest } = profile;
         let { headers: { authorization } } = req;
         let {action}= req.query;
-        // console.log(action)
+        // console.log(action, rest, pro_id)
         const result = await axios({
             url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}?action=${action}`,
             method: "PUT",

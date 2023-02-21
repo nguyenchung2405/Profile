@@ -207,14 +207,21 @@ export default function StepsAntd() {
                     } 
                 }
                 // khi kích hoạt profile rồi thì chỉ hiện nút cập nhật thôi
-                if(decoded.id !== user_id && status.state === "ACTIVE" && status["can_action"] === false){
-                  return <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
+                if(decoded.id !== user_id && status.state === "ACTIVE" && status["can_action"] === true){
+                  return <>
+                    <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))
-                  }}>Cập nhật</button>
+                    }}>Cập nhật</button>
+                    <button className="SoYeuLyLich__btn btn__inactive" onClick={()=>{
+                      dispatch(setIsSubmit(true))
+                      dispatch(setAction("inactive"))
+                    }}>Hủy kích hoạt</button>
+                  </>
               }
             } else if(decoded.id === user_id && status.can_action){
               // khi user vô hồ sơ của mình thì hiện 2 nút lưu, gửi
-              if(status.state === "SENDING" || status.state === "SAVED" || status.state === "REJECTED" || status.state === "NEW"){
+              if(status.state === "SENDING" || status.state === "SAVED" || status.state === "REJECTED" 
+              || status.state === "NEW" || status.state === "INACTIVE"){
                   return <>
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                       dispatch(setIsSubmit(true))

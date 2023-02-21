@@ -4,7 +4,7 @@ import { Select, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPBCV, removePBCV, setHoKhauHuyen, setIsNavigate, setIsSubmit, setNoiOHuyen, setNoiSinhHuyen, setQueQuanHuyen } from '../../redux/Steps/step1/step1Slice';
 import { AiOutlineMinus } from "react-icons/ai"
-import { moveToNextStep, setIsNextStep } from '../../redux/Steps/stepsSlice';
+import { moveToNextStep, setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
 import moment from 'moment';
 import { CREATE_PROFILE, DELETE_DEP_POS, GET_DEP_POS, GET_DISTRICTS_ADDRESS, GET_DISTRICTS_BIRTH_PLACE, GET_DISTRICTS_HOKHAU, GET_DISTRICTS_HOME_TOWN, GET_PART, GET_PROVINCES, noiSinh_Step1, ONLY_CREATE_PROFILE, queQuan_Step1, regexEmail, regexPhone, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from '../../title/title';
 import { useNavigate } from 'react-router-dom';
@@ -57,6 +57,7 @@ export default function SoYeuLyLich(props) {
     useEffect(()=>{
         return ()=>{
             dispatch(setIsSubmit(false))
+            dispatch(setMessageAlert({type: "", msg:""}))
         }
     }, [])
 
@@ -153,7 +154,7 @@ export default function SoYeuLyLich(props) {
                 dispatch(setIsSubmit(false))
            } else if(isNextStep){
             // console.log(isOnLyCreateProfile, isCreateProfile)
-                if(!isCreateProfile && !isOnLyCreateProfile && status.can_action === true){
+                if(!isCreateProfile && !isOnLyCreateProfile && status.can_action === true && status.state !== "ACTIVE"){
                     // console.log("Cập nhật profile")
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
@@ -172,15 +173,19 @@ export default function SoYeuLyLich(props) {
                         type: ONLY_CREATE_PROFILE,
                         valuesCreate: { valueForm, user_id, navigate }
                     })
-                } else if(!isCreateProfile && !isOnLyCreateProfile && status.state === "ACTIVE" && status["can_action"] === false) {
+                } else if(!isCreateProfile && !isOnLyCreateProfile && status.state === "ACTIVE" && status["can_action"] === true) {
+                    // console.log("Cập nhật profile đã ACTIVE")
                     // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE_ACTIVE,
-                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate}
+                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action}
                     });
                 }
+                setTimeout(()=>{
+                    dispatch(setMessageAlert({type: "", msg: ""}))
+                }, 1000)
             }
         }
     }, [isSubmit])

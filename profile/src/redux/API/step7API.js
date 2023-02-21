@@ -107,3 +107,20 @@ export async function updateFamilyRelaConAPI(data){
         return "Thất bại"
     }
 }
+
+export async function uploadPDFAPI(data){
+    try {
+        const result = await axios({
+            url: `${local}/api/upload/step7`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+            data
+        });
+        return result.data;
+    } catch (error) {
+        console.log(error)
+        return "Thất bại"
+    }
+}

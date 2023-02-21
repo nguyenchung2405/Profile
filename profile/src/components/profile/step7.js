@@ -1,13 +1,14 @@
 import { Button, DatePicker, Select } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiFillEye, AiFillEyeInvisible, AiOutlineEdit, AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsSubmit } from '../../redux/Steps/step1/step1Slice';
 import { setDiaChiHuyen_ST7, setQueQuanHuyen_ST7 } from '../../redux/Steps/step7Slice';
 import { setIsNextStep, setMessageAlert } from '../../redux/Steps/stepsSlice';
-import { CREATE_FAMILY_RELATIONSHIP, CREATE_FAMILY_RELATIONSHIP_CON_STEP7, CREATE_FAMILY_RELATIONSHIP_STEP7, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP, UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, UPDATE_FAMILY_RELATIONSHIP_STEP7 } from '../../title/title';
+import { CREATE_FAMILY_RELATIONSHIP, CREATE_FAMILY_RELATIONSHIP_CON_STEP7, CREATE_FAMILY_RELATIONSHIP_STEP7, DELETE_RESOURCE, GET_DISTRICTS_STEP7, GET_DISTRICTS_STEP7_CON, GET_PROVINCES, lichSuBanThan, UPDATE_FAMILY_RELATIONSHIP, UPDATE_FAMILY_RELATIONSHIP_CON_STEP7, UPDATE_FAMILY_RELATIONSHIP_STEP7, UPLOAD_PDF_STEP7 } from '../../title/title';
 import { handleDateTime } from '../../ultils/helper';
+import DisplayPDF from '../modal/DisplayPDF';
 import ModalComponent from '../modal/modal';
 
 export default function Step7() {
@@ -15,15 +16,16 @@ export default function Step7() {
     const {Option} = Select;
     const dispatch = useDispatch();
     const {queQuanTinh, queQuanQuan, queQuanHuyen, diaChiTinh, diaChiQuan, diaChiHuyen} = useSelector(state => state.step7Reducer);
-    let {nextStep, user_profile_id: { pro_id }} = useSelector(state => state.stepsReducer);
+    let {nextStep, user_profile_id: { pro_id, user_id }} = useSelector(state => state.stepsReducer);
     let { familyRelationship, isCreated } = useSelector(state => state.step8Reducer);
-    let {isSubmit} = useSelector(state => state.steps1Reducer);
+    let {isSubmit, resources} = useSelector(state => state.steps1Reducer);
     let [isShowModal, setIsShowModal] = useState(false)
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
+    let [isShowModalAsset, setIsShowModalAsset] = useState(false)
     const [valueForm, setValueForm] = useState({});
     const [valueFormCon, setValueFormCon] = useState({});
     const [valueIntoModal, setValueIntoModal] = useState({});
-    // console.log(valueForm)
+    // console.log(resources)
     // console.log(valueFormCon)
     // console.log(familyRelationship)
 
@@ -261,10 +263,9 @@ export default function Step7() {
                                 setValueIntoModal({...newHisArr[0], index})
                             }}/>
                             </div>
-                            </div>
-                            
-                            </div>
-                            <p className="history__content__7">{item.content}</p>
+                        </div>
+                    </div>
+                    <p className="history__content__7">{item.content}</p>
                 </div>
             })
         }
@@ -290,13 +291,42 @@ export default function Step7() {
         })
     }
 
+    const renderShowPDF = ()=>{
+        if(resources.findIndex(item => item.type === "asset") !== -1){
+            return <AiFillEye height="20px" width="20px" onClick={()=>{
+                setIsShowModalAsset(true)
+            }} />
+        } else {
+            return <AiFillEyeInvisible />
+        }
+    }
+
   return (
     <div className="Step7">
         <div className="Step7__left">
             <div className="banThan">
                 <p>Bản thân:</p>
                 <p>Tài sản:</p>
-                <textarea name="taiSan" id="taiSan"></textarea>
+                <div className="step7__asset">
+                    <input id="taiSanBanThan" type="file" onChange={async (e)=>{
+                        const form = new FormData();
+                        form.append("filePDF", e.target.files[0]);
+                        form.append("user_id", user_id);
+                        let assetExsisted = resources.find(item => item.type === "asset");
+                        if(assetExsisted && typeof assetExsisted?.id === "number"){
+                            dispatch({
+                                type: DELETE_RESOURCE,
+                                resource_id: assetExsisted?.id
+                            })
+                        }
+                        dispatch({
+                            type: UPLOAD_PDF_STEP7,
+                            data: form
+                        });
+                    }} />
+                    {renderShowPDF()}
+                </div>
+                <DisplayPDF isShowModal={isShowModalAsset} setIsShowModal={setIsShowModalAsset} resource={resources.filter(item=>item.type ==="asset")[0]?.resource?.content} />
             </div>
             <div className="vo">
                 <p>Vợ (Chồng):</p>
