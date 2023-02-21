@@ -125,6 +125,7 @@ function* updateProfile(payload){
                 navigate("/");
             }
         }
+        yield put(setIsSubmit(false))
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
         yield put(setIsSubmit(false))
@@ -133,20 +134,29 @@ function* updateProfile(payload){
 
 function* updateProfileActive(payload){
     const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
-        navigate } = payload.valuesUpdate;
+        navigate, action } = payload.valuesUpdate;
     let {phongBanCVObj , ...rest} = newValueForm;
+    let profile = mappingProfileStep1(newValueForm);
     let depPos = mappingDepartmentPosition(newValueForm);
     let userDegree = mappingUserDegree(newValueForm);
     let jourCard = mappingJournalistCard(newValueForm);
-    let dataToUpdate = { userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id };
+    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, action };
     yield put(setIsNextStep(true))
     yield put(setValues(rest))    
     let profileUpdated = yield call(updateProfileActiveAPI, dataToUpdate)
     let msg = profileUpdated.data[0]?.msg;
     if(msg === "Thành công"){
-        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+        if(action === "inactive"){
+            yield put(setMessageAlert({ type: "success", msg: "Hủy kích hoạt thành công" }))
+            setTimeout(()=>{
+                navigate(0)
+            }, 1000)
+        }else {
+            yield put(setMessageAlert({ type: "success", msg: "Cập nhật thành công" }))
+        }
     } else {
         yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
+        yield put(setIsSubmit(false))
     }
 }
 
