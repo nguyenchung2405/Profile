@@ -6262,7 +6262,7 @@ multicast-dns@^7.2.5:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
 
-nanoid@^3.3.4:
+nanoid@^3.0.0, nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.4.tgz"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -7269,7 +7269,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.8.1:
+prop-types@^15.5.8, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7775,6 +7775,16 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-dual-listbox@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-dual-listbox/-/react-dual-listbox-5.0.2.tgz#ed8771c4aa0d0c5409cb9e7ddb33ff40493ffd44"
+  integrity sha512-n0XzH3pyJmM+JEA5Ji0WkbA9+K/9kM0zqWKixxi2ioo9WgcrYKbMK5G4JVMHqX6c7i1Cu8xKYFhWx905HfKkYA==
+  dependencies:
+    classnames "^2.2.5"
+    lodash "^4.17.21"
+    nanoid "^3.0.0"
+    prop-types "^15.5.8"
 
 react-error-overlay@^6.0.11:
   version "6.0.11"

@@ -13,7 +13,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "user_id": "",
         "full_name": formValues.hoTen,
         "pen_name": formValues.tenThuongGoi,
-        "birth_day": formValues.ngayThangNamSinh,
+        // "birth_day": formValues.ngayThangNamSinh,
         "gender": formValues.gioiTinh,
         "birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,

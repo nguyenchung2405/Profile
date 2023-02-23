@@ -11,6 +11,7 @@ import DepartmentPermissionTable from './components/permission/department/Depart
 import { useDispatch } from 'react-redux';
 import { GET_PERMISSION_OF_USER, TOKEN } from './title/title';
 import jwt_decode from "jwt-decode";
+import UserTablePermission from './components/permission/user/UserTable';
 
 export default function RouteServer() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function RouteServer() {
       <Route path="/hr/permission/manage" element={<PermissionTable />} />
       <Route path="/hr/permission/position" element={<TablePositionsPermission />} />
       <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable />} />
+      <Route path="/hr/permission/users" element={<UserTablePermission /> } />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   )

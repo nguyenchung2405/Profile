@@ -4,6 +4,7 @@ import "../permission.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_PERMISSION_POS, GET_PERMISSION_POSITION, GET_PERMISSION_POS_LIST, POST_PERMISSION_POS } from '../../../title/title';
 import { setPermissionHave, setPermissionNot } from '../../../redux/Slice/permissionSlice';
+import DualListBox from 'react-dual-listbox/';
 
 export default function PermissionPosition(props) {
 
@@ -17,7 +18,7 @@ export default function PermissionPosition(props) {
     const [depPos, setDepPos] = useState({ pos_mana_id: ""});
     const {permissionHave, permissionNot} = useSelector(state => state.permissionReducer);
     // console.log(permissionHave, permissionNot)
-    // console.log(data, targetKeys)
+    // console.log(targetKeys)
 
     useEffect(()=>{
       return ()=>{
@@ -53,26 +54,67 @@ export default function PermissionPosition(props) {
     useEffect(()=>{
         let perArr = concatArr();
         let perHaveArr = perArr.arrHave.map((item, index)=>{
-            let newItem = {
+            let  newOptionsArr = item.options.map(per => {
+              let newItem = {
+                  ...per,
+                  label: per.name,
+                  value: per.id
+                }
+                return newItem;
+            })
+            // console.log(newOptionsArr)
+            return {
               ...item,
-              key: item.id
+              options: newOptionsArr
             }
-            return newItem
+
+            // let newItem = {
+            //   ...item,
+            //   key: item.id,
+            //   label: item.name,
+            //   value: item.id
+            // }
+            // return newItem
         });
         let perNotArr = perArr.arrNot.map((item, index)=>{
+          let  newOptionsArr = item.options.map(per => {
             let newItem = {
-              ...item,
-              key: item.id
-            }
-            return newItem
+                ...per,
+                label: per.name,
+                value: per.id
+              }
+              return newItem;
+          })
+          // console.log(newOptionsArr)
+          return {
+            ...item,
+            options: newOptionsArr
+          }
+            // let newItem = {
+            //   ...item,
+            //   key: item.id,
+            //   label: item.name,
+            //   value: item.id
+            // }
+            // return newItem
         })
         let newData = [].concat(perHaveArr, perNotArr);
-        setTargetKeys([...perHaveArr.map((item)=>{
-          return item.key
-        })]);
-        setRootPermissionArr([...perHaveArr.map((item)=>{
-          return item.key
-        })])
+        let newTargetArrNotHandle = perHaveArr.map((item)=>{
+          return item.options.map(per => per.value)
+        });
+        let newTargetArr = []
+        newTargetArrNotHandle.forEach(per => {
+          newTargetArr = [...newTargetArr, ...per]
+        })
+        // setTargetKeys([...perHaveArr.map((item)=>{
+        //   // return item.value
+        //   return item.options.map(per => per.value)
+        // })]);
+        setTargetKeys([...newTargetArr]);
+        // setRootPermissionArr([...perHaveArr.map((item)=>{
+        //   return item.key
+        // })])
+        setRootPermissionArr([...newTargetArr])
         setData([...newData]);
     }, [permissionHave, permissionNot]);
 
@@ -80,20 +122,36 @@ export default function PermissionPosition(props) {
         let newArrHave = [];
         let newArrNot = [];
         if(permissionHave.length > 0){
+          let name;
           for(let item of permissionHave){
             for(let itemHave of item.groups){
-              newArrHave = newArrHave.concat(itemHave.permission)
+              let newArrHaveOptions =[];
+              name = itemHave.name;
+              newArrHaveOptions = newArrHaveOptions.concat(itemHave.permission)
+              // newArrHave = newArrHave.concat(itemHave.permission)
+              newArrHave.push({
+                label: name,
+                options: newArrHaveOptions
+              })
             }
           }
         }
         if(permissionNot.length > 0){
+          let name;
           for(let item of permissionNot){
+            // let {name} = item;
             for(let itemNot of item.groups){
-              newArrNot = newArrNot.concat(itemNot.permission)
+              let newArrNotOptions =[];
+              // newArrNot = newArrNot.concat(itemNot.permission)
+              name = itemNot.name;
+              newArrNotOptions = newArrNotOptions.concat(itemNot.permission);
+              newArrNot.push({
+                label: name,
+                options: newArrNotOptions
+              })
             }
           }
         }
-        // console.log(newArrHave, newArrNot)
         return {
             arrHave: newArrHave,
             arrNot: newArrNot
@@ -162,7 +220,57 @@ export default function PermissionPosition(props) {
 
   return (
     <div>
-        <Modal
+    <Modal
+      title={<span className='modal__title'>Bảng gán quyền</span>}
+      width="800px"
+      closeIcon={<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.61719 6.5L13.4609 11.3438C13.5911 11.474 13.5911 11.6172 13.4609 11.7734L12.5625 12.6719C12.4062 12.8021 12.263 12.8021 12.1328 12.6719L11.3125 11.8125L7.28906 7.82812L2.44531 12.6719C2.3151 12.8021 2.17188 12.8021 2.01562 12.6719L1.11719 11.7734C0.986979 11.6172 0.986979 11.474 1.11719 11.3438L5.96094 6.5L1.11719 1.65625C0.986979 1.52604 0.986979 1.38281 1.11719 1.22656L2.01562 0.328125C2.17188 0.197917 2.3151 0.197917 2.44531 0.328125L7.28906 5.17188L12.1328 0.328125C12.263 0.197917 12.4062 0.197917 12.5625 0.328125L13.4609 1.22656C13.5911 1.38281 13.5911 1.52604 13.4609 1.65625L12.6016 2.47656L8.61719 6.5Z" fill="black"/>
+      </svg>}
+      open={isShowModal}
+      footer={null}
+      onCancel={closeModal}
+    >
+        <div className="select__dep__pos">
+              <Select
+                    allowClear
+                    showSearch
+                    placeholder="Chức vụ"
+                    filterOption={(input, option) =>
+                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())}
+                    value={depPos.pos_mana_id !== "" ? depPos.pos_mana_id : null}
+                    onChange={(value)=>{
+                      setDepPos({
+                        ...depPos,
+                        pos_mana_id: value
+                      })
+                  }}
+                >
+                        {renderPosOption()}
+              </Select>
+        </div>
+        <DualListBox
+        options={data}
+        selected={targetKeys}
+        onChange={(value)=> setTargetKeys(value)}
+        >
+
+        </DualListBox>
+        <div className="alignCenter permission__transfer__footer">
+            <button type='button' className="dep__btn"
+              onClick={()=>{
+                  closeModal()
+              }}>
+                  Đóng
+            </button>
+            <button type='button' className="dep__btn"
+              onClick={handleClickButton}
+            >
+                Cập nhật
+            </button>
+        </div>
+    </Modal>
+        
+        {/**<Modal
             title={<span className='modal__title'>Bảng gán quyền</span>}
             width="800px"
             closeIcon={<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +287,7 @@ export default function PermissionPosition(props) {
                     placeholder="Chức vụ"
                     filterOption={(input, option) =>
                     (option?.children ?? '').toLowerCase().includes(input.toLowerCase())}
-                    value={depPos.pos_id !== "" ? depPos.pos_id : null}
+                    value={depPos.pos_mana_id !== "" ? depPos.pos_mana_id : null}
                     onChange={(value)=>{
                       setDepPos({
                         ...depPos,
@@ -216,7 +324,7 @@ export default function PermissionPosition(props) {
                     Cập nhật
                 </button>
             </div>
-        </Modal>
+        </Modal> */}
     </div>
   )
 }
