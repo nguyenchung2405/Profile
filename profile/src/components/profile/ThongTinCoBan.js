@@ -115,26 +115,26 @@ export default function ThongTinCoBan(props) {
             }} />
         </div>
         <div className="SYLL__left__field birthday">
-            <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
+            <label>Ngày tháng năm sinh:{/*<span className="required__field"> *</span> */}</label>
             <DatePicker 
                 disabled={disabledInput()}
                 value={
                     valueForm.ngayThangNamSinh !== "" && valueForm.ngayThangNamSinh !== null
                     ? handleDateTime(valueForm.ngayThangNamSinh)
                     : ""}
-                    onBlur={()=>{
-                        if(valueForm.ngayThangNamSinh === ""){
-                            setValidateForm({
-                                ...validateForm,
-                                ngayThangNamSinh: true
-                            })
-                        } else {
-                            setValidateForm({
-                                ...validateForm,
-                                ngayThangNamSinh: false
-                            })
-                        }
-                    }}
+                    // onBlur={()=>{
+                    //     if(valueForm.ngayThangNamSinh === ""){
+                    //         setValidateForm({
+                    //             ...validateForm,
+                    //             ngayThangNamSinh: true
+                    //         })
+                    //     } else {
+                    //         setValidateForm({
+                    //             ...validateForm,
+                    //             ngayThangNamSinh: false
+                    //         })
+                    //     }
+                    // }}
                 onChange={(date,dateString)=>{
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
                     // console.log(namSinh)
@@ -162,9 +162,9 @@ export default function ThongTinCoBan(props) {
                 </svg>}
                 format="DD-MM-YYYY"
                 />
-            {validateForm.ngayThangNamSinh
+            {/*validateForm.ngayThangNamSinh
             ? showRequiredAlert() 
-            : ""}
+            : "" */}
         </div>
         <div className="SYLL__left__field gender">
             <label>Giới tính:</label>

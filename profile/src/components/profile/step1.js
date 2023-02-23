@@ -213,7 +213,7 @@ export default function SoYeuLyLich(props) {
 
     
     // field nào cần check validate thì cho vào mảng bên dưới
-    const valuesNeedValidate = ["hoTen", "ngayThangNamSinh", "danToc", "email", "soDienThoai"
+    const valuesNeedValidate = ["hoTen", "danToc", "email", "soDienThoai"
         , "hocVan", "chuyenMon", "lyLuanCT", "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan",
          "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", 
          "ngayCapCCCD", "canCuocCD"]
@@ -221,7 +221,7 @@ export default function SoYeuLyLich(props) {
         hoTen: false,
         canCuocCD: false,
         email: false,
-        ngayThangNamSinh: false,
+        // ngayThangNamSinh: false,
         soDienThoai: false,
         tonGiao: false,
         hocVan: false,
@@ -236,7 +236,7 @@ export default function SoYeuLyLich(props) {
         hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
     });
     // console.log(validateForm)
-    // console.log(valueForm)
+    console.log(valueForm)
 
     const disabledInput = () => {
         let isDisabled;

@@ -185,7 +185,7 @@ export default function SubMenu(permission) {
                     subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
                 }
                 subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
-                
+                subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/users`}>Quyền cá nhân</Link>, "8", <PermissionMenu />))
                     return <div className="sidebar_SubMenu__XZeb6">
                         <Menu
                             // defaultOpenKeys={[`sub1`]}
