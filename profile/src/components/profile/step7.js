@@ -293,7 +293,7 @@ export default function Step7() {
 
     const renderShowPDF = ()=>{
         if(resources.findIndex(item => item.type === "asset") !== -1){
-            return <AiFillEye height="20px" width="20px" onClick={()=>{
+            return <AiFillEye className="step7__icon__asset" height="20px" width="20px" onClick={()=>{
                 setIsShowModalAsset(true)
             }} />
         } else {
