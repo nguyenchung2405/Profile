@@ -381,6 +381,10 @@ div.next {
     height: 30px;
 }
 
+.Step7__left .banThan .step7__asset > svg.step7__icon__asset {
+    cursor: pointer;
+}
+
 .SoYeuLyLich__btn {
     border-radius: 3px;
     background-color: #35794a;
