@@ -13,7 +13,7 @@ import Step9 from '../profile/step9';
 import { useDispatch, useSelector } from 'react-redux';
 import { moveToNextStep, setIsDone, setIsNextStep, setMessageAlert, setStatus, setUserProfileID } from '../../redux/Steps/stepsSlice';
 import { useParams } from 'react-router-dom';
-import { GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN } from '../../title/title';
+import { GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID } from '../../title/title';
 import Loading from "../Loading"
 import { setIsLoading } from '../../redux/Slice/loading';
 import { removePBCV, setAction, setAvatar, setEmailPhone, setIsCreateProfile, setIsOnLyCreateProfile, setIsSubmit, setValues } from '../../redux/Steps/step1/step1Slice';
@@ -72,7 +72,7 @@ export default function StepsAntd() {
 
     useEffect(()=>{
       if(userID){
-        // console.log(userID, user_id)
+        // console.log(userID, user_id, User_ID)
         dispatch(setIsCreateProfile(false))
         dispatch(setIsOnLyCreateProfile(true))
         dispatch(setUserProfileID({user_id: userID}))

@@ -172,16 +172,17 @@ function* createProfile(payload) {
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
     let result = yield call(createProfile_API, dataToCreate)
-    // console.log(result)
-    let msg = result.data.message;
+    let msg = result?.data?.message || result?.data?.detail;
+    // console.log(result, msg)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
         setTimeout(()=>{
             navigate("/profile-service/hr/profile")
         }, 1000)
     } else {
-        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
-        navigate("/profile-service/hr/profile")
+        yield put(setMessageAlert({ type: "error", msg}))
+        // navigate("/profile-service/hr/profile")
+        yield put(setIsSubmit(false))
     }
 }
 
