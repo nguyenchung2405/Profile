@@ -56,14 +56,17 @@ const createNewUser = async (req, res, next) => {
                 "service_management_id": 2
             }
         });
-        console.log({ user_id: result.data.data.id })
         console.log("user_id:", result.data.data?.id)
         let user_id = result.data?.data?.id;
         req.user_id = user_id;
-        next();
+        if(user_id && typeof +user_id === "number"){
+            next();
+        } else {
+            res.send(result.response.data)
+        }
     } catch (error) {
-        console.log("lỗi ở createNewUser, POST", error)
-        res.send(error)
+        console.log("lỗi ở createNewUser, POST", error.response)
+        res.send(error.response.data)
     }
 }
 
