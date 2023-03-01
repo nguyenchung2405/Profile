@@ -1,6 +1,5 @@
 const axios = require("axios")
-
-const local =  "http://dev.profilebe.tuoitre.vn";
+const local =  process.env.apiProfile;
 
 const getProfile = async (req,res)=>{
     try {
@@ -8,7 +7,7 @@ const getProfile = async (req,res)=>{
         let {headers: {authorization}} = req;
         // lấy thông tin cá nhân
         const result_pro = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/${id}`,
+            url: `${local}/profiles/${id}`,
             method: "GET",
             headers: {
                 Authorization: authorization
@@ -32,7 +31,7 @@ const getProfileByUserID = async (req,res)=>{
             }
         });
         const result_user =  axios({
-            url: `http://dev.userbe.tuoitre.vn/users/${user_id}`,
+            url: `${process.env.apiUser}/users/${user_id}`,
             method: "GET",
             headers: {
                 Authorization: authorization
@@ -150,7 +149,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
         let {user_id : joucardUserID, ...restJourCard} =  jourCard;
         // console.log(restJourCard)
         const updateJourCard = axios({
-            url: `http://dev.profilebe.tuoitre.vn/journalist-card/${jour_card_id}`,
+            url: `${local}/journalist-card/${jour_card_id}`,
             method: "PUT",
             headers: {
                 Authorization: authorization
@@ -158,7 +157,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             data: restJourCard
         });
         const updateUserInfor = axios({
-            url: `http://dev.userbe.tuoitre.vn/users/${user_id}`,
+            url: `${process.env.apiUser}/users/${user_id}`,
             method: "PUT",
             headers: {
                 Authorization: authorization
@@ -189,7 +188,7 @@ const getUserInfor = async (req,res)=>{
     try {
         let {headers: {authorization}} = req;
         const result = await axios({
-            url: `http://dev.userbe.tuoitre.vn/users/users/me/`,
+            url: `${process.env.apiUser}/users/users/me/`,
             method: "GET",
             headers: {
                 Authorization: authorization

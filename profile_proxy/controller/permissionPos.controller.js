@@ -1,5 +1,5 @@
 const axios = require("axios");
-const local = "http://dev.userbe.tuoitre.vn";
+const local = process.env.apiUser;
 
 const getPermissionPos = (req, res)=>{
     try {

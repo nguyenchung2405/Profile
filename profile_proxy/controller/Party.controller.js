@@ -1,5 +1,5 @@
 const axios = require("axios");
-const local =  "http://dev.profilebe.tuoitre.vn";
+const local = process.env.apiProfile;
 
 const createParty = async (req,res)=>{
     try {

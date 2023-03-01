@@ -1,7 +1,7 @@
 const FormData = require("form-data");
 const path = require("path")
 const axios = require("axios");
-const local =  "http://dev.userbe.tuoitre.vn";
+const local = process.env.apiUser;
 const fs = require("fs")
 
 const uploadUserAvatar = async (req,res)=>{

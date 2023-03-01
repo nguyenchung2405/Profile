@@ -1,5 +1,6 @@
 const axios = require("axios");
-const local =  "http://dev.userbe.tuoitre.vn";
+const local = process.env.apiUser;
+// console.log("User controller",process.env.apiUser)
 
 const getAvatar = async (req,res)=>{
     try {
