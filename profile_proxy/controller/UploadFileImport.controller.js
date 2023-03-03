@@ -13,7 +13,7 @@ const importUser = async (req,res)=>{
         const form = new FormData();
         form.append("file" , fs.readFileSync(pathFileImport), file.filename)
         const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/importation?start_row=${start_row}&end_row=${end_row}`,
+            url: `${process.env.apiProfile}/profiles/importation?start_row=${start_row}&end_row=${end_row}`,
             method: "POST",
             headers: {
                 Authorization: authorization

@@ -1,5 +1,5 @@
 const axios = require("axios");
-const local = "http://dev.profilebe.tuoitre.vn";
+const local = process.env.apiProfile;
 
 const getPositionList = async (req, res) => {
     try {

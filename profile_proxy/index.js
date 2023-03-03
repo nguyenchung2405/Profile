@@ -1,9 +1,13 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { rootRouter } = require("./routers/rootRouter");
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser")
+
+// dotenv.config({path: path.resolve(process.cwd(), ".env")});
+// dotenv.config();
 
 app.use(express.json());
 app.use(cors());

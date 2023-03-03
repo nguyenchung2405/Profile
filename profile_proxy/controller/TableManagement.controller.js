@@ -4,7 +4,7 @@ const getTableManagement = async (req, res)=>{
     try {
         let {headers: {authorization}} = req;
         const result = await axios({
-            url: `http://192.168.61.116/api/table-management`,
+            url: `${process.env.apiEmployee}/api/table-management`,
             method: "GET",
             headers: {
                 Authorization: authorization

@@ -9,7 +9,7 @@ const createProfile = async (req, res, next) => {
         profile["user_id"] = user_id;
         // console.log(profile)
         const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles`,
+            url: `${process.env.apiProfile}/profiles`,
             method: "POST",
             headers: {
                 Authorization: authorization
@@ -51,7 +51,7 @@ const updateProfile = async (req, res, next) => {
         let {action}= req.query;
         // console.log(action, rest, pro_id)
         const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}?action=${action}`,
+            url: `${process.env.apiProfile}/profiles/${pro_id}?action=${action}`,
             method: "PUT",
             headers: {
                 Authorization: authorization
