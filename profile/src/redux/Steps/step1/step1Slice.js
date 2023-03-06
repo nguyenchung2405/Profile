@@ -32,6 +32,8 @@ const initialState = {
         theCoHieuLucTu: null,
         tonGiao: "",
         thanhPhanXuatThan: '',
+        loaiNV: "",
+        noteWorkObject: ""
     },
     phongBanChucVuArr: [],
     noiSinhTinh: "",
