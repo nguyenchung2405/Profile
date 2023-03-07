@@ -15,6 +15,10 @@
     margin-right: 81px;
 }
 
+.SoYeuLyLich .SoYeuLyLich__left .noiSinh p {
+    color: black;
+}
+
 .SoYeuLyLich__left .SYLL__left__field,
 .SoYeuLyLich__right .SYLL__right__field {
     margin-bottom: 20px;
@@ -31,6 +35,7 @@
     font-size: 15px;
     font-weight: 400;
     margin-bottom: 11px;
+    color: black;
 }
 
 .SoYeuLyLich__left .SYLL__left__field>input,
@@ -159,6 +164,15 @@
 
 .two__content {
     display: flex;
+}
+
+.SoYeuLyLich__right .two__content label,
+.SoYeuLyLich__right .two__content input {
+    color: black;
+}
+
+.SoYeuLyLich__right .phongBan label {
+    color: black;
 }
 
 div.ant-steps.o7i8ZVrJaANPEt4Xy204 {
@@ -379,6 +393,7 @@ div.next {
     display: inline-block;
     width: 30px;
     height: 30px;
+    color: black;
 }
 
 .Step7__left .banThan .step7__asset > svg.step7__icon__asset {
@@ -433,6 +448,7 @@ div.next {
     display: block;
     margin-bottom: 13px;
     font-size: 15px;
+    color: black;
 }
 
 .step3 .step3__field label span {
@@ -453,6 +469,7 @@ div.next {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
+    color: black;
 }
 
 .step3 .step3__field .content__left {
@@ -465,6 +482,7 @@ div.next {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
+    color: black;
 }
 
 .step3 .step3__field.two__content .content__right input {
@@ -473,6 +491,7 @@ div.next {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
+    color: black;
 }
 
 .step3 .step3__field.three__content input {
@@ -534,6 +553,7 @@ div.next {
 
 .phongBanCV__list div p {
     margin-bottom: 0px;
+    color: black;
 }
 
 .xuatThan {
@@ -562,6 +582,10 @@ div.next {
 
 .Step2 .Step2__content {
     margin-top: 22px;
+}
+
+.Step2 .Step2__content p {
+    color: black;
 }
 
 .Step2__content .ant-steps-item-container {
@@ -772,6 +796,10 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     display: flex;
 }
 
+.Step7 p, .Step7 label, .Step7 input {
+    color: black;
+}
+
 .Step7 .Step7__left,
 .Step7 .Step7__right {
     width: 380px;
@@ -894,6 +922,11 @@ input#diaChi {
     width: 172px;
 }
 
+.Step7__footer button:hover {
+    border: 1px solid #47a363;
+    color: #47a363;
+}
+
 .btn__ThemCon {
     display: inline-flex;
     margin-bottom: 10px;
@@ -908,9 +941,15 @@ input#diaChi {
     height: 44px;
     font-size: 18px;
     justify-content: center;
-    background-color: #3699FF;
+    background-color: #47a363;
     color: white;
     margin-right: 15px;
+    border-radius: 3px;
+}
+
+.btn__ThemCon button:hover {
+    border: 1px solid #47a363;
+    color: #47a363;
 }
 
 .btn__ThemCon button svg {
@@ -1051,6 +1090,7 @@ input#diaChi {
     cursor: pointer;
     transition: all 0.7s;
     width: fit-content;
+    color: black;
 }
 
 .Step7 .son__list li:hover {
@@ -1246,6 +1286,12 @@ div.Step8 .ant-select-single.ant-select-open .ant-select-selection-item {
 td.tableProfiles__thaoTac div {
     display: flex;
     justify-content: center;
+}
+
+.tableProfiles__thaoTac button {
+    border-width: 2px;
+    border-color: buttonborder;
+    border-style: outset;
 }
 
 .tableProfiles__thaoTac button,
@@ -1638,6 +1684,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     padding-left: 5px;
     font-size: 16px;
     overflow-wrap: break-word;
+    color: black;
 }
 
 .steps-content .process div.process__infor p.diploma {
@@ -1727,6 +1774,7 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
     transition: all 0.7s;
     text-align: left;
     cursor: pointer;
+    color: black;
 }
 
 .fami__rela__position > ol > li:hover {
