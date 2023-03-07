@@ -21,7 +21,7 @@ export default function SoYeuLyLich(props) {
     const { Option } = Select;
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id },
+    let { nextStep, user_profile_id: { user_id, jour_card_id, user_degree_id, pro_id, work_object_id },
     status } = useSelector(state => state.stepsReducer);
     let { phongBanChucVuArr, values, noiSinhTinh,
         noiSinhQuan, noiSinhHuyen, queQuanTinh, queQuanQuan, queQuanHuyen,
@@ -34,7 +34,8 @@ export default function SoYeuLyLich(props) {
     let [isShowModal2, setIsShowModal2] = useState(false)
     const [valueForm, setValueForm] = useState({ ...values });
     const [test, setTest] = useState({ ...values })
-    
+    // console.log(valueForm)
+    // console.log(work_object_id)
     useEffect(()=>{
         // setValueForm từ state test -> lấy dữ liệu hiển thị ra cho user xem
         setValueForm({...test})
@@ -160,7 +161,7 @@ export default function SoYeuLyLich(props) {
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE,
-                        valuesUpdate: { newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action }
+                        valuesUpdate: { newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action, work_object_id }
                     })
                 } else if (isCreateProfile) {
                     dispatch({
@@ -180,7 +181,7 @@ export default function SoYeuLyLich(props) {
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
                         type: UPDATE_PROFILE_ACTIVE,
-                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action}
+                        valuesUpdate: {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, navigate, action, work_object_id}
                     });
                 }
                 setTimeout(()=>{
@@ -216,7 +217,7 @@ export default function SoYeuLyLich(props) {
     const valuesNeedValidate = ["hoTen", "danToc", "email", "soDienThoai"
         , "hocVan", "chuyenMon", "lyLuanCT", "gioiTinh", "phongBanCVObj", "thanhPhanXuatThan",
          "noiSinh", "queQuan", "noiOHienTai", "email", "soDienThoai", "hoKhauThuongTru", 
-         "ngayCapCCCD", "canCuocCD"]
+         "ngayCapCCCD", "canCuocCD", "loaiNV"]
     const [validateForm, setValidateForm] = useState({
         hoTen: false,
         canCuocCD: false,
@@ -234,6 +235,7 @@ export default function SoYeuLyLich(props) {
         queQuan: { huyen: false, quan: false, tinh: false },
         noiOHienTai: { diaChi: false, huyen: false, quan: false, tinh: false },
         hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
+        loaiNV: false
     });
     // console.log(validateForm)
     // console.log(valueForm)
@@ -630,6 +632,7 @@ export default function SoYeuLyLich(props) {
 
     const validateField = (e) => {
         let { value, name } = e.target;
+        console.log(e.target)
         if (value === "") {
             setValidateForm({ ...validateForm, [name]: true });
         } else {
@@ -1060,6 +1063,49 @@ export default function SoYeuLyLich(props) {
                         format="DD-MM-YYYY"
                         />
                     </div>
+                </div>
+                <div className="SYLL__right__field">
+                        <label htmlFor='lyLuanCT'>Đối tượng lao động:
+                            <span className="required__field"> *</span>
+                        </label>
+                        <Select 
+                                // defaultValue="Chức vụ"
+                                showSearch
+                                className="width__100"
+                                placeholder="Loại nhân viên"
+                                filterOption={(input, option) =>
+                                    (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
+                                value={valueForm.loaiNV === "" ? null : valueForm.loaiNV}
+                                onBlur={() => {
+                                    if (valueForm.loaiNV === "") {
+                                        setValidateForm({
+                                            ...validateForm,
+                                            loaiNV: true
+                                        })
+                                    } else {
+                                        setValidateForm({
+                                            ...validateForm,
+                                            loaiNV: false
+                                        })
+                                    }
+                                }}
+                                onChange={(value)=>{
+                                    setValueForm({...valueForm, loaiNV: value})
+                                }}
+                        >
+                            <Option value="Nhân viên khoán">Nhân viên khoán</Option>       
+                            <Option value="Nhân viên chính thức">Nhân viên chính thức</Option>       
+                        </Select>
+                        {validateForm.loaiNV ? showRequiredAlert() : ""}
+                </div>
+                <div className="SYLL__right__field">
+                    <label htmlFor='lyLuanCT'>Ghi chú:</label>
+                    <input id="noteWorkObject" name="noteWorkObject" type="text"
+                        value={setValueIntoForm("noteWorkObject")}
+                        onChange={(e) => {
+                            handleChangeGetValueInput(e)
+                        }} />
                 </div>
             </div>
         </div>
