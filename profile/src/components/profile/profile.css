@@ -45,6 +45,7 @@
     border-style: none;
     width: 380px;
     height: 40px;
+    color: black;
 }
 
 .SoYeuLyLich__left .SYLL__left__field > input:disabled,
@@ -1065,6 +1066,7 @@ input#diaChi {
     display: block;
     margin-bottom: 13px;
     font-size: 15px;
+    color: black;
 }
 
 .Step8 .field input {
@@ -1073,6 +1075,7 @@ input#diaChi {
     background-color: #F0F5FA;
     border-radius: 3px;
     border-style: none;
+    color: black;
 }
 
 .Step7 .ant-select .ant-select-selector .ant-select-selection-item,
