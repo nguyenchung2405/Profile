@@ -1525,6 +1525,10 @@ div.tableProfiles div.tools div.tableProfiles__search__btn button.create_acc_pro
     display: flex;
 }
 
+.SoYeuLyLich input {
+    color: black;
+}
+
 .SoYeuLyLich__left .image .image-3x4 {
     width: 118px;
     height: 157px;
