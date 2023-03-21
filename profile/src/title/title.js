@@ -2,7 +2,11 @@ import { checkMicroFe, getTokenInCookie } from "../ultils/helper";
 
 export const TOKEN = getTokenInCookie();
 
-export const local = checkMicroFe() === true ? "https://profileservice.tuoitre.vn" : ""
+export const local = checkMicroFe() === true ? 
+                                window.location.href.includes("staging")
+                                ? "https://profileservice-staging.tuoitre.vn"
+                                : "https://profileservice.tuoitre.vn" 
+                            : ""
 
 // Regex
 export const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
