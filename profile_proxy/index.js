@@ -6,9 +6,6 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser")
 
-// dotenv.config({path: path.resolve(process.cwd(), ".env")});
-// dotenv.config();
-
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
