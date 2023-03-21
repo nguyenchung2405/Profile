@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { CREATE_PROFILE, DELETE_DEP_POS, DELETE_RESOURCE, GET_AVATAR, GET_PROFILE_BY_ID, GET_PROFILE_BY_TOKEN, GET_PROFILE_BY_USER_ID, ONLY_CREATE_PROFILE, TOKEN, UPDATE_PROFILE, UPDATE_PROFILE_ACTIVE } from "../title/title";
-import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree } from "../ultils/mapping";
+import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree, mappingWorkObject } from "../ultils/mapping";
 import { createProfile_API, deleteDepPosAPI, deleteResourceAPI, getAvatar_API, getDetailUserAPI, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setResources, setValues } from "./Steps/step1/step1Slice";
@@ -22,6 +22,7 @@ function* getProfileByID(payload) {
         let { id, user_id } = data;
         let jour_card_id = data.journalist_card[0]?.id;
         let user_degree_id = data?.user_degree[0]?.id;
+        let work_object_id = data?.work_object[0]?.id;
         let {personal_history, party, organization, training_fostering, reward_discipline,
             family_relationship, can_action, state, current_target: {type}} = data;
         // call API lấy phone, email
@@ -34,7 +35,7 @@ function* getProfileByID(payload) {
             SĐT = soDienThoai;
         }
         // put pro_id và user_id lên reducer quản lý
-        yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
+        yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id, work_object_id }))
         yield put(setStatus({state,can_action, type}))
         yield put(setPersonalHistory(personal_history))
         yield put(getParty(party))
@@ -101,7 +102,8 @@ function* getProfileByUserID(payload){
 function* updateProfile(payload){
     // console.log(payload.valuesUpdate)
     const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
-        navigate, action } = payload.valuesUpdate;
+        navigate, action, work_object_id } = payload.valuesUpdate;
+        console.log(work_object_id)
     let {hoTen, email, soDienThoai} = newValueForm;
     let userInfor = {full_name: hoTen, email, phone: soDienThoai};
     let {phongBanCVObj , ...rest} = newValueForm;
@@ -109,12 +111,13 @@ function* updateProfile(payload){
     let depPos = mappingDepartmentPosition(newValueForm);
     let userDegree = mappingUserDegree(newValueForm);
     let jourCard = mappingJournalistCard(newValueForm);
-    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, userInfor};
+    let workObject = mappingWorkObject(newValueForm);
+    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, userInfor, workObject, work_object_id};
     yield put(setIsNextStep(true))
     yield put(setValues(rest))
     let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)
     let msg = profileUpdated.data[0]?.msg;
-    // console.log(msg)
+    console.log(profileUpdated)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
         let decoded = jwt_decode(TOKEN);
@@ -134,13 +137,14 @@ function* updateProfile(payload){
 
 function* updateProfileActive(payload){
     const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
-        navigate, action } = payload.valuesUpdate;
+        navigate, action, work_object_id } = payload.valuesUpdate;
     let {phongBanCVObj , ...rest} = newValueForm;
     let profile = mappingProfileStep1(newValueForm);
     let depPos = mappingDepartmentPosition(newValueForm);
     let userDegree = mappingUserDegree(newValueForm);
     let jourCard = mappingJournalistCard(newValueForm);
-    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, action };
+    let workObject = mappingWorkObject(newValueForm);
+    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, action, work_object_id, workObject };
     yield put(setIsNextStep(true))
     yield put(setValues(rest))    
     let profileUpdated = yield call(updateProfileActiveAPI, dataToUpdate)
@@ -167,12 +171,13 @@ function* createProfile(payload) {
     let depPos = mappingDepartmentPosition(valueForm);
     let userDegree = mappingUserDegree(valueForm);
     let jourCard = mappingJournalistCard(valueForm);
-    let dataToCreate = { profile, depPos, userDegree, jourCard, email: valueForm.email, soDienThoai: valueForm.soDienThoai }
+    let workObject = mappingWorkObject(valueForm);
+    let dataToCreate = { profile, depPos, userDegree, jourCard, email: valueForm.email, soDienThoai: valueForm.soDienThoai, workObject }
     // console.log(dataToCreate)
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
     let result = yield call(createProfile_API, dataToCreate)
-    let msg = result?.data?.message || result?.data?.detail;
+    let msg = result?.data?.message || result?.data?.detail || result?.data[0]?.msg;
     // console.log(result, msg)
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
@@ -246,10 +251,11 @@ function* getProfileByTOKEN(){
             let { id, user_id } = data;
             let jour_card_id = data.journalist_card[0]?.id;
             let user_degree_id = data?.user_degree[0]?.id;
+            let work_object_id = data?.work_object[0]?.id;
             let {personal_history, party, organization, training_fostering, reward_discipline,
                 family_relationship, can_action, state} = data;
             // put pro_id và user_id lên reducer quản lý
-            yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id }))
+            yield put(setUserProfileID({ pro_id: id, user_id, jour_card_id, user_degree_id, work_object_id }))
             yield put(setStatus({state,can_action}))
             yield put(setPersonalHistory(personal_history))
             yield put(getParty(party))
