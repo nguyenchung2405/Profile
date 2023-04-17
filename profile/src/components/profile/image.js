@@ -44,6 +44,7 @@ export default function Image() {
                 }
                 dispatch(setResources(result?.data?.data))
                 let {content} = result.data.data[0].resource;
+                console.log(result)
                 dispatch(setAvatar(content))
             } 
         }} />

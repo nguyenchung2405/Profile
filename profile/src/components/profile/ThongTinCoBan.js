@@ -10,7 +10,6 @@ export default function ThongTinCoBan(props) {
         validateForm, showRequiredAlert, valueForm, setValidateForm,
         setValueForm, handleChangeValueRadio, disabledInput} = props;
     const [checkEmailPhone, setCheckEmailPhone] = useState({});
-
     const showRequiredAlertEmail = () => {
         return <p className="required__field">* Email không hợp lệ</p>
     };
@@ -137,8 +136,9 @@ export default function ThongTinCoBan(props) {
                     // }}
                 onChange={(date,dateString)=>{
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
-                    // console.log(namSinh)
+                    console.log(namSinh)
                     let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
+                    console.log(ngayThangNamHienTai)
                     let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
                     // console.log(namHienTai)
                     if(namHienTai - namSinh >= 18){
