@@ -218,13 +218,13 @@ function* onlyCreateProfile(payload) {
     let depPos = mappingDepartmentPosition(valueForm);
     let userDegree = mappingUserDegree(valueForm);
     let jourCard = mappingJournalistCard(valueForm);
-    let dataToCreate = { profile, depPos, userDegree, jourCard, user_id }
+    let workObject = mappingWorkObject(valueForm);
+    let dataToCreate = { profile, depPos, userDegree, jourCard, user_id, workObject }
     // console.log(dataToCreate)
     yield put(setValues(valueForm))
     yield put(setIsNextStep(true))
     let result = yield call(onlyCreateProfileAPI, dataToCreate)
-    // console.log(result)
-    let msg = result?.message;
+    let msg = result[0]?.msg;
     if(msg === "Thành công"){
         yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
         navigate("/profile-service/hr/profile");

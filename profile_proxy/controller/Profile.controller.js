@@ -60,6 +60,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
         let {depPos, userDegree, jourCard, workObject} = req.body;
         let {user_id, pro_id} = req;
         let {headers: {authorization}} = req;
+        console.log(depPos, userDegree, jourCard, workObject)
         // userDegree["user_id"] =user_id;
         // jourCard["user_id"] =user_id;
         userDegree["pro_id"] =pro_id;
