@@ -21,7 +21,6 @@ export default function Image() {
             <img src={path} alt="ảnh cá nhân" />
         </div>
         <input type="file" id="img-input" onChange={ async (e)=>{
-            // console.dir(e.target.files[0])
             const form = new FormData();
             form.append("image3x4",e.target.files[0]);
             if(user_id){
@@ -42,9 +41,9 @@ export default function Image() {
                         resource_id: imgIdExsisted?.id
                     })
                 }
+                console.log(result)
                 dispatch(setResources(result?.data?.data))
                 let {content} = result.data.data[0].resource;
-                console.log(result)
                 dispatch(setAvatar(content))
             } 
         }} />
