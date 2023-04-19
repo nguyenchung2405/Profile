@@ -154,9 +154,7 @@ export default function SoYeuLyLich(props) {
                 dispatch(moveToNextStep(0))
                 dispatch(setIsSubmit(false))
            } else if(isNextStep){
-            // console.log(isOnLyCreateProfile, isCreateProfile)
                 if(!isCreateProfile && !isOnLyCreateProfile && status.can_action === true && status.state !== "ACTIVE"){
-                    // console.log("Cập nhật profile")
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
                     dispatch({
@@ -169,13 +167,11 @@ export default function SoYeuLyLich(props) {
                         valuesCreate: {valueForm, navigate}
                     })
                 } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
-                    // console.log("isOnLyCreateProfile")
                     dispatch({
                         type: ONLY_CREATE_PROFILE,
                         valuesCreate: { valueForm, user_id, navigate }
                     })
                 } else if(!isCreateProfile && !isOnLyCreateProfile && status.state === "ACTIVE" && status["can_action"] === true) {
-                    // console.log("Cập nhật profile đã ACTIVE")
                     // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
                     let newValueForm = {...valueForm};
                     newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];

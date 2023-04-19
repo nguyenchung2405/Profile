@@ -8,7 +8,6 @@ const fs = require("fs");
 const uploadUserAvatar = async (req, res) => {
   try {
     let { file } = req;
-    // console.log("Line 11",file)
     let {
       headers: { authorization },
     } = req;
@@ -23,35 +22,39 @@ const uploadUserAvatar = async (req, res) => {
     if (user_id) {
       const pathFile = path.join(path.dirname(file.path), file.filename);
       const formData = new FormData();
-      formData.append("files", fs.readFileSync(pathFile), file.filename);
+      formData.append("files", fs.readFileSync(file.path), file.filename);
       // formData.append("resource_type", "image")
-      formData.append("user_id", user_id);
+      // formData.append("user_id", user_id);
       // formData.append("type", "3x4");
       const result = await axios({
         url: `${localResource}/resources/?service_management_id=user-service&table_management_id=user&type=3x4&is_private=false`,
         method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
+            ...formData.getHeaders(),
+            Authorization: authorization,
         },
         data: formData,
+        
       });
-      console.log(result.data.files[0])
-      let { message } = result;
+      let message  = result.data.message;
       if (message === "Success") {
         // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
         const result_getIMGs = await axios({
           url: `${local}/user-resources`,
           method: "POST",
-          data: {
-            user_id: user_id,
+          data: JSON.stringify({
+            user_id: +user_id,
             type: "3x4",
-            path: result.data.files[0],
-          },
+            path: JSON.stringify([result.data.data.files[0]]),
+          }),
           headers: {
-            "Content-Type": "multipart/form-data; ",
             Authorization: authorization,
+            'Content-Type': 'application/json',
+            cache: 'no-cache'
           },
         });
+        console.log("Line 58",result_getIMGs)
         // const result_getIMG = await axios({
         //     url: `${local}/user-resources/user/${user_id}`,
         //     method: "GET",
@@ -68,8 +71,32 @@ const uploadUserAvatar = async (req, res) => {
     } else {
       res.send(file);
     }
+    
+    // const config = {
+    //   headers: { Authorization: req.headers.authorization },
+    // };
+    // const formData = new FormData();
+    // formData.append("files", fs.readFileSync(req.file.path), req.file.filename);
+    // axios.defaults.headers.common[
+    //   "Authorization"
+    // ] = authorization;
+    // try {
+    //   let { data } = await axios.post(
+    //     `http://192.168.61.116:8017/resources/?service_management_id=profile-service&table_management_id=work-object&alias_name=123&type=anh&is_private=false`,
+    //     formData,
+    //     {
+    //       headers: formData.getHeaders(),
+    //       cache: 'no-cache'
+    //     },
+    //     config
+    //   );
+    //   res.send(data);
+    // } catch (error) {
+    //   console.log("err", error)
+    //   res.send(error);
+    // }
   } catch (error) {
-    console.log(error);
+    console.log(error.response);
     res.send(error);
   }
 };

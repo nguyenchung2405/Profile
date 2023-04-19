@@ -12,7 +12,11 @@ export default function Image() {
     const dispatch = useDispatch();
     // console.log(avatar)
     useEffect(()=>{
-        setPath(`data:image/jpeg;base64,${avatar}`)
+        // setPath(`data:image/jpeg;base64,${avatar}`)
+        if(avatar.length>0){
+            let content=JSON.parse(avatar)
+            setPath(`http://192.168.61.116:8017${content[0]}`)
+        }
     }, [avatar]);
 
   return (
@@ -34,17 +38,17 @@ export default function Image() {
                     },
                     data: form
                 });
-                let imgIdExsisted = resources.find(img => img?.type === "3x4");
-                if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
-                    dispatch({
-                        type: DELETE_RESOURCE,
-                        resource_id: imgIdExsisted?.id
-                    })
-                }
-                console.log(result)
-                dispatch(setResources(result?.data?.data))
-                let {content} = result.data.data[0].resource;
-                dispatch(setAvatar(content))
+                console.log(result);
+                // let imgIdExsisted = resources.find(img => img?.type === "3x4");
+                // if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
+                //     dispatch({
+                //         type: DELETE_RESOURCE,
+                //         resource_id: imgIdExsisted?.id
+                //     })
+                // }
+                // dispatch(setResources(result?.data?.data))
+                // let {content} = result.data.data[0].resource;
+                dispatch(setAvatar(result.data.data.path))
             } 
         }} />
         <label className="file-input__label" htmlFor="img-input">

@@ -175,6 +175,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             },
             data: {...userInfor, service_management_id: 2}
         });
+        
         const updateWorkObject = axios({
             url: `${local}/work-object/${work_object_id}`,
             method: "PUT",
@@ -202,7 +203,87 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
         res.send(error)
     }
 }
-
+const update_dep_pos_degress_jourCard2 = (req,res)=>{
+    try {
+        // console.log("update_dep_pos_degress_jourCard")
+        let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor, workObject, work_object_id} = req.body;
+        // console.log(jourCard)
+        let {headers: {authorization}} = req;
+        let promiseArr = [];
+        // console.log(depPos)
+        for(let i = 0; i < depPos.length; i++){
+            depPos[i].user_id = user_id
+            // console.log(depPos[i])
+            promiseArr.push(axios({
+                url: `${local}/user-dep-pos`,
+                method: "POST",
+                headers: {
+                    Authorization: authorization
+                },
+                data: depPos[i]
+            }))
+        }
+        // Chỉnh sửa thuộc tính của user degree rồi mới gắn vô API
+        userDegree["pro_id"] = pro_id;
+        workObject["pro_id"] = pro_id;
+        let {user_id : userID, ...rest} =  userDegree;
+        // console.log(rest, user_degree_id)
+        const updateDegree = axios({
+            url: `${local}/user-degree/${user_degree_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: rest
+        });
+        // Chỉnh sửa thuộc tính của journalist card rồi mới gắn vô API
+        jourCard["pro_id"] = pro_id;
+        let {user_id : joucardUserID, ...restJourCard} =  jourCard;
+        // console.log(restJourCard)
+        const updateJourCard = axios({
+            url: `${local}/journalist-card/${jour_card_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: restJourCard
+        });
+        const updateUserInfor = axios({
+            url: `${process.env.apiUser}/users/users/me`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: {...userInfor}
+        });
+        
+        const updateWorkObject = axios({
+            url: `${local}/work-object/${work_object_id}`,
+            method: "PUT",
+            headers: {
+                Authorization: authorization
+            },
+            data: workObject
+        })
+        Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor, updateWorkObject])
+        .then((resolve)=>{
+            let result = [];
+            for(let i = 0; i < resolve.length; i++){
+                // console.log(resolve[i].data)
+                result.push(resolve[i].data)
+            }
+            result.unshift({msg: "Thành công"})
+            res.send(result)
+        })
+        .catch((err)=>{
+            console.log("Lỗi ở update_dep_pos_degress_jourCard")
+            res.send(err)
+        })
+    } catch (error) {
+        console.log("Lỗi ở update_dep_pos_degress_jourCard 123")
+        res.send(error)
+    }
+}
 const getUserInfor = async (req,res)=>{
     try {
         let {headers: {authorization}} = req;
@@ -224,5 +305,6 @@ module.exports = {
     create_dep_pos_degree_jourCard,
     update_dep_pos_degress_jourCard,
     getProfileByUserID,
-    getUserInfor
+    getUserInfor,
+    update_dep_pos_degress_jourCard2
 }
