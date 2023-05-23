@@ -124,33 +124,33 @@ export default function TableDep() {
         <div className="tools">
         { checkUserPermission(userPermission, "tạo phòng ban")
           ? 
-          <>
-          <button className="create_acc_profile table__dep__btn" onClick={()=>{
-            setDataToModal({
-              name: "",
-              address: "",
-              phone: "",
-              note: "",
-              title: "Tạo phòng ban"
-            })
-            setIsShowModal(true)
-          }}>
-            Tạo bộ phận công tác
-          </button>
-          <button className="create_acc_profile table__dep__btn" onClick={()=>{
-            setDataToModal({
-              name: "",
-              address: "",
-              phone: "",
-              note: "",
-              title: "Tạo tổ"
-            })
-            setIsShowModal(true)
-          }}>
-            Tạo tổ
-          </button>
-          </>
-          : ""
+              <>
+                <button className="create_acc_profile table__dep__btn" onClick={() => {
+                  setDataToModal({
+                    name: "",
+                    address: "",
+                    phone: "",
+                    note: "",
+                    title: "Tạo phòng ban"
+                  })
+                  setIsShowModal(true)
+                }}>
+                  Tạo bộ phận công tác
+                </button>
+                <button className="create_acc_profile table__dep__btn" onClick={() => {
+                  setDataToModal({
+                    name: "",
+                    address: "",
+                    phone: "",
+                    note: "",
+                    title: "Tạo tổ"
+                  })
+                  setIsShowModal(true)
+                }}>
+                  Tạo tổ
+                </button>
+              </>
+              : ""
         }
           
           <div className="tableProfiles__search">
