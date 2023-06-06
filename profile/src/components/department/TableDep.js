@@ -125,7 +125,9 @@ export default function TableDep() {
         { checkUserPermission(userPermission, "tạo phòng ban")
           ? 
               <>
-                <button className="create_acc_profile table__dep__btn" onClick={() => {
+                <button className="create_acc_profile table__dep__btn"
+                style={{cursor:'pointer'}}
+                onClick={() => {
                   setDataToModal({
                     name: "",
                     address: "",
@@ -137,7 +139,9 @@ export default function TableDep() {
                 }}>
                   Tạo bộ phận công tác
                 </button>
-                <button className="create_acc_profile table__dep__btn" onClick={() => {
+                <button className="create_acc_profile table__dep__btn" 
+                style={{cursor:'pointer'}}
+                onClick={() => {
                   setDataToModal({
                     name: "",
                     address: "",

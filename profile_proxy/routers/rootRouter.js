@@ -10,7 +10,7 @@ const { partRouter } = require("./partRouter");
 const { uploadUserAvatar, uploadFileStep5, uploadFileStep7 } = require("../controller/UploadAvatar.controller");
 const { uploadImageAvatar, uploadStep5, uploadStep7 } = require("../middleware/upload");
 const { createProfile, checkUserID, updateProfile } = require("../middleware/profile.middleware");
-const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard, getUserInfor } = require("../controller/Profile.controller");
+const { create_dep_pos_degree_jourCard, update_dep_pos_degress_jourCard, getUserInfor, update_dep_pos_degress_jourCard2 } = require("../controller/Profile.controller");
 const { depPosRouter } = require("./dep_pos");
 const { personalHistoryRouter } = require("./personal_history");
 const { partyRouter } = require("./party");
@@ -24,7 +24,24 @@ const { permissionRouter } = require("./permissionRouter");
 const { tableManagementRouter } = require("./tableManagementRouter");
 const { permissionPosRouter } = require("./permissionPosRouter");
 const { permissionDepPosRouter } = require("./permissionDepPosRouter");
-
+const multer=require('multer')
+var storage = multer.diskStorage({
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + "-" + file.originalname);
+    },
+  });
+  var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+      cb(null, true);
+      // if (file.mimetype == "image/png"  file.mimetype == "image/jpg"  file.mimetype == "image/jpeg") {
+      //   cb(null, true);
+      // } else {
+      //   cb(null, false);
+      //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+      // }
+    },
+  });
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter)
 rootRouter.use("/profiles", profileRouter)
@@ -45,8 +62,11 @@ rootRouter.use("/permission-department-position", permissionDepPosRouter)
 
 rootRouter.get("/users/users/me", getUserInfor)
 rootRouter.put("/profiles/update", checkUserID, updateProfile, update_dep_pos_degress_jourCard)
+rootRouter.put("/profiles/update/me", checkUserID, updateProfile, update_dep_pos_degress_jourCard2)
 rootRouter.put("/profiles/updateactive", checkUserID, update_dep_pos_degress_jourCard)
-rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
+// rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
+rootRouter.post("/upload", upload.single("image3x4"), uploadUserAvatar)
+
 rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5)
 rootRouter.post("/upload/step7", uploadStep7(), uploadFileStep7)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);

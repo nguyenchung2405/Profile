@@ -12,7 +12,11 @@ export default function Image() {
     const dispatch = useDispatch();
     // console.log(avatar)
     useEffect(()=>{
-        setPath(`data:image/jpeg;base64,${avatar}`)
+        // setPath(`data:image/jpeg;base64,${avatar}`)
+        if(avatar.length>0){
+            let content=JSON.parse(avatar)
+            setPath(`http://192.168.61.116:8017${content[0]}`)
+        }
     }, [avatar]);
 
   return (
@@ -21,7 +25,6 @@ export default function Image() {
             <img src={path} alt="ảnh cá nhân" />
         </div>
         <input type="file" id="img-input" onChange={ async (e)=>{
-            // console.dir(e.target.files[0])
             const form = new FormData();
             form.append("image3x4",e.target.files[0]);
             if(user_id){
@@ -35,16 +38,16 @@ export default function Image() {
                     },
                     data: form
                 });
-                let imgIdExsisted = resources.find(img => img?.type === "3x4");
-                if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
-                    dispatch({
-                        type: DELETE_RESOURCE,
-                        resource_id: imgIdExsisted?.id
-                    })
-                }
-                dispatch(setResources(result?.data?.data))
-                let {content} = result.data.data[0].resource;
-                dispatch(setAvatar(content))
+                // let imgIdExsisted = resources.find(img => img?.type === "3x4");
+                // if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
+                //     dispatch({
+                //         type: DELETE_RESOURCE,
+                //         resource_id: imgIdExsisted?.id
+                //     })
+                // }
+                // dispatch(setResources(result?.data?.data))
+                // let {content} = result.data.data[0].resource;
+                dispatch(setAvatar(result.data.data.path))
             } 
         }} />
         <label className="file-input__label" htmlFor="img-input">
