@@ -38,7 +38,6 @@ export default function Image() {
                     },
                     data: form
                 });
-                console.log(result);
                 // let imgIdExsisted = resources.find(img => img?.type === "3x4");
                 // if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
                 //     dispatch({

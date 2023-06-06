@@ -70,6 +70,33 @@ export default function ThongTinCoBan(props) {
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
             }} />
+             {/* <label style={{marginTop:20}} htmlFor='email'>Email khác: */}
+                {/* <span className="required__field"> *</span> */}
+            {/* </label> */}
+            {/* <input id="email" name="email" type="text"
+            disabled={disabledInput()}
+            value={setValueIntoForm("email")} 
+            onBlur={(e)=>{
+                let {name, value} = e.target;
+                let testEmail = regexEmail.test(value);
+                let newCheckEmail = {};
+                if(testEmail === true){
+                    newCheckEmail = {email:false};
+                    setValidateForm({ ...validateForm, [name]: false });
+                } else {
+                    if(value === ""){
+                        newCheckEmail = {email:false};
+                        setValidateForm({ ...validateForm, [name]: true });
+                    } else {
+                        newCheckEmail = {email:true};
+                        setValidateForm({ ...validateForm, [name]: true });
+                    }
+                }
+                setCheckEmailPhone({ ...checkEmailPhone ,...newCheckEmail})
+            }}
+            onChange={(e)=>{
+                handleChangeGetValueInput(e);
+            }} /> */}
             {validateForm.email && !checkEmailPhone?.email ? showRequiredAlert() : ""}
             {validateForm.email && checkEmailPhone?.email ? showRequiredAlertEmail() : ""}
         </div>

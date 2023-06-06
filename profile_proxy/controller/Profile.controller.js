@@ -195,7 +195,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             res.send(result)
         })
         .catch((err)=>{
-            console.log("Lỗi ở update_dep_pos_degress_jourCard")
+            console.log("Line 198 Lỗi ở update_dep_pos_degress_jourCard")
             res.send(err)
         })
     } catch (error) {
@@ -276,7 +276,7 @@ const update_dep_pos_degress_jourCard2 = (req,res)=>{
             res.send(result)
         })
         .catch((err)=>{
-            console.log("Lỗi ở update_dep_pos_degress_jourCard")
+            console.log(" Line 279 Lỗi ở update_dep_pos_degress_jourCard")
             res.send(err)
         })
     } catch (error) {

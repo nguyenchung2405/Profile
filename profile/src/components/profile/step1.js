@@ -628,7 +628,6 @@ export default function SoYeuLyLich(props) {
 
     const validateField = (e) => {
         let { value, name } = e.target;
-        console.log(e.target)
         if (value === "") {
             setValidateForm({ ...validateForm, [name]: true });
         } else {
@@ -750,7 +749,8 @@ export default function SoYeuLyLich(props) {
                     disabledInput={disabledInput} />
                 <div className="SYLL__right__field two__content">
                     <div className="fisrt__content hocVan">
-                        <label htmlFor="hocVan">Trình độ học vấn:
+                        {/* <label htmlFor="hocVan">Trình độ học vấn: */}
+                        <label htmlFor="hocVan">Giáo dục phổ thông:
                             <span className="required__field"> *</span>
                         </label>
                         <input placeholder='Văn hóa phổ thông' id="hocVan" name="hocVan" type="text"
@@ -764,6 +764,8 @@ export default function SoYeuLyLich(props) {
                             : ""}
                     </div>
                     <div id="chuyenMon__content">
+                        <p>Chuyên môn
+                        </p>
                         <div className="second__content">
                             <input placeholder='Chuyên môn kỹ thuật' id="chuyenMon"
                                 name="chuyenMon"
@@ -781,7 +783,7 @@ export default function SoYeuLyLich(props) {
                 </div>
                 <div className="SYLL__right__field">
                     <label htmlFor='lyLuanCT'>Lý luận chính trị:
-                        <span className="required__field"> *</span>
+                        {/* <span className="required__field"> *</span> */}
                     </label>
                     <input id="lyLuanCT" name="lyLuanCT" type="text"
                         value={setValueIntoForm("lyLuanCT")}

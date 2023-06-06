@@ -567,7 +567,7 @@ div.next {
 }
 
 #chuyenMon__content {
-    margin-top: 36.56px;
+    /* margin-top: 36.56px; */
 }
 
 .maSo__ChucVu {
@@ -1264,6 +1264,7 @@ div.Step8 .ant-select-single.ant-select-open .ant-select-selection-item {
 }
 
 .tableProfiles .tableProfiles__hoTen {
+font-weight: bold;
     width: 250px;
 }
 
@@ -1293,6 +1294,7 @@ td.tableProfiles__thaoTac div {
 }
 
 .tableProfiles__thaoTac button {
+    
     border-width: 2px;
     border-color: buttonborder;
     border-style: outset;
@@ -1304,6 +1306,7 @@ button.thaoTac__Edit__btn {
     display: flex;
     align-items: center;
     background-color: #459C60;
+    cursor: pointer;
     height: 28px;
     width: 28px;
 }
