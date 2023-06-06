@@ -33,7 +33,7 @@
 .SoYeuLyLich__right .SYLL__right__field>label {
     display: block;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 11px;
     color: black;
 }
@@ -651,7 +651,9 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
     border-color: #459C60;
 }
-
+.ant-select-selector {
+    border-radius: 20px !important;
+}
 .SYLL__right__field .phongBanCV__list div p {
     height: 100%;
 }
@@ -738,11 +740,29 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     display: block;
     padding-top: 9px;
 }
-
+#email{
+    font-size: medium;
+    font-weight: 400;
+}
+#tenThuongGoi{
+    font-size: medium;
+    font-weight: 400;
+}
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    border-radius:20px
+}
+#hoTen{
+    font-size: medium;
+    font-weight: 400;
+}
 #hoKhauThuongTru {
+    font-size: medium;
+    font-weight: 400;
     margin-bottom: 18px;
 }
-
+.ant-select-selection {
+   border-radius: 20px;
+  }
 .theCoHieuLuc {
     justify-content: space-between;
 }
@@ -1881,5 +1901,4 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
         justify-content: center;
     }
 }
-
 /* Kết thúc */

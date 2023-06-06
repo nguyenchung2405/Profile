@@ -1,6 +1,6 @@
 import React from "react";
 import { Select } from "antd";
-
+import "./profile.css"
 export default function DiaChiLienHe({
   valueForm,
   setValidateForm,
@@ -23,7 +23,10 @@ export default function DiaChiLienHe({
   return (
     <div>
       <div className="SYLL__left__field noiOHienTai">
+    <p style={{fontWeight:'500',fontSize:'initial'}}>Nơi ở hiện tại:</p>
         <Select
+        style={{borderRadius:20}}
+        className="select-now-address"
           showSearch
           filterOption={(input, option) =>
             (option?.children ?? "").toLowerCase().includes(input.toLowerCase())
@@ -116,8 +119,8 @@ export default function DiaChiLienHe({
         validateForm.noiOHienTai?.diaChi
           ? showRequiredAlert()
           : ""}
-        <label style={{ marginTop: 20 }} htmlFor="diaChi">
-          Nơi ở hiện tại:
+        <label style={{ marginTop: 20,fontWeight:'500'}} htmlFor="diaChi">
+          Địa chỉ nơi ở hiện tại:
           {/* <span className="required__field"> *</span> */}
         </label>
         <input
@@ -156,6 +159,7 @@ export default function DiaChiLienHe({
         />
       </div>
       <div className="SYLL__left__field hoKhauThuongTru">
+    <p style={{fontWeight:'500',fontSize:'initial'}}>Hộ khẩu thường trú:</p>
         <Select
           showSearch
           filterOption={(input, option) =>
@@ -267,8 +271,8 @@ export default function DiaChiLienHe({
         validateForm.hoKhauThuongTru?.diaChi
           ? showRequiredAlert()
           : ""}
-        <label style={{ marginTop: 20 }} htmlFor="diaChi">
-          Hộ khẩu thường trú:
+        <label style={{ marginTop: 20, fontWeight:'500'}} htmlFor="diaChi">
+          Địa chỉ thường trú:
           <span className="required__field"> *</span>
         </label>
         <input
