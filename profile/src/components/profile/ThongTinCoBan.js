@@ -162,14 +162,14 @@ export default function ThongTinCoBan(props) {
                     //     }
                     // }}
                 onChange={(date,dateString)=>{
+                    console.log(date)
+                    console.log(dateString)
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
-                    console.log(namSinh)
                     let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
-                    console.log(ngayThangNamHienTai)
                     let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
                     // console.log(namHienTai)
                     if(namHienTai - namSinh >= 18){
-                        setValueForm({
+                        setValueForm({ 
                             ...valueForm,
                             ngayThangNamSinh: moment(dateString, "DD-MM-YYYY").toISOString()
                         })
