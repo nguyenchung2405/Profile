@@ -232,8 +232,13 @@ export default function SubMenu(permission) {
     const renderSubMenu2 = () => {
         console.log(checkMicroFe())
         console.log(getUserId())
-        if(checkMicroFe() === true && getUserId()===true){
-            return items;
+        if(checkMicroFe() === true ){
+            if( getUserId()===true){
+                return items;
+
+            }else{
+                return  [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />),getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
+            }
         }
         // Duoi local profile
         else{
