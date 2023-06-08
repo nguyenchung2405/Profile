@@ -224,8 +224,6 @@ export default function SubMenu(permission) {
     //     }
     // }
     const renderSubMenu2 = () => {
-        console.log(checkMicroFe())
-        console.log(getUserId())
         if(checkMicroFe() === true ){
             if( getUserId()===true){
                 return items;
