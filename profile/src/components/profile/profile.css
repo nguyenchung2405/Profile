@@ -33,7 +33,7 @@
 .SoYeuLyLich__right .SYLL__right__field>label {
     display: block;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 11px;
     color: black;
 }
@@ -402,7 +402,7 @@ div.next {
 }
 
 .SoYeuLyLich .width__100 {
-    width: 100%;
+    width: 70%;
 }
 
 .SoYeuLyLich__btn {
@@ -418,6 +418,7 @@ div.next {
 }
 
 .SoYeuLyLich__btn:hover {
+    cursor: pointer;
     background-color: #47a363;
 }
 
@@ -566,7 +567,7 @@ div.next {
 }
 
 #chuyenMon__content {
-    margin-top: 36.56px;
+    /* margin-top: 15px; */
 }
 
 .maSo__ChucVu {
@@ -650,7 +651,9 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
     border-color: #459C60;
 }
-
+.ant-select-selector {
+    border-radius: 20px !important;
+}
 .SYLL__right__field .phongBanCV__list div p {
     height: 100%;
 }
@@ -737,11 +740,29 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     display: block;
     padding-top: 9px;
 }
-
+#email{
+    font-size: medium;
+    font-weight: 400;
+}
+#tenThuongGoi{
+    font-size: medium;
+    font-weight: 400;
+}
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    border-radius:20px
+}
+#hoTen{
+    font-size: medium;
+    font-weight: 400;
+}
 #hoKhauThuongTru {
+    font-size: medium;
+    font-weight: 400;
     margin-bottom: 18px;
 }
-
+.ant-select-selection {
+   border-radius: 20px;
+  }
 .theCoHieuLuc {
     justify-content: space-between;
 }
@@ -1263,6 +1284,7 @@ div.Step8 .ant-select-single.ant-select-open .ant-select-selection-item {
 }
 
 .tableProfiles .tableProfiles__hoTen {
+font-weight: bold;
     width: 250px;
 }
 
@@ -1292,6 +1314,7 @@ td.tableProfiles__thaoTac div {
 }
 
 .tableProfiles__thaoTac button {
+    
     border-width: 2px;
     border-color: buttonborder;
     border-style: outset;
@@ -1303,6 +1326,7 @@ button.thaoTac__Edit__btn {
     display: flex;
     align-items: center;
     background-color: #459C60;
+    cursor: pointer;
     height: 28px;
     width: 28px;
 }
@@ -1310,6 +1334,7 @@ button.thaoTac__Edit__btn {
 .tableProfiles__thaoTac svg,
 button.thaoTac__Edit__btn svg {
     color: white;
+    cursor: pointer;
     width: 20px;
     height: 100%;
 }
@@ -1876,5 +1901,4 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
         justify-content: center;
     }
 }
-
 /* Kết thúc */

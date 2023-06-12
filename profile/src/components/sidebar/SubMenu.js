@@ -8,17 +8,20 @@ import { checkMicroFe } from '../../ultils/helper';
 import { ImProfile } from "react-icons/im"
 import jwt_decode from "jwt-decode";
 import { TOKEN } from "../../title/title"
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import docCookies from "doc-cookies";
+import jwt from "jwt-decode";
+
 let userPermissionApi = []
 let userPermission = [];
 export default function SubMenu(permission) {
     let uri = checkMicroFe() === true ? "profile-service" : "";
-    if (permission !== undefined) {
-        userPermissionApi = permission[2];
-    }
-    if (uri === "") {
-        userPermission = useSelector(state => state.permissionReducer.userPermission);
-    }
+    // if (permission !== undefined) {
+    //     userPermissionApi = permission[2];
+    // }
+    // if (uri === "") {
+    //     userPermission = useSelector(state => state.permissionReducer.userPermission);
+    // }
 
     const getItem = (label, key, icon, children) => {
         return {
@@ -104,7 +107,15 @@ export default function SubMenu(permission) {
             <g><path d="M968.9,481.4c-1.3,10.5-2.9,21.4-5,31.8l-5.2,24.8l-25.3-1.1c-3.3-0.1-6.6-0.2-10-0.2c-72.2,0-140.6,33.6-193.6,81c-4.3,3.8-8.9,9.9-12.4,14.5c-6.9,8.9-13.5,18.2-19.9,27.4c-17.4,24.9-34.2,50.3-50.7,75.8c-16.7,25.7-33.1,51.6-49.3,77.6l-9.5,15.3l-80.6-5.5L405.3,973.2l-7.5,3.5C373.7,987.9,340,990,313.6,990c-9.9,0-20-0.2-29.9-1l-17.7-1.4l-7.3-16.2c-14.3-31.8-19.2-70.8-22.3-105.2c-0.2-1.9-0.3-3.9-0.5-5.8c-0.4-2.3-0.6-4.7-0.4-7l-23.4,34.5l-9.9,4.6c-25.6,12-60.3,14.2-88.2,14.2c-10.1,0-20.5-0.2-30.6-1l-23.3-1.8l-9.6-21.3c-14.7-32.9-19.9-72.7-23.1-108.3c-0.2-1.7-0.3-3.5-0.5-5.3c-3-17.7,6.6-30.6,15.8-44.7c9-13.8,18.2-27.5,27.4-41.1c27.3-40.3,55-80.4,82.7-120.4c35.6-51.4,71.4-102.7,107.2-154c-20.6-46.3-32.4-97.1-29-148c1.4-20.7,6-47.7,15-66.9c31.1-66.2,78.4-119.6,144.4-152C434,20.6,482.7,10,531,10c13.1,0,26.9,0.7,39.9,2.8c66,10.9,121.3,42.3,159.2,97.8c0.4,0.6,0.8,1.1,1.1,1.7c12.4,0,25.4,0.7,37.6,2.7c63.4,10.5,116.4,40.4,152.9,93.8c39.3,57.4,51.6,129.7,51.8,198.1C973.6,431.8,972,456.8,968.9,481.4z M561.1,71.8c-2.9-0.5-13.7-2-30.1-2c-59.9,0-169.6,19.4-230.7,149.6c-0.3,0.7-8.4,19.2-9.7,50.5c-1.2,29.3,3.6,76.3,33.2,133.3l5.7,10.9l-7.1,10.1C239.3,542.8,106.9,733.4,86.9,766.4c0.1,0.8,0.1,1.6,0.2,2.6c1.4,15.9,4.5,50.4,13.7,77.8c3.8,0.1,8.4,0.2,13.3,0.2c25.2,0,45.5-2.4,58.2-6.7l110.2-162.3l63.2,4.3c4.9-7.1,9.8-14.1,14.7-21.2c36.6-52.9,73.4-105.7,110.3-158.4c-21.4-46.2-33.8-97.2-30.4-148.3c1-15,3.4-30.1,7.4-44.5c-3.4-2.8-6.9-5.5-10.3-8.3c-23.1-18.5-55.1-41.6-57.7-73.6c-1.2-14.8,3.8-28.8,13.8-39.8c38.2-42.5,94.1-74.2,152.3-74.2c25.6,0,50.4,6.2,71.8,19.4c14-5.4,28.4-9.8,43.1-13.1C635,94.7,601.7,78.5,561.1,71.8z M474.1,254.3c19.3-31.2,43-58.5,71.7-80.7c-35.8,0-74.7,19.1-104.9,51.2C446.3,232,461.9,244.6,474.1,254.3z M880.2,237.1c-27-39.5-67.3-63.9-119.5-72.5c-2.9-0.5-13.7-2-30.1-2c-59.9,0-169.6,19.4-230.7,149.6c-0.3,0.7-8.4,19.2-9.7,50.5c-1.2,29.3,3.6,76.3,33.2,133.3l5.7,10.9l-7.1,10.1c-83.1,118.6-215.5,309.2-235.5,342.2c0.1,0.8,0.1,1.6,0.2,2.6c1.4,15.9,4.5,50.4,13.7,77.8c3.8,0.1,8.4,0.2,13.3,0.2c25.2,0,45.5-2.4,58.2-6.7l110.2-162.3l79.3,5.4c25.5-40.8,108.6-172.3,135-195.8c38.4-34.4,117.7-91.5,221.1-93.7C924,442.4,935.8,318.2,880.2,237.1z M812.2,477.2c-8.7,9.7-20.2,15.3-33.3,15.3c-2.4,0-4.8-0.2-7.2-0.6c-12-1.9-22.3-8.3-31.6-15.9c-10.8-8.8-20.7-19.3-30.4-29.3c-10.7-11.1-21.4-22.2-32.9-32.5c-11-9.8-22.4-19.1-33.9-28.3c-11.6-9.3-23.8-18.8-34.1-29.4c-8.7-8.9-16.4-19.3-19.1-31.7c-0.4-1.9-0.7-3.9-0.9-5.9c-1-12.2,3.2-23.6,11.4-32.7c36.3-40.4,89.7-71,145.2-71c30.7,0,60.1,9.5,83.1,30.2c31.2,28,42.8,70.2,39.1,111C863.4,401.5,842.1,444,812.2,477.2z M794.8,283c-12.6-11.4-29.8-17.4-49.6-17.4c-35.8,0-74.7,19.1-104.9,51.2c5.6,7.3,21.7,20.2,33.9,30c11.1,8.9,23.6,18.9,36.1,30.1c13.3,12,25.1,24.2,35.5,35c10.3,10.6,23.8,24.7,31.2,29.2c23.3-26.8,37.6-58.3,40.4-89C820.1,323,812.1,298.5,794.8,283z M562.7,593.4L562.7,593.4L413.8,802c-0.1,0.1-0.1,0.2-0.2,0.3c-9.8,13.5-29,19.3-43.3,9.2c-14.3-10.2-15.1-30.3-5.3-44l149.2-208.9c9.7-13.6,29.1-19.5,43.4-9.3c14.3,10.2,15.1,30.3,5.3,44L562.7,593.4z M382.9,508.9l-0.3,0.4l0,0.1L233.8,717.8c-0.1,0.1-0.1,0.2-0.2,0.3c-12.9,17.8-38,24.6-56.6,11.3c-18.7-13.3-20.4-39.3-7.5-57.4l149.2-208.9c12.8-17.9,38.1-24.8,56.7-11.5C394,464.9,395.8,490.9,382.9,508.9z" /></g>
         </svg>
     }
-
+    const getUserId = () => {
+        // console.log(docCookies.getItem("usertoken"))
+        if (docCookies.getItem("emails") && docCookies.getItem("emails")==="erpmanager@tuoitre.com.vn") {
+            return true
+        }
+            else{
+                return false
+            }
+      };
     const items = [
         getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
             getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />),
@@ -125,95 +136,116 @@ export default function SubMenu(permission) {
         ])
     ];
 
-    const renderSubMenu = () => {
-        // return items;
-        let subMenu = [];
-        let menu_profile = [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, subMenu)];
-        let subMenu_Per = [];
-        let menu_permission = [getItem("Quyền", "sub-menu-2", <PermissionMenu />, subMenu_Per)];
-        if (uri !== "") {
-            for (let item of userPermissionApi) {
-                for (let itemHave of item.groups) {
-                    for (let perUser of itemHave.permission) {
-                        userPermission.push(perUser.name.toLowerCase())
-                    }
-                }
-            }
-        }
+    // const renderSubMenu = () => {
+    //     // return items;
+    //     let subMenu = [];
+    //     let menu_profile = [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, subMenu)];
+    //     let subMenu_Per = [];
+    //     let menu_permission = [getItem("Quyền", "sub-menu-2", <PermissionMenu />, subMenu_Per)];
+    //     if (uri !== "") {
+    //         for (let item of userPermissionApi) {
+    //             for (let itemHave of item.groups) {
+    //                 for (let perUser of itemHave.permission) {
+    //                     userPermission.push(perUser.name.toLowerCase())
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        if (userPermission.length > 0) {
-            if (uri === "profile-service") {
-                if (userPermission.includes("xem danh sách user")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
-                }
-                if (userPermission.includes("xem danh sách phòng ban")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />))
-                }
-                if (userPermission.includes("xem danh sách chức vụ")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />))
-                }
-                if (userPermission.includes("xem danh sách quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement />))
-                }
-                if (userPermission.includes("xem danh sách chức vu đã được gán quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />))
-                }
-                if (userPermission.includes("xem danh sách chức vụ và phòng ban đã được gán quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
-                }
-                subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
-                return menu_profile.concat(menu_permission)
+    //     if (userPermission.length > 0) {
+    //         if (uri === "profile-service") {
+    //             if (userPermission.includes("xem danh sách user")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
+    //             }
+    //             if (userPermission.includes("xem danh sách phòng ban")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vụ")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />))
+    //             }
+    //             if (userPermission.includes("xem danh sách quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vu đã được gán quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vụ và phòng ban đã được gán quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
+    //             }
+    //             subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
+    //             return menu_profile.concat(menu_permission)
 
-            } else {
+    //         } else {
 
-                if (userPermission.includes("xem danh sách user")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
-                }
-                if (userPermission.includes("xem danh sách phòng ban")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />))
-                }
-                if (userPermission.includes("xem danh sách chức vụ")) {
-                    subMenu.push(getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />))
-                }
-                if (userPermission.includes("xem danh sách quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement />))
-                }
-                if (userPermission.includes("xem danh sách chức vu đã được gán quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />))
-                }
-                if (userPermission.includes("xem danh sách chức vụ và phòng ban đã được gán quyền")) {
-                    subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
-                }
-                subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
-                subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/users`}>Quyền cá nhân</Link>, "8", <PermissionMenu />))
-                    return <div className="sidebar_SubMenu__XZeb6">
-                        <Menu
-                            // defaultOpenKeys={[`sub1`]}
-                            mode='inline'
-                            items={menu_profile.concat(menu_permission)}
-                        />
-                    </div>
+    //             if (userPermission.includes("xem danh sách user")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />))
+    //             }
+    //             if (userPermission.includes("xem danh sách phòng ban")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vụ")) {
+    //                 subMenu.push(getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />))
+    //             }
+    //             if (userPermission.includes("xem danh sách quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vu đã được gán quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />))
+    //             }
+    //             if (userPermission.includes("xem danh sách chức vụ và phòng ban đã được gán quyền")) {
+    //                 subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />))
+    //             }
+    //             subMenu.push(getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />))
+    //             subMenu_Per.push(getItem(<Link to={`${uri}/hr/permission/users`}>Quyền cá nhân</Link>, "8", <PermissionMenu />))
+    //                 return <div className="sidebar_SubMenu__XZeb6">
+    //                     <Menu
+    //                         // defaultOpenKeys={[`sub1`]}
+    //                         mode='inline'
+    //                         items={menu_profile.concat(menu_permission)}
+    //                     />
+    //                 </div>
                 
 
-            }
-        } else {
-            if (uri !== "") {
-                return items_user;
-            } else {
-                return <div className="sidebar_SubMenu__XZeb6">
-                    <Menu
-                        // defaultOpenKeys={[`sub1`]}
-                        mode='inline'
-                        items={menu_profile.concat(menu_permission)}
-                    />
-                </div>
-            }
+    //         }
+    //     } else {
+    //         if (uri !== "") {
+    //             return items_user;
+    //         } else {
+    //             return <div className="sidebar_SubMenu__XZeb6">
+    //                 <Menu
+    //                     // defaultOpenKeys={[`sub1`]}
+    //                     mode='inline'
+    //                     items={menu_profile.concat(menu_permission)}
+    //                 />
+    //             </div>
+    //         }
 
 
+    //     }
+    // }
+    const renderSubMenu2 = () => {
+        if(checkMicroFe() === true ){
+            if( getUserId()===true){
+                return items;
+
+            }else{
+                return  [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />),getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
+            }
+        }
+        // Duoi local profile
+        else{
+            return(
+                <Menu
+                // defaultOpenKeys={[`sub1`]}
+                mode='inline'
+                items={items}
+            />
+
+            )
         }
     }
-
     return (
-        <>{renderSubMenu()}</>
+        // <>{renderSubMenu()}</>
+        <>{renderSubMenu2()}</>
     )
 }
