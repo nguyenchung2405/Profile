@@ -37,7 +37,7 @@ export default function StepsAntd() {
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
-
+console.log(".")
   const onChangeSteps = (value) => {
     dispatch(moveToNextStep(value));
   };
