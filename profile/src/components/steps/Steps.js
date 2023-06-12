@@ -98,6 +98,7 @@ export default function StepsAntd() {
 
     useEffect(()=>{
       if(user_id){
+        // Tam thoi cmt de test upload
         dispatch({
           type: GET_AVATAR,
           user_id: user_id

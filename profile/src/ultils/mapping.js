@@ -13,7 +13,7 @@ export const mappingProfileStep1 = (formValues)=>{
         "user_id": "",
         "full_name": formValues.hoTen,
         "pen_name": formValues.tenThuongGoi,
-        // "birth_day": formValues.ngayThangNamSinh,
+        "birth_day": formValues.ngayThangNamSinh,
         "gender": formValues.gioiTinh,
         "birth_place": `${formValues.noiSinh.huyen}, ${formValues.noiSinh.quan}, ${formValues.noiSinh.tinh}`,
         "home_town": `${formValues.queQuan.huyen}, ${formValues.queQuan.quan}, ${formValues.queQuan.tinh}`,
@@ -172,6 +172,8 @@ export const mappingProfileAPI = (values) => {
         theCoHieuLucDen: values?.journalist_card[0]?.end,
         theCoHieuLucTu: values?.journalist_card[0]?.begin,
         tonGiao: values.religion,
+        loaiNV: values?.work_object[0]?.work_formality || "",
+        noteWorkObject: values?.work_object[0]?.note || "",
     }
 }
 
@@ -191,4 +193,16 @@ export function mappingFamilyRelationship(data){
         return {...item}
       }
     })
+}
+
+export function mappingWorkObject(data){
+  try {
+    return {
+      work_formality: data?.loaiNV || null,
+      note: data?.noteWorkObject || null,
+      pro_id: "",
+    }
+  } catch (error) {
+    console.log(error) 
+  }
 }

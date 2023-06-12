@@ -95,7 +95,7 @@ export default function ThongTinCaNhan(props) {
         </div>
         <div className="SYLL__right__field">
             <label htmlFor='thanhPhanXuatThan'>Thành phần xuất thân:
-                <span className="required__field"> *</span>
+                {/* <span className="required__field"> *</span> */}
             </label>
             <input id="thanhPhanXuatThan" name="thanhPhanXuatThan" type="text"
             disabled={disabledInput()}
@@ -107,7 +107,7 @@ export default function ThongTinCaNhan(props) {
             {validateForm.thanhPhanXuatThan ? showRequiredAlert() : ""}
         </div>
         <div className="SYLL__right__field">
-            <label htmlFor='ngheNghiep'>Nghề nghiệp khi được tuyển dụng:</label>
+            <label htmlFor='ngheNghiep'>Nghề nghiệp trước khi được tuyển dụng:</label>
             <input id="ngheNghiep" name="ngheNghiep" type="text" 
             disabled={disabledInput()}
             value={setValueIntoForm("ngheNghiep")}

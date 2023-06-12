@@ -10,7 +10,6 @@ export default function ThongTinCoBan(props) {
         validateForm, showRequiredAlert, valueForm, setValidateForm,
         setValueForm, handleChangeValueRadio, disabledInput} = props;
     const [checkEmailPhone, setCheckEmailPhone] = useState({});
-
     const showRequiredAlertEmail = () => {
         return <p className="required__field">* Email không hợp lệ</p>
     };
@@ -71,6 +70,33 @@ export default function ThongTinCoBan(props) {
             onChange={(e)=>{
                 handleChangeGetValueInput(e);
             }} />
+             {/* <label style={{marginTop:20}} htmlFor='email'>Email khác: */}
+                {/* <span className="required__field"> *</span> */}
+            {/* </label> */}
+            {/* <input id="email" name="email" type="text"
+            disabled={disabledInput()}
+            value={setValueIntoForm("email")} 
+            onBlur={(e)=>{
+                let {name, value} = e.target;
+                let testEmail = regexEmail.test(value);
+                let newCheckEmail = {};
+                if(testEmail === true){
+                    newCheckEmail = {email:false};
+                    setValidateForm({ ...validateForm, [name]: false });
+                } else {
+                    if(value === ""){
+                        newCheckEmail = {email:false};
+                        setValidateForm({ ...validateForm, [name]: true });
+                    } else {
+                        newCheckEmail = {email:true};
+                        setValidateForm({ ...validateForm, [name]: true });
+                    }
+                }
+                setCheckEmailPhone({ ...checkEmailPhone ,...newCheckEmail})
+            }}
+            onChange={(e)=>{
+                handleChangeGetValueInput(e);
+            }} /> */}
             {validateForm.email && !checkEmailPhone?.email ? showRequiredAlert() : ""}
             {validateForm.email && checkEmailPhone?.email ? showRequiredAlertEmail() : ""}
         </div>
@@ -136,13 +162,14 @@ export default function ThongTinCoBan(props) {
                     //     }
                     // }}
                 onChange={(date,dateString)=>{
+                    console.log(date)
+                    console.log(dateString)
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
-                    // console.log(namSinh)
                     let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
                     let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
                     // console.log(namHienTai)
                     if(namHienTai - namSinh >= 18){
-                        setValueForm({
+                        setValueForm({ 
                             ...valueForm,
                             ngayThangNamSinh: moment(dateString, "DD-MM-YYYY").toISOString()
                         })
