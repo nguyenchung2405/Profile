@@ -27,7 +27,7 @@ export let checkMicroFe = () => {
     if (
         // window.location.href.includes("3000") 
     window.location.href.includes("profileservice") 
-    || window.location.href.includes("3001")) {
+    || window.location.href.includes("3001") ||window.location.href.includes("nhatoi") ||window.location.href.includes("192.168.61.25")) {
         return false;
     } else {
         return true;
