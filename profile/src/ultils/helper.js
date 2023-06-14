@@ -50,7 +50,7 @@ export let getTokenInCookie = ()=>{
         console.log(error)
     }
 }
-
+console.log(".")
 export let checkUserPermission = (permissionList, ...namePermission)=>{
     try {
         let result = true;
