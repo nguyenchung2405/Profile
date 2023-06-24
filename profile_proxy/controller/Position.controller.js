@@ -1,10 +1,10 @@
 const axios = require("axios");
-const local = process.env.apiProfile;
+const local = "http://dev.profilebe.tuoitre.vn";
 
 const getPositionList = async (req, res) => {
     try {
         let { per_page, page, page_size } = req.query;
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         let result;
         if (per_page) {
             result = await axios({
@@ -37,7 +37,7 @@ const getPositionTypeList = async (req, res) => {
         const result = await axios({
             url: `${local}/position-types/?page_size=${page_size}&page=${page}&sort_by=${sort_by}&order=${order}`,
             method: "GET",
-            headers: { 
+            headers: {
                 // 'Content-Type': 'application/json',
                 Authorization: authorization
             }
@@ -217,19 +217,19 @@ const deletePositionAndManagement = async (req, res) => {
     }
 }
 
-const searchPosition = async (req, res)=>{
+const searchPosition = async (req, res) => {
     try {
         let { headers: { authorization } } = req;
-        let {pos_name, identifier, level} = req.query;
+        let { pos_name, identifier, level } = req.query;
         let url;
-        if(pos_name !== ""){
+        if (pos_name !== "") {
             url = `pos_names=${encodeURI(pos_name)}`
             // url = `pos_name=${pos_name}`
         }
-        if(identifier !== ""){
+        if (identifier !== "") {
             url = url + `&identifier=${identifier}`
         }
-        if(level !== ""){
+        if (level !== "") {
             url = url + `&level=${level}`
         }
         const result = await axios({
@@ -246,7 +246,7 @@ const searchPosition = async (req, res)=>{
     }
 }
 
-const getPositionsNameList = async (req, res)=>{
+const getPositionsNameList = async (req, res) => {
     try {
         let { headers: { authorization } } = req;
         const result = await axios({

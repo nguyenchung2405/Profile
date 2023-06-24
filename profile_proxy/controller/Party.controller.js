@@ -1,9 +1,9 @@
 const axios = require("axios");
-const local = process.env.apiProfile;
+const local = "http://dev.profilebe.tuoitre.vn";
 
-const createParty = async (req,res)=>{
+const createParty = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         // console.log(req.body, authorization)
         const result = await axios({
             url: `${local}/party`,
@@ -19,10 +19,10 @@ const createParty = async (req,res)=>{
     }
 }
 
-const updateParty = async (req,res)=>{
+const updateParty = async (req, res) => {
     try {
-        let {party_id} = req.params;
-        let {headers: {authorization}} = req;
+        let { party_id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/party/${party_id}`,
             method: "PUT",

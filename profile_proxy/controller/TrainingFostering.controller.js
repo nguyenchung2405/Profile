@@ -1,13 +1,13 @@
 const axios = require("axios")
-const local = process.env.apiProfile;
+const local = "http://dev.profilebe.tuoitre.vn";
 
-const createTrainingFostering = async (req, res)=>{
+const createTrainingFostering = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/training-fostering`,
             method: "POST",
-            headers:{
+            headers: {
                 Authorization: authorization
             },
             data: req.body
@@ -18,14 +18,14 @@ const createTrainingFostering = async (req, res)=>{
     }
 }
 
-const deleteTrainingFostering = async (req,res)=>{
+const deleteTrainingFostering = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
-        let {tr_pos_id} = req.params;
+        let { headers: { authorization } } = req;
+        let { tr_pos_id } = req.params;
         const result = await axios({
             url: `${local}/training-fostering/${tr_pos_id}`,
             method: "DELETE",
-            headers:{
+            headers: {
                 Authorization: authorization
             },
         })
@@ -35,14 +35,14 @@ const deleteTrainingFostering = async (req,res)=>{
     }
 }
 
-const updateTrainingFostering = async (req,res)=>{
+const updateTrainingFostering = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
-        let {tr_pos_id} = req.params;
+        let { headers: { authorization } } = req;
+        let { tr_pos_id } = req.params;
         const result = await axios({
             url: `${local}/training-fostering/${tr_pos_id}`,
             method: "PUT",
-            headers:{
+            headers: {
                 Authorization: authorization
             },
             data: req.body

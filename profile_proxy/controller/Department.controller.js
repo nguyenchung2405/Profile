@@ -1,12 +1,12 @@
 const axios = require("axios");
-const local =  process.env.apiProfile;
+const local = "http://dev.profilebe.tuoitre.vn";
 
-const getDepartmentList = async (req,res)=>{
+const getDepartmentList = async (req, res) => {
     try {
-        let {per_page, page, page_size, name} = req.query;
-        let {headers: {authorization}} = req;
+        let { per_page, page, page_size, name } = req.query;
+        let { headers: { authorization } } = req;
         let result;
-        if(per_page){
+        if (per_page) {
             result = await axios({
                 url: `${local}/departments/?page_size=${per_page}`,
                 method: "GET",
@@ -14,7 +14,7 @@ const getDepartmentList = async (req,res)=>{
                     Authorization: authorization
                 }
             });
-        } else if(page && page_size && !name) {
+        } else if (page && page_size && !name) {
             result = await axios({
                 url: `${local}/departments/?page_size=${page_size}&page=${page}&order=desc&sort_by=parent_id`,
                 method: "GET",
@@ -22,7 +22,7 @@ const getDepartmentList = async (req,res)=>{
                     Authorization: authorization
                 }
             });
-        } else if(page && page_size && name){
+        } else if (page && page_size && name) {
             let dep_name = encodeURI(name);
             result = await axios({
                 url: `${local}/departments/?names=${dep_name}&page_size=${page_size}&page=${page}&order=desc&sort_by=id`,
@@ -40,10 +40,10 @@ const getDepartmentList = async (req,res)=>{
     }
 }
 
-const getDepInfor = async (req,res)=>{
+const getDepInfor = async (req, res) => {
     try {
-        let {dep_id} = req.params;
-        let {headers: {authorization}} = req;
+        let { dep_id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/departments/${dep_id}`,
             method: "GET",
@@ -57,10 +57,10 @@ const getDepInfor = async (req,res)=>{
     }
 }
 
-const updateDepInfor = async (req,res)=>{
+const updateDepInfor = async (req, res) => {
     try {
-        let {dep_id} = req.params;
-        let {headers: {authorization}} = req;
+        let { dep_id } = req.params;
+        let { headers: { authorization } } = req;
         // console.log(authorization)
         // console.log(req.body)
         const result = await axios({
@@ -77,10 +77,10 @@ const updateDepInfor = async (req,res)=>{
     }
 }
 
-const createDepartment = async (req,res) => {
+const createDepartment = async (req, res) => {
     try {
         // console.log("data", req.body)
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/departments/`,
             method: "POST",
@@ -92,14 +92,14 @@ const createDepartment = async (req,res) => {
         // console.log(result)
         res.send(result.data)
     } catch (error) {
-        res.send({msg :"thất bại", error})
+        res.send({ msg: "thất bại", error })
     }
 }
 
-const deleteDepartment = async (req, res)=>{
+const deleteDepartment = async (req, res) => {
     try {
-        let {dep_id} = req.params;
-        let {headers: {authorization}} = req;
+        let { dep_id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/departments/${dep_id}`,
             method: "DELETE",

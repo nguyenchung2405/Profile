@@ -6,10 +6,10 @@ const checkQuery = async (req, res, next) => {
         let { headers: { authorization } } = req;
         // console.log(`full_name: ${full_name}, dep_names: ${dep_names}, 
         // pos_names: ${pos_names}, page: ${page}, page_size: ${page_size}, per_page: ${per_page}`)
-        if(full_name || dep_names || pos_names){
+        if (full_name || dep_names || pos_names) {
             // console.log("Vô đây")
             const result = await axios({
-                url: `${process.env.apiUser}/users/?full_name=${encodeURI(full_name)}&dep_names=${encodeURI(dep_names)}&pos_names=${encodeURI(pos_names)}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/users/?full_name=${encodeURI(full_name)}&dep_names=${encodeURI(dep_names)}&pos_names=${encodeURI(pos_names)}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -20,7 +20,7 @@ const checkQuery = async (req, res, next) => {
         } else if (page && per_page) {
             // console.log("Vô đây 2")
             const result = await axios({
-                url: `${process.env.apiUser}/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -44,7 +44,7 @@ const createNewUser = async (req, res, next) => {
         let { headers: { authorization } } = req;
         // console.log("createNewUser")
         const result = await axios({
-            url: `${process.env.apiUser}/users/register`,
+            url: `http://dev.userbe.tuoitre.vn/users/users/register`,
             method: "POST",
             headers: {
                 Authorization: authorization
@@ -59,7 +59,7 @@ const createNewUser = async (req, res, next) => {
         console.log("user_id:", result.data.data?.id)
         let user_id = result.data?.data?.id;
         req.user_id = user_id;
-        if(user_id && typeof +user_id === "number"){
+        if (user_id && typeof +user_id === "number") {
             next();
         } else {
             res.send(result.response.data)
