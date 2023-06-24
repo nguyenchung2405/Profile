@@ -1,7 +1,7 @@
 const axios = require("axios");
-const local =  process.env.apiProfile;
+const local = "http://dev.profilebe.tuoitre.vn";
 
-const getParts = async (req,res)=>{
+const getParts = async (req, res) => {
     try {
         const result = await axios({
             url: `${local}/api/parts`

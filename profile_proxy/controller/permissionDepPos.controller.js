@@ -1,10 +1,10 @@
 const axios = require("axios");
-const local = process.env.apiUser;
+const local = "http://dev.userbe.tuoitre.vn";
 
-const getPermissionDepPos = async (req,res)=>{
+const getPermissionDepPos = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
-        let {department_position_management_ids} = req.query;
+        let { headers: { authorization } } = req;
+        let { department_position_management_ids } = req.query;
         let result_not = await axios({
             url: `${local}/permission-department-position/position-management?department_position_management_ids=${department_position_management_ids}&is_except=true`,
             method: "GET",
@@ -22,16 +22,16 @@ const getPermissionDepPos = async (req,res)=>{
         let result = [];
         result.push(result_have.data)
         result.push(result_not.data)
-        result.unshift({msg: "Thành công"})
+        result.unshift({ msg: "Thành công" })
         res.send(result)
     } catch (error) {
         res.send(error)
     }
 };
 
-const postPermissionDepPos = async (req,res)=>{
+const postPermissionDepPos = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         let result = await axios({
             url: `${local}/permission-department-position/`,
             method: "POST",
@@ -46,9 +46,9 @@ const postPermissionDepPos = async (req,res)=>{
     }
 };
 
-const deletePermissionDepPos = async (req,res)=>{
+const deletePermissionDepPos = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         let result = await axios({
             url: `${local}/permission-department-position/`,
             method: "DELETE",
@@ -63,10 +63,10 @@ const deletePermissionDepPos = async (req,res)=>{
     }
 };
 
-const getPermissionDepPosList = async (req,res)=>{
+const getPermissionDepPosList = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
-        let {page, page_size} = req.query;
+        let { headers: { authorization } } = req;
+        let { page, page_size } = req.query;
         const result = await axios({
             url: `${local}/permission-department-position/exists-dep-pos/list?page_size=${page_size}&page=${page}`,
             method: "GET",

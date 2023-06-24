@@ -1,7 +1,7 @@
 const FormData = require("form-data");
 const path = require("path");
 const axios = require("axios");
-const local = process.env.apiUser;
+const local = "http://dev.userbe.tuoitre.vn/users";
 const localResource = process.env.apiResource;
 const fs = require("fs");
 
@@ -30,14 +30,14 @@ const uploadUserAvatar = async (req, res) => {
         url: `${localResource}/resources/?service_management_id=user-service&table_management_id=user&type=3x4&is_private=false`,
         method: "POST",
         headers: {
-            "Content-Type": "multipart/form-data",
-            ...formData.getHeaders(),
-            Authorization: authorization,
+          "Content-Type": "multipart/form-data",
+          ...formData.getHeaders(),
+          Authorization: authorization,
         },
         data: formData,
-        
+
       });
-      let message  = result.data.message;
+      let message = result.data.message;
       if (message === "Success") {
         // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
         const result_getIMGs = await axios({
@@ -54,7 +54,7 @@ const uploadUserAvatar = async (req, res) => {
             cache: 'no-cache'
           },
         });
-        console.log("Line 58",result_getIMGs)
+        console.log("Line 58", result_getIMGs)
         // const result_getIMG = await axios({
         //     url: `${local}/user-resources/user/${user_id}`,
         //     method: "GET",
@@ -71,7 +71,7 @@ const uploadUserAvatar = async (req, res) => {
     } else {
       res.send(file);
     }
-    
+
     // const config = {
     //   headers: { Authorization: req.headers.authorization },
     // };
