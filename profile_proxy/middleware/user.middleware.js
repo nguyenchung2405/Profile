@@ -9,7 +9,7 @@ const checkQuery = async (req, res, next) => {
         if (full_name || dep_names || pos_names) {
             // console.log("Vô đây")
             const result = await axios({
-                url: `http://dev.userbe.tuoitre.vn/users/users/?full_name=${encodeURI(full_name)}&dep_names=${encodeURI(dep_names)}&pos_names=${encodeURI(pos_names)}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/?full_name=${encodeURI(full_name)}&dep_names=${encodeURI(dep_names)}&pos_names=${encodeURI(pos_names)}&is_in_user_group=true&page_size=500&page=1&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -20,7 +20,7 @@ const checkQuery = async (req, res, next) => {
         } else if (page && per_page) {
             // console.log("Vô đây 2")
             const result = await axios({
-                url: `http://dev.userbe.tuoitre.vn/users/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
+                url: `http://dev.userbe.tuoitre.vn/users/?page_size=${per_page}&page=${page}&sort_by=id&order=desc`,
                 method: "GET",
                 headers: {
                     Authorization: authorization
@@ -44,7 +44,7 @@ const createNewUser = async (req, res, next) => {
         let { headers: { authorization } } = req;
         // console.log("createNewUser")
         const result = await axios({
-            url: `http://dev.userbe.tuoitre.vn/users/users/register`,
+            url: `http://dev.userbe.tuoitre.vn/users/register`,
             method: "POST",
             headers: {
                 Authorization: authorization

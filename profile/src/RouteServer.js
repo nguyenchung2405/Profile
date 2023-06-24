@@ -40,6 +40,21 @@ export default function RouteServer() {
       <Route path="/hr/permission/position" component={TablePositionsPermission} />
       <Route path="/hr/permission/department-position" component={DepartmentPermissionTable} />
       <Route path="/hr/permission/users" component={UserTablePermission} />
+
+      <Route path="/profile-service/hr/profile" component={TableProfiles} />
+      <Route path="/profile-service/hr/profile/:proID" component={StepsAntd} />
+      <Route path="/profile-service/hr/profile/create" component={StepsAntd} />
+      <Route path="/profile-service/hr/profile/create/:userID" component={StepsAntd} />
+      <Route path="/profile-service/myprofile/:User_ID" component={StepsAntd} />
+
+      <Route path="/profile-service/hr/department" component={TableDep} />
+      <Route path="/profile-service/hr/position" component={TablePositions} />
+      <Route path="/profile-service/hr/permission/manage" component={PermissionTable} />
+      <Route path="/profile-service/hr/permission/position" component={TablePositionsPermission} />
+      <Route path="/profile-service/hr/permission/department-position" component={DepartmentPermissionTable} />
+      <Route path="/profile-service/hr/permission/users" component={UserTablePermission} />
+
+
       <Route path="*" component={PageNotFound} />
     </Switch>
   )
