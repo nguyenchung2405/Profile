@@ -28,6 +28,7 @@ export default function RouteServer() {
   return (
     <Switch>
       <Route path="/hr/profile" component={TableProfiles} />
+      <Route path="/profile-service/hr/profile" component={TableProfiles} />
       <Route path="/hr/profile/:proID" component={StepsAntd} />
       <Route path="/hr/profile/create" component={StepsAntd} />
       <Route path="/hr/profile/create/:userID" component={StepsAntd} />
