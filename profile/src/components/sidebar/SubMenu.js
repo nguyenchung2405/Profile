@@ -116,17 +116,18 @@ export default function SubMenu(permission) {
             return false
         }
     };
+    const uniqueId = Math.random().toString(36).substring(7);
     const items = [
         getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
-            getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "100", <BsFileEarmarkFill />),
-            getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "102", <FcDepartment />),
-            getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "103", <PositionItem />),
-            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "104", <ImProfile />),
+            getItem(<Link to={`${uri}/hr/profile/${uniqueId}`}>Hồ sơ</Link>, "100", <BsFileEarmarkFill />),
+            getItem(<Link to={`${uri}/hr/department/${uniqueId}`}>Bộ phận công tác</Link>, "102", <FcDepartment />),
+            getItem(<Link to={`${uri}/hr/position/${uniqueId}`}>Chức danh, chức vụ</Link>, "103", <PositionItem />),
+            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}/${uniqueId}`}>Thông tin cá nhân</Link>, "104", <ImProfile />),
         ]),
         getItem("Quyền", "sub-menu-2", <PermissionMenu />, [
-            getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "105", <PermissionManagement />),
-            getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "106", <PermissionPosition />),
-            getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "107", <PermissionDepPos />),
+            getItem(<Link to={`${uri}/hr/permission/manage/${uniqueId}`}>Quản lý quyền</Link>, "105", <PermissionManagement />),
+            getItem(<Link to={`${uri}/hr/permission/position/${uniqueId}`}>Quyền chức vụ</Link>, "106", <PermissionPosition />),
+            getItem(<Link to={`${uri}/hr/permission/department-position/${uniqueId}`}>Quyền PB - CV</Link>, "107", <PermissionDepPos />),
         ])
     ];
 
