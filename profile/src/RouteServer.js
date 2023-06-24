@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route } from "react-router-dom"
+import { Switch, Route } from "react-router-dom"
 import StepsAntd from './components/steps/Steps';
 import PageNotFound from './components/PageNotFound';
 import TableProfiles from './components/profile/tableProfiles';
@@ -26,20 +26,20 @@ export default function RouteServer() {
   }, [dispatch])
 
   return (
-    <Routes>
-      <Route path="/hr/profile" element={<TableProfiles />} />
-      <Route path="/hr/profile/:proID" element={<StepsAntd />} />
-      <Route path="/hr/profile/create" element={<StepsAntd />} />
-      <Route path="/hr/profile/create/:userID" element={<StepsAntd />} />
-      <Route path="/myprofile/:User_ID" element={<StepsAntd />} />
+    <Switch>
+      <Route path="/hr/profile" exact component={TableProfiles} />
+      <Route path="/hr/profile/:proID" exact component={StepsAntd} />
+      <Route path="/hr/profile/create" exact component={StepsAntd} />
+      <Route path="/hr/profile/create/:userID" exact component={StepsAntd} />
+      <Route path="/myprofile/:User_ID" exact component={StepsAntd} />
 
-      <Route path="/hr/department" element={<TableDep />} />
-      <Route path="/hr/position" element={<TablePositions />} />
-      <Route path="/hr/permission/manage" element={<PermissionTable />} />
-      <Route path="/hr/permission/position" element={<TablePositionsPermission />} />
-      <Route path="/hr/permission/department-position" element={<DepartmentPermissionTable />} />
-      <Route path="/hr/permission/users" element={<UserTablePermission /> } />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+      <Route path="/hr/department" exact component={TableDep} />
+      <Route path="/hr/position" exact component={TablePositions} />
+      <Route path="/hr/permission/manage" exact component={PermissionTable} />
+      <Route path="/hr/permission/position" exact component={TablePositionsPermission} />
+      <Route path="/hr/permission/department-position" exact component={DepartmentPermissionTable} />
+      <Route path="/hr/permission/users" exact component={UserTablePermission} />
+      <Route path="*" exact component={PageNotFound} />
+    </Switch>
   )
 }

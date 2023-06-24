@@ -7,7 +7,7 @@ import { AiFillFileAdd } from "react-icons/ai";
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
 import Loading from '../Loading';
-import { useHref, useLocation, useNavigate } from 'react-router-dom';
+import { useHref, useLocation, useHistory } from 'react-router-dom';
 import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
@@ -15,248 +15,248 @@ import femaleIMG from "../../img/user-female.png"
 import { checkMicroFe, checkUserPermission } from '../../ultils/helper';
 
 export default function TableProfiles() {
-    let uri = checkMicroFe() === true ? "/profile-service" : "";
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { Column } = Table;
-    const { Option } = Select;
-    const [page, setPage] = useState(1);
-    const [pageNumber, setPageNumber] = useState(10);
-    const [search, setSearch] = useState({
-      full_name: "",
-      dep_names: "",
-      pos_names: ""
-    })
-    const [isSearch, setIsSearch] = useState(false)
-    const { userList, total } = useSelector(state => state.userListReducer)
-    const { isLoading } = useSelector(state => state.loadingReducer);
-    const {depList, posList} = useSelector(state => state.tableReducer);
-    const {userPermission} = useSelector(state => state.permissionReducer);
-    let { messageAlert } = useSelector(state => state.stepsReducer);
-    
-    useEffect(()=>{
-      let {type, msg} = messageAlert;
-        if(type !== "" && msg !== ""){
-            message[type](msg)
-        }
-    } , [messageAlert])
+  let uri = checkMicroFe() === true ? "/profile-service" : "";
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { Column } = Table;
+  const { Option } = Select;
+  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(10);
+  const [search, setSearch] = useState({
+    full_name: "",
+    dep_names: "",
+    pos_names: ""
+  })
+  const [isSearch, setIsSearch] = useState(false)
+  const { userList, total } = useSelector(state => state.userListReducer)
+  const { isLoading } = useSelector(state => state.loadingReducer);
+  const { depList, posList } = useSelector(state => state.tableReducer);
+  const { userPermission } = useSelector(state => state.permissionReducer);
+  let { messageAlert } = useSelector(state => state.stepsReducer);
 
-    useEffect(()=>{
-      if(!userPermission.includes("xem danh sách user") && userPermission.length > 0){
-        navigate("/404notfound", {replace: true})
-      } else if(userPermission.length === 0) {
-        dispatch(setIsLoading(true));
-      }
-    } , [userPermission])
+  useEffect(() => {
+    let { type, msg } = messageAlert;
+    if (type !== "" && msg !== "") {
+      message[type](msg)
+    }
+  }, [messageAlert])
 
-    useEffect(() => {
-      /* lấy danh sách user về và render ra Table */
-      if(isSearch === true){
-          // console.log("call tìm kiếm")
-          dispatch({
-            type: SEARCH,
-            data: {search, page, pageNumber}
-          })
-      } else {
-          // console.log("call tại đây")
-          dispatch({
-            type: GET_USER_LIST,
-            table: { page, pageNumber }
-          })
-      }
+  useEffect(() => {
+    if (!userPermission.includes("xem danh sách user") && userPermission.length > 0) {
+      history.push("/404notfound", { replace: true })
+    } else if (userPermission.length === 0) {
       dispatch(setIsLoading(true));
-    }, [page, pageNumber, isSearch])
+    }
+  }, [userPermission])
 
-    useEffect(()=>{
-        if(search?.full_name === "" && search?.dep_names === "" && search?.pos_names === "" && isSearch === true){
-          dispatch({
-            type: GET_USER_LIST,
-            table: { page, pageNumber }
-          })
-          setIsSearch(false)
+  useEffect(() => {
+    /* lấy danh sách user về và render ra Table */
+    if (isSearch === true) {
+      // console.log("call tìm kiếm")
+      dispatch({
+        type: SEARCH,
+        data: { search, page, pageNumber }
+      })
+    } else {
+      // console.log("call tại đây")
+      dispatch({
+        type: GET_USER_LIST,
+        table: { page, pageNumber }
+      })
+    }
+    dispatch(setIsLoading(true));
+  }, [page, pageNumber, isSearch])
+
+  useEffect(() => {
+    if (search?.full_name === "" && search?.dep_names === "" && search?.pos_names === "" && isSearch === true) {
+      dispatch({
+        type: GET_USER_LIST,
+        table: { page, pageNumber }
+      })
+      setIsSearch(false)
+    }
+  }, [search])
+
+  useEffect(() => {
+    dispatch({
+      type: GET_DEP_POS_TO_SEARCH
+    })
+  }, [])
+
+  const showLoading = () => {
+    if (isLoading) {
+      return <Loading />
+    }
+  }
+
+  const handleChangeSearch = (name, value) => {
+    setSearch({
+      ...search,
+      [name]: value
+    })
+  }
+
+  const renderDepListOption = () => {
+    if (depList.length > 0) {
+      return depList.map((dep, index) => {
+        return <Option value={dep.id} >{dep.name}</Option>
+      })
+    }
+  }
+
+  const renderPosListOption = () => {
+    if (posList.length > 0) {
+      return posList.map((pos, index) => {
+        return <Option value={pos.id} key={index}>{`${pos.position?.name} - ${pos.position_type.identifier}`}</Option>
+      })
+    }
+  }
+
+  const femaleAvatar = () => {
+    return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
+  }
+
+  const maleAvatar = () => {
+    return <img src={maleIMG} alt="avatar male" />
+  }
+
+  const unknownSexAvatar = () => {
+    return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
+  }
+
+  const dataOfAutoComplete = (name) => {
+    if (name === "dep") {
+      return depList.map(item => {
+        return {
+          label: item.name,
+          value: item.name
         }
-    }, [search])
+      })
+    } else if (name === "pos") {
+      let arrName = posList.map(item => {
+        let { name } = item.position;
+        return name;
+      });
+      let nameUniqueArr = [... new Set(arrName)];
+      return nameUniqueArr.map(item => {
+        return {
+          label: item,
+          value: item
+        }
+      })
+    }
+  }
 
-    useEffect(()=>{
-        dispatch({
-          type: GET_DEP_POS_TO_SEARCH
-        })
-    }, [])
-
-    const showLoading = () => {
-      if (isLoading) {
-        return <Loading />
-      }
-    }
-    
-    const handleChangeSearch = (name, value)=>{
-        setSearch({
-          ...search,
-          [name]: value
-        })
-    }
-
-    const renderDepListOption = ()=>{
-      if(depList.length > 0){
-          return depList.map((dep, index)=>{
-              return <Option value={dep.id} >{dep.name}</Option>
-          })
-      }
-    }
-
-    const renderPosListOption = ()=>{
-      if(posList.length > 0){
-          return posList.map((pos, index)=>{
-              return <Option value={pos.id} key={index}>{`${pos.position?.name} - ${pos.position_type.identifier}`}</Option>
-          })
-      }
-    }
-
-    const femaleAvatar = () => {
-      return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
-    }
-
-    const maleAvatar = () => {
-      return <img src={maleIMG} alt="avatar male" />
-    }
-
-    const unknownSexAvatar = () => {
-      return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
-    }
-    
-    const dataOfAutoComplete = (name)=>{
-      if(name === "dep"){
-        return depList.map(item => {
-          return {
-            label: item.name,
-            value: item.name
-          }
-        })
-      } else if(name === "pos") {
-        let arrName = posList.map(item => {
-          let {name} = item.position;
-          return name;
-        });
-        let nameUniqueArr = [... new Set(arrName)];
-        return nameUniqueArr.map(item => {
-          return {
-            label: item,
-            value: item
-          }
-        })
-      }
-    }
-   
-    const renderTable = ()=>{
-      if(userPermission.length > 0 ){
-        return <div className="tableProfiles">
+  const renderTable = () => {
+    if (userPermission.length > 0) {
+      return <div className="tableProfiles">
         <div className="tools">
-          {  checkUserPermission(userPermission, "tạo hồ sơ")
+          {checkUserPermission(userPermission, "tạo hồ sơ")
             ?
             <button className="create_acc_profile" onClick={() => {
-            dispatch(removePBCV("all"))
-            dispatch(setValues(userInforEmpty))
-            navigate(`${uri}/hr/profile/create`)
-          }}>
-            <AiOutlineUserAdd />
-            Tạo
-          </button>
-          : ""
-        }
+              dispatch(removePBCV("all"))
+              dispatch(setValues(userInforEmpty))
+              history.push(`${uri}/hr/profile/create`)
+            }}>
+              <AiOutlineUserAdd />
+              Tạo
+            </button>
+            : ""
+          }
           <div className="tableProfiles__search">
-              <input 
+            <input
               className="tool__search tools__name"
               placeholder="Họ và tên"
-              onChange={(e)=>{
-                  let {value} = e.target;
-                  handleChangeSearch("full_name",value)
+              onChange={(e) => {
+                let { value } = e.target;
+                handleChangeSearch("full_name", value)
               }}
-              onKeyDown={(e)=>{
-                let {key} = e;
-                if(key.toLowerCase() === "enter"){
+              onKeyDown={(e) => {
+                let { key } = e;
+                if (key.toLowerCase() === "enter") {
                   setIsSearch(true)
-                    dispatch({
-                      type: SEARCH,
-                      data: {search, page, pageNumber}
+                  dispatch({
+                    type: SEARCH,
+                    data: { search, page, pageNumber }
                   })
                 }
               }}
-              />
-              <AutoComplete
-                allowClear
-                className="auto__complete"
-                value={search.dep_names}
-                options={dataOfAutoComplete("dep")}
-                filterOption={(input, option)=>{
-                    let index = input.lastIndexOf(";");
-                    let str_replace = input.slice(0, index + 1);
-                    input = input.replace(str_replace, "");
-                    return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
-                  }
+            />
+            <AutoComplete
+              allowClear
+              className="auto__complete"
+              value={search.dep_names}
+              options={dataOfAutoComplete("dep")}
+              filterOption={(input, option) => {
+                let index = input.lastIndexOf(";");
+                let str_replace = input.slice(0, index + 1);
+                input = input.replace(str_replace, "");
+                return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              }
+              onSelect={(value) => {
+                if (search.dep_names !== "") {
+                  let index = search.dep_names.lastIndexOf(";");
+                  let str_replace = search.dep_names.slice(0, index + 1);
+                  value = str_replace + value;
+                  handleChangeSearch("dep_names", value)
+                } else {
+                  handleChangeSearch("dep_names", value)
                 }
-                onSelect={(value)=>{
-                  if(search.dep_names !== ""){
-                    let index = search.dep_names.lastIndexOf(";");
-                    let str_replace = search.dep_names.slice(0, index + 1);
-                    value = str_replace + value;
-                    handleChangeSearch("dep_names",value)
-                  } else {
-                    handleChangeSearch("dep_names",value)
-                  }
-                }}
-                onChange={(value)=>{
-                    handleChangeSearch("dep_names",value)
-                }}
-                onKeyDown={(e)=>{
-                  let {key} = e;
-                  if(key.toLowerCase() === "enter"){
-                    setIsSearch(true)
-                      dispatch({
-                        type: SEARCH,
-                        data: {search, page, pageNumber}
-                    })
-                  }
-                }}
-                placeholder="Bộ phận công tác"
-              />
-              <AutoComplete
-                allowClear
-                className="auto__complete"
-                value={search.pos_names}
-                options={dataOfAutoComplete("pos")}
-                filterOption={(input, option)=>{
-                    let index = input.lastIndexOf(";");
-                    let str_replace = input.slice(0, index + 1);
-                    input = input.replace(str_replace, "");
-                    return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
-                  }
+              }}
+              onChange={(value) => {
+                handleChangeSearch("dep_names", value)
+              }}
+              onKeyDown={(e) => {
+                let { key } = e;
+                if (key.toLowerCase() === "enter") {
+                  setIsSearch(true)
+                  dispatch({
+                    type: SEARCH,
+                    data: { search, page, pageNumber }
+                  })
                 }
-                onSelect={(value)=>{
-                  if(search.pos_names !== ""){
-                    let index = search.pos_names.lastIndexOf(";");
-                    let str_replace = search.pos_names.slice(0, index + 1);
-                    value = str_replace + value;
-                    handleChangeSearch("pos_names",value)
-                  } else {
-                    handleChangeSearch("pos_names",value)
-                  }
-                }}
-                onChange={(value)=>{
-                  handleChangeSearch("pos_names",value)
-                }}
-                onKeyDown={(e)=>{
-                  let {key} = e;
-                  if(key.toLowerCase() === "enter"){
-                    setIsSearch(true)
-                      dispatch({
-                        type: SEARCH,
-                        data: {search, page, pageNumber}
-                    })
-                  }
-                }}
-                placeholder="Chức danh, chức vụ"
-              />
-              {/*
+              }}
+              placeholder="Bộ phận công tác"
+            />
+            <AutoComplete
+              allowClear
+              className="auto__complete"
+              value={search.pos_names}
+              options={dataOfAutoComplete("pos")}
+              filterOption={(input, option) => {
+                let index = input.lastIndexOf(";");
+                let str_replace = input.slice(0, index + 1);
+                input = input.replace(str_replace, "");
+                return (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              }
+              onSelect={(value) => {
+                if (search.pos_names !== "") {
+                  let index = search.pos_names.lastIndexOf(";");
+                  let str_replace = search.pos_names.slice(0, index + 1);
+                  value = str_replace + value;
+                  handleChangeSearch("pos_names", value)
+                } else {
+                  handleChangeSearch("pos_names", value)
+                }
+              }}
+              onChange={(value) => {
+                handleChangeSearch("pos_names", value)
+              }}
+              onKeyDown={(e) => {
+                let { key } = e;
+                if (key.toLowerCase() === "enter") {
+                  setIsSearch(true)
+                  dispatch({
+                    type: SEARCH,
+                    data: { search, page, pageNumber }
+                  })
+                }
+              }}
+              placeholder="Chức danh, chức vụ"
+            />
+            {/*
               <Select
               showSearch
               allowClear
@@ -308,19 +308,19 @@ export default function TableProfiles() {
               */}
           </div>
           <div className="tableProfiles__search__btn">
-                <button className="create_acc_profile btn__search"
-                onClick={()=>{
-                    if(!search?.full_name && !search?.dep_names && !search?.pos_names){
-                        alert("Vui lòng nhập thông tin cần tìm");
-                    } else {
-                        setIsSearch(true)
-                        dispatch({
-                          type: SEARCH,
-                          data: {search, page, pageNumber}
-                        })
-                    }
-                    
-                }} >Tìm kiếm</button>
+            <button className="create_acc_profile btn__search"
+              onClick={() => {
+                if (!search?.full_name && !search?.dep_names && !search?.pos_names) {
+                  alert("Vui lòng nhập thông tin cần tìm");
+                } else {
+                  setIsSearch(true)
+                  dispatch({
+                    type: SEARCH,
+                    data: { search, page, pageNumber }
+                  })
+                }
+
+              }} >Tìm kiếm</button>
           </div>
         </div>
         <Table
@@ -356,7 +356,7 @@ export default function TableProfiles() {
                 // let avatarRender = record.resources[index].resource?.content;
                 // code lại hiển thị hình ảnh user do thằng Đăng trả data lung tung lúc này lúc khác
                 let avatarRender = record.resources.find(img => img.type === "3x4");
-                if(avatarRender !== undefined){
+                if (avatarRender !== undefined) {
                   return <img src={`data:image/png;base64,${avatarRender?.resource.content}`} alt="avatar of user" />
                 } else {
                   if (record.profile?.gender === 1) {
@@ -381,18 +381,18 @@ export default function TableProfiles() {
           <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
             render={(text, record, index) => {
               let tenPB = [];
-                for(let PB of record.user_dep_pos){
-                    tenPB.push(<p>{PB.department_name}</p>) 
-                }
-                return tenPB
+              for (let PB of record.user_dep_pos) {
+                tenPB.push(<p>{PB.department_name}</p>)
+              }
+              return tenPB
             }} />
           <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {
               let tenCV = [];
-                for(let PB of record.user_dep_pos){
-                  tenCV.push(<p>{PB.position.pos_name}</p>) 
-                }
-                return tenCV
+              for (let PB of record.user_dep_pos) {
+                tenCV.push(<p>{PB.position.pos_name}</p>)
+              }
+              return tenCV
             }} />
           <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />
           <Column className="tableProfiles__thaoTac" key="thaoTac"
@@ -400,20 +400,20 @@ export default function TableProfiles() {
               if (record.profile !== null) {
                 let { email, phone } = record;
                 let id = record.profile?.id;
-                if(checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ")){
+                if (checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ")) {
                   if (id && typeof id === "number" && id !== null) {
                     return <div>
                       <button onClick={() => {
                         dispatch(setIsCreateProfile(false))
                         dispatch(setEmailPhone({ email, soDienThoai: phone }))
-                        navigate(`${uri}/hr/profile/${id}`)
+                        history.push(`${uri}/hr/profile/${id}`)
                       }}>
                         <MdOutlineModeEditOutline />
                       </button>
                     </div>
                   }
                 }
-                
+
               } else {
                 // console.log(record)
                 let { email, phone, full_name } = record;
@@ -422,30 +422,30 @@ export default function TableProfiles() {
                 newData.hoTen = full_name;
                 newData.email = email;
                 newData.soDienThoai = phone;
-                if(checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ", "tạo hồ sơ")){
+                if (checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ", "tạo hồ sơ")) {
                   return <div>
-                  <button onClick={() => {
-                    dispatch(setValues(newData))
-                    dispatch(setIsCreateProfile(false))
-                    navigate(`${uri}/hr/profile/create/${id}`)
-                  }}>
-                    <AiFillFileAdd />
-                  </button>
-                </div>
+                    <button onClick={() => {
+                      dispatch(setValues(newData))
+                      dispatch(setIsCreateProfile(false))
+                      history.push(`${uri}/hr/profile/create/${id}`)
+                    }}>
+                      <AiFillFileAdd />
+                    </button>
+                  </div>
                 }
               }
             }} />
         </Table>
         {showLoading()}
       </div>
-      } else {
-        return <div>{showLoading()}</div>
-      }
+    } else {
+      return <div>{showLoading()}</div>
     }
-
-    return (
-      <>
-      {renderTable()}
-      </>
-    )
   }
+
+  return (
+    <>
+      {renderTable()}
+    </>
+  )
+}

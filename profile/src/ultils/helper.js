@@ -9,7 +9,7 @@ export let handleDateTime = (date) => {
             let convert1 = moment(new Date(date)).format("DD-MM-YYYY")
             convert = moment(convert1, "DD-MM-YYYY")
         } else {
-            if(date.includes(".000Z")){
+            if (date.includes(".000Z")) {
                 let convert1 = moment(new Date(date)).format("DD-MM-YYYY")
                 convert = moment(convert1, "DD-MM-YYYY")
             } else {
@@ -25,19 +25,19 @@ export let handleDateTime = (date) => {
 
 export let checkMicroFe = () => {
     if (
-        // window.location.href.includes("3000") 
-    window.location.href.includes("profileservice") 
-    || window.location.href.includes("3001")) {
+        window.location.href.includes("3000") ||
+        window.location.href.includes("profileservice")
+        || window.location.href.includes("3001") || window.location.href.includes("nhatoi") || window.location.href.includes("192.168.61.25")) {
         return false;
     } else {
         return true;
     }
 }
 
-export let getTokenInCookie = ()=>{
+export let getTokenInCookie = () => {
     try {
         let tokenCookie = docCookie.getItem("usertoken")
-        if(!tokenCookie){
+        if (!tokenCookie) {
             // khi push code lên server
             return null
             // Khi test trên local
@@ -50,12 +50,12 @@ export let getTokenInCookie = ()=>{
         console.log(error)
     }
 }
-
-export let checkUserPermission = (permissionList, ...namePermission)=>{
+console.log(".")
+export let checkUserPermission = (permissionList, ...namePermission) => {
     try {
         let result = true;
-        for(let perName of namePermission){
-            if(!permissionList.includes(perName)){
+        for (let perName of namePermission) {
+            if (!permissionList.includes(perName)) {
                 result = false;
             }
         }
