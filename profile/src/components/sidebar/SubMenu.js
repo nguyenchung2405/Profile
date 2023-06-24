@@ -109,15 +109,15 @@ export default function SubMenu(permission) {
     }
     const getUserId = () => {
         // console.log(docCookies.getItem("usertoken"))
-        if (docCookies.getItem("emails") && docCookies.getItem("emails")==="erpmanager@tuoitre.com.vn") {
+        if (docCookies.getItem("emails") && docCookies.getItem("emails") === "erpmanager@tuoitre.com.vn") {
             return true
         }
-            else{
-                return false
-            }
-      };
+        else {
+            return false
+        }
+    };
     const items = [
-        getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
+        getItem("Nhân sự1", "sub-menu-1", <MdPeopleOutline />, [
             getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />),
             getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />),
             getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />),
@@ -131,7 +131,7 @@ export default function SubMenu(permission) {
     ];
 
     const items_user = [
-        getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
+        getItem("Nhân sự2", "sub-menu-1", <MdPeopleOutline />, [
             getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />),
         ])
     ];
@@ -204,7 +204,7 @@ export default function SubMenu(permission) {
     //                         items={menu_profile.concat(menu_permission)}
     //                     />
     //                 </div>
-                
+
 
     //         }
     //     } else {
@@ -224,22 +224,22 @@ export default function SubMenu(permission) {
     //     }
     // }
     const renderSubMenu2 = () => {
-        if(checkMicroFe() === true ){
-            if( getUserId()===true){
+        if (checkMicroFe() === true) {
+            if (getUserId() === true) {
                 return items;
 
-            }else{
-                return  [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />),getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
+            } else {
+                return [getItem("Nhân sự4", "sub-menu-1", <MdPeopleOutline />), getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
             }
         }
         // Duoi local profile
-        else{
-            return(
+        else {
+            return (
                 <Menu
-                // defaultOpenKeys={[`sub1`]}
-                mode='inline'
-                items={items}
-            />
+                    // defaultOpenKeys={[`sub1`]}
+                    mode='inline'
+                    items={items}
+                />
 
             )
         }
