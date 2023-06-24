@@ -27,19 +27,19 @@ export default function RouteServer() {
 
   return (
     <Switch>
-      <Route path="/hr/profile" exact component={TableProfiles} />
-      <Route path="/hr/profile/:proID" exact component={StepsAntd} />
-      <Route path="/hr/profile/create" exact component={StepsAntd} />
-      <Route path="/hr/profile/create/:userID" exact component={StepsAntd} />
-      <Route path="/myprofile/:User_ID" exact component={StepsAntd} />
+      <Route path="/hr/profile" component={TableProfiles} />
+      <Route path="/hr/profile/:proID" component={StepsAntd} />
+      <Route path="/hr/profile/create" component={StepsAntd} />
+      <Route path="/hr/profile/create/:userID" component={StepsAntd} />
+      <Route path="/myprofile/:User_ID" component={StepsAntd} />
 
-      <Route path="/hr/department" exact component={TableDep} />
-      <Route path="/hr/position" exact component={TablePositions} />
-      <Route path="/hr/permission/manage" exact component={PermissionTable} />
-      <Route path="/hr/permission/position" exact component={TablePositionsPermission} />
-      <Route path="/hr/permission/department-position" exact component={DepartmentPermissionTable} />
-      <Route path="/hr/permission/users" exact component={UserTablePermission} />
-      <Route path="*" exact component={PageNotFound} />
+      <Route path="/hr/department" component={TableDep} />
+      <Route path="/hr/position" component={TablePositions} />
+      <Route path="/hr/permission/manage" component={PermissionTable} />
+      <Route path="/hr/permission/position" component={TablePositionsPermission} />
+      <Route path="/hr/permission/department-position" component={DepartmentPermissionTable} />
+      <Route path="/hr/permission/users" component={UserTablePermission} />
+      <Route path="*" component={PageNotFound} />
     </Switch>
   )
 }
