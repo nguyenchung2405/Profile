@@ -1,11 +1,11 @@
 const axios = require("axios");
 const local = process.env.apiUser;
-// console.log("User controller",process.env.apiUser)
+console.log("User controller", process.env.apiUser)
 
-const getAvatar = async (req,res)=>{
+const getAvatar = async (req, res) => {
     try {
-        let {id} = req.params;
-        let {headers: {authorization}} = req;
+        let { id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/user-resources/user/${id}`,
             method: "GET",
@@ -21,10 +21,10 @@ const getAvatar = async (req,res)=>{
     }
 }
 
-const deleteResource = async (req, res)=>{
+const deleteResource = async (req, res) => {
     try {
-        let {id} = req.params;
-        let {headers: {authorization}} = req;
+        let { id } = req.params;
+        let { headers: { authorization } } = req;
         const result = await axios({
             url: `${local}/user-resources/${id}`,
             method: "DELETE",
@@ -38,9 +38,9 @@ const deleteResource = async (req, res)=>{
     }
 }
 
-const getUserPermission = async (req,res)=>{
+const getUserPermission = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
+        let { headers: { authorization } } = req;
         let result = await axios({
             url: `${local}/users/users/me/permissions`,
             method: "GET",
@@ -54,10 +54,10 @@ const getUserPermission = async (req,res)=>{
     }
 }
 
-const getDetailUser = async (req, res)=>{
+const getDetailUser = async (req, res) => {
     try {
-        let {headers: {authorization}} = req;
-        let {user_id} = req.params;
+        let { headers: { authorization } } = req;
+        let { user_id } = req.params;
         let result = await axios({
             url: `${local}/users/${user_id}`,
             method: "GET",
