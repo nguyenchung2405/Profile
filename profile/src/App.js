@@ -1,7 +1,7 @@
 import React from 'react';
 import { store } from "./redux/configStore"
 import { Provider, useSelector } from "react-redux"
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter as Router } from "react-router-dom"
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import { checkMicroFe } from './ultils/helper';
@@ -11,17 +11,17 @@ import RouteServer from './RouteServer';
 
 function App() {
   const renderMF = () => {
-
+    console.log(checkMicroFe())
     if (checkMicroFe() === false) {
       return (
         <Provider store={store}>
-          <BrowserRouter>
+          <Router>
             <div className="App_Profile_service">
 
               <Sidebar />
               <RouteClient />
             </div>
-          </BrowserRouter>
+          </Router>
         </Provider>
       )
     } else {

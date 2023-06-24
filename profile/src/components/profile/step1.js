@@ -37,7 +37,7 @@ import {
   UPDATE_PROFILE,
   UPDATE_PROFILE_ACTIVE,
 } from "../../title/title";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Image from "./image";
 import Modal_Step1 from "../modal/modal_step1";
 import { FcPlus } from "react-icons/fc";
@@ -49,7 +49,7 @@ import { handleDateTime } from "../../ultils/helper";
 export default function SoYeuLyLich(props) {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const history = useHistory();
   let {
     nextStep,
     user_profile_id: {
@@ -197,7 +197,7 @@ export default function SoYeuLyLich(props) {
   useEffect(() => {
     // console.log("is navigate")
     if (isNavigateTo404) {
-      navigate("/notFound");
+      history.push("/notFound");
       dispatch(setIsNavigate(false));
     }
   }, [isNavigateTo404]);
@@ -212,38 +212,39 @@ export default function SoYeuLyLich(props) {
         dispatch(moveToNextStep(0));
         dispatch(setIsSubmit(false));
       } else if (isNextStep) {
+        // if (
+        //   !isCreateProfile &&
+        //   !isOnLyCreateProfile &&
+        //   status.can_action === true &&
+        //   status.state !== "ACTIVE"
+        // ) {
+        //   let newValueForm = { ...valueForm };
+        //   newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+        //   dispatch({
+        //     type: UPDATE_PROFILE,
+        //     valuesUpdate: {
+        //       newValueForm,
+        //       user_id,
+        //       jour_card_id,
+        //       user_degree_id,
+        //       pro_id,
+        //       navigate,
+        //       action,
+        //       work_object_id,
+        //     },
+        //   });
+        // } else if (isCreateProfile) {
+        //   dispatch({
+        //     type: CREATE_PROFILE,
+        //     valuesCreate: { valueForm, navigate },
+        //   });
+        // } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
+        //   dispatch({
+        //     type: ONLY_CREATE_PROFILE,
+        //     valuesCreate: { valueForm, user_id, navigate },
+        //   });
+        // }else
         if (
-          !isCreateProfile &&
-          !isOnLyCreateProfile &&
-          status.can_action === true &&
-          status.state !== "ACTIVE"
-        ) {
-          let newValueForm = { ...valueForm };
-          newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
-          dispatch({
-            type: UPDATE_PROFILE,
-            valuesUpdate: {
-              newValueForm,
-              user_id,
-              jour_card_id,
-              user_degree_id,
-              pro_id,
-              navigate,
-              action,
-              work_object_id,
-            },
-          });
-        } else if (isCreateProfile) {
-          dispatch({
-            type: CREATE_PROFILE,
-            valuesCreate: { valueForm, navigate },
-          });
-        } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
-          dispatch({
-            type: ONLY_CREATE_PROFILE,
-            valuesCreate: { valueForm, user_id, navigate },
-          });
-        } else if (
           !isCreateProfile &&
           !isOnLyCreateProfile &&
           status.state === "ACTIVE" &&
@@ -252,19 +253,19 @@ export default function SoYeuLyLich(props) {
           // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
           let newValueForm = { ...valueForm };
           newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
-          dispatch({
-            type: UPDATE_PROFILE_ACTIVE,
-            valuesUpdate: {
-              newValueForm,
-              user_id,
-              jour_card_id,
-              user_degree_id,
-              pro_id,
-              navigate,
-              action,
-              work_object_id,
-            },
-          });
+          // dispatch({
+          //   type: UPDATE_PROFILE_ACTIVE,
+          //   valuesUpdate: {
+          //     newValueForm,
+          //     user_id,
+          //     jour_card_id,
+          //     user_degree_id,
+          //     pro_id,
+          //     navigate,
+          //     action,
+          //     work_object_id,
+          //   },
+          // });
         }
         setTimeout(() => {
           dispatch(setMessageAlert({ type: "", msg: "" }));
@@ -836,15 +837,15 @@ export default function SoYeuLyLich(props) {
             disabledInput={disabledInput}
           />
           {valueForm.noiSinh?.huyen &&
-          valueForm.noiSinh?.quan &&
-          valueForm.noiSinh?.tinh ? (
+            valueForm.noiSinh?.quan &&
+            valueForm.noiSinh?.tinh ? (
             <p>{`${valueForm.noiSinh.huyen}, ${valueForm.noiSinh.quan}, ${valueForm.noiSinh.tinh}`}</p>
           ) : (
             ""
           )}
           {validateForm.noiSinh?.huyen ||
-          validateForm.noiSinh?.quan ||
-          validateForm.noiSinh?.tinh
+            validateForm.noiSinh?.quan ||
+            validateForm.noiSinh?.tinh
             ? showRequiredAlert()
             : ""}
         </div>
@@ -874,15 +875,15 @@ export default function SoYeuLyLich(props) {
             disabledInput={disabledInput}
           />
           {valueForm.queQuan?.huyen &&
-          valueForm.queQuan?.quan &&
-          valueForm.queQuan?.tinh ? (
+            valueForm.queQuan?.quan &&
+            valueForm.queQuan?.tinh ? (
             <p>{`${valueForm.queQuan.huyen}, ${valueForm.queQuan.quan}, ${valueForm.queQuan.tinh}`}</p>
           ) : (
             ""
           )}
           {validateForm.queQuan?.huyen ||
-          validateForm.queQuan?.quan ||
-          validateForm.queQuan?.tinh
+            validateForm.queQuan?.quan ||
+            validateForm.queQuan?.tinh
             ? showRequiredAlert()
             : ""}
         </div>
@@ -1037,7 +1038,7 @@ export default function SoYeuLyLich(props) {
             <DatePicker
               value={
                 valueForm.ngayHetHanBoNhiem !== "" &&
-                valueForm.ngayHetHanBoNhiem !== null
+                  valueForm.ngayHetHanBoNhiem !== null
                   ? handleDateTime(valueForm.ngayHetHanBoNhiem)
                   : ""
               }
@@ -1141,7 +1142,7 @@ export default function SoYeuLyLich(props) {
                 {renderPhongBan()}
               </Select>
               {validateForm.phongBanCVObj?.phongBan &&
-              phongBanChucVuArr.length < 1
+                phongBanChucVuArr.length < 1
                 ? showRequiredAlert()
                 : ""}
             </div>
@@ -1183,7 +1184,7 @@ export default function SoYeuLyLich(props) {
                 {renderChucVu()}
               </Select>
               {validateForm.phongBanCVObj?.chucVu &&
-              phongBanChucVuArr.length < 1
+                phongBanChucVuArr.length < 1
                 ? showRequiredAlert()
                 : ""}
             </div>
@@ -1208,9 +1209,9 @@ export default function SoYeuLyLich(props) {
             <DatePicker
               value={
                 valueForm.ngayCapTheNhaBao !== "" &&
-                valueForm.ngayCapTheNhaBao !== undefined &&
-                valueForm.ngayCapTheNhaBao !== null &&
-                valueForm.ngayCapTheNhaBao !== "Invalid date"
+                  valueForm.ngayCapTheNhaBao !== undefined &&
+                  valueForm.ngayCapTheNhaBao !== null &&
+                  valueForm.ngayCapTheNhaBao !== "Invalid date"
                   ? moment(valueForm.ngayCapTheNhaBao, "DD-MM-YYYY")
                   : ""
               }
@@ -1246,8 +1247,8 @@ export default function SoYeuLyLich(props) {
             <DatePicker
               value={
                 valueForm.theCoHieuLucTu !== "" &&
-                valueForm.theCoHieuLucTu !== undefined &&
-                valueForm.theCoHieuLucTu !== null
+                  valueForm.theCoHieuLucTu !== undefined &&
+                  valueForm.theCoHieuLucTu !== null
                   ? handleDateTime(valueForm.theCoHieuLucTu)
                   : ""
               }
@@ -1297,8 +1298,8 @@ export default function SoYeuLyLich(props) {
             <DatePicker
               value={
                 valueForm.theCoHieuLucDen !== "" &&
-                valueForm.theCoHieuLucDen !== undefined &&
-                valueForm.theCoHieuLucDen !== null
+                  valueForm.theCoHieuLucDen !== undefined &&
+                  valueForm.theCoHieuLucDen !== null
                   ? handleDateTime(valueForm.theCoHieuLucDen)
                   : ""
               }
