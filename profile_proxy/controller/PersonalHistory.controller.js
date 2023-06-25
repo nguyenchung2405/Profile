@@ -1,9 +1,9 @@
 const axios = require("axios");
-const local = "http://dev.profilebe.tuoitre.vn";
+const local =  process.env.apiProfile;
 
-const createPersonalHistory = async (req, res) => {
+const createPersonalHistory = async (req,res)=>{
     try {
-        let { headers: { authorization } } = req;
+        let {headers: {authorization}} = req;
         // console.log(req.body)
         const result = await axios({
             url: `${local}/personal-history`,
@@ -19,10 +19,10 @@ const createPersonalHistory = async (req, res) => {
     }
 }
 
-const deletePersonalHistory = async (req, res) => {
+const deletePersonalHistory = async (req,res)=>{
     try {
-        let { per_his_id } = req.params
-        let { headers: { authorization } } = req;
+        let {per_his_id} = req.params
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/personal-history/${per_his_id}`,
             method: "DELETE",
@@ -36,10 +36,10 @@ const deletePersonalHistory = async (req, res) => {
     }
 }
 
-const updatePersonalHistory = async (req, res) => {
+const updatePersonalHistory = async (req,res)=>{
     try {
-        let { per_his_id } = req.params
-        let { headers: { authorization } } = req;
+        let {per_his_id} = req.params
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/personal-history/${per_his_id}`,
             method: "PUT",

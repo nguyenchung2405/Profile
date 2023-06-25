@@ -1,9 +1,9 @@
 const axios = require("axios")
-const local = "http://dev.profilebe.tuoitre.vn";
+const local =  process.env.apiProfile;
 
-const createOrganization = async (req, res) => {
+const createOrganization = async (req,res)=>{
     try {
-        let { headers: { authorization } } = req;
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/organization`,
             method: "POST",
@@ -18,10 +18,10 @@ const createOrganization = async (req, res) => {
     }
 }
 
-const deleteOrganization = async (req, res) => {
+const deleteOrganization = async (req, res)=>{
     try {
-        let { organ_id } = req.params;
-        let { headers: { authorization } } = req;
+        let {organ_id} = req.params;
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/organization/${organ_id}`,
             method: "DELETE",
@@ -35,10 +35,10 @@ const deleteOrganization = async (req, res) => {
     }
 }
 
-const updateOrganization = async (req, res) => {
+const updateOrganization = async (req, res)=>{
     try {
-        let { organ_id } = req.params;
-        let { headers: { authorization } } = req;
+        let {organ_id} = req.params;
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/organization/${organ_id}`,
             method: "PUT",

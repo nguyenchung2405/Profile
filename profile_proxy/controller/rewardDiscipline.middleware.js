@@ -1,13 +1,13 @@
 const axios = require("axios")
-const local = "http://dev.profilebe.tuoitre.vn";
+const local =  process.env.apiProfile;
 
-const createRewardDiscipline = async (req, res) => {
+const createRewardDiscipline = async (req,res)=>{
     try {
-        let { headers: { authorization } } = req;
+        let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/reward-discipline`,
             method: "POST",
-            headers: {
+            headers:{
                 Authorization: authorization
             },
             data: req.body
@@ -18,14 +18,14 @@ const createRewardDiscipline = async (req, res) => {
     }
 }
 
-const deleteRewardDiscipline = async (req, res) => {
+const deleteRewardDiscipline = async (req,res)=>{
     try {
-        let { headers: { authorization } } = req;
-        let { re_dis_id } = req.params;
+        let {headers: {authorization}} = req;
+        let {re_dis_id} = req.params;
         const result = await axios({
             url: `${local}/reward-discipline/${re_dis_id}`,
             method: "DELETE",
-            headers: {
+            headers:{
                 Authorization: authorization
             }
         });
@@ -35,14 +35,14 @@ const deleteRewardDiscipline = async (req, res) => {
     }
 }
 
-const updateRewardDiscipline = async (req, res) => {
+const updateRewardDiscipline = async (req, res)=>{
     try {
-        let { headers: { authorization } } = req;
-        let { re_dis_id } = req.params;
+        let {headers: {authorization}} = req;
+        let {re_dis_id} = req.params;
         const result = await axios({
             url: `${local}/reward-discipline/${re_dis_id}`,
             method: "PUT",
-            headers: {
+            headers:{
                 Authorization: authorization
             },
             data: req.body
