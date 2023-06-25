@@ -229,7 +229,7 @@ export default function SubMenu(permission) {
                 return items;
 
             } else {
-                return [getItem("Nhân sự4", "sub-menu-1", <MdPeopleOutline />), getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
+                return [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />), getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
             }
         }
         // Duoi local profile
