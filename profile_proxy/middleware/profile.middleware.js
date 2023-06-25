@@ -9,7 +9,7 @@ const createProfile = async (req, res, next) => {
         profile["user_id"] = user_id;
         // console.log(profile)
         const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles`,
+            url: `${process.env.apiProfile}/profiles`,
             method: "POST",
             headers: {
                 Authorization: authorization
@@ -48,10 +48,10 @@ const updateProfile = async (req, res, next) => {
         let { profile, pro_id } = req.body;
         let { user_id, ...rest } = profile;
         let { headers: { authorization } } = req;
-        let { action } = req.query;
+        let {action}= req.query;
         // console.log(action, rest, pro_id)
         const result = await axios({
-            url: `http://dev.profilebe.tuoitre.vn/profiles/${pro_id}?action=${action}`,
+            url: `${process.env.apiProfile}/profiles/${pro_id}?action=${action}`,
             method: "PUT",
             headers: {
                 Authorization: authorization
@@ -68,9 +68,9 @@ const updateProfile = async (req, res, next) => {
         }
     } catch (error) {
         console.log("Lỗi ở updateProfile")
-        if (error?.response?.data?.detail) {
+        if(error?.response?.data?.detail){
             res.send(error?.response?.data?.detail)
-        } else {
+        }else {
             res.send(error)
         }
     }
