@@ -7,8 +7,8 @@ node_modules
 /profile_proxy/node_modules
 profile/node_modules
 profile_proxy/node_modules
-./dist
-/dist
+# ./dist
+# /dist
 ./node_modules
 package-lock.json
 # Nuxt generate

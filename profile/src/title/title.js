@@ -2,11 +2,24 @@ import { checkMicroFe, getTokenInCookie } from "../ultils/helper";
 
 export const TOKEN = getTokenInCookie();
 
-export const local = checkMicroFe() === true ? 
-                                window.location.href.includes("staging")
-                                ? "https://profileservice-staging.tuoitre.vn"
-                                : "https://profileservice.tuoitre.vn" 
-                            : ""
+const checkProduct = () => {
+    if (window.location.href.includes("staging")) {
+        return "https://profileservice-staging.tuoitre.vn"
+    } else if ((window.location.href.includes("erp.tuoitre.vn") ||
+        window.location.href.includes("nhatoi") || window.location.href.includes("erpfe"))) {
+        return "https://profileservice-product.tuoitre.vn"
+    } else if (window.location.href.includes("erp-dev")) {
+        return "https://profileservice.tuoitre.vn"
+    }
+}
+export const local = checkMicroFe() === true ? checkProduct() : ""
+//     window.location.href.includes("staging")
+//     ? "https://profileservice-staging.tuoitre.vn"
+//     : (window.location.href.includes("erp.tuoitre.vn")||
+//     window.location.href.includes("nhatoi")
+//     )?
+//      "https://profileservice-product.tuoitre.vn" 
+// : ""
 
 // Regex
 export const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;

@@ -22,7 +22,7 @@ export default function SubMenu(permission) {
     // if (uri === "") {
     //     userPermission = useSelector(state => state.permissionReducer.userPermission);
     // }
-
+console.log("1")
     const getItem = (label, key, icon, children) => {
         return {
             label,
@@ -109,29 +109,29 @@ export default function SubMenu(permission) {
     }
     const getUserId = () => {
         // console.log(docCookies.getItem("usertoken"))
-        if (docCookies.getItem("emails") && docCookies.getItem("emails")==="erpmanager@tuoitre.com.vn") {
+        if (docCookies.getItem("emails") && docCookies.getItem("emails") === "erpmanager@tuoitre.com.vn") {
             return true
         }
-            else{
-                return false
-            }
-      };
+        else {
+            return false
+        }
+    };
     const items = [
         getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
-            getItem(<Link to={`${uri}/hr/profile`}>Hồ sơ</Link>, "1", <BsFileEarmarkFill />),
-            getItem(<Link to={`${uri}/hr/department`}>Bộ phận công tác</Link>, "2", <FcDepartment />),
-            getItem(<Link to={`${uri}/hr/position`}>Chức danh, chức vụ</Link>, "3", <PositionItem />),
-            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />),
+            getItem(<Link to={`${uri}/hr/profile/${Math.random().toString(36).substring(7)}`}>Hồ sơ</Link>, "100", <BsFileEarmarkFill />),
+            getItem(<Link to={`${uri}/hr/department/${Math.random().toString(36).substring(7)}`}>Bộ phận công tác</Link>, "102", <FcDepartment />),
+            getItem(<Link to={`${uri}/hr/position/${Math.random().toString(36).substring(7)}`}>Chức danh, chức vụ</Link>, "103", <PositionItem />),
+            getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}/${Math.random().toString(36).substring(7)}`}>Thông tin cá nhân</Link>, "104", <ImProfile />),
         ]),
         getItem("Quyền", "sub-menu-2", <PermissionMenu />, [
-            getItem(<Link to={`${uri}/hr/permission/manage`}>Quản lý quyền</Link>, "5", <PermissionManagement />),
-            getItem(<Link to={`${uri}/hr/permission/position`}>Quyền chức vụ</Link>, "6", <PermissionPosition />),
-            getItem(<Link to={`${uri}/hr/permission/department-position`}>Quyền PB - CV</Link>, "7", <PermissionDepPos />),
+            getItem(<Link to={`${uri}/hr/permission/manage/${Math.random().toString(36).substring(7)}`}>Quản lý quyền</Link>, "105", <PermissionManagement />),
+            getItem(<Link to={`${uri}/hr/permission/position/${Math.random().toString(36).substring(7)}`}>Quyền chức vụ</Link>, "106", <PermissionPosition />),
+            getItem(<Link to={`${uri}/hr/permission/department-position/${Math.random().toString(36).substring(7)}`}>Quyền PB - CV</Link>, "107", <PermissionDepPos />),
         ])
     ];
 
     const items_user = [
-        getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
+        getItem("Nhân sự2", "sub-menu-1", <MdPeopleOutline />, [
             getItem(<Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>Thông tin cá nhân</Link>, "4", <ImProfile />),
         ])
     ];
@@ -204,7 +204,7 @@ export default function SubMenu(permission) {
     //                         items={menu_profile.concat(menu_permission)}
     //                     />
     //                 </div>
-                
+
 
     //         }
     //     } else {
@@ -224,22 +224,22 @@ export default function SubMenu(permission) {
     //     }
     // }
     const renderSubMenu2 = () => {
-        if(checkMicroFe() === true ){
-            if( getUserId()===true){
+        if (checkMicroFe() === true) {
+            if (getUserId() === true) {
                 return items;
 
-            }else{
-                return  [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />),getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
+            } else {
+                return [getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />), getItem("Quyền", "sub-menu-2", <PermissionMenu />)]
             }
         }
         // Duoi local profile
-        else{
-            return(
+        else {
+            return (
                 <Menu
-                // defaultOpenKeys={[`sub1`]}
-                mode='inline'
-                items={items}
-            />
+                    // defaultOpenKeys={[`sub1`]}
+                    mode='inline'
+                    items={items}
+                />
 
             )
         }
