@@ -22,7 +22,7 @@ export default function SubMenu(permission) {
     // if (uri === "") {
     //     userPermission = useSelector(state => state.permissionReducer.userPermission);
     // }
-console.log("pro")
+console.log("1")
     const getItem = (label, key, icon, children) => {
         return {
             label,
