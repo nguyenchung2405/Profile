@@ -4,6 +4,7 @@ const local =  process.env.apiProfile;
 const getProfile = async (req,res)=>{
     try {
         let {id} = req.params;
+        console.log(id)
         let {headers: {authorization}} = req;
         // lấy thông tin cá nhân
         const result_pro = await axios({
@@ -123,6 +124,7 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
 }
 
 const update_dep_pos_degress_jourCard = (req,res)=>{
+    console.log("abcd")
     try {
         // console.log("update_dep_pos_degress_jourCard")
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor, workObject, work_object_id} = req.body;

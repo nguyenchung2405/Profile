@@ -141,29 +141,29 @@ export default function ThongTinCoBan(props) {
             }} />
         </div>
         <div className="SYLL__left__field birthday">
-            <label>Ngày tháng năm sinh:{/*<span className="required__field"> *</span> */}</label>
+            <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
             <DatePicker 
                 disabled={disabledInput()}
                 value={
                     valueForm.ngayThangNamSinh !== "" && valueForm.ngayThangNamSinh !== null
                     ? handleDateTime(valueForm.ngayThangNamSinh)
                     : ""}
-                    // onBlur={()=>{
-                    //     if(valueForm.ngayThangNamSinh === ""){
-                    //         setValidateForm({
-                    //             ...validateForm,
-                    //             ngayThangNamSinh: true
-                    //         })
-                    //     } else {
-                    //         setValidateForm({
-                    //             ...validateForm,
-                    //             ngayThangNamSinh: false
-                    //         })
-                    //     }
-                    // }}
+                    onBlur={()=>{
+                        if(valueForm.ngayThangNamSinh === ""){
+                            setValidateForm({
+                                ...validateForm,
+                                ngayThangNamSinh: true
+                            })
+                        } else {
+                            setValidateForm({
+                                ...validateForm,
+                                ngayThangNamSinh: false
+                            })
+                        }
+                    }}
                 onChange={(date,dateString)=>{
-                    console.log(date)
-                    console.log(dateString)
+                    // console.log(date)
+                    // console.log(dateString)
                     let namSinh = moment(dateString, "DD-MM-YYYY")["_d"].getFullYear();
                     let ngayThangNamHienTai = moment(new Date(Date.now()).toLocaleDateString()).format("DD-MM-YYYY")
                     let namHienTai = moment(ngayThangNamHienTai, "DD-MM-YYYY")["_d"].getFullYear();
@@ -189,9 +189,11 @@ export default function ThongTinCoBan(props) {
                 </svg>}
                 format="DD-MM-YYYY"
                 />
-            {/*validateForm.ngayThangNamSinh
-            ? showRequiredAlert() 
-            : "" */}
+          {
+              validateForm.ngayThangNamSinh
+              ? showRequiredAlert() 
+              : ""
+          }
         </div>
         <div className="SYLL__left__field gender">
             <label>Giới tính:</label>

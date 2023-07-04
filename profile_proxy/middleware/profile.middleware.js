@@ -44,7 +44,7 @@ const checkUserID = (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
     try {
-        // console.log("updateProfile")
+        console.log("updateProfilesssss")
         let { profile, pro_id } = req.body;
         let { user_id, ...rest } = profile;
         let { headers: { authorization } } = req;

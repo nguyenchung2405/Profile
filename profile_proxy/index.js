@@ -23,7 +23,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../profile/dist", "index.html"))
     // res.sendFile("index.html", { root: "dist" })
 })
-
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log("This is express proxy.")

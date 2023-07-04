@@ -83,10 +83,12 @@ export default function SoYeuLyLich(props) {
     hoKhauHuyen,
     isSubmit,
     action,
+    pathUrl
   } = useSelector((state) => state.steps1Reducer);
   const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState(
     []
   );
+
   let [phongBanCVOb, setPhongBanCVOb] = useState({ phongBan: "", chucVu: "" });
   let [isShowModal, setIsShowModal] = useState(false);
   let [isShowModal2, setIsShowModal2] = useState(false);
@@ -98,7 +100,12 @@ export default function SoYeuLyLich(props) {
     // setValueForm từ state test -> lấy dữ liệu hiển thị ra cho user xem
     setValueForm({ ...test });
   }, [test]);
-
+useEffect(()=>{
+  console.log(pathUrl)
+  if(pathUrl.length>0){
+    history.push(pathUrl)
+  }
+},[pathUrl])
   useEffect(() => {
     // Vi lý do nào đó setValueForm ko hoạt động nên đi đường tà đạo
     // setTest xong từ đó set ngược lại valueForm
@@ -195,7 +202,6 @@ export default function SoYeuLyLich(props) {
   }, [valueForm.theCoHieuLucTu]);
 
   useEffect(() => {
-    // console.log("is navigate")
     if (isNavigateTo404) {
       history.push("/notFound");
       dispatch(setIsNavigate(false));
@@ -212,60 +218,63 @@ export default function SoYeuLyLich(props) {
         dispatch(moveToNextStep(0));
         dispatch(setIsSubmit(false));
       } else if (isNextStep) {
-        // if (
-        //   !isCreateProfile &&
-        //   !isOnLyCreateProfile &&
-        //   status.can_action === true &&
-        //   status.state !== "ACTIVE"
-        // ) {
-        //   let newValueForm = { ...valueForm };
-        //   newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
-        //   dispatch({
-        //     type: UPDATE_PROFILE,
-        //     valuesUpdate: {
-        //       newValueForm,
-        //       user_id,
-        //       jour_card_id,
-        //       user_degree_id,
-        //       pro_id,
-        //       navigate,
-        //       action,
-        //       work_object_id,
-        //     },
-        //   });
-        // } else if (isCreateProfile) {
-        //   dispatch({
-        //     type: CREATE_PROFILE,
-        //     valuesCreate: { valueForm, navigate },
-        //   });
-        // } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
-        //   dispatch({
-        //     type: ONLY_CREATE_PROFILE,
-        //     valuesCreate: { valueForm, user_id, navigate },
-        //   });
-        // }else
+        if (
+          !isCreateProfile &&
+          !isOnLyCreateProfile &&
+          status.can_action === true &&
+          status.state !== "ACTIVE"
+        ) {
+          let newValueForm = { ...valueForm };
+          newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
+          dispatch({
+            type: UPDATE_PROFILE,
+            valuesUpdate: {
+              newValueForm,
+              user_id,
+              jour_card_id,
+              user_degree_id,
+              pro_id,
+              // navigate,
+              // navigate:history,
+              action,
+              work_object_id,
+            },
+          });
+        } else if (isCreateProfile) {
+          dispatch({
+            type: CREATE_PROFILE,
+            valuesCreate: { valueForm, history },
+          });
+        } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
+          dispatch({
+            type: ONLY_CREATE_PROFILE,
+            valuesCreate: { valueForm, user_id, history },
+          });
+        }
+        // else
         if (
           !isCreateProfile &&
           !isOnLyCreateProfile &&
           status.state === "ACTIVE" &&
           status["can_action"] === true
         ) {
+          console.log("dadasdsdas")
           // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
           let newValueForm = { ...valueForm };
           newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
-          // dispatch({
-          //   type: UPDATE_PROFILE_ACTIVE,
-          //   valuesUpdate: {
-          //     newValueForm,
-          //     user_id,
-          //     jour_card_id,
-          //     user_degree_id,
-          //     pro_id,
-          //     navigate,
-          //     action,
-          //     work_object_id,
-          //   },
-          // });
+          dispatch({
+            type: UPDATE_PROFILE_ACTIVE,
+            valuesUpdate: {
+              newValueForm,
+              user_id,
+              jour_card_id,
+              user_degree_id,
+              pro_id,
+              // navigate,
+              action,
+              work_object_id,
+            },
+          });
         }
         setTimeout(() => {
           dispatch(setMessageAlert({ type: "", msg: "" }));
@@ -303,40 +312,43 @@ export default function SoYeuLyLich(props) {
     "soDienThoai",
     "hocVan",
     "chuyenMon",
-    "lyLuanCT",
+    "tonGiao",
+    // "lyLuanCT",
     "gioiTinh",
     "phongBanCVObj",
-    "thanhPhanXuatThan",
+    // "thanhPhanXuatThan",
     "noiSinh",
     "queQuan",
-    "noiOHienTai",
-    "email",
-    "soDienThoai",
-    "hoKhauThuongTru",
+    // "noiOHienTai",
+    // "email",
+    // "soDienThoai",
+    // "hoKhauThuongTru",
     "ngayCapCCCD",
     "canCuocCD",
     "loaiNV",
+    "ngayThangNamSinh"
   ];
   const [validateForm, setValidateForm] = useState({
     hoTen: false,
-    canCuocCD: false,
+    danToc:false,
     email: false,
-    // ngayThangNamSinh: false,
     soDienThoai: false,
-    tonGiao: false,
     hocVan: false,
     chuyenMon: false,
-    lyLuanCT: false,
-    ngayCapCCCD: false,
+    gioitinh:false,
     phongBanCVObj: false,
-    thanhPhanXuatThan: false,
     noiSinh: { huyen: false, quan: false, tinh: false },
     queQuan: { huyen: false, quan: false, tinh: false },
-    noiOHienTai: { diaChi: false, huyen: false, quan: false, tinh: false },
-    hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
+    canCuocCD: false,
+    ngayCapCCCD: false,
+    ngayThangNamSinh: false,
     loaiNV: false,
+    tonGiao: false,
+    // lyLuanCT: false,
+    // thanhPhanXuatThan: false,
+    // noiOHienTai: { diaChi: false, huyen: false, quan: false, tinh: false },
+    // hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
   });
-  // console.log(validateForm)
   // console.log(valueForm)
 
   const disabledInput = () => {
@@ -539,7 +551,7 @@ export default function SoYeuLyLich(props) {
             ...newValueForm,
             [value]: { ...newValueForm[value], chucVu: true },
           };
-          // newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
+          newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
           isNextStep = false;
         }
       } else if (value === "email" || value === "soDienThoai") {
@@ -813,7 +825,8 @@ export default function SoYeuLyLich(props) {
         />
         <div className="SYLL__left__field noiSinh">
           <label>
-            Nơi sinh:<span className="required__field"> *</span>
+            Nơi sinh:
+            <span className="required__field"> *</span>
           </label>
           <FcPlus
             onClick={() => {
@@ -935,7 +948,7 @@ export default function SoYeuLyLich(props) {
                 handleChangeGetValueInput(e);
               }}
             />
-            {validateForm.hocVan ? showRequiredAlert() : ""}
+            {/* {validateForm.hocVan ? showRequiredAlert() : ""} */}
           </div>
           <div id="chuyenMon__content">
             <div className="second__content">
@@ -953,7 +966,7 @@ export default function SoYeuLyLich(props) {
                 }}
               />
             </div>
-            {validateForm.chuyenMon ? showRequiredAlert() : ""}
+            {/* {validateForm.chuyenMon ? showRequiredAlert() : ""} */}
           </div>
         </div>
         <div className="SYLL__right__field">
@@ -971,7 +984,7 @@ export default function SoYeuLyLich(props) {
               handleChangeGetValueInput(e);
             }}
           />
-          {validateForm.lyLuanCT ? showRequiredAlert() : ""}
+          {/* {validateForm.lyLuanCT ? showRequiredAlert() : ""} */}
         </div>
         <div className="SYLL__right__field">
           <label htmlFor="ngoaiNgu">Ngoại ngữ:</label>
