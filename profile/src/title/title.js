@@ -6,7 +6,10 @@ const checkProduct = () => {
     if (window.location.href.includes("staging")) {
         return "https://profileservice-staging.tuoitre.vn"
     } else if ((window.location.href.includes("erp.tuoitre.vn") ||
-        window.location.href.includes("nhatoi") || window.location.href.includes("erpfe"))) {
+        window.location.href.includes("nhatoi") 
+        // || window.location.href.includes("erpfe")
+        
+        )) {
         return "https://profileservice-product.tuoitre.vn"
     } else if (window.location.href.includes("erp-dev")) {
         return "https://profileservice.tuoitre.vn"
