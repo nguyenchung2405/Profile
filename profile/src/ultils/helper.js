@@ -44,13 +44,11 @@ export let getTokenInCookie = () => {
             // return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzU2LCJleHAiOjI3NTA1NTQ3MzB9.drBO_G7F9JCDi7XmLRmf14QvUqYe8cW4inBIbQsmRYI"
             // return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoyNzUwNDExMDg3fQ.uWeEJEXHyNysw85k22m0s6dFNi4nJFAO8NS8leY6fyA"
         }
-        // console.log(tokenCookie);
         return tokenCookie
     } catch (error) {
         console.log(error)
     }
 }
-console.log(".")
 export let checkUserPermission = (permissionList, ...namePermission) => {
     try {
         let result = true;

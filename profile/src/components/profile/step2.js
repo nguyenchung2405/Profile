@@ -22,8 +22,8 @@ export default function Step2() {
     let [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
     
     const quaTrinh = personal_history.map((history)=>{
-        let tuNgay = moment(new Date(history.work_from.concat(".000Z"))).format("DD/MM/YYYY");
-        let denNgay = moment(new Date(history.work_to.concat(".000Z"))).format("DD/MM/YYYY");
+        let tuNgay = moment(new Date(history?.work_from?.concat(".000Z"))).format("DD/MM/YYYY");
+        let denNgay = moment(new Date(history?.work_to?.concat(".000Z"))).format("DD/MM/YYYY");
         let description = history.work_place;
         let imgType = `history_${history.id}`;
         let imgStudy = resources.find(img => img.type === imgType);

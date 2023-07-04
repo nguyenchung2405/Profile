@@ -12,12 +12,14 @@ import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
 import { GET_PERMISSION_OF_USER, TOKEN } from './title/title';
 import UserTablePermission from './components/permission/user/UserTable';
+
 export default function RouteClient() {
 
     const dispatch = useDispatch();
     // console.log(userPermission)
     useEffect(() => {
-        if (<TOKEN></TOKEN> !== undefined) {
+        // if (<TOKEN></TOKEN> !== undefined) {
+            if (TOKEN !== undefined) {
             let decoded = jwt_decode(TOKEN);
             dispatch({
                 type: GET_PERMISSION_OF_USER,
@@ -28,9 +30,9 @@ export default function RouteClient() {
 
     return (
         <Switch>
-            <Route path="/hr/profile" exact component={TableProfiles} />
-            <Route path="/hr/profile/:proID" exact component={StepsAntd} />
+            <Route  key="422" path="/hr/profile" exact component={TableProfiles} ></Route>
             <Route path="/hr/profile/create" exact component={StepsAntd} />
+            <Route path="/hr/profile/:proID" exact component={StepsAntd} />
             <Route path="/hr/profile/create/:userID" exact component={StepsAntd} />
             <Route path="/myprofile/:User_ID" exact component={StepsAntd} />
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Steps, message } from 'antd';
+import { Steps, message,Button } from 'antd';
 import SoYeuLyLich from '../profile/step1';
 import style from "./steps.module.css"
 import Step3Component from '../profile/step3';
@@ -37,7 +37,6 @@ export default function StepsAntd() {
   // console.log(status)
   // console.log(isSubmit)
   const dispatch = useDispatch();
-console.log(".")
   const onChangeSteps = (value) => {
     dispatch(moveToNextStep(value));
   };
@@ -50,10 +49,9 @@ console.log(".")
         message.error(msg)
       }
     }, [messageAlert])
-
     useEffect(()=>{
       // lấy user_id từ param trên URL => call API lấy profile
-      if(proID){
+      if(proID ){
         let {email, soDienThoai} = emailPhone;
         dispatch({
           type: GET_PROFILE_BY_ID,
@@ -182,7 +180,7 @@ console.log(".")
       content: <Step9 />,
     },
   ];
-  
+
   const showButton = ()=>{
       let decoded = jwt_decode(TOKEN);
       if(nextStep === 0){
@@ -192,7 +190,7 @@ console.log(".")
                   // user_id admin = 1 phải khác user_id bình thường và action = true thì mới hiện nút
                     if(status.state === "SENDING" || status.state === "SAVED" || status.state === "NEW"){
                         return <>
-                          <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
+                          <button className="SoYeuLyLich__btn btn__update" onClick={(e)=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("save"))
                           }}>Lưu</button>

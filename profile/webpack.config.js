@@ -5,14 +5,18 @@ const deps = require("./package.json").dependencies
 const peerDeps = require("./package.json").peerDependencies
 module.exports = {
     entry: path.join(__dirname, "./src/index.js"),
-    output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, "dist")
-    },
+    // output: {
+    //     filename: "bundle.js",
+    //     path: path.resolve(__dirname, "dist","assets")
+    // },
 
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./public/index.html"
+            template: "./public/index.html",
+            main: "./public/main.js",
+            publicPath: "/",
+            inject: 'body',
+
         }),
         new ModuleFederationPlugin({
             name: "RemoteProfile",
@@ -27,7 +31,8 @@ module.exports = {
                 ...peerDeps,
                 react: {
                     singleton: true,
-                    requiredVersion: deps.react,
+                    // requiredVersion: deps.react,
+                    requiredVersion: deps["react"],
                 },
                 "react-dom": {
                     singleton: true,
@@ -57,7 +62,10 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     mode: 'development',
+    optimization: {
+        splitChunks: false,
 
+    },
     module: {
         rules: [
             {

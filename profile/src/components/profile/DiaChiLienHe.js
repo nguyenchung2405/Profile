@@ -113,12 +113,12 @@ export default function DiaChiLienHe({
           <Option value="">Huyện (Xã)</Option>
           {renderHuyen("noiO")}
         </Select>
-        {validateForm.noiOHienTai?.huyen ||
+        {/* {validateForm.noiOHienTai?.huyen ||
         validateForm.noiOHienTai?.quan ||
         validateForm.noiOHienTai?.tinh ||
         validateForm.noiOHienTai?.diaChi
           ? showRequiredAlert()
-          : ""}
+          : ""} */}
         <label style={{ marginTop: 20,fontWeight:'500'}} htmlFor="diaChi">
           Địa chỉ nơi ở hiện tại:
           {/* <span className="required__field"> *</span> */}
@@ -241,39 +241,39 @@ export default function DiaChiLienHe({
               ? valueForm.hoKhauThuongTru.huyen
               : ""
           }
-          onBlur={() => {
-            if (valueForm.hoKhauThuongTru.huyen === "") {
-              setValidateForm({
-                ...validateForm,
-                hoKhauThuongTru: {
-                  ...validateForm.hoKhauThuongTru,
-                  huyen: true,
-                },
-              });
-            } else {
-              setValidateForm({
-                ...validateForm,
-                hoKhauThuongTru: {
-                  ...validateForm.hoKhauThuongTru,
-                  huyen: false,
-                },
-              });
-            }
-          }}
+          // onBlur={() => {
+          //   if (valueForm.hoKhauThuongTru.huyen === "") {
+          //     setValidateForm({
+          //       ...validateForm,
+          //       hoKhauThuongTru: {
+          //         ...validateForm.hoKhauThuongTru,
+          //         huyen: true,
+          //       },
+          //     });
+          //   } else {
+          //     setValidateForm({
+          //       ...validateForm,
+          //       hoKhauThuongTru: {
+          //         ...validateForm.hoKhauThuongTru,
+          //         huyen: false,
+          //       },
+          //     });
+          //   }
+          // }}
           onChange={getValueSelect_HoKhau_Huyen}
         >
           <Option value="">Huyện (Xã)</Option>
           {renderHuyen("hoKhau")}
         </Select>
-        {validateForm.hoKhauThuongTru?.huyen ||
+        {/* {validateForm.hoKhauThuongTru?.huyen ||
         validateForm.hoKhauThuongTru?.quan ||
         validateForm.hoKhauThuongTru?.tinh ||
         validateForm.hoKhauThuongTru?.diaChi
           ? showRequiredAlert()
-          : ""}
+          : ""} */}
         <label style={{ marginTop: 20, fontWeight:'500'}} htmlFor="diaChi">
           Địa chỉ thường trú:
-          <span className="required__field"> *</span>
+          {/* <span className="required__field"> *</span> */}
         </label>
         <input
           id="hoKhauThuongTru"

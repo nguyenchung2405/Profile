@@ -90,9 +90,9 @@ export default function Modal_step1(props) {
                     <Option value="">Huyện (Xã)</Option>
                     {renderHuyen()}
                 </Select>
-                {validateForm.noiSinh?.huyen || validateForm.noiSinh?.quan || validateForm.noiSinh?.tinh
+                {/* {validateForm.noiSinh?.huyen || validateForm.noiSinh?.quan || validateForm.noiSinh?.tinh
                     ? showRequiredAlert() 
-                    : ""}
+                    : ""} */}
                 </div>
             )
         } else if(title === queQuan_Step1){
@@ -161,9 +161,9 @@ export default function Modal_step1(props) {
                     <Option value="">Huyện (Xã)</Option>
                     {renderHuyen("queQuan")}
                 </Select>
-                {validateForm.queQuan?.huyen || validateForm.queQuan?.quan || validateForm.queQuan?.tinh
+                {/* {validateForm.queQuan?.huyen || validateForm.queQuan?.quan || validateForm.queQuan?.tinh
                     ? showRequiredAlert() 
-                    : ""}
+                    : ""} */}
                 </div>
             )
         }

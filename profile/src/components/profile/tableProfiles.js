@@ -146,7 +146,6 @@ export default function TableProfiles() {
       })
     }
   }
-
   const renderTable = () => {
     if (userPermission.length > 0) {
       return <div className="tableProfiles">

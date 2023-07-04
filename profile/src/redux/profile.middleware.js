@@ -3,7 +3,7 @@ import { CREATE_PROFILE, DELETE_DEP_POS, DELETE_RESOURCE, GET_AVATAR, GET_PROFIL
 import { mappingDepartmentPosition, mappingFamilyRelationship, mappingJournalistCard, mappingProfileAPI, mappingProfileStep1, mappingUserDegree, mappingWorkObject } from "../ultils/mapping";
 import { createProfile_API, deleteDepPosAPI, deleteResourceAPI, getAvatar_API, getDetailUserAPI, getProfileByID_API, getProfileByToken, getProfileByUserIDAPI, onlyCreateProfileAPI, updateProfileActiveAPI, updateProfile_API } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
-import { addPBCV, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setResources, setValues } from "./Steps/step1/step1Slice";
+import { addPBCV, setPathUrl, removePBCV, setAvatar, setEmailPhone, setIsCreateProfile, setIsNavigate, setIsSubmit, setResources, setValues } from "./Steps/step1/step1Slice";
 import { setPersonalHistory } from "./Steps/step2.slice";
 import { getParty } from "./Steps/step3.slice";
 import { setOrganization } from "./Steps/step4.slice";
@@ -12,6 +12,7 @@ import { setRewardDiscipline } from "./Steps/step6Slice";
 import { setFamilyRelationship } from "./Steps/step8Slice";
 import { setStatus, setIsNextStep, setMessageAlert, setUserProfileID } from "./Steps/stepsSlice";
 import jwt_decode from "jwt-decode";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function* getProfileByID(payload) {
     let { proID , email, soDienThoai} = payload.data;
@@ -100,39 +101,45 @@ function* getProfileByUserID(payload){
 }
 
 function* updateProfile(payload){
-    // console.log(payload.valuesUpdate)
-    const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
-        navigate, action, work_object_id } = payload.valuesUpdate;
-        console.log(work_object_id)
-    let {hoTen, email, soDienThoai} = newValueForm;
-    let userInfor = {full_name: hoTen, email, phone: soDienThoai};
-    let {phongBanCVObj , ...rest} = newValueForm;
-    let profile = mappingProfileStep1(newValueForm);
-    let depPos = mappingDepartmentPosition(newValueForm);
-    let userDegree = mappingUserDegree(newValueForm);
-    let jourCard = mappingJournalistCard(newValueForm);
-    let workObject = mappingWorkObject(newValueForm);
-    let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, userInfor, workObject, work_object_id};
-    yield put(setIsNextStep(true))
-    yield put(setValues(rest))
-    let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)
-    let msg = profileUpdated.data[0]?.msg;
-    console.log(profileUpdated)
-    if(msg === "Thành công"){
-        yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
-        let decoded = jwt_decode(TOKEN);
-        if(action === "send" || action === "reject"){
-            if(+decoded.id === 1){
-                navigate("/profile-service/hr/profile");
-            } else {
-                navigate("/");
+    try{
+        console.log(payload)
+        const {newValueForm, user_id, jour_card_id, user_degree_id, pro_id, 
+             action, work_object_id } = payload.valuesUpdate;
+        let {hoTen, email, soDienThoai} = newValueForm;
+        let userInfor = {full_name: hoTen, email, phone: soDienThoai};
+        let {phongBanCVObj , ...rest} = newValueForm;
+        let profile = mappingProfileStep1(newValueForm);
+        let depPos = mappingDepartmentPosition(newValueForm);
+        let userDegree = mappingUserDegree(newValueForm);
+        let jourCard = mappingJournalistCard(newValueForm);
+        let workObject = mappingWorkObject(newValueForm);
+        let dataToUpdate = { profile, userDegree, jourCard, depPos, user_id, jour_card_id, user_degree_id, pro_id, userInfor, workObject, work_object_id};
+        yield put(setIsNextStep(true))
+        yield put(setValues(rest))
+        let profileUpdated = yield call(updateProfile_API,dataToUpdate, action)
+        let msg = profileUpdated?.data[0]?.msg;
+        if(msg === "Thành công"){
+            yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }))
+            let decoded = jwt_decode(TOKEN);
+            if(action === "send" || action === "reject"){
+                if(+decoded.id === 1){
+                    console.log("1")
+                    yield put(setPathUrl("/profile-service/hr/profile"))
+                    // yield history.push("/profile-service/hr/profile");
+                } else {
+                    console.log("11")
+                    yield put(setPathUrl("/"))
+                }
             }
+            yield put(setIsSubmit(false))
+        } else {
+            yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
+            yield put(setIsSubmit(false))
         }
-        yield put(setIsSubmit(false))
-    } else {
-        yield put(setMessageAlert({ type: "error", msg: "Thao tác thất bại" }))
-        yield put(setIsSubmit(false))
+    }catch(error){
+console.log(error)
     }
+  
 }
 
 function* updateProfileActive(payload){
@@ -192,21 +199,25 @@ function* createProfile(payload) {
 }
 
 function* getAvatar(payload) {
-    let { user_id } = payload
-    const res = yield call(getAvatar_API, user_id);
-    if (res.data !== null || res.data.length > 0) {
-        yield put(setResources(res.data))
-        let avatar = res.data;
-        let indexAvatar = avatar.findIndex(resoures => resoures.type === "3x4");
-        if(indexAvatar !== -1 && avatar[indexAvatar].resource.content !== null){
-            let { content } = avatar[indexAvatar].resource;
-            yield put(setAvatar(content));
+    try{
+        let { user_id } = payload
+        const res = yield call(getAvatar_API, user_id);
+        if (res.data !== null || res.data.length > 0) {
+            yield put(setResources(res.data))
+            let avatar = res.data;
+            let indexAvatar = avatar.findIndex(resoures => resoures.type === "3x4");
+            if(indexAvatar !== -1 && avatar[indexAvatar].resource?.content !== null){
+                let { content } = avatar[indexAvatar].resource;
+                yield put(setAvatar(content));
+            } else {
+                yield put(setAvatar(""))
+            }
+            // let index = avatar.resource_content.length - 1;
         } else {
             yield put(setAvatar(""))
         }
-        // let index = avatar.resource_content.length - 1;
-    } else {
-        yield put(setAvatar(""))
+    }catch(error){
+console.log(error)
     }
     // console.log(content)
 }

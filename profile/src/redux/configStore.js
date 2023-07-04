@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore,createAction  } from "@reduxjs/toolkit"
 import createSagaMiddleware from "@redux-saga/core"
 import rootSaga from "./rootSaga";
 import steps1Slice from "./Steps/step1/step1Slice";
@@ -17,6 +17,7 @@ import step7Slice from "./Steps/step7Slice";
 import step9Slice from "./Steps/step9Slice";
 import tableSlice from "./Slice/tableSlice";
 import permissionSlice from "./Slice/permissionSlice";
+import { useDispatch } from "react-redux";
 
 const sagaMiddleware = createSagaMiddleware();
 

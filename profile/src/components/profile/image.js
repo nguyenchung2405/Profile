@@ -9,7 +9,6 @@ export default function Image() {
   let { user_id } = useSelector((state) => state.stepsReducer.user_profile_id);
   let { avatar, resources } = useSelector((state) => state.steps1Reducer);
   const dispatch = useDispatch();
-  console.log(avatar);
   useEffect(() => {
     // setPath(`data:image/jpeg;base64,${avatar}`)
     if (avatar.length > 0) {

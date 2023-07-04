@@ -58,7 +58,8 @@ const initialState = {
     avatar: "",
     emailPhone: {},
     action: "",
-    resources: []
+    resources: [],
+    pathUrl:""
 }
 
 const step1Slice = createSlice({
@@ -76,6 +77,13 @@ const step1Slice = createSlice({
                     state.phongBanChucVuArr.push(payload)
                 }
             }
+        },
+        setPathUrl: (state,action)=>{
+            let {payload} = action;
+            console.log(action)
+            console.log(payload)
+            state.pathUrl=payload
+            // console.log("reducer",payload)
         },
         removePBCV: (state,action)=>{
             let {payload}= action;
@@ -171,6 +179,6 @@ export const {addPBCV, removePBCV, setValues, setNoiSinhTinh
 , setNoiSinhQuan, setNoiSinhHuyen, setQueQuanTinh, setQueQuanQuan, 
 setQueQuanHuyen, setNoiOTinh, setNoiOQuan, setNoiOHuyen, setIsCreateProfile, setIsNavigate,
 setPB_CV, setTo, setAvatar, setIsOnLyCreateProfile, setHoKhauHuyen, setHoKhauTinh,
-setHoKhauQuan, setEmailPhone, setIsSubmit, setAction, setResources } = step1Slice.actions;
+setHoKhauQuan, setEmailPhone, setIsSubmit, setAction, setResources,setPathUrl } = step1Slice.actions;
 
 export default step1Slice.reducer;
