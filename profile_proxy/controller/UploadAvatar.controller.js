@@ -54,16 +54,16 @@ const uploadUserAvatar = async (req, res) => {
             cache: 'no-cache'
           },
         });
-        console.log("Line 58",result_getIMGs)
-        // const result_getIMG = await axios({
-        //     url: `${local}/user-resources/user/${user_id}`,
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: authorization
-        //     }
-        // })
-        // res.send(result_getIMG.data);
-        res.send(result_getIMGs.data);
+        // console.log("Line 58",result_getIMGs)
+        const result_getIMG = await axios({
+            url: `${local}/user-resources/user/${user_id}`,
+            method: "GET",
+            headers: {
+                Authorization: authorization
+            }
+        })
+        res.send(result_getIMG.data);
+        // res.send(result_getIMGs.data);
       } else {
         // Nếu post ảnh fail thì trả về  kết quả báo lỗi gì đó
         res.send(result.data);
