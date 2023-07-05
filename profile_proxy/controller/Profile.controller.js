@@ -160,6 +160,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
         // Chỉnh sửa thuộc tính của journalist card rồi mới gắn vô API
         jourCard["pro_id"] = pro_id;
         let {user_id : joucardUserID, ...restJourCard} =  jourCard;
+        console.log(restJourCard)
         // console.log(restJourCard)
         const updateJourCard = axios({
             url: `${local}/journalist-card/${jour_card_id}`,

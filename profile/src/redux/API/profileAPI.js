@@ -18,8 +18,6 @@ export async function getProfileByID_API(pro_id){
 }
 
 export async function updateProfile_API(valuesUpdate, action){
-    console.log("Line 21",action)
-    console.log(valuesUpdate);
     try {
         // let {user_id, jour_card_id, user_degree_id, pro_id} = valuesUpdate;
         // console.log(user_id, jour_card_id, user_degree_id, pro_id)

@@ -11,6 +11,7 @@ export const mappingProfileStep1 = (formValues)=>{
     
     return {
         "user_id": "",
+        "email":formValues.emailPerson,
         "full_name": formValues.hoTen,
         "pen_name": formValues.tenThuongGoi,
         "birth_day": formValues.ngayThangNamSinh,
@@ -39,10 +40,12 @@ export const mappingDepartmentPosition = (data)=>{
             "pos_man_id": depPos.chucVu,
             "appointment_date": data.ngayBoNhiem,
             "expire_date": data.ngayHetHanBoNhiem,
+            "label":depPos.to,
             // "note": Date.parse(moment(data.ngayDuocTuyenDung, "DD-MM-YYYY")) / 10000,
             "is_primary": true
         })
     }
+    console.log(depPosArr)
     return depPosArr;
 }
 
@@ -127,11 +130,13 @@ function tachDuLieuPhongBan_ChucVu(data) {
   if (data.user_dep_pos.length > 0) {
     for (let dep_pos of data.user_dep_pos) {
       // console.log(dep_pos)
-      let { department_id: dep_id, position: { pos_management_id }, id } = dep_pos;
+      let { department_id: dep_id, position: { pos_management_id }, id,label } = dep_pos;
+      console.log(label)
       PB_CV_Arr.push({
         phongBan: dep_id,
         chucVu: pos_management_id,
-        id
+        id,
+        to:label
       })
     }
   }
@@ -145,7 +150,7 @@ export const mappingProfileAPI = (values) => {
         canCuocCD: values.identity_card,
         chuyenMon: values?.user_degree[0]?.diploma,
         danToc: values.ethnic,
-        // email: "doannguyenchung@gmail.com",
+        emailPerson: values.email,
         gioiTinh: values.gender,
         hoKhauThuongTru: tachDuLieu(values?.user_degree[0]?.permanent_residence, 4),
         hoTen: values.full_name,

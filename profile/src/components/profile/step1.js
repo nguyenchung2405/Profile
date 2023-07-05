@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./profile.css";
-import { Select, DatePicker } from "antd";
+import { Select, DatePicker, Radio } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addPBCV,
@@ -12,7 +12,7 @@ import {
   setNoiSinhHuyen,
   setQueQuanHuyen,
 } from "../../redux/Steps/step1/step1Slice";
-import { AiOutlineMinus } from "react-icons/ai";
+import { AiOutlineMinus, AiOutlineCloseCircle } from "react-icons/ai";
 import {
   moveToNextStep,
   setIsNextStep,
@@ -77,19 +77,25 @@ export default function SoYeuLyLich(props) {
     isOnLyCreateProfile,
     isNavigateTo404,
     phongBan: depList,
+    // to:depList,
     chucVu: posList,
     hoKhauTinh,
     hoKhauQuan,
     hoKhauHuyen,
     isSubmit,
     action,
-    pathUrl
+    pathUrl,
   } = useSelector((state) => state.steps1Reducer);
   const [depPosArrCreateWhenUpdate, setDepPosArrCreateWhenUpdate] = useState(
     []
   );
 
-  let [phongBanCVOb, setPhongBanCVOb] = useState({ phongBan: "", chucVu: "" });
+  let [phongBanCVOb, setPhongBanCVOb] = useState({
+    phongBan: "",
+    chucVu: "",
+    to: "",
+  });
+  let [giaoDuc, setGiaoDuc] = useState("");
   let [isShowModal, setIsShowModal] = useState(false);
   let [isShowModal2, setIsShowModal2] = useState(false);
   const [valueForm, setValueForm] = useState({ ...values });
@@ -100,12 +106,11 @@ export default function SoYeuLyLich(props) {
     // setValueForm từ state test -> lấy dữ liệu hiển thị ra cho user xem
     setValueForm({ ...test });
   }, [test]);
-useEffect(()=>{
-  console.log(pathUrl)
-  if(pathUrl.length>0){
-    history.push(pathUrl)
-  }
-},[pathUrl])
+  useEffect(() => {
+    if (pathUrl.length > 0) {
+      history.push(pathUrl);
+    }
+  }, [pathUrl]);
   useEffect(() => {
     // Vi lý do nào đó setValueForm ko hoạt động nên đi đường tà đạo
     // setTest xong từ đó set ngược lại valueForm
@@ -258,7 +263,6 @@ useEffect(()=>{
           status.state === "ACTIVE" &&
           status["can_action"] === true
         ) {
-          console.log("dadasdsdas")
           // Cập nhật user degree, dep ,pos, jour card khi state = ACTIVE
           let newValueForm = { ...valueForm };
           newValueForm.phongBanCVObj = [...depPosArrCreateWhenUpdate];
@@ -326,16 +330,16 @@ useEffect(()=>{
     "ngayCapCCCD",
     "canCuocCD",
     "loaiNV",
-    "ngayThangNamSinh"
+    "ngayThangNamSinh",
   ];
   const [validateForm, setValidateForm] = useState({
     hoTen: false,
-    danToc:false,
+    danToc: false,
     email: false,
     soDienThoai: false,
     hocVan: false,
     chuyenMon: false,
-    gioitinh:false,
+    gioitinh: false,
     phongBanCVObj: false,
     noiSinh: { huyen: false, quan: false, tinh: false },
     queQuan: { huyen: false, quan: false, tinh: false },
@@ -452,22 +456,22 @@ useEffect(()=>{
       /* Vì value của Option là id của phòng ban , chức vụ nên phải tìm ra Object của phòng ban
             , chức vụ đó từ đó lấy name của PB, CV đó để render ra cho user xem */
       let newPBCVArr = [];
-      // console.log(phongBanChucVuArr)
       // console.log(isCreateProfile, isOnLyCreateProfile)
       for (let PB_CV of phongBanChucVuArr) {
-        let { phongBan, chucVu, id } = PB_CV;
+        let { phongBan, chucVu, id, to } = PB_CV;
         // console.log(phongBan, chucVu)
         // console.log(depList, posList)
         let phongBanCanTim = depList?.find((PB) => PB.id === phongBan);
+        let toBanCanTim = depList?.find((TO) => TO.name === to);
         let chucVuCanTim = posList?.find((CV) => CV.id === chucVu);
         // console.log(phongBanCanTim, chucVuCanTim)
         newPBCVArr.push({
           phongBan: phongBanCanTim?.name,
           chucVu: chucVuCanTim?.position?.name,
           id,
+          to: toBanCanTim?.name,
         });
       }
-      // console.log(newPBCVArr)
       /* Sau khi bóc ra được name của PB, CV rồi thì lấy Array mới có chứa tên cua PB, CV
             render ra */
       // console.log(phongBanChucVuArr)
@@ -475,10 +479,12 @@ useEffect(()=>{
         return (
           <div key={index}>
             <div>
+              <p>{infor.to}</p>
               <p>{infor.phongBan}</p>
               <p>{infor.chucVu}</p>
             </div>
-            <AiOutlineMinus
+            {/* <AiOutlineMinus */}
+            <AiOutlineCloseCircle
               onClick={() => {
                 dispatch(removePBCV(index));
                 if (!isCreateProfile && !isOnLyCreateProfile) {
@@ -551,7 +557,10 @@ useEffect(()=>{
             ...newValueForm,
             [value]: { ...newValueForm[value], chucVu: true },
           };
-          newValueForm = {...newValueForm, [value]: {...newValueForm[value], to: true}}
+          newValueForm = {
+            ...newValueForm,
+            [value]: { ...newValueForm[value], to: true },
+          };
           isNextStep = false;
         }
       } else if (value === "email" || value === "soDienThoai") {
@@ -591,7 +600,13 @@ useEffect(()=>{
       [name]: value,
     });
   };
-
+  const handleChangeHocVan = (e) => {
+    let value = e;
+    setValueForm({
+      ...valueForm,
+      hocVan: value,
+    });
+  };
   const renderChucVu = () => {
     let htmlRendered = [];
     htmlRendered.push(<Option value="">Chức vụ</Option>);
@@ -615,7 +630,16 @@ useEffect(()=>{
     }
     return htmlRendered;
   };
-
+  const renderTo = () => {
+    let htmlRendered = [];
+    htmlRendered.push(<Option value="">Tổ</Option>);
+    if (depList?.length > 0) {
+      for (let phongBan of depList) {
+        htmlRendered.push(<Option value={phongBan.name}>{phongBan.name}</Option>);
+      }
+    }
+    return htmlRendered;
+  };
   const handleChangeValueRadio = (e) => {
     let { value } = e.target;
     setValueForm({
@@ -623,7 +647,13 @@ useEffect(()=>{
       gioiTinh: value,
     });
   };
-
+  const handleChangeValueRadioLyLuan = (e) => {
+    let { value } = e.target;
+    setValueForm({
+      ...valueForm,
+      lyLuanCT: value,
+    });
+  };
   const getValueSelect_NoiSinh_Huyen = (value) => {
     let { noiSinh } = valueForm;
     let noiSinhNew = { ...noiSinh, huyen: value };
@@ -769,7 +799,7 @@ useEffect(()=>{
           newPBCV_Ob,
         ]);
       }
-      let newPhongBanCVObj = { phongBan: "", chucVu: "" };
+      let newPhongBanCVObj = { phongBan: "", chucVu: "", to: "" };
       setPhongBanCVOb({ ...newPhongBanCVObj });
     }
   };
@@ -777,7 +807,9 @@ useEffect(()=>{
   const getValueSelect_PhongBan = (value) => {
     setPhongBanCVOb({ ...phongBanCVOb, phongBan: value });
   };
-
+  const getValueSelect_To = (value) => {
+    setPhongBanCVOb({ ...phongBanCVOb, to: value });
+  };
   const showRequiredAlert = () => {
     return <p className="required__field">* Trường này không được để trống</p>;
   };
@@ -850,15 +882,15 @@ useEffect(()=>{
             disabledInput={disabledInput}
           />
           {valueForm.noiSinh?.huyen &&
-            valueForm.noiSinh?.quan &&
-            valueForm.noiSinh?.tinh ? (
+          valueForm.noiSinh?.quan &&
+          valueForm.noiSinh?.tinh ? (
             <p>{`${valueForm.noiSinh.huyen}, ${valueForm.noiSinh.quan}, ${valueForm.noiSinh.tinh}`}</p>
           ) : (
             ""
           )}
           {validateForm.noiSinh?.huyen ||
-            validateForm.noiSinh?.quan ||
-            validateForm.noiSinh?.tinh
+          validateForm.noiSinh?.quan ||
+          validateForm.noiSinh?.tinh
             ? showRequiredAlert()
             : ""}
         </div>
@@ -888,15 +920,15 @@ useEffect(()=>{
             disabledInput={disabledInput}
           />
           {valueForm.queQuan?.huyen &&
-            valueForm.queQuan?.quan &&
-            valueForm.queQuan?.tinh ? (
+          valueForm.queQuan?.quan &&
+          valueForm.queQuan?.tinh ? (
             <p>{`${valueForm.queQuan.huyen}, ${valueForm.queQuan.quan}, ${valueForm.queQuan.tinh}`}</p>
           ) : (
             ""
           )}
           {validateForm.queQuan?.huyen ||
-            validateForm.queQuan?.quan ||
-            validateForm.queQuan?.tinh
+          validateForm.queQuan?.quan ||
+          validateForm.queQuan?.tinh
             ? showRequiredAlert()
             : ""}
         </div>
@@ -932,12 +964,32 @@ useEffect(()=>{
         />
         <div className="SYLL__right__field two__content">
           <div className="fisrt__content hocVan">
-            {/* <label htmlFor="hocVan">Trình độ học vấn: */}
             <label htmlFor="hocVan">
-              Giáo dục phổ thông:
-              <span className="required__field"> *</span>
+              Giáo dục phổ thông:<span className="required__field"> *</span>
+              <Select
+                style={{
+                  width: 200,
+                }}
+                onChange={(e) => {
+                  handleChangeHocVan(e);
+                }}
+                value={setValueIntoForm("hocVan")}
+                placeholder="Giáo dục phổ thông"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "").includes(input)
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+              >
+                <Option value="Trung học cơ sở">Trung học cơ sở</Option>
+                <Option value="Trung học phổ thông">Trung học phổ thông</Option>
+              </Select>
             </label>
-            <input
+            {/* <input
               placeholder="Văn hóa phổ thông"
               id="hocVan"
               name="hocVan"
@@ -947,7 +999,7 @@ useEffect(()=>{
               onChange={(e) => {
                 handleChangeGetValueInput(e);
               }}
-            />
+            /> */}
             {/* {validateForm.hocVan ? showRequiredAlert() : ""} */}
           </div>
           <div id="chuyenMon__content">
@@ -973,8 +1025,17 @@ useEffect(()=>{
           <label htmlFor="lyLuanCT">
             Lý luận chính trị:
             {/* <span className="required__field"> *</span> */}
+            <Radio.Group
+              disabled={disabledInput()}
+              onChange={handleChangeValueRadioLyLuan}
+              value={setValueIntoForm("lyLuanCT")}
+            >
+              <Radio value="Sơ cấp">Sơ cấp</Radio>
+              <Radio value="Trung cấp">Trung cấp</Radio>
+              <Radio value="Cao cấp">Cao cấp</Radio>
+            </Radio.Group>
           </label>
-          <input
+          {/* <input
             id="lyLuanCT"
             name="lyLuanCT"
             type="text"
@@ -983,7 +1044,7 @@ useEffect(()=>{
             onChange={(e) => {
               handleChangeGetValueInput(e);
             }}
-          />
+          /> */}
           {/* {validateForm.lyLuanCT ? showRequiredAlert() : ""} */}
         </div>
         <div className="SYLL__right__field">
@@ -1004,7 +1065,7 @@ useEffect(()=>{
             <DatePicker
               value={
                 valueForm.ngayBoNhiem !== "" && valueForm.ngayBoNhiem !== null
-                  ? handleDateTime(valueForm.ngayBoNhiem)
+                  ? handleDateTime(valueForm?.ngayBoNhiem)
                   : ""
               }
               // onBlur={()=>{
@@ -1051,23 +1112,23 @@ useEffect(()=>{
             <DatePicker
               value={
                 valueForm.ngayHetHanBoNhiem !== "" &&
-                  valueForm.ngayHetHanBoNhiem !== null
+                valueForm.ngayHetHanBoNhiem !== null
                   ? handleDateTime(valueForm.ngayHetHanBoNhiem)
                   : ""
               }
-              // onBlur={()=>{
-              //     if(valueForm.ngayHetHanBoNhiem === ""){
-              //         setValidateForm({
-              //             ...validateForm,
-              //             ngayHetHanBoNhiem: true
-              //         })
-              //     } else {
-              //         setValidateForm({
-              //             ...validateForm,
-              //             ngayHetHanBoNhiem: false
-              //         })
-              //     }
-              // }}
+              onBlur={() => {
+                if (valueForm.ngayHetHanBoNhiem === "") {
+                  setValidateForm({
+                    ...validateForm,
+                    ngayHetHanBoNhiem: true,
+                  });
+                } else {
+                  setValidateForm({
+                    ...validateForm,
+                    ngayHetHanBoNhiem: false,
+                  });
+                }
+              }}
               onChange={(date, dateString) => {
                 let ngayBoNhiemINT = Date.parse(valueForm.ngayBoNhiem);
                 let ngayHetBoNhiemINT = Date.parse(
@@ -1155,7 +1216,50 @@ useEffect(()=>{
                 {renderPhongBan()}
               </Select>
               {validateForm.phongBanCVObj?.phongBan &&
-                phongBanChucVuArr.length < 1
+              phongBanChucVuArr.length < 1
+                ? showRequiredAlert()
+                : ""}
+            </div>
+
+            <div className="second__content chucVuHienTai">
+              <label htmlFor="chucVuHienTai">
+                Tổ:
+                <span className="required__field"> *</span>
+              </label>
+              <Select
+                defaultValue="Tổ"
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.children ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                value={phongBanCVOb.to === "" ? "" : phongBanCVOb.to}
+                // onBlur={() => {
+                //   if (phongBanCVOb.chucVu === "") {
+                //     setValidateForm({
+                //       ...validateForm,
+                //       phongBanCVObj: {
+                //         ...validateForm.phongBanCVObj,
+                //         chucVu: true,
+                //       },
+                //     });
+                //   } else {
+                //     setValidateForm({
+                //       ...validateForm,
+                //       phongBanCVObj: {
+                //         ...validateForm.phongBanCVObj,
+                //         chucVu: false,
+                //       },
+                //     });
+                //   }
+                // }}
+                onChange={getValueSelect_To}
+              >
+                {renderTo()}
+              </Select>
+              {validateForm.phongBanCVObj?.chucVu &&
+              phongBanChucVuArr.length < 1
                 ? showRequiredAlert()
                 : ""}
             </div>
@@ -1197,7 +1301,7 @@ useEffect(()=>{
                 {renderChucVu()}
               </Select>
               {validateForm.phongBanCVObj?.chucVu &&
-                phongBanChucVuArr.length < 1
+              phongBanChucVuArr.length < 1
                 ? showRequiredAlert()
                 : ""}
             </div>
@@ -1222,9 +1326,9 @@ useEffect(()=>{
             <DatePicker
               value={
                 valueForm.ngayCapTheNhaBao !== "" &&
-                  valueForm.ngayCapTheNhaBao !== undefined &&
-                  valueForm.ngayCapTheNhaBao !== null &&
-                  valueForm.ngayCapTheNhaBao !== "Invalid date"
+                valueForm.ngayCapTheNhaBao !== undefined &&
+                valueForm.ngayCapTheNhaBao !== null &&
+                valueForm.ngayCapTheNhaBao !== "Invalid date"
                   ? moment(valueForm.ngayCapTheNhaBao, "DD-MM-YYYY")
                   : ""
               }
@@ -1260,8 +1364,8 @@ useEffect(()=>{
             <DatePicker
               value={
                 valueForm.theCoHieuLucTu !== "" &&
-                  valueForm.theCoHieuLucTu !== undefined &&
-                  valueForm.theCoHieuLucTu !== null
+                valueForm.theCoHieuLucTu !== undefined &&
+                valueForm.theCoHieuLucTu !== null
                   ? handleDateTime(valueForm.theCoHieuLucTu)
                   : ""
               }
@@ -1311,8 +1415,8 @@ useEffect(()=>{
             <DatePicker
               value={
                 valueForm.theCoHieuLucDen !== "" &&
-                  valueForm.theCoHieuLucDen !== undefined &&
-                  valueForm.theCoHieuLucDen !== null
+                valueForm.theCoHieuLucDen !== undefined &&
+                valueForm.theCoHieuLucDen !== null
                   ? handleDateTime(valueForm.theCoHieuLucDen)
                   : ""
               }

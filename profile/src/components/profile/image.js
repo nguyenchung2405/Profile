@@ -9,15 +9,12 @@ export default function Image() {
   let { user_id } = useSelector((state) => state.stepsReducer.user_profile_id);
   let { avatar, resources } = useSelector((state) => state.steps1Reducer);
   const dispatch = useDispatch();
+  const axiosConfig = axios.create({});
   useEffect(() => {
-    // setPath(`data:image/jpeg;base64,${avatar}`)
-    if (avatar.length > 0) {
-      let content = JSON.parse(avatar);
-      console.log(content);
-      setPath(`http://192.168.61.116:8017${content[0]}`);
+    if (avatar?.length > 0) {
+      setPath(`http://192.168.61.116:8017${avatar}`);
     }
   }, [avatar]);
-
   return (
     <div className="image">
       <div className="image-3x4">
@@ -41,17 +38,12 @@ export default function Image() {
               data: form,
             });
             let image = result.data.data;
-            // if (result.data.message === "Success") {
-            //   if (image.type === "3x4") {
-            //     Object.keys(image).forEach((key) => {
-            //       if (image[key] === undefined || image[key] === null) {
-            //         delete image[key];
-            //       }
-            //     });
-            //     return image;
-            //   }
-            // }
-            console.log(result);
+            console.log(result.data)
+            let indexAvatar = image.findLastIndex(resoures => resoures.type === "3x4");
+            if(indexAvatar !== -1 && image[indexAvatar]?.path !== null){
+              let  path = image[indexAvatar].path;
+              setPath(`http://192.168.61.116:8017${JSON.parse(path).toString()}`);
+          } 
             // let imgIdExsisted = resources.find(img => img?.type === "3x4");
             // if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){
             //     dispatch({
@@ -61,7 +53,7 @@ export default function Image() {
             // }
             // dispatch(setResources(result?.data?.data))
             // let {content} = result.data.data[0].resource;
-            dispatch(setAvatar(result.data.data.path));
+            dispatch(setAvatar(result?.data?.data?.path));
           }
         }}
       />

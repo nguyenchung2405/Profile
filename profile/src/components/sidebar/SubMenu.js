@@ -249,12 +249,12 @@ export default function SubMenu(permission) {
     ];
 
   const items_user = [
-    getItem("Nhân sự2", "sub-menu-1", <MdPeopleOutline />, [
+    getItem("Nhân sự", "sub-menu-1", <MdPeopleOutline />, [
       getItem(
         <Link to={`${uri}/myprofile/${jwt_decode(TOKEN)?.id}`}>
           Thông tin cá nhân
         </Link>,
-        "4",
+        "4", 
         <ImProfile />
       ),
     ]),
