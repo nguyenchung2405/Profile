@@ -67,11 +67,11 @@ rootRouter.put("/profiles/updateactive", checkUserID, update_dep_pos_degress_jou
 // rootRouter.post("/upload", uploadImageAvatar(), uploadUserAvatar)
 rootRouter.post("/upload", upload.single("image3x4"), uploadUserAvatar)
 
-rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5)
-rootRouter.post("/upload/step7", uploadStep7(), uploadFileStep7)
+// rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5)
+// rootRouter.post("/upload/step7", uploadStep7(), uploadFileStep7)
 rootRouter.post("/create", createNewUser, createProfile, create_dep_pos_degree_jourCard);
 rootRouter.post("/create/profile", checkUserID, createProfile, create_dep_pos_degree_jourCard);
-rootRouter.post("/profiles/importation", uploadFileIport(), importUser)
+// rootRouter.post("/profiles/importation", uploadFileIport(), importUser)
 
 module.exports = {
     rootRouter
