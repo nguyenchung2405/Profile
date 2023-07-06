@@ -13,7 +13,10 @@ const checkProduct = () => {
     return "https://profileservice-product.tuoitre.vn";
   }
   // if (window.location.href.includes("erp-dev")|| window.location.href.includes("erpfe"))
-  else {
+  else if (
+    window.location.href.includes("erp-dev") ||
+    window.location.href.includes("erpfe")
+  ) {
     return "https://profileservice.tuoitre.vn";
   }
 };
