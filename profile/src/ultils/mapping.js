@@ -45,7 +45,6 @@ export const mappingDepartmentPosition = (data)=>{
             "is_primary": true
         })
     }
-    console.log(depPosArr)
     return depPosArr;
 }
 
@@ -131,7 +130,6 @@ function tachDuLieuPhongBan_ChucVu(data) {
     for (let dep_pos of data.user_dep_pos) {
       // console.log(dep_pos)
       let { department_id: dep_id, position: { pos_management_id }, id,label } = dep_pos;
-      console.log(label)
       PB_CV_Arr.push({
         phongBan: dep_id,
         chucVu: pos_management_id,

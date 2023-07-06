@@ -24,7 +24,7 @@ export default function ThongTinCaNhan(props) {
         </div>
         <div className="SYLL__right__field two__content">
             <div className="fisrt__content ngayThamGiaCM">
-                <label >Ngày cấp:<span className="required__field"> *</span>
+                <label style={{fontWeight:'500',fontSize:15}}>Ngày cấp:<span className="required__field"> *</span>
                     </label>
                 <DatePicker 
                 disabled={disabledInput()}
@@ -60,7 +60,7 @@ export default function ThongTinCaNhan(props) {
                 {validateForm.ngayCapCCCD ? showRequiredAlert() : ""}
             </div>
             <div className="second__content toChuc">
-                <label htmlFor="noiCapCCCD">Nơi cấp:
+                <label style={{fontWeight:'500',fontSize:15}} htmlFor="noiCapCCCD">Nơi cấp:
                 </label>
                 <input id="noiCapCCCD" name="noiCapCCCD" type="text"
                 disabled={disabledInput()} 
@@ -72,7 +72,7 @@ export default function ThongTinCaNhan(props) {
         </div>
         <div className="SYLL__right__field two__content">
                 <div className="fisrt__content danToc">
-                    <label htmlFor="danToc">Dân tộc: <span className="required__field"> *</span> 
+                    <label style={{fontWeight:'500',fontSize:15}} htmlFor="danToc">Dân tộc: <span className="required__field"> *</span> 
                     </label>
                     <input id="danToc" name="danToc" type="text" 
                     disabled={disabledInput()}
@@ -84,7 +84,7 @@ export default function ThongTinCaNhan(props) {
                     {validateForm.danToc ? showRequiredAlert() : ""}
                 </div>
                 <div className="second__content tonGiao">
-                    <label htmlFor="tonGiao">Tôn giáo:
+                    <label style={{fontWeight:'500',fontSize:15}} htmlFor="tonGiao">Tôn giáo:
                     </label>
                     <input id="tonGiao" name="tonGiao" type="text" 
                     disabled={disabledInput()}
