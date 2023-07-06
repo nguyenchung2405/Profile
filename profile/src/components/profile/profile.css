@@ -113,7 +113,7 @@
 
 .SYLL__right__field .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 600;
     color: rgba(102, 102, 102, 0.5);
 }
 
@@ -202,7 +202,9 @@ input#maSo::placeholder {
     width: 203px;
     margin-right: 39px;
 }
-
+.hocVan{
+    border-radius: 2px !important;
+}
 .chuyenMon {
     display: flex;
     align-items: flex-end;
@@ -653,6 +655,12 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 }
 .ant-select-selector {
     border-radius: 20px !important;
+}
+.hocVan .ant-select-selector {
+    border-radius: 5px !important;
+}
+.ant-select-selection-item::placeholder{
+    color:red;
 }
 .SYLL__right__field .phongBanCV__list div p {
     height: 100%;
