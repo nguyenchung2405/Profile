@@ -3,27 +3,27 @@ import { checkMicroFe, getTokenInCookie } from "../ultils/helper";
 export const TOKEN = getTokenInCookie();
 
 const checkProduct = () => {
-    if (window.location.href.includes("staging")) {
-        return "https://profileservice-staging.tuoitre.vn"
-    } else if ((window.location.href.includes("erp.tuoitre.vn") ||
-        window.location.href.includes("nhatoi") 
-        // || window.location.href.includes("erpfe")
-        
-        )) {
-        return "https://profileservice-product.tuoitre.vn"
-    } else 
-    if (window.location.href.includes("erp-dev")|| window.location.href.includes("erpfe")) 
-    {
-        return "https://profileservice.tuoitre.vn"
-    }
-}
-export const local = checkMicroFe() === true ? checkProduct() : ""
+  if (window.location.href.includes("staging")) {
+    return "https://profileservice-staging.tuoitre.vn";
+  } else if (
+    window.location.href.includes("erp.tuoitre.vn") ||
+    window.location.href.includes("nhatoi")
+    // || window.location.href.includes("erpfe")
+  ) {
+    return "https://profileservice-product.tuoitre.vn";
+  }
+  // if (window.location.href.includes("erp-dev")|| window.location.href.includes("erpfe"))
+  else {
+    return "https://profileservice.tuoitre.vn";
+  }
+};
+export const local = checkMicroFe() === true ? checkProduct() : "";
 //     window.location.href.includes("staging")
 //     ? "https://profileservice-staging.tuoitre.vn"
 //     : (window.location.href.includes("erp.tuoitre.vn")||
 //     window.location.href.includes("nhatoi")
 //     )?
-//      "https://profileservice-product.tuoitre.vn" 
+//      "https://profileservice-product.tuoitre.vn"
 // : ""
 
 // Regex
@@ -31,15 +31,16 @@ export const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const regexPhone = /(84[3|5|7|8|9]|0[3|5|7|8|9])+([0-9]{8}|[0-9]{9})\b/;
 
 export const quaTrinhLVHT = "Quá trình làm việc và học tập";
-export const thamGiaToChucCT = "Tham gia các tổ chức chính trị, các hôị nghề nghiệp";
+export const thamGiaToChucCT =
+  "Tham gia các tổ chức chính trị, các hôị nghề nghiệp";
 export const daoTao = "Đào tạo";
 export const boiDuong = "Bồi dưỡng";
 export const khenThuong = "Khen thưởng";
 export const kyLuat = "Kỷ luật";
 export const lichSuBanThan = "Lịch sử bản thân";
 export const quanHeGiaDinh = "Quan hệ gia đình";
-export const noiSinh_Step1 = "Nơi sinh"
-export const queQuan_Step1 = "Quê quán"
+export const noiSinh_Step1 = "Nơi sinh";
+export const queQuan_Step1 = "Quê quán";
 export const GET_PROFILE_BY_ID = "GET_PROFILE_BY_ID";
 export const GET_PROVINCES = "GET_PROVINCES";
 export const GET_DISTRICTS_BIRTH_PLACE = "GET_DISTRICTS_BIRTH_PLACE";
@@ -88,10 +89,14 @@ export const CREATE_REWARD_DISCIPLINE = "CREATE_REWARD_DISCIPLINE";
 export const DELETE_REWARD_DISCIPLINE = "DELETE_REWARD_DISCIPLINE";
 export const UPDATE_REWARD_DISCIPLINE = "UPDATE_REWARD_DISCIPLINE";
 export const CREATE_FAMILY_RELATIONSHIP = "CREATE_FAMILY_RELATIONSHIP";
-export const CREATE_FAMILY_RELATIONSHIP_STEP7 = "CREATE_FAMILY_RELATIONSHIP_STEP7";
-export const CREATE_FAMILY_RELATIONSHIP_CON_STEP7 = "CREATE_FAMILY_RELATIONSHIP_CON_STEP7";
-export const UPDATE_FAMILY_RELATIONSHIP_STEP7 = "UPDATE_FAMILY_RELATIONSHIP_STEP7";
-export const UPDATE_FAMILY_RELATIONSHIP_CON_STEP7 = "UPDATE_FAMILY_RELATIONSHIP_CON_STEP7";
+export const CREATE_FAMILY_RELATIONSHIP_STEP7 =
+  "CREATE_FAMILY_RELATIONSHIP_STEP7";
+export const CREATE_FAMILY_RELATIONSHIP_CON_STEP7 =
+  "CREATE_FAMILY_RELATIONSHIP_CON_STEP7";
+export const UPDATE_FAMILY_RELATIONSHIP_STEP7 =
+  "UPDATE_FAMILY_RELATIONSHIP_STEP7";
+export const UPDATE_FAMILY_RELATIONSHIP_CON_STEP7 =
+  "UPDATE_FAMILY_RELATIONSHIP_CON_STEP7";
 export const UPDATE_FAMILY_RELATIONSHIP = "UPDATE_FAMILY_RELATIONSHIP";
 export const GET_DEP_POS_TO_SEARCH = "GET_DEP_POS_TO_SEARCH";
 export const SEARCH = "SEARCH";
