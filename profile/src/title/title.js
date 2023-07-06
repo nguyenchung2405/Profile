@@ -12,7 +12,7 @@ const checkProduct = () => {
         )) {
         return "https://profileservice-product.tuoitre.vn"
     } else 
-    // if (window.location.href.includes("erp-dev")|| window.location.href.includes("erpfe")) 
+    if (window.location.href.includes("erp-dev")|| window.location.href.includes("erpfe")) 
     {
         return "https://profileservice.tuoitre.vn"
     }
