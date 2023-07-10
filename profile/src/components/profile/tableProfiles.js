@@ -185,7 +185,7 @@ const handleExportNV=(e)=>{
               dispatch(removePBCV("all"))
               dispatch(setValues(userInforEmpty))
               // history.push(`${uri}/hr/profile/create`)
-              history.push(checkMicroFe()===true?'/profile-service/profile/create':'/hr/profile/create')
+              history.push(checkMicroFe()===true?'/profile-service/profile/hr/create':'/hr/profile/create')
             }}>
               <AiOutlineUserAdd />
               Tạo
