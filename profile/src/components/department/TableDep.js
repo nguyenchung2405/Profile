@@ -219,7 +219,9 @@ export default function TableDep() {
                     <div className="thaoTac__Edit">
                       {checkUserPermission(userPermission, "sửa phòng ban", "xem chi tiết phòng ban")
                         ?
-                        <button className="thaoTac__Edit__btn" onClick={() => {
+                        <button
+                        style={{color:"white !important"}}
+                        className="thaoTac__Edit__btn" onClick={() => {
                           // history.push(`/hr/department/${child.id}`);
                           child.title = "Chỉnh sửa phòng ban"
                           setDataToModal(child)
@@ -300,7 +302,9 @@ export default function TableDep() {
             return <div className="thaoTac__Edit">
               {checkUserPermission(userPermission, "sửa phòng ban", "xem chi tiết phòng ban")
                 ?
-                <button className="thaoTac__Edit__btn" onClick={() => {
+                <button
+                style={{color:"white"}}
+                className="thaoTac__Edit__btn" onClick={() => {
                   // history.push(`/hr/department/${record.id}`);
                   record.title = "Chỉnh sửa phòng ban"
                   setDataToModal(record)

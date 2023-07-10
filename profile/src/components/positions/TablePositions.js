@@ -285,7 +285,9 @@ export default function TablePositions() {
               return <div className="thaoTac__Edit">
                 {checkUserPermission(userPermission, "sửa chức vụ", "xem chi tiết chức vụ")
                   ?
-                  <button className="thaoTac__Edit__btn" onClick={() => {
+                  <button
+                  style={{color:"white"}}
+                  className="thaoTac__Edit__btn" onClick={() => {
                     setDataToModal(record)
                     setIsShowModal(true)
                     setTitlePosManageModal("Chỉnh sửa chức vụ")

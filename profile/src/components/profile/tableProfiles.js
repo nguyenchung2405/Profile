@@ -184,7 +184,8 @@ const handleExportNV=(e)=>{
             <button className="create_acc_profile" onClick={() => {
               dispatch(removePBCV("all"))
               dispatch(setValues(userInforEmpty))
-              history.push(`${uri}/hr/profile/create`)
+              // history.push(`${uri}/hr/profile/create`)
+              history.push(checkMicroFe()===true?'/profile-service/profile/create':'/hr/profile/create')
             }}>
               <AiOutlineUserAdd />
               Tạo
@@ -453,6 +454,7 @@ const handleExportNV=(e)=>{
                   if (id && typeof id === "number" && id !== null) {
                     return <div>
                       <button
+                      style={{color:"#fff"}}
                       title='Sửa hồ sơ'
                       onClick={() => {
                         dispatch(setIsCreateProfile(false))

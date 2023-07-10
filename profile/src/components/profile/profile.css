@@ -1354,7 +1354,7 @@ button.thaoTac__Edit__btn {
 .tableProfiles__thaoTac svg,
 button.thaoTac__Edit__btn svg {
     bordeR:none;
-    color: white;
+    /* color: white; */
     cursor: pointer;
     width: 20px;
     height: 100%;
