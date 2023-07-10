@@ -139,8 +139,8 @@ const handleExportNV=(e)=>{
     return axiosConfig.get( `${local}/api/users/exportation/xlxs`,{
       responseType: "arraybuffer",
       headers:{
-        'Content-Type': 'blob'}
-    }).then((data)=>{
+        'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+      }).then((data)=>{
       const blob=new Blob([data.data],{
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
         encoding: "UTF-8",
@@ -447,12 +447,13 @@ const handleExportNV=(e)=>{
             }} />
               <Column className="tableProfiles__chucVu" title="Đối tượng lao động" key="chucVu"
             render={(text, record, index) => {
-              console.log(record)
-              let tenCV = [];
-              for (let PB of record.user_dep_pos) {
-                tenCV.push(<p>{PB.position.pos_name}</p>)
-              }
-              return tenCV
+              return <p>{record?.profile?.work_object[0]?.work_formality}</p>
+              let tenObjLaoDong = [];
+              // for (let PB of record?.profile) {
+              //   console.log(PB)
+              //   // tenObjLaoDong.push(<p>{PB?.work_object?.work_formality}</p>)
+              // }
+              // return tenObjLaoDong
             }} />
           <Column className="tableProfiles__soDienThoai" title="Số điện thoại" dataIndex="phone" key="soDienThoai" />
           <Column className="tableProfiles__thaoTac" key="thaoTac"
@@ -489,7 +490,7 @@ const handleExportNV=(e)=>{
                   return <div>
                     <button
                     title='Tạo hồ sơ'
-                    style={{background:"red",height:28, width:28}}
+                    style={{background:"#ffe2e5",color:"#f64e60",height:28, width:28}}
                     onClick={() => {
                       dispatch(setValues(newData))
                       dispatch(setIsCreateProfile(false))
