@@ -315,7 +315,7 @@ export default function SoYeuLyLich(props) {
     "email",
     "soDienThoai",
     "hocVan",
-    "chuyenMon",
+    // "chuyenMon",
     "tonGiao",
     // "lyLuanCT",
     "gioiTinh",
@@ -338,7 +338,7 @@ export default function SoYeuLyLich(props) {
     email: false,
     soDienThoai: false,
     hocVan: false,
-    chuyenMon: false,
+    // chuyenMon: false,
     gioitinh: false,
     phongBanCVObj: false,
     noiSinh: { huyen: false, quan: false, tinh: false },
@@ -353,7 +353,7 @@ export default function SoYeuLyLich(props) {
     // noiOHienTai: { diaChi: false, huyen: false, quan: false, tinh: false },
     // hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
   });
-  // console.log(valueForm)
+  console.log(validateForm)
 
   const disabledInput = () => {
     let isDisabled;
@@ -479,9 +479,21 @@ export default function SoYeuLyLich(props) {
         return (
           <div key={index}>
             <div>
-              <p>{infor.to}</p>
-              <p>{infor.phongBan}</p>
-              <p>{infor.chucVu}</p>
+              {/* <p><p>Sub/Label:</p>{infor.to}</p> */}
+              <ul>
+                <li >
+                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Sub/Label:</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.to}
+                </li>
+                <li>
+                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Phòng ban:</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.phongBan}
+                </li>
+                <li>
+                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Chức vụ:</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.chucVu}
+                </li>
+              </ul>
             </div>
             {/* <AiOutlineMinus */}
             <AiOutlineCloseCircle
@@ -632,10 +644,12 @@ export default function SoYeuLyLich(props) {
   };
   const renderTo = () => {
     let htmlRendered = [];
-    htmlRendered.push(<Option value="">Tổ</Option>);
+    htmlRendered.push(<Option value="">Sub/Label</Option>);
     if (depList?.length > 0) {
       for (let phongBan of depList) {
-        htmlRendered.push(<Option value={phongBan.name}>{phongBan.name}</Option>);
+        htmlRendered.push(
+          <Option value={phongBan.name}>{phongBan.name}</Option>
+        );
       }
     }
     return htmlRendered;
@@ -928,10 +942,8 @@ export default function SoYeuLyLich(props) {
           ) : (
             ""
           )}
-          {
-            validateForm.queQuan?.tinh||
-            validateForm.queQuan?.huyen &&
-            validateForm.queQuan?.quan 
+          {validateForm.queQuan?.tinh ||
+          (validateForm.queQuan?.huyen && validateForm.queQuan?.quan)
             ? showRequiredAlert()
             : ""}
         </div>
@@ -967,36 +979,36 @@ export default function SoYeuLyLich(props) {
         />
         <div className="SYLL__right__field two__content">
           <div className="fisrt__content hocVan">
-            <label style={{fontWeight:'500',fontSize:15}} htmlFor="hocVan">
+            <label style={{ fontWeight: "500", fontSize: 15 }} htmlFor="hocVan">
               Giáo dục phổ thông:<span className="required__field"> *</span>
             </label>
-              <Select
-                style={{
-                  width: 200,
-                }}
-                onChange={(e) => {
-                  handleChangeHocVan(e);
-                }}
-                value={setValueIntoForm("hocVan")}
-                placeholder="Giáo dục phổ thông"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-              >
-                <Option value="Trung học cơ sở">Trung học cơ sở</Option>
-                <Option value="Trung học phổ thông">Trung học phổ thông</Option>
-                <Option value="Trung cấp">Trung cấp</Option>
-                <Option value="Cao đẳng">Cao đẳng</Option>
-                <Option value="Cử nhân">Cử nhân</Option>
-                <Option value="Thạc sỹ">Thạc sỹ</Option>
-                <Option value="Tiến sĩ">Tiến sĩ</Option>
-              </Select>
+            <Select
+              style={{
+                width: 200,
+              }}
+              onChange={(e) => {
+                handleChangeHocVan(e);
+              }}
+              value={setValueIntoForm("hocVan")}
+              placeholder="Giáo dục phổ thông"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
+            >
+              <Option value="Trung học cơ sở">Trung học cơ sở</Option>
+              <Option value="Trung học phổ thông">Trung học phổ thông</Option>
+              <Option value="Trung cấp">Trung cấp</Option>
+              <Option value="Cao đẳng">Cao đẳng</Option>
+              <Option value="Cử nhân">Cử nhân</Option>
+              <Option value="Thạc sỹ">Thạc sỹ</Option>
+              <Option value="Tiến sĩ">Tiến sĩ</Option>
+            </Select>
             {/* <input
               placeholder="Văn hóa phổ thông"
               id="hocVan"
@@ -1012,7 +1024,10 @@ export default function SoYeuLyLich(props) {
           </div>
           <div id="chuyenMon__content">
             <div className="second__content">
-              <label style={{fontWeight:'500',fontSize:15}}> Chuyên môn:</label>
+              <label style={{ fontWeight: "500", fontSize: 15 }}>
+                {" "}
+                Chuyên môn:
+              </label>
               <input
                 placeholder="Chuyên môn kỹ thuật"
                 id="chuyenMon"
@@ -1069,7 +1084,9 @@ export default function SoYeuLyLich(props) {
         </div>
         <div className="SYLL__right__field two__content">
           <div className="fisrt__content date__picker">
-            <label style={{fontWeight:'500',fontSize:15}}>Ngày bổ nhiệm:</label>
+            <label style={{ fontWeight: "500", fontSize: 15 }}>
+              Ngày bổ nhiệm:
+            </label>
             <DatePicker
               value={
                 valueForm.ngayBoNhiem !== "" && valueForm.ngayBoNhiem !== null
@@ -1116,7 +1133,9 @@ export default function SoYeuLyLich(props) {
             {/*validateForm.ngayBoNhiem ? showRequiredAlert() : ""*/}
           </div>
           <div className="second__content date__picker">
-            <label style={{fontWeight:'500',fontSize:15}}>Ngày hết hạn bổ nhiệm:</label>
+            <label style={{ fontWeight: "500", fontSize: 15 }}>
+              Ngày hết hạn bổ nhiệm:
+            </label>
             <DatePicker
               value={
                 valueForm.ngayHetHanBoNhiem !== "" &&
@@ -1185,7 +1204,10 @@ export default function SoYeuLyLich(props) {
         <div className="SYLL__right__field ">
           <div className="two__content">
             <div className="fisrt__content phongBan">
-              <label style={{fontWeight:'500',fontSize:15}} htmlFor="phongBan">
+              <label
+                style={{ fontWeight: "500", fontSize: 15 }}
+                htmlFor="phongBan"
+              >
                 Phòng ban:
                 <span className="required__field"> *</span>
               </label>
@@ -1230,12 +1252,15 @@ export default function SoYeuLyLich(props) {
             </div>
 
             <div className="second__content chucVuHienTai">
-              <label style={{fontWeight:'500',fontSize:15}} htmlFor="chucVuHienTai">
-                Tổ:
+              <label
+                style={{ fontWeight: "500", fontSize: 15 }}
+                htmlFor="chucVuHienTai"
+              >
+                Sub/Label:
                 <span className="required__field"> *</span>
               </label>
               <Select
-                defaultValue="Tổ"
+                defaultValue="Sub/Label"
                 showSearch
                 filterOption={(input, option) =>
                   (option?.children ?? "")
@@ -1264,7 +1289,7 @@ export default function SoYeuLyLich(props) {
                 // }}
                 onChange={getValueSelect_To}
               >
-                {renderTo()}
+                Sub/Label:{renderTo()}
               </Select>
               {validateForm.phongBanCVObj?.chucVu &&
               phongBanChucVuArr.length < 1
@@ -1272,7 +1297,10 @@ export default function SoYeuLyLich(props) {
                 : ""}
             </div>
             <div className="second__content chucVuHienTai">
-              <label style={{fontWeight:'500',fontSize:15}} htmlFor="chucVuHienTai">
+              <label
+                style={{ fontWeight: "500", fontSize: 15 }}
+                htmlFor="chucVuHienTai"
+              >
                 Chức vụ:
                 <span className="required__field"> *</span>
               </label>
@@ -1366,7 +1394,7 @@ export default function SoYeuLyLich(props) {
             />
           </div>
         </div>
-        <div className="SYLL__right__field two__content theCoHieuLuc">
+        {/* <div className="SYLL__right__field two__content theCoHieuLuc">
           <div className="fisrt__content date__picker">
             <label>Thẻ có hiệu lực từ:</label>
             <DatePicker
@@ -1486,8 +1514,8 @@ export default function SoYeuLyLich(props) {
               format="DD-MM-YYYY"
             />
           </div>
-        </div>
-        <div className="SYLL__right__field">
+        </div> */}
+        {/* <div className="SYLL__right__field">
           <label htmlFor="lyLuanCT">
             Đối tượng lao động:
             <span className="required__field"> *</span>
@@ -1524,7 +1552,7 @@ export default function SoYeuLyLich(props) {
             <Option value="Nhân viên chính thức">Nhân viên chính thức</Option>
           </Select>
           {validateForm.loaiNV ? showRequiredAlert() : ""}
-        </div>
+        </div> */}
         <div className="SYLL__right__field">
           <label htmlFor="lyLuanCT">Ghi chú:</label>
           <input

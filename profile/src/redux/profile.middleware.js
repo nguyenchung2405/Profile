@@ -11,6 +11,7 @@ import {
   TOKEN,
   UPDATE_PROFILE,
   UPDATE_PROFILE_ACTIVE,
+  EXPORT_EXCEL
 } from "../title/title";
 import {
   mappingDepartmentPosition,
@@ -33,6 +34,7 @@ import {
   onlyCreateProfileAPI,
   updateProfileActiveAPI,
   updateProfile_API,
+  exportExcel
 } from "./API/profileAPI";
 import { setIsLoading } from "./Slice/loading";
 import {
@@ -363,6 +365,9 @@ function* getAvatar(payload) {
   // console.log(content)
 }
 
+
+
+
 function* onlyCreateProfile(payload) {
   let { valueForm, user_id, navigate } = payload.valuesCreate;
   // console.log(valueForm, user_id)
@@ -392,7 +397,18 @@ function* onlyCreateProfile(payload) {
     navigate("/profile-service/hr/profile");
   }
 }
-
+function* exportExcelEmp(payload) {
+  console.log(payload)
+  try {
+    const res = yield call(exportExcel);
+    console.log(res)
+    console.log(payload)
+  } catch (error) {
+    console.log(error)
+    
+  }
+    // console.log(content)
+  }
 function* deleteDepPos(payload) {
   let { dep_pos_id } = payload;
   // console.log(dep_pos_id)
@@ -474,6 +490,7 @@ export default function* Profile() {
   yield takeLatest(UPDATE_PROFILE_ACTIVE, updateProfileActive);
   yield takeLatest(CREATE_PROFILE, createProfile);
   yield takeLatest(GET_AVATAR, getAvatar);
+  yield takeLatest(EXPORT_EXCEL, exportExcelEmp);
   yield takeLatest(ONLY_CREATE_PROFILE, onlyCreateProfile);
   yield takeLatest(DELETE_DEP_POS, deleteDepPos);
   yield takeLatest(GET_PROFILE_BY_USER_ID, getProfileByUserID);

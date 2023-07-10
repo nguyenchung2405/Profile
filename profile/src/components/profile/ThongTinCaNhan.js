@@ -1,14 +1,14 @@
 import React from 'react'
 import moment from 'moment';
-import { DatePicker } from 'antd';
+import { DatePicker,Select,Option } from 'antd';
 import { handleDateTime } from '../../ultils/helper';
 
 export default function ThongTinCaNhan(props) {
 
     let {setValueIntoForm, handleChangeGetValueInput, valueForm, setValueForm,
         validateField, validateForm, showRequiredAlert, setValidateForm, disabledInput} = props;
-
-  return (
+const { Option } = Select;
+return (
     <>
         <div className="SYLL__right__field">
         <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span>
@@ -21,6 +21,44 @@ export default function ThongTinCaNhan(props) {
             handleChangeGetValueInput(e)
         }} />
         {validateForm.canCuocCD ? showRequiredAlert() : ""}
+        </div>
+        <div className="SYLL__right__field">
+          <label htmlFor="lyLuanCT">
+            Đối tượng lao động:
+            <span className="required__field"> *</span>
+          </label>
+          <Select
+            // defaultValue="Chức vụ"
+            showSearch
+            className="width__100"
+            placeholder="Loại nhân viên"
+            filterOption={(input, option) =>
+              (option?.children ?? "")
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+            value={valueForm.loaiNV === "" ? null : valueForm.loaiNV}
+            onBlur={() => {
+              if (valueForm.loaiNV === "") {
+                setValidateForm({
+                  ...validateForm,
+                  loaiNV: true,
+                });
+              } else {
+                setValidateForm({
+                  ...validateForm,
+                  loaiNV: false,
+                });
+              }
+            }}
+            onChange={(value) => {
+              setValueForm({ ...valueForm, loaiNV: value });
+            }}
+          >
+            <Option value="Nhân viên khoán">Nhân viên khoán</Option>
+            <Option value="Nhân viên chính thức">Nhân viên chính thức</Option>
+          </Select>
+          {validateForm.loaiNV ? showRequiredAlert() : ""}
         </div>
         <div className="SYLL__right__field two__content">
             <div className="fisrt__content ngayThamGiaCM">
@@ -85,13 +123,16 @@ export default function ThongTinCaNhan(props) {
                 </div>
                 <div className="second__content tonGiao">
                     <label style={{fontWeight:'500',fontSize:15}} htmlFor="tonGiao">Tôn giáo:
-                    </label>
+                <span className="required__field"> *</span>
+                </label>
                     <input id="tonGiao" name="tonGiao" type="text" 
                     disabled={disabledInput()}
                     value={setValueIntoForm("tonGiao")}
                     onChange={(e)=>{
                         handleChangeGetValueInput(e)
                     }} />
+                    {validateForm.tonGiao ? showRequiredAlert() : ""}
+
                 </div>
         </div>
         <div className="SYLL__right__field">

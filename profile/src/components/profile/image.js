@@ -38,7 +38,6 @@ export default function Image() {
               data: form,
             });
             let image = result.data.data;
-            console.log(result.data)
             let indexAvatar = image.findLastIndex(resoures => resoures.type === "3x4");
             if(indexAvatar !== -1 && image[indexAvatar]?.path !== null){
               let  path = image[indexAvatar].path;

@@ -26,7 +26,28 @@ const importUser = async (req,res)=>{
         res.send(error)
     }
 }
-
+const exportUser = async (req,res)=>{
+    try {
+        let {file} = req;
+        let {headers: {authorization}} = req;
+        const pathFileImport = path.join(path.dirname(file.path), file.filename)
+        const form = new FormData();
+        form.append("file" , fs.readFileSync(pathFileImport), file.filename)
+        const result = await axios({
+            url: `${process.env.apiUser}/users/exportation/xlxs`,
+            method: "POST",
+            headers: {
+                Authorization: authorization
+            },
+            data: form
+        })
+        console.log(result)
+        res.send(result.data)
+    } catch (error) {
+        res.send(error)
+    }
+}
 module.exports = {
-    importUser
+    importUser,
+    exportUser
 }

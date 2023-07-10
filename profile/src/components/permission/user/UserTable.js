@@ -12,6 +12,8 @@ import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../
 import { userInforEmpty } from '../../../ultils/defaultUserInfor';
 import maleIMG from "../../../img/user-male.png"
 import femaleIMG from "../../../img/user-female.png"
+import programmer from "../../../img/user-female.png"
+import programmerNam from "../../../img/user-female.png"
 import { checkMicroFe, checkUserPermission } from '../../../ultils/helper';
 import UserPerModal from './UserPerModal';
 
@@ -123,11 +125,11 @@ export default function UserTablePermission() {
   }
 
   const femaleAvatar = () => {
-    return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
+    return <img className="avatarUser" src={programmer} alt="avatar female" />
   }
 
   const maleAvatar = () => {
-    return <img src={maleIMG} alt="avatar male" />
+    return <img src={programmerNam} alt="avatar male" />
   }
 
   const unknownSexAvatar = () => {

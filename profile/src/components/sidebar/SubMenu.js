@@ -15,7 +15,7 @@ import jwt from "jwt-decode";
 let userPermissionApi = [];
 let userPermission = [];
 export default function SubMenu(permission) {
-  let uri = checkMicroFe() === true ? "profile-service" : "";
+  let uri = checkMicroFe() === true ? "/profile-service" : "";
   // if (permission !== undefined) {
   //     userPermissionApi = permission[2];
   // }

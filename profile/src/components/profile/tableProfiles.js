@@ -2,17 +2,23 @@ import { Table, Select, AutoComplete, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_DEP_POS_TO_SEARCH, GET_USER_LIST, SEARCH } from '../../title/title';
-import { MdOutlineModeEditOutline } from "react-icons/md";
+import { MdOutlineModeEditOutline,MdCloudDownload } from "react-icons/md";
 import { AiFillFileAdd } from "react-icons/ai";
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { setIsLoading } from '../../redux/Slice/loading';
+import docCookies from 'doc-cookies';
 import Loading from '../Loading';
 import { useHref, useLocation, useHistory } from 'react-router-dom';
 import { removePBCV, setEmailPhone, setIsCreateProfile, setValues } from '../../redux/Steps/step1/step1Slice';
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
 import maleIMG from "../../img/user-male.png"
 import femaleIMG from "../../img/user-female.png"
+import programmer from "../../img/programmer.png"
+import programmerNam from "../../img/programmerNam.png"
 import { checkMicroFe, checkUserPermission } from '../../ultils/helper';
+import axios from "axios"
+import FileSaver from "file-saver"
+import {local , TOKEN} from "../../title/title"
 
 export default function TableProfiles() {
   let uri = checkMicroFe() === true ? "/profile-service" : "";
@@ -113,17 +119,40 @@ export default function TableProfiles() {
   }
 
   const femaleAvatar = () => {
-    return <img className="avatarUser" src={femaleIMG} alt="avatar female" />
+    return <img className="avatarUser" src={programmer} alt="avatar female" />
   }
 
   const maleAvatar = () => {
-    return <img src={maleIMG} alt="avatar male" />
+    return <img src={programmerNam} alt="avatar male" />
   }
 
   const unknownSexAvatar = () => {
     return <img className="avatarUser" src={maleIMG} alt="avatar unknown gender" />
   }
-
+  const axiosConfig = axios.create({
+    // headers: {
+    //   "content-type": "application/json",
+    // },
+  });
+const handleExportNV=(e)=>{
+  try {
+    return axiosConfig.get( `${local}/api/users/exportation/xlxs`,{
+      responseType: "arraybuffer",
+      headers:{
+        'Content-Type': 'multipart/form-data'}
+    }).then((data)=>{
+      const blob=new Blob([data.data],{
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+        encoding: "UTF-8",
+      })
+      const fileExtension = ".xlsx";
+      FileSaver.saveAs(blob, "Danh sach nhân viên " + fileExtension);
+      // return data
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
   const dataOfAutoComplete = (name) => {
     if (name === "dep") {
       return depList.map(item => {
@@ -306,8 +335,12 @@ export default function TableProfiles() {
           </Select>
               */}
           </div>
+          <div></div>
           <div className="tableProfiles__search__btn">
-            <button className="create_acc_profile btn__search"
+          <button
+          onClick={(e)=>handleExportNV(e)}
+          className='export-excel'>Xuất DS nhân viên <MdCloudDownload/></button>
+          <button className="create_acc_profile btn__search"
               onClick={() => {
                 if (!search?.full_name && !search?.dep_names && !search?.pos_names) {
                   alert("Vui lòng nhập thông tin cần tìm");
@@ -346,17 +379,31 @@ export default function TableProfiles() {
         >
           <Column className="tableProfiles__avatar" title="" key="avatar"
             render={(text, record, index) => {
-              // console.log(record)
-              if (record?.resources?.length > 0) {
-                // let avatar = record?.user_resources.find(type => type.type === "3x4");
-                // console.log(avatar)
-                // Thằng Đăng BE lại sửa data phía BE nên phải code lại
-                // let index = record.resources.length - 1;
-                // let avatarRender = record.resources[index].resource?.content;
-                // code lại hiển thị hình ảnh user do thằng Đăng trả data lung tung lúc này lúc khác
-                let avatarRender = record.resources.find(img => img.type === "3x4");
-                if (avatarRender !== undefined) {
-                  return <img src={`data:image/png;base64,${avatarRender?.resource.content}`} alt="avatar of user" />
+              try {
+                if (record?.user_resources?.length > 0) {
+                  // let avatar = record?.user_resources.find(type => type.type === "3x4");
+                  // console.log(avatar)
+                  // Thằng Đăng BE lại sửa data phía BE nên phải code lại
+                  // let index = record.resources.length - 1;
+                  // let avatarRender = record.resources[index].resource?.content;
+                  // code lại hiển thị hình ảnh user do thằng Đăng trả data lung tung lúc này lúc khác
+                  let user_resources=record?.user_resources
+                  let avatarRender = user_resources.findLastIndex(img => img.type === "3x4");
+                  let a =user_resources[avatarRender]?.path
+                  let pathImage= JSON.parse(a).toString()
+                  // if (avatarRender !== undefined) {
+                    if ((avatarRender !== -1 && user_resources[avatarRender] !== undefined)||avatarRender !== undefined ) {
+                      return <img src={`http://192.168.61.116:8017${pathImage}`} alt="avatar of user" />
+                    // return <img src={`data:image/png;base64,${avatarRender?.resource.content}`} alt="avatar of user" />
+                  } else {
+                    if (record.profile?.gender === 1) {
+                      return maleAvatar()
+                    } else if (record.profile?.gender === 2) {
+                      return femaleAvatar()
+                    } else {
+                      return unknownSexAvatar()
+                    }
+                  }
                 } else {
                   if (record.profile?.gender === 1) {
                     return maleAvatar()
@@ -366,24 +413,27 @@ export default function TableProfiles() {
                     return unknownSexAvatar()
                   }
                 }
-              } else {
-                if (record.profile?.gender === 1) {
-                  return maleAvatar()
-                } else if (record.profile?.gender === 2) {
-                  return femaleAvatar()
-                } else {
-                  return unknownSexAvatar()
-                }
+              } catch (error) {
+                console.log(error)
               }
+             
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
+          <Column className="tableProfiles__phongBan" title="Bộ phận công táczzzz" key="phongBan"
             render={(text, record, index) => {
               let tenPB = [];
               for (let PB of record.user_dep_pos) {
                 tenPB.push(<p>{PB.department_name}</p>)
               }
               return tenPB
+            }} />
+              <Column className="tableProfiles__chucVu" title="Sub/Label" key="chucVu"
+            render={(text, record, index) => {
+              let tenLabel = [];
+              for (let PB of record.user_dep_pos) {
+                tenLabel.push(<p>{PB?.label}</p>)
+              }
+              return tenLabel
             }} />
           <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {
@@ -402,12 +452,14 @@ export default function TableProfiles() {
                 if (checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ")) {
                   if (id && typeof id === "number" && id !== null) {
                     return <div>
-                      <button onClick={() => {
+                      <button
+                      title='Sửa hồ sơ'
+                      onClick={() => {
                         dispatch(setIsCreateProfile(false))
                         dispatch(setEmailPhone({ email, soDienThoai: phone }))
                         history.push(`${uri}/hr/profile/${id}`)
                       }}>
-                        <MdOutlineModeEditOutline />
+                        <MdOutlineModeEditOutline className='button-editprofile'/>
                       </button>
                     </div>
                   }
@@ -423,7 +475,10 @@ export default function TableProfiles() {
                 newData.soDienThoai = phone;
                 if (checkUserPermission(userPermission, "sửa hồ sơ", "xem chi tiết hồ sơ", "tạo hồ sơ")) {
                   return <div>
-                    <button onClick={() => {
+                    <button
+                    title='Tạo hồ sơ'
+                    style={{background:"red",height:28, width:28}}
+                    onClick={() => {
                       dispatch(setValues(newData))
                       dispatch(setIsCreateProfile(false))
                       history.push(`${uri}/hr/profile/create/${id}`)
