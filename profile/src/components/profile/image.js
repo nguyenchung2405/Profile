@@ -12,7 +12,8 @@ export default function Image() {
   const axiosConfig = axios.create({});
   useEffect(() => {
     if (avatar?.length > 0) {
-      setPath(`http://192.168.61.116:8017${avatar}`);
+      // setPath(`http://192.168.61.116:8017${avatar}`);
+      setPath(`https://dev-resource.tuoitre.vn${avatar}`)
     }
   }, [avatar]);
   return (
@@ -41,7 +42,8 @@ export default function Image() {
             let indexAvatar = image.findLastIndex(resoures => resoures.type === "3x4");
             if(indexAvatar !== -1 && image[indexAvatar]?.path !== null){
               let  path = image[indexAvatar].path;
-              setPath(`http://192.168.61.116:8017${JSON.parse(path).toString()}`);
+              // setPath(`http://192.168.61.116:8017${JSON.parse(path).toString()}`);
+              setPath(`https://dev-resource.tuoitre.vn${JSON.parse(path).toString()}`);
           } 
             // let imgIdExsisted = resources.find(img => img?.type === "3x4");
             // if(imgIdExsisted?.id && typeof +imgIdExsisted?.id === "number"){

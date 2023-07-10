@@ -20,7 +20,10 @@ export default function DisplayPDF(props) {
             width="800px"
             onCancel={handleCancel}
         >
-            <embed src={`http://192.168.61.116:8017${resource}`} datatype="application/pdf" width="98%" height="842px"></embed>
+             {/* src={`http://192.168.61.116:8017${resource}`}  */}
+            <embed 
+            src={`https://dev-resource.tuoitre.vn${resource}`} 
+            datatype="application/pdf" width="98%" height="842px"></embed>
         </Modal>
     </div>
   )
