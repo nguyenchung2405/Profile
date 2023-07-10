@@ -107,10 +107,16 @@ rootRouter.get("/users/exportation/xlxs",async(req,res)=>{
 }
    }
     );
-    res.send(data);
+    // res.send(data);
+    res.send({
+      status:"Success",
+      data
+    })
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.send({
+      status:"loi",error
+    });
   }
 })
 rootRouter.use("/user", checkQuery, userRouter);
