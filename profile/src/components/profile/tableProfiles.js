@@ -184,7 +184,8 @@ const handleExportNV=(e)=>{
             <button className="create_acc_profile" onClick={() => {
               dispatch(removePBCV("all"))
               dispatch(setValues(userInforEmpty))
-              history.push(`${uri}/hr/profile/create`)
+              // history.push(`${uri}/hr/profile/create`)
+              history.push(checkMicroFe()===true?'/profile-service/profile/create':'/hr/profile/create')
             }}>
               <AiOutlineUserAdd />
               Tạo
