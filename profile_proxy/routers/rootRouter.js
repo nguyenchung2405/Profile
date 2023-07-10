@@ -99,7 +99,6 @@ rootRouter.get("/users/exportation/xlxs",async(req,res)=>{
     const { data } = await axios(
    {
     url:`${process.env.apiUser}/users/exportation/xlxs`,
-    // formData,
   method:'GET',
   responseType: "arraybuffer",
   headers: {
