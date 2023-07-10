@@ -66,7 +66,15 @@
     text-align: center;
     border-style: none;
 }
-
+.export-excel{
+    border-radius: 3px;
+    border:none;
+    text-transform: uppercase;
+    background:#6CB4EE;
+    color:#fff;
+    cursor:pointer;
+    margin-right:20px
+}
 .SYLL__left__field.noiSinh .ant-select:last-child,
 .SYLL__left__field.queQuan .ant-select:last-child {
     margin-bottom: 0;
@@ -654,7 +662,7 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     border-color: #459C60;
 }
 .ant-select-selector {
-    border-radius: 20px !important;
+    /* border-radius: 20px !important; */
 }
 .hocVan .ant-select-selector {
     border-radius: 5px !important;
@@ -1330,8 +1338,10 @@ td.tableProfiles__thaoTac div {
 
 .tableProfiles__thaoTac button,
 button.thaoTac__Edit__btn {
+    border:none;
     padding: 2px;
-    display: flex;
+    border-radius: 5px;
+    /* display: flex; */
     align-items: center;
     background-color: #459C60;
     cursor: pointer;
@@ -1341,6 +1351,7 @@ button.thaoTac__Edit__btn {
 
 .tableProfiles__thaoTac svg,
 button.thaoTac__Edit__btn svg {
+    bordeR:none;
     color: white;
     cursor: pointer;
     width: 20px;
@@ -1519,14 +1530,29 @@ div.tableProfiles div.tools div.tableProfiles__search__btn button.create_acc_pro
     color: white;
     border: none;
     border-radius: 3px;
-    font-size: 20px;
+    font-size: 15px;
+    cursor:pointer;
     display: flex;
     align-items: center;
     transition: all 0.3s;
     border: 1px solid transparent;
     margin-right: 50px;
 }
-
+.tableProfiles .tools .create_acc_profile:hover {
+    background-color: #459C60;
+    color: white;
+    border: 1px solid #35794a;
+}
+.create_acc_profile:hover{
+    background-color: #459C60;
+    color: white;
+    border: 1px solid #35794a;
+}
+.btn__search:hover{
+    background-color: #459C60;
+    color: white;
+    border: 1px solid #35794a; 
+}
 .tableProfiles .tools .create_acc_profile.btn__position__table,
 .tableProfiles .tools .create_acc_profile.create_pos_type,
 .tableProfiles .tools .create_acc_profile.update_pos_type,
@@ -1638,8 +1664,8 @@ td.ant-table-cell.tableProfiles__avatar {
 }
 
 td.ant-table-cell.tableProfiles__avatar>img {
-    height: 70px;
-    width: 70px;
+    height: 55px;
+    width: 55px;
     object-fit: cover;
 }
 
@@ -1908,5 +1934,8 @@ div.ant-modal-body div.content div.modal__update__select > div.ant-select > div.
         padding: 0;
         justify-content: center;
     }
+}
+.button-editprofile{
+    border:none
 }
 /* Kết thúc */

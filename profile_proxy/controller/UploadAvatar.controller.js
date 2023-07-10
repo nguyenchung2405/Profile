@@ -23,21 +23,17 @@ const uploadUserAvatar = async (req, res) => {
       const pathFile = path.join(path.dirname(file.path), file.filename);
       const formData = new FormData();
       formData.append("files", fs.readFileSync(file.path), file.filename);
-      // formData.append("resource_type", "image")
-      // formData.append("user_id", user_id);
-      // formData.append("type", "3x4");
       const result = await axios({
         url: `${localResource}/resources/?service_management_id=user-service&table_management_id=user&type=3x4&is_private=false`,
         method: "POST",
         headers: {
-            "Content-Type": "multipart/form-data",
-            ...formData.getHeaders(),
-            Authorization: authorization,
+          "Content-Type": "multipart/form-data",
+          ...formData.getHeaders(),
+          Authorization: authorization,
         },
         data: formData,
-        
       });
-      let message  = result.data.message;
+      let message = result.data.message;
       if (message === "Success") {
         // nếu post ảnh thành công thì call API get Avatar rồi trả về content dạng base64
         const result_getIMGs = await axios({
@@ -50,18 +46,18 @@ const uploadUserAvatar = async (req, res) => {
           }),
           headers: {
             Authorization: authorization,
-            'Content-Type': 'application/json',
-            cache: 'no-cache'
+            "Content-Type": "application/json",
+            cache: "no-cache",
           },
         });
         // console.log("Line 58",result_getIMGs)
         const result_getIMG = await axios({
-            url: `${local}/user-resources/user/${user_id}`,
-            method: "GET",
-            headers: {
-                Authorization: authorization
-            }
-        })
+          url: `${local}/user-resources/user/${user_id}`,
+          method: "GET",
+          headers: {
+            Authorization: authorization,
+          },
+        });
         res.send(result_getIMG.data);
         // res.send(result_getIMGs.data);
       } else {
@@ -71,7 +67,7 @@ const uploadUserAvatar = async (req, res) => {
     } else {
       res.send(file);
     }
-    
+
     // const config = {
     //   headers: { Authorization: req.headers.authorization },
     // };
@@ -149,7 +145,26 @@ const uploadFileStep5 = async (req, res) => {
     res.send(error);
   }
 };
-
+const exportExcel=async(req,res)=>{
+  try {
+    const formData = new FormData();
+    formData.append("files", fs.readFileSync(file.path), file.filename);
+  const exportData=await axios({
+    url:`${local}/users/exportation/xlxszzz`,
+    method:"GET",
+    headers:{
+      "Content-Type": "multipart/form-data",
+      ...formData.getHeaders(),
+      Authorization: authorization,
+    },
+    data:formData
+  })
+  res.send(exportData.data)
+  } catch (error) {
+    res.send(error)
+    console.log(error)
+  }
+}
 const uploadFileStep7 = async (req, res) => {
   try {
     let { user_id } = req.body;
@@ -159,30 +174,43 @@ const uploadFileStep7 = async (req, res) => {
     } = req;
     const pathFile = path.join(path.dirname(file.path), file.filename);
     const formData = new FormData();
-    formData.append("files", fs.readFileSync(pathFile), file.filename);
-    // formData.append("user_id", user_id);
-    // formData.append("resource_type", "document");
-    // formData.append("user_resource_type", "asset");
-    const uploadFile = await axios({
-      url: `${local}/user-resources`,
+    formData.append("files", fs.readFileSync(file.path), file.filename);
+    const result_getResources = await axios({
+      url: `${localResource}/resources/?service_management_id=profile-service&table_management_id=family-relationship&type=document&is_private=false`,
       method: "POST",
       headers: {
+        "Content-Type": "multipart/form-data",
+        ...formData.getHeaders(),
         Authorization: authorization,
       },
       data: formData,
     });
-    let { message } = uploadFile.data;
+    let message = result_getResources.data.message;
     if (message === "Success") {
-      const result_getResources = await axios({
-        url: `${localResource}/resources?service_management_id=user-service&table_management_id=user&type=3x4`,
+      const result_family_relationship = await axios({
+        url: `${local}/user-resources`,
+        method: "POST",
+        data: JSON.stringify({
+          user_id: +user_id,
+          type: "family-relationship",
+          path: JSON.stringify([result_getResources.data.data.files[0]]),
+        }),
+        headers: {
+          Authorization: authorization,
+          "Content-Type": "application/json",
+          cache: "no-cache",
+        },
+      });
+      const get_family_relationship = await axios({
+        url: `${local}/user-resources/user/${user_id}`,
         method: "GET",
         headers: {
           Authorization: authorization,
         },
       });
+      res.send(get_family_relationship.data);
+    }else{
       res.send(result_getResources.data);
-    } else {
-      res.send(uploadFile.data);
     }
   } catch (error) {
     console.log(error);
@@ -194,4 +222,5 @@ module.exports = {
   uploadUserAvatar,
   uploadFileStep5,
   uploadFileStep7,
+  exportExcel
 };

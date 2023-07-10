@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 export default function DisplayPDF(props) {
 
     let {resource, isShowModal, setIsShowModal} = props;
-    
     const handleCancel = () => {
         setIsShowModal(false);
     };
@@ -21,7 +20,7 @@ export default function DisplayPDF(props) {
             width="800px"
             onCancel={handleCancel}
         >
-            <embed src={`data:application/pdf;base64,${resource}`} datatype="application/pdf" width="98%" height="842px"></embed>
+            <embed src={`http://192.168.61.116:8017${resource}`} datatype="application/pdf" width="98%" height="842px"></embed>
         </Modal>
     </div>
   )

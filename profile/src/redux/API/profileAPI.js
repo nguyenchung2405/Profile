@@ -16,7 +16,21 @@ export async function getProfileByID_API(pro_id){
         return error.response;
     }
 }
-
+export async function exportExcel(){
+    try {
+        const res = await axios({
+            url: `${local}/api/exportation/xlxs`,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + TOKEN
+            },
+        })
+        return res;
+    } catch (error) {
+        console.log(error)
+        return error.response;
+    }
+}
 export async function updateProfile_API(valuesUpdate, action){
     try {
         // let {user_id, jour_card_id, user_degree_id, pro_id} = valuesUpdate;
