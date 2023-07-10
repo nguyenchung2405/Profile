@@ -478,21 +478,25 @@ export default function SoYeuLyLich(props) {
       return newPBCVArr.map((infor, index) => {
         return (
           <div key={index}>
-            <div>
-              {/* <p><p>Sub/Label:</p>{infor.to}</p> */}
+            <div className="renderPBCV">
               <ul>
                 <li >
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Sub/Label:</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.to}
+                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.to} */}
                 </li>
                 <li>
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Phòng ban:</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.phongBan}
+                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.phongBan} */}
                 </li>
                 <li>
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Chức vụ:</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.chucVu}
+                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.chucVu} */}
                 </li>
+              </ul>
+              <ul>
+                <p>{infor.to}</p>
+                <p>{infor.phongBan}</p>
+                <p>{infor.chucVu}</p>
               </ul>
             </div>
             {/* <AiOutlineMinus */}

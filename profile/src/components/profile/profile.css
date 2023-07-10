@@ -646,7 +646,9 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     margin-bottom: 5px;
     align-items: center;
 }
-
+.renderPBCV{
+    display: flex;
+}
 .SYLL__right__field .phongBanCV__list>div>div {
     width: calc(100% - 20px);
 }
@@ -677,7 +679,7 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 .SYLL__right__field .phongBanCV__list div p:first-child {
     width: 100%;
     height: fit-content;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .SYLL__right__field .phongBanCV__list div p:nth-child(2) {
