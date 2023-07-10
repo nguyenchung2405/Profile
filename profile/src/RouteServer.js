@@ -62,13 +62,13 @@ export default function RouteServer() {
         exact
         component={TableProfiles}
       />
+        <Route
+          path="/profile-service/hr/profile/create"
+          exact
+          component={StepsAntd}
+        />
       <Route
         path="/profile-service/hr/profile/:proID"
-        exact
-        component={StepsAntd}
-      />
-      <Route
-        path="/profile-service/hr/profile/create"
         exact
         component={StepsAntd}
       />
