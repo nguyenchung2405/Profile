@@ -141,12 +141,12 @@ const handleExportNV=(e)=>{
       headers:{
         'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
       }).then((data)=>{
-        console.log(data)
-        console.log(data.data)
       const blob=new Blob([data.data],{
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
         encoding: "UTF-8",
       })
+      console.log(data)
+      console.log(data.data)
       const fileExtension = ".xlsx";
       FileSaver.saveAs(blob, "Danh sach nhân viên " + fileExtension);
       // return data
