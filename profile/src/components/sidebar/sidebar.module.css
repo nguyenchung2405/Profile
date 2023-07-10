@@ -1,3 +1,6 @@
 .SubMenu {
     background-color: #35794a;
 }
+.ant-dropdown-menu {
+    overflow: auto;
+}
