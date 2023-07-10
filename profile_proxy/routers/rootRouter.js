@@ -103,6 +103,7 @@ rootRouter.get("/users/exportation/xlxs",async(req,res)=>{
   method:'GET',
   responseType: "arraybuffer",
   headers: {
+    'Content-Type':"blob",
     Authorization: `Bearer ${get_cookies(req)['usertoken']}`,
 }
    }

@@ -353,7 +353,6 @@ export default function SoYeuLyLich(props) {
     // noiOHienTai: { diaChi: false, huyen: false, quan: false, tinh: false },
     // hoKhauThuongTru: { diaChi: false, huyen: false, quan: false, tinh: false },
   });
-  console.log(validateForm)
 
   const disabledInput = () => {
     let isDisabled;

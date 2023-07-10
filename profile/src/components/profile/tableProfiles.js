@@ -139,7 +139,7 @@ const handleExportNV=(e)=>{
     return axiosConfig.get( `${local}/api/users/exportation/xlxs`,{
       responseType: "arraybuffer",
       headers:{
-        'Content-Type': 'multipart/form-data'}
+        'Content-Type': 'blob'}
     }).then((data)=>{
       const blob=new Blob([data.data],{
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
@@ -185,7 +185,7 @@ const handleExportNV=(e)=>{
               dispatch(removePBCV("all"))
               dispatch(setValues(userInforEmpty))
               // history.push(`${uri}/hr/profile/create`)
-              history.push(checkMicroFe()===true?'/profile-service/profile/hr/create':'/hr/profile/create')
+              history.push(checkMicroFe()===true?'/profile-service/hr/profile/create':'/hr/profile/create')
             }}>
               <AiOutlineUserAdd />
               Tạo
@@ -394,7 +394,8 @@ const handleExportNV=(e)=>{
                   let pathImage= JSON.parse(a).toString()
                   // if (avatarRender !== undefined) {
                     if ((avatarRender !== -1 && user_resources[avatarRender] !== undefined)||avatarRender !== undefined ) {
-                      return <img src={`http://192.168.61.116:8017${pathImage}`} alt="avatar of user" />
+                      // return <img src={`http://192.168.61.116:8017${pathImage}`} alt="avatar of user" />
+                      return <img src={`https://dev-resource.tuoitre.vn${pathImage}`} alt="avatar of user" />
                     // return <img src={`data:image/png;base64,${avatarRender?.resource.content}`} alt="avatar of user" />
                   } else {
                     if (record.profile?.gender === 1) {
@@ -420,7 +421,7 @@ const handleExportNV=(e)=>{
              
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Bộ phận công táczzzz" key="phongBan"
+          <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
             render={(text, record, index) => {
               let tenPB = [];
               for (let PB of record.user_dep_pos) {
@@ -438,6 +439,15 @@ const handleExportNV=(e)=>{
             }} />
           <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {
+              let tenCV = [];
+              for (let PB of record.user_dep_pos) {
+                tenCV.push(<p>{PB.position.pos_name}</p>)
+              }
+              return tenCV
+            }} />
+              <Column className="tableProfiles__chucVu" title="Đối tượng lao động" key="chucVu"
+            render={(text, record, index) => {
+              console.log(record)
               let tenCV = [];
               for (let PB of record.user_dep_pos) {
                 tenCV.push(<p>{PB.position.pos_name}</p>)
