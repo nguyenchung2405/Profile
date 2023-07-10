@@ -96,7 +96,8 @@ div.table__position div.pos__type button.update_pos_type:hover {
 }
 
 button.thaoTac__Delete__btn {
-    background-color: #ff0000;
+    background-color: #ffe2e5;
+    color:#f64e60 !important;
     margin-left: 5px;
 }
 

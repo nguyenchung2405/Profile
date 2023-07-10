@@ -453,6 +453,7 @@ const handleExportNV=(e)=>{
                   if (id && typeof id === "number" && id !== null) {
                     return <div>
                       <button
+                      style={{color:"#fff"}}
                       title='Sửa hồ sơ'
                       onClick={() => {
                         dispatch(setIsCreateProfile(false))
