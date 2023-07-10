@@ -136,7 +136,7 @@ export default function TableProfiles() {
   });
 const handleExportNV=(e)=>{
   try {
-    return axiosConfig.get( `${local}/api/users/exportation/xlxs`,{
+    return axiosConfig.get( `${local}/api/user/exportation/xlxs`,{
       responseType: "arraybuffer",
       headers:{
         'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}

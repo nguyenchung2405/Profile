@@ -55,6 +55,7 @@ const getUserPermission = async (req,res)=>{
     }
 }
 
+
 const getDetailUser = async (req, res)=>{
     try {
         let {headers: {authorization}} = req;
