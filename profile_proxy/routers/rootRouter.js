@@ -94,31 +94,31 @@ var get_cookies = function(request) {
   });
   return cookies;
 };
-rootRouter.get("/users/exportation/xlxs",async(req,res)=>{
-  try {
-    const { data } = await axios(
-   {
-    url:`${process.env.apiUser}/users/exportation/xlxs`,
-  method:'GET',
-  responseType: "arraybuffer",
-  headers: {
-    'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    Authorization: `Bearer ${get_cookies(req)['usertoken']}`,
-}
-   }
-    );
-    // res.send(data);
-    res.send({
-      status:"Success",
-      data
-    })
-  } catch (error) {
-    console.log(error);
-    res.send({
-      status:"loi",error
-    });
-  }
-})
+// rootRouter.get("/users/exportation/xlxs",async(req,res)=>{
+//   try {
+//     const { data } = await axios(
+//    {
+//     url:`${process.env.apiUser}/users/exportation/xlxs`,
+//   method:'GET',
+//   responseType: "arraybuffer",
+//   headers: {
+//     'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+//     Authorization: `Bearer ${get_cookies(req)['usertoken']}`,
+// }
+//    }
+//     );
+//     // res.send(data);
+//     res.send({
+//       status:"Success",
+//       data
+//     })
+//   } catch (error) {
+//     console.log(error);
+//     res.send({
+//       status:"loi",error
+//     });
+//   }
+// })
 rootRouter.use("/user", checkQuery, userRouter);
 rootRouter.use("/fe/profiles/users", profileRouter);
 rootRouter.use("/profiles", profileRouter);
