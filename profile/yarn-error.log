@@ -63,7 +63,7 @@ npm manifest:
         "last 1 safari version"
       ]
     },
-    "proxy": "http://localhost:3001",
+    "proxy": "http://localhost:3005",
     "devDependencies": {
       "@babel/preset-env": "^7.19.4",
       "@babel/preset-react": "^7.18.6",

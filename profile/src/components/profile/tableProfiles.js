@@ -17,7 +17,7 @@ import programmer from "../../img/programmer.png"
 import programmerNam from "../../img/programmerNam.png"
 import { checkMicroFe, checkUserPermission } from '../../ultils/helper';
 import axios from "axios"
-import FileSaver from "file-saver"
+import * as FileSaver from "file-saver"
 import {local , TOKEN} from "../../title/title"
 
 export default function TableProfiles() {
@@ -134,21 +134,27 @@ export default function TableProfiles() {
     //   "content-type": "application/json",
     // },
   });
-const handleExportNV=(e)=>{
+const handleExportNV=async()=>{
+  console.log(`${local}/api/user/exportation/xlxs`)
   try {
-    return axiosConfig.get( `${local}/api/user/exportation/xlxs`,{
+    return await axios.get( `${local}/api/user/exportation/xlxs`,{
       responseType: "arraybuffer",
       headers:{
+        'Authorization':"Bearer "+TOKEN,
         'Content-Type':"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
       }).then((data)=>{
-        console.log(data)
-        console.log(data.data)
+        const dirtyFileName = data.headers['content-disposition'];
+        const regex = /filename[^;=\n]*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/;
+        var  fileName = dirtyFileName?.match(regex)[3];
+        console.log(data);
       const blob=new Blob([data.data],{
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
         encoding: "UTF-8",
       })
       const fileExtension = ".xlsx";
-      FileSaver.saveAs(blob, "Danh sach nhân viên " + fileExtension);
+      FileSaver.saveAs(blob, fileName);
+      const fileURL=FileSaver.saveAs(blob, "Danh sach nhân viên " + fileExtension);
+      // window.open(fileURL);
       // return data
     })
   } catch (error) {
@@ -341,8 +347,8 @@ const handleExportNV=(e)=>{
           <div></div>
           <div className="tableProfiles__search__btn">
           <button
-          onClick={(e)=>handleExportNV(e)}
-          className='export-excel'>Xuất DS nhân viên <MdCloudDownload/></button>
+          onClick={handleExportNV}
+          className='export-excel'>Xuất DS nhân viênnn <MdCloudDownload/></button>
           <button className="create_acc_profile btn__search"
               onClick={() => {
                 if (!search?.full_name && !search?.dep_names && !search?.pos_names) {

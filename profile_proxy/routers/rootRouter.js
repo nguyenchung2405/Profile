@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { createProxyMiddleware } = require("http-proxy-middleware");
+// const { createProxyMiddleware } = require("http-proxy-middleware");
 const { userRouter } = require("./userRouter");
 const rootRouter = express.Router();
 const { checkQuery, createNewUser } = require("../middleware/user.middleware");
@@ -30,8 +30,8 @@ const {
   getUserInfor,
   update_dep_pos_degress_jourCard2,
 } = require("../controller/Profile.controller");
-const FormData = require('form-data');
-const fs=require("fs")
+// const FormData = require('form-data');
+// const fs=require("fs")
 const { depPosRouter } = require("./dep_pos");
 const { personalHistoryRouter } = require("./personal_history");
 const { partyRouter } = require("./party");
