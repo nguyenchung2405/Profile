@@ -429,14 +429,7 @@ const handleExportNV=async()=>{
              
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
-            render={(text, record, index) => {
-              let tenPB = [];
-              for (let PB of record.user_dep_pos) {
-                tenPB.push(<p>{PB.department_name}</p>)
-              }
-              return tenPB
-            }} />
+       
               <Column className="tableProfiles__chucVu" title="Sub/Label" key="chucVu"
             render={(text, record, index) => {
               let tenLabel = [];
@@ -444,6 +437,14 @@ const handleExportNV=async()=>{
                 tenLabel.push(<p>{PB?.label}</p>)
               }
               return tenLabel
+            }} />
+               <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
+            render={(text, record, index) => {
+              let tenPB = [];
+              for (let PB of record.user_dep_pos) {
+                tenPB.push(<p>{PB.department_name}</p>)
+              }
+              return tenPB
             }} />
           <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {

@@ -475,21 +475,19 @@ export default function SoYeuLyLich(props) {
             render ra */
       // console.log(phongBanChucVuArr)
       return newPBCVArr.map((infor, index) => {
+        console.log(infor.to)
         return (
           <div key={index}>
             <div className="renderPBCV">
               <ul>
                 <li >
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Sub/Label:</span>
-                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.to} */}
                 </li>
                 <li>
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Phòng ban:</span>
-                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.phongBan} */}
                 </li>
                 <li>
                   <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Chức vụ:</span>
-                  {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{infor.chucVu} */}
                 </li>
               </ul>
               <ul>
@@ -1206,7 +1204,51 @@ export default function SoYeuLyLich(props) {
         </div>
         <div className="SYLL__right__field ">
           <div className="two__content">
-            <div className="fisrt__content phongBan">
+          <div className="second__content chucVuHienTai">
+              <label
+                style={{ fontWeight: "500", fontSize: 15 }}
+                htmlFor="chucVuHienTai"
+              >
+                Sub/Label:
+                <span className="required__field"> *</span>
+              </label>
+              <Select
+                defaultValue="Sub/Label"
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.children ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                value={phongBanCVOb.to === "" ? "" : phongBanCVOb.to}
+                // onBlur={() => {
+                //   if (phongBanCVOb.chucVu === "") {
+                //     setValidateForm({
+                //       ...validateForm,
+                //       phongBanCVObj: {
+                //         ...validateForm.phongBanCVObj,
+                //         chucVu: true,
+                //       },
+                //     });
+                //   } else {
+                //     setValidateForm({
+                //       ...validateForm,
+                //       phongBanCVObj: {
+                //         ...validateForm.phongBanCVObj,
+                //         chucVu: false,
+                //       },
+                //     });
+                //   }
+                // }}
+                onChange={getValueSelect_To}
+              >
+                Sub/Label:{renderTo()}
+              </Select>
+              {validateForm.phongBanCVObj?.chucVu &&
+              phongBanChucVuArr.length < 1
+                ? showRequiredAlert()
+                : ""}
+            </div> <div className="fisrt__content phongBan">
               <label
                 style={{ fontWeight: "500", fontSize: 15 }}
                 htmlFor="phongBan"
@@ -1254,51 +1296,7 @@ export default function SoYeuLyLich(props) {
                 : ""}
             </div>
 
-            <div className="second__content chucVuHienTai">
-              <label
-                style={{ fontWeight: "500", fontSize: 15 }}
-                htmlFor="chucVuHienTai"
-              >
-                Sub/Label:
-                <span className="required__field"> *</span>
-              </label>
-              <Select
-                defaultValue="Sub/Label"
-                showSearch
-                filterOption={(input, option) =>
-                  (option?.children ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                value={phongBanCVOb.to === "" ? "" : phongBanCVOb.to}
-                // onBlur={() => {
-                //   if (phongBanCVOb.chucVu === "") {
-                //     setValidateForm({
-                //       ...validateForm,
-                //       phongBanCVObj: {
-                //         ...validateForm.phongBanCVObj,
-                //         chucVu: true,
-                //       },
-                //     });
-                //   } else {
-                //     setValidateForm({
-                //       ...validateForm,
-                //       phongBanCVObj: {
-                //         ...validateForm.phongBanCVObj,
-                //         chucVu: false,
-                //       },
-                //     });
-                //   }
-                // }}
-                onChange={getValueSelect_To}
-              >
-                Sub/Label:{renderTo()}
-              </Select>
-              {validateForm.phongBanCVObj?.chucVu &&
-              phongBanChucVuArr.length < 1
-                ? showRequiredAlert()
-                : ""}
-            </div>
+            
             <div className="second__content chucVuHienTai">
               <label
                 style={{ fontWeight: "500", fontSize: 15 }}

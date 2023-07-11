@@ -67,30 +67,6 @@ const uploadUserAvatar = async (req, res) => {
     } else {
       res.send(file);
     }
-
-    // const config = {
-    //   headers: { Authorization: req.headers.authorization },
-    // };
-    // const formData = new FormData();
-    // formData.append("files", fs.readFileSync(req.file.path), req.file.filename);
-    // axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = authorization;
-    // try {
-    //   let { data } = await axios.post(
-    //     `http://192.168.61.116:8017/resources/?service_management_id=profile-service&table_management_id=work-object&alias_name=123&type=anh&is_private=false`,
-    //     formData,
-    //     {
-    //       headers: formData.getHeaders(),
-    //       cache: 'no-cache'
-    //     },
-    //     config
-    //   );
-    //   res.send(data);
-    // } catch (error) {
-    //   console.log("err", error)
-    //   res.send(error);
-    // }
   } catch (error) {
     console.log(error.response);
     res.send(error);
