@@ -17,7 +17,8 @@ const checkProduct = () => {
     window.location.href.includes("erp-dev") ||
     window.location.href.includes("erpfe")
   ) {
-    return "https://profileservice.tuoitre.vn";
+    // return "https://profileservice.tuoitre.vn";
+    return "http://localhost:3000"
   }
 };
 export const local = checkMicroFe() === true ? checkProduct() : "";
