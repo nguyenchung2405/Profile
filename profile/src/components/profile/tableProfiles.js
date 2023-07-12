@@ -135,7 +135,6 @@ export default function TableProfiles() {
     // },
   });
 const handleExportNV=async()=>{
-  console.log(`${local}/api/user/exportation/xlxs`)
   try {
     return await axios.get( `${local}/api/user/exportation/xlxs`,{
       responseType: "arraybuffer",
@@ -146,7 +145,6 @@ const handleExportNV=async()=>{
         const dirtyFileName = data.headers['content-disposition'];
         const regex = /filename[^;=\n]*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/;
         var  fileName = dirtyFileName?.match(regex)[3];
-        console.log(data);
       const blob=new Blob([data.data],{
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
         encoding: "UTF-8",
@@ -348,7 +346,7 @@ const handleExportNV=async()=>{
           <div className="tableProfiles__search__btn">
           <button
           onClick={handleExportNV}
-          className='export-excel'>Xuất DS nhân viênnn <MdCloudDownload/></button>
+          className='export-excel'>Xuất DS nhân viên <MdCloudDownload/></button>
           <button className="create_acc_profile btn__search"
               onClick={() => {
                 if (!search?.full_name && !search?.dep_names && !search?.pos_names) {
@@ -429,14 +427,7 @@ const handleExportNV=async()=>{
              
             }} />
           <Column className="tableProfiles__hoTen" title="Họ và tên" dataIndex="full_name" key="hoTen" />
-          <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
-            render={(text, record, index) => {
-              let tenPB = [];
-              for (let PB of record.user_dep_pos) {
-                tenPB.push(<p>{PB.department_name}</p>)
-              }
-              return tenPB
-            }} />
+       
               <Column className="tableProfiles__chucVu" title="Sub/Label" key="chucVu"
             render={(text, record, index) => {
               let tenLabel = [];
@@ -444,6 +435,14 @@ const handleExportNV=async()=>{
                 tenLabel.push(<p>{PB?.label}</p>)
               }
               return tenLabel
+            }} />
+               <Column className="tableProfiles__phongBan" title="Bộ phận công tác" key="phongBan"
+            render={(text, record, index) => {
+              let tenPB = [];
+              for (let PB of record.user_dep_pos) {
+                tenPB.push(<p>{PB.department_name}</p>)
+              }
+              return tenPB
             }} />
           <Column className="tableProfiles__chucVu" title="Chức danh, chức vụ" key="chucVu"
             render={(text, record, index) => {

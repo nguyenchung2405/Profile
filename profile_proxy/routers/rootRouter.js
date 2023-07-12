@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-// const { createProxyMiddleware } = require("http-proxy-middleware");
 const { userRouter } = require("./userRouter");
 const rootRouter = express.Router();
 const { checkQuery, createNewUser } = require("../middleware/user.middleware");
@@ -17,7 +16,6 @@ const {
   uploadImageAvatar,
   uploadStep5,
   uploadStep7,
-  exportExcel,
 } = require("../middleware/upload");
 const {
   createProfile,
@@ -30,8 +28,6 @@ const {
   getUserInfor,
   update_dep_pos_degress_jourCard2,
 } = require("../controller/Profile.controller");
-// const FormData = require('form-data');
-// const fs=require("fs")
 const { depPosRouter } = require("./dep_pos");
 const { personalHistoryRouter } = require("./personal_history");
 const { partyRouter } = require("./party");
@@ -40,7 +36,7 @@ const { trainingFosteringRouter } = require("./trainingFosteringRouter");
 const { rewardDisciplineRouter } = require("./rewardDisciplineRouter");
 const { familyRelationshipRouter } = require("./familyRelationshipRouter");
 const { uploadFileIport } = require("../middleware/importData.middleware");
-const { importUser,exportUser } = require("../controller/UploadFileImport.controller");
+const { importUser } = require("../controller/UploadFileImport.controller");
 const { permissionRouter } = require("./permissionRouter");
 const { tableManagementRouter } = require("./tableManagementRouter");
 const { permissionPosRouter } = require("./permissionPosRouter");
@@ -56,36 +52,14 @@ var upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     cb(null, true);
+    // if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+    //   cb(null, true);
+    // } else {
+    //   cb(null, false);
+    //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    // }
   },
 });
-const API_URL = `${process.env.apiUser}`;
-const proxyOptions = {
-  target: API_URL,
-  changeOrigin: true,
-  pathRewrite: {
-      [`^/api`]: '',
-  },
-}
-// const proxy=createProxyMiddleware(proxyOptions)
-// app.use('/api/users/exportation',proxy)
-// app.use("/api/users/exportation",function(req,res){
-//   const config = {
-//     headers: { Authorization: req.headers.authorization },
-//   };
-//   axios.get(
-//     `${process.env.apiUser}/users/exportation/xlxs`,
-//     req.body.objCheck,
-//     config
-//   ).then((res)=>{
-//    try {
-//     const formData= new FormData();
-//     formData.append("file",e.target.files)
-// res.send(res)
-//    } catch (error) {
-//     console.log(error)
-//    }
-//   })
-// })
 var get_cookies = function(request) {
   var cookies = {};
   request.headers && request.headers.cookie.split(';').forEach(function(cookie) {
@@ -136,7 +110,6 @@ rootRouter.use("/permissions", permissionRouter);
 rootRouter.use("/table-management", tableManagementRouter);
 rootRouter.use("/permission-position", permissionPosRouter);
 rootRouter.use("/permission-department-position", permissionDepPosRouter);
-// rootRouter.get("/exportation",upload.single("filesExcel"),exportExcel)
 
 rootRouter.get("/users/users/me", getUserInfor);
 rootRouter.put(
@@ -157,7 +130,8 @@ rootRouter.put(
   update_dep_pos_degress_jourCard
 );
 rootRouter.post("/upload", upload.single("image3x4"), uploadUserAvatar);
-rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5);
+// rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5);
+rootRouter.post("/upload/step5",upload.single("file"), uploadFileStep5);
 rootRouter.post("/upload/step7", upload.single("filePDF"), uploadFileStep7);
 rootRouter.post(
   "/create",
@@ -172,7 +146,6 @@ rootRouter.post(
   create_dep_pos_degree_jourCard
 );
 // rootRouter.post("/profiles/importation", uploadFileIport(), importUser)
-// rootRouter.use("/users/exportation", upload.single("file"), exportUser)
 
 module.exports = {
   rootRouter,

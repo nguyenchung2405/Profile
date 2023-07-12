@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const { rootRouter } = require("./routers/rootRouter");
 const app = express();
-const FormData = require('form-data');
 const path = require("path");
 const bodyParser = require("body-parser")
 app.use(express.json());
@@ -16,19 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use("/profile_proxy/public", express.static(pathPublicDirectory));
 app.use("/api", rootRouter)
 app.use(express.static(path.join(__dirname, "../profile/dist")))
-console.log(`${process.env.apiUser}`)
-// module.exports = (app) => {
-//     app.use(proxy('/api/user/exportation', {
-//         target: `${process.env.apiUser}`,
-//         changeOrigin: true,
-//         pathRewrite:{
-//             '^/api': '', // remove base path
-        
-//           },
-//         logLevel: "debug"
-//     }));
-//     // mock(app);
-// }
 // Handle React routing, return all requests to React app
 app.get("*", (req, res) => {
     console.log("export")
