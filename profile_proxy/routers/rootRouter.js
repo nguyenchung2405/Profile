@@ -130,7 +130,8 @@ rootRouter.put(
   update_dep_pos_degress_jourCard
 );
 rootRouter.post("/upload", upload.single("image3x4"), uploadUserAvatar);
-rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5);
+// rootRouter.post("/upload/step5", uploadStep5(), uploadFileStep5);
+rootRouter.post("/upload/step5",upload.single("file"), uploadFileStep5);
 rootRouter.post("/upload/step7", upload.single("filePDF"), uploadFileStep7);
 rootRouter.post(
   "/create",

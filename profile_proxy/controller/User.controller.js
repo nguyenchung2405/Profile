@@ -5,7 +5,7 @@ const local = process.env.apiUser;
 const getAvatar = async (req,res)=>{
     try {
         let {id} = req.params;
-        console.log("Line 8",id)
+        // console.log("Line 8",id)
         let {headers: {authorization}} = req;
         const result = await axios({
             url: `${local}/user-resources/user/${id}`,

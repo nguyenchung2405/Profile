@@ -75,7 +75,9 @@ const uploadUserAvatar = async (req, res) => {
 
 const uploadFileStep5 = async (req, res) => {
   try {
-    let { user_id, type, imgIdExsisted } = req.body;
+    console.log(req.body)
+    let { user_id, type, imgIdExsisted,img } = req.body;
+    console.log("Line 79",imgIdExsisted)
     let {
       file,
       headers: { authorization },
@@ -83,41 +85,60 @@ const uploadFileStep5 = async (req, res) => {
     const pathFile = path.join(path.dirname(file.path), file.filename);
     const formData = new FormData();
     formData.append("files", fs.readFileSync(pathFile), file.filename);
-    formData.append("resource_type", "image");
-    formData.append("user_id", +user_id);
-    formData.append("user_resource_type", type);
-    const result = await axios({
-      url: `${local}/user-resources`,
+    // formData.append("resource_type", "image");
+    // formData.append("user_id", +user_id);
+    // formData.append("user_resource_type", type);
+    const resourceImage = await axios({
+      url: `${localResource}/resources/?service_management_id=profile-service&table_management_id=personal-history&type=personal-history&is_private=false`,
       method: "POST",
       headers: {
+        "Content-Type": "multipart/form-data",
+        ...formData.getHeaders(),
         Authorization: authorization,
       },
       data: formData,
     });
-    if (imgIdExsisted && typeof +imgIdExsisted === "number") {
-      axios({
-        url: `${local}/user-resources/${imgIdExsisted}`,
-        method: "DELETE",
+    let message=resourceImage.data.message
+    if(message==="Success"){
+      const resultUserResources = await axios({
+        url: `${local}/user-resources`,
+        method: "POST",
+        data: JSON.stringify({
+          user_id: +user_id,
+          type: "personal-history",
+          path: JSON.stringify([resourceImage.data.data.files[0]]),
+        }),
         headers: {
           Authorization: authorization,
+          "Content-Type": "application/json",
+          cache: "no-cache",
         },
       });
-    }
-    let { message } = result.data;
-    if (message === "Success") {
-      const result_getIMG = await axios({
-        url: `${local}/user-resources/user/${user_id}`,
-        method: "GET",
-        headers: {
-          Authorization: authorization,
-        },
-      });
-      res.send(result_getIMG.data);
-    } else {
-      res.send(result.data);
+      if (imgIdExsisted && typeof +imgIdExsisted === "number") {
+        axios({
+          url: `${local}/user-resources/${imgIdExsisted}`,
+          method: "DELETE",
+          headers: {
+            Authorization: authorization,
+          },
+        });
+      }
+      let {message2}=resultUserResources.data
+      if(message2==="Success"){
+        const getImagePersonalHistory=await axios({
+          url: `${local}/user-resources/user/${user_id}`,
+          method: "GET",
+          headers: {
+            Authorization: authorization,
+          },
+        })
+        res.send(getImagePersonalHistory.data)
+      }
+    }else{
+      res.send(resourceImage.data)
     }
   } catch (error) {
-    console.log(error);
+    console.log("Line 150",error);
     res.send(error);
   }
 };

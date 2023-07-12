@@ -302,7 +302,7 @@ function* updateProfileActive(payload) {
 
 function* createProfile(payload) {
   const {
-    valuesCreate: { valueForm, navigate },
+    valuesCreate: { valueForm, history },
   } = payload;
   // console.log(valuesCreate)
   let profile = mappingProfileStep1(valueForm);
@@ -329,7 +329,8 @@ function* createProfile(payload) {
   if (msg === "Thành công") {
     yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }));
     setTimeout(() => {
-      navigate("/profile-service/hr/profile");
+      // navigate("/profile-service/hr/profile");
+      history.push("/profile-service/hr/profile");
     }, 1000);
   } else {
     yield put(setMessageAlert({ type: "error", msg }));

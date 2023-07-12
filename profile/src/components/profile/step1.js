@@ -251,6 +251,7 @@ export default function SoYeuLyLich(props) {
             valuesCreate: { valueForm, history },
           });
         } else if (isOnLyCreateProfile && !isCreateProfile && user_id) {
+        //  USER ĐÃ CÓ
           dispatch({
             type: ONLY_CREATE_PROFILE,
             valuesCreate: { valueForm, user_id, history },
@@ -475,25 +476,51 @@ export default function SoYeuLyLich(props) {
             render ra */
       // console.log(phongBanChucVuArr)
       return newPBCVArr.map((infor, index) => {
-        console.log(infor.to)
         return (
           <div key={index}>
             <div className="renderPBCV">
               <ul>
-                <li >
-                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Sub/Label:</span>
+                <li style={{ display: "flex" }}>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      width: 150,
+                    }}
+                  >
+                    &#x2022;Sub/Label:
+                  </span>
+                  <p>{infor.to !== undefined ? infor.to : ""}</p>
                 </li>
-                <li>
-                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Phòng ban:</span>
+                <li style={{ display: "flex" }}>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      width: 150,
+                    }}
+                  >
+                    &#x2022;Phòng ban:
+                  </span>
+                  <p>{infor.phongBan}</p>
                 </li>
-                <li>
-                  <span style={{ fontWeight:'bold',textDecoration:'underline'}}>Chức vụ:</span>
+                <li style={{ display: "flex" }}>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      width: 150,
+                    }}
+                  >
+                    &#x2022;Chức vụ:
+                  </span>
+                  <p>{infor.chucVu}</p>
                 </li>
               </ul>
               <ul>
-                <p>{infor.to}</p>
+                {/* <p>{infor.to!==undefined?infor.to:""}</p>
                 <p>{infor.phongBan}</p>
-                <p>{infor.chucVu}</p>
+                <p>{infor.chucVu}</p> */}
               </ul>
             </div>
             {/* <AiOutlineMinus */}
@@ -1204,7 +1231,7 @@ export default function SoYeuLyLich(props) {
         </div>
         <div className="SYLL__right__field ">
           <div className="two__content">
-          <div className="second__content chucVuHienTai">
+            <div className="second__content chucVuHienTai">
               <label
                 style={{ fontWeight: "500", fontSize: 15 }}
                 htmlFor="chucVuHienTai"
@@ -1248,7 +1275,8 @@ export default function SoYeuLyLich(props) {
               phongBanChucVuArr.length < 1
                 ? showRequiredAlert()
                 : ""}
-            </div> <div className="fisrt__content phongBan">
+            </div>{" "}
+            <div className="fisrt__content phongBan">
               <label
                 style={{ fontWeight: "500", fontSize: 15 }}
                 htmlFor="phongBan"
@@ -1295,8 +1323,6 @@ export default function SoYeuLyLich(props) {
                 ? showRequiredAlert()
                 : ""}
             </div>
-
-            
             <div className="second__content chucVuHienTai">
               <label
                 style={{ fontWeight: "500", fontSize: 15 }}
