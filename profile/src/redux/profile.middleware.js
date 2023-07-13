@@ -221,23 +221,18 @@ function* updateProfile(payload) {
     yield put(setValues(rest));
     let profileUpdated = yield call(updateProfile_API, dataToUpdate, action);
     let msg = profileUpdated?.data[0]?.msg;
-    console.log(action)
+    console.log(msg)
     if (msg === "Thành công") {
-      console.log(action);
       yield put(
         setMessageAlert({ type: "success", msg: "Thao tác thành công" })
       );
       let decoded = jwt_decode(TOKEN);
       if (action === "send" || action === "reject") {
         if (+decoded.id === 1) {
-          console.log("1");
           yield put(setPathUrl("/profile-service/hr/profile"));
           yield put(setIsLoading(false))
           // yield history.push("/profile-service/hr/profile");
-        }else if(action==="save"){
-          yield put(setPathUrl("/profile-service/hr/profile"));
-          // yield put(setIsLoading(false))
-        } 
+        }
         else {
           yield put(setPathUrl("/"));
           yield put(setIsLoading(false))

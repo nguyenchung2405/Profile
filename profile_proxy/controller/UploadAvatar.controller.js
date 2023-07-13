@@ -89,7 +89,7 @@ const uploadFileStep5 = async (req, res) => {
     // formData.append("user_id", +user_id);
     // formData.append("user_resource_type", type);
     const resourceImage = await axios({
-      url: `${localResource}/resources/?service_management_id=profile-service&table_management_id=personal-history&type=personal-history&is_private=false`,
+      url: `${localResource}/resources/?service_management_id=profile-service&table_management_id=personal-history&type=${type}&is_private=false`,
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
@@ -105,7 +105,7 @@ const uploadFileStep5 = async (req, res) => {
         method: "POST",
         data: JSON.stringify({
           user_id: +user_id,
-          type: "personal-history",
+          type: type,
           path: JSON.stringify([resourceImage.data.data.files[0]]),
         }),
         headers: {
@@ -114,20 +114,21 @@ const uploadFileStep5 = async (req, res) => {
           cache: "no-cache",
         },
       });
-      // if (imgIdExsisted && typeof +imgIdExsisted === "number") {
-      //   try {
-      //     axios({
-      //       url: `${local}/user-resources/${imgIdExsisted}`,
-      //       method: "DELETE",
-      //       headers: {
-      //         Authorization: authorization,
-      //       },
-      //     });
-      //   } catch (error) {
-      //     res.send(error)
-      //     console.log("Line 129",error)
-      //   }
-      // }
+      if (imgIdExsisted && typeof +imgIdExsisted === "number" &&imgIdExsisted!=="undefined") {
+        try {
+          console.log("chung lozz");
+         await axios({
+            url: `${local}/user-resources/${imgIdExsisted}`,
+            method: "DELETE",
+            headers: {
+              Authorization: authorization,
+            },
+          });
+        } catch (error) {
+          res.send(error)
+          console.log("Line 129",error)
+        }
+      }
       const getImagePersonalHistory = await axios({
         url: `${local}/user-resources/user/${user_id}`,
         method: "GET",

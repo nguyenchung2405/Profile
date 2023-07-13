@@ -58,9 +58,18 @@ export default function Step7() {
   const [valueForm, setValueForm] = useState({});
   const [valueFormCon, setValueFormCon] = useState({});
   const [valueIntoModal, setValueIntoModal] = useState({});
-  let familyRelationShipFile = JSON.parse(
-    resources.filter((item) => item.type === "family-relationship")[0]?.path
-  ).toString();
+ const abc=()=>{
+
+   try {
+     let familyRelationShipFile = JSON.parse(
+       resources.filter((item) => item.type === "family-relationship")[0]?.path
+     ).toString();
+     return familyRelationShipFile
+   } catch (error) {
+     console.log(error)
+   }
+  
+ }
   // console.log(resources)
   // console.log(valueFormCon)
   // console.log(familyRelationship)
@@ -440,7 +449,8 @@ export default function Step7() {
           <DisplayPDF
             isShowModal={isShowModalAsset}
             setIsShowModal={setIsShowModalAsset}
-            resource={familyRelationShipFile}
+            // resource={familyRelationShipFile}
+            resource={abc()}
           />
         </div>
         <div className="vo">

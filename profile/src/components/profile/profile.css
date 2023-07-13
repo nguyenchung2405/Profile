@@ -767,6 +767,42 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
     font-size: medium;
     font-weight: 400;
 }
+#email:disabled{
+    color:#333;
+}
+#emailPerson:disabled{
+    color:#333;
+}
+#soDienThoai:disabled{
+    color:#333;
+}
+#soDienThoaiNoiBo:disabled{
+    color:#333;
+    
+}
+#NoiOHienTai:disabled{
+    color:#333
+}
+#hoKhauThuongTru:disabled{
+    color:#333
+}
+#canCuocCD:disabled{
+    color:#333
+}
+#thanhPhanXuatThan:disabled{
+    color:#333
+    
+}
+#ngheNghiep:disabled{
+    color:#333
+    
+}
+.ant-radio-disabled+span{
+    color:#333
+}
+.ant-picker-input>input[disabled]{
+    color:#333
+}
 #tenThuongGoi{
     font-size: medium;
     font-weight: 400;
@@ -777,6 +813,14 @@ section .ant-steps-item>.ant-steps-item-container>.ant-steps-item-icon .ant-step
 #hoTen{
     font-size: medium;
     font-weight: 400;
+}
+#hoTen:disabled{
+    color:#333;
+    /* font-weight: 500; */
+}
+#tenThuongGoi:disabled{
+    color:#333;
+
 }
 #hoKhauThuongTru {
     font-size: medium;

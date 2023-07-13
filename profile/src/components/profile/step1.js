@@ -1085,9 +1085,9 @@ export default function SoYeuLyLich(props) {
               onChange={handleChangeValueRadioLyLuan}
               value={setValueIntoForm("lyLuanCT")}
             >
-              <Radio value="Sơ cấp">Sơ cấp</Radio>
-              <Radio value="Trung cấp">Trung cấp</Radio>
-              <Radio value="Cao cấp">Cao cấp</Radio>
+              <Radio className="political_theory" value="Sơ cấp">Sơ cấp</Radio>
+              <Radio className="political_theory" value="Trung cấp">Trung cấp</Radio>
+              <Radio className="political_theory" value="Cao cấp">Cao cấp</Radio>
             </Radio.Group>
           </label>
           {/* <input
