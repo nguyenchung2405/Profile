@@ -125,10 +125,19 @@ const create_dep_pos_degree_jourCard = (req,res)=>{
 
 const update_dep_pos_degress_jourCard = (req,res)=>{
     console.log("abcd")
+    var get_cookies = function(request) {
+        var cookies = {};
+        request.headers && request.headers.cookie.split(';').forEach(function(cookie) {
+          var parts = cookie.match(/(.*?)=(.*)$/)
+          cookies[ parts[1].trim() ] = (parts[2] || '').trim();
+        });
+        return cookies;
+      };
     try {
         // console.log("update_dep_pos_degress_jourCard")
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor, workObject, work_object_id} = req.body;
         // console.log(jourCard)
+        console.log("Line 132",req)
         let {headers: {authorization}} = req;
         console.log("Line 133",authorization)
         let promiseArr = [];
@@ -172,7 +181,8 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             data: restJourCard
         });
         console.log(user_id===1)
-        if(user_id==1){
+        console.log(user_id)
+        if(get_cookies(req)['emails']==='erpmanager%40tuoitre.com.vn'){
             const updateUserInfor = axios({
                 url: `${process.env.apiUser}/users/${user_id}`,
                 // url: `${process.env.apiUser}/users/users/me`,

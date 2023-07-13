@@ -1,11 +1,17 @@
 import React from 'react'
 import { Spin } from 'antd';
 import '../../src/components/profile/profile.css'
+import background from './background.svg'
 export default function Loading() {
   
   return (
-    <Spin indicator={
-      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{margin:"auto",display:"block",}} width="200px" height="200px" viewBox="0 0 100 100" >
+    <Spin
+    style={{backgroundImage:`url(${background})`}}
+    indicator={
+      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={
+        {margin:"auto",
+      display:"block",}
+      } width="200px" height="200px" viewBox="0 0 100 100" >
 
       <g>
         <animateTransform attributeName="transform" type="rotate" values="360 50 50;0 50 50" keyTimes="0;1" dur="1s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1" begin="-0.1s"></animateTransform>
@@ -52,6 +58,7 @@ export default function Loading() {
       
       </g>
       </svg>
+      
   }>
     </Spin>
 
