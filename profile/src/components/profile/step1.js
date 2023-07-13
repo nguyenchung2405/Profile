@@ -45,7 +45,6 @@ import ThongTinCoBan from "./ThongTinCoBan";
 import DiaChiLienHe from "./DiaChiLienHe";
 import ThongTinCaNhan from "./ThongTinCaNhan";
 import { handleDateTime } from "../../ultils/helper";
-
 export default function SoYeuLyLich(props) {
   const { Option } = Select;
   const dispatch = useDispatch();

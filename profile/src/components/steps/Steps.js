@@ -21,7 +21,6 @@ import { clearParty } from '../../redux/Steps/step3.slice';
 import jwt_decode from "jwt-decode";
 import {TOKEN} from "../../title/title"
 import { userInforEmpty } from '../../ultils/defaultUserInfor';
-
 export default function StepsAntd() {
 
   const { Step } = Steps;
@@ -191,9 +190,11 @@ export default function StepsAntd() {
                     if(status.state === "SENDING" || status.state === "SAVED" || status.state === "NEW"){
                         return <>
                           <button className="SoYeuLyLich__btn btn__update" onClick={(e)=>{
+                            dispatch(setIsLoading(true))
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("save"))
-                          }}>Lưu</button>
+                              dispatch(setIsLoading(false))
+                    }}>Lưu</button>
                           <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("send"))
@@ -223,13 +224,15 @@ export default function StepsAntd() {
               || status.state === "NEW" || status.state === "INACTIVE"){
                   return <>
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
-                      dispatch(setIsSubmit(true))
-                      dispatch(setAction("save"))
+                    dispatch(setAction("save"))
+                    dispatch(setIsSubmit(true))
+                  dispatch(setIsLoading(false))
                   }}>Lưu</button>
                   <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
-                      dispatch(setIsSubmit(true))
-                      dispatch(setAction("send"))
-                  }}>Gửi</button>
+                    dispatch(setIsSubmit(true))
+                    dispatch(setAction("send"))
+                    dispatch(setIsLoading(true))
+                    }}>Gửi</button>
                 </>
               }
             } else if( proID === undefined && decoded.id !== user_id) {

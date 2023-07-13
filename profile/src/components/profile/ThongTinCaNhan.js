@@ -11,18 +11,6 @@ const { Option } = Select;
 return (
     <>
         <div className="SYLL__right__field">
-        <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span>
-        </label>
-        <input id="canCuocCD" name="canCuocCD" type="text" 
-        disabled={disabledInput()}
-        value={setValueIntoForm("canCuocCD")}
-        onBlur={validateField}
-        onChange={(e)=>{
-            handleChangeGetValueInput(e)
-        }} />
-        {validateForm.canCuocCD ? showRequiredAlert() : ""}
-        </div>
-        <div className="SYLL__right__field">
           <label htmlFor="lyLuanCT">
             Đối tượng lao động:
             <span className="required__field"> *</span>
@@ -60,6 +48,19 @@ return (
           </Select>
           {validateForm.loaiNV ? showRequiredAlert() : ""}
         </div>
+        <div className="SYLL__right__field">
+        <label htmlFor='canCuocCD'>Số căn cước công dân:<span className="required__field"> *</span>
+        </label>
+        <input id="canCuocCD" name="canCuocCD" type="text" 
+        disabled={disabledInput()}
+        value={setValueIntoForm("canCuocCD")}
+        onBlur={validateField}
+        onChange={(e)=>{
+            handleChangeGetValueInput(e)
+        }} />
+        {validateForm.canCuocCD ? showRequiredAlert() : ""}
+        </div>
+    
         <div className="SYLL__right__field two__content">
             <div className="fisrt__content ngayThamGiaCM">
                 <label style={{fontWeight:'500',fontSize:15}}>Ngày cấp:<span className="required__field"> *</span>
@@ -98,7 +99,7 @@ return (
                 {validateForm.ngayCapCCCD ? showRequiredAlert() : ""}
             </div>
             <div className="second__content toChuc">
-                <label style={{fontWeight:'500',fontSize:15}} htmlFor="noiCapCCCD">Nơi cấp:
+                <label style={{fontWeight:'500',fontSize:15}} htmlFor="noiCapCCCD">Nơi cấp:<span className="required__field"> *</span>
                 </label>
                 <input id="noiCapCCCD" name="noiCapCCCD" type="text"
                 disabled={disabledInput()} 
