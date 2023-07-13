@@ -75,9 +75,9 @@ const uploadUserAvatar = async (req, res) => {
 
 const uploadFileStep5 = async (req, res) => {
   try {
-    console.log(req.body)
-    let { user_id, type, imgIdExsisted,img } = req.body;
-    console.log("Line 79",imgIdExsisted)
+    console.log(req.body);
+    let { user_id, type, imgIdExsisted } = req.body;
+    console.log("Line 79", imgIdExsisted);
     let {
       file,
       headers: { authorization },
@@ -98,8 +98,8 @@ const uploadFileStep5 = async (req, res) => {
       },
       data: formData,
     });
-    let message=resourceImage.data.message
-    if(message==="Success"){
+    let message = resourceImage.data.message;
+    if (message === "Success") {
       const resultUserResources = await axios({
         url: `${local}/user-resources`,
         method: "POST",
@@ -114,54 +114,56 @@ const uploadFileStep5 = async (req, res) => {
           cache: "no-cache",
         },
       });
-      if (imgIdExsisted && typeof +imgIdExsisted === "number") {
-        axios({
-          url: `${local}/user-resources/${imgIdExsisted}`,
-          method: "DELETE",
-          headers: {
-            Authorization: authorization,
-          },
-        });
-      }
-      let {message2}=resultUserResources.data
-      if(message2==="Success"){
-        const getImagePersonalHistory=await axios({
-          url: `${local}/user-resources/user/${user_id}`,
-          method: "GET",
-          headers: {
-            Authorization: authorization,
-          },
-        })
-        res.send(getImagePersonalHistory.data)
-      }
-    }else{
-      res.send(resourceImage.data)
+      // if (imgIdExsisted && typeof +imgIdExsisted === "number") {
+      //   try {
+      //     axios({
+      //       url: `${local}/user-resources/${imgIdExsisted}`,
+      //       method: "DELETE",
+      //       headers: {
+      //         Authorization: authorization,
+      //       },
+      //     });
+      //   } catch (error) {
+      //     res.send(error)
+      //     console.log("Line 129",error)
+      //   }
+      // }
+      const getImagePersonalHistory = await axios({
+        url: `${local}/user-resources/user/${user_id}`,
+        method: "GET",
+        headers: {
+          Authorization: authorization,
+        },
+      });
+      res.send(getImagePersonalHistory.data);
+    } else {
+      res.send(resourceImage.data);
     }
   } catch (error) {
-    console.log("Line 150",error);
+    console.log("Line 150", error);
     res.send(error);
   }
 };
-const exportExcel=async(req,res)=>{
+const exportExcel = async (req, res) => {
   try {
     const formData = new FormData();
     formData.append("files", fs.readFileSync(file.path), file.filename);
-  const exportData=await axios({
-    url:`${local}/users/exportation/xlxszzz`,
-    method:"GET",
-    headers:{
-      "Content-Type": "multipart/form-data",
-      ...formData.getHeaders(),
-      Authorization: authorization,
-    },
-    data:formData
-  })
-  res.send(exportData.data)
+    const exportData = await axios({
+      url: `${local}/users/exportation/xlxszzz`,
+      method: "GET",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...formData.getHeaders(),
+        Authorization: authorization,
+      },
+      data: formData,
+    });
+    res.send(exportData.data);
   } catch (error) {
-    res.send(error)
-    console.log(error)
+    res.send(error);
+    console.log(error);
   }
-}
+};
 const uploadFileStep7 = async (req, res) => {
   try {
     let { user_id } = req.body;
@@ -206,7 +208,7 @@ const uploadFileStep7 = async (req, res) => {
         },
       });
       res.send(get_family_relationship.data);
-    }else{
+    } else {
       res.send(result_getResources.data);
     }
   } catch (error) {
@@ -219,5 +221,5 @@ module.exports = {
   uploadUserAvatar,
   uploadFileStep5,
   uploadFileStep7,
-  exportExcel
+  exportExcel,
 };

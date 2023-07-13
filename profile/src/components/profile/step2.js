@@ -33,7 +33,6 @@ export default function Step2() {
   let [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
 
   const quaTrinh = personal_history.map((history) => {
-    console.log(history)
     let tuNgay = moment(new Date(history?.work_from?.concat(".000Z"))).format(
       "DD/MM/YYYY"
     );
@@ -46,17 +45,18 @@ export default function Step2() {
     // console.log(imgType);
     // console.log(resources)
     // let imgStudy = resources.find(img => img.type === imgType);
-    let typeImg=(e)=>e==="personal-history"
-    // console.log(resources.findIndex(typeImg))
-    let imgStudy = resources.findIndex((img) => 
+    let typeImg=(element)=>element.type==="personal-history"
+    let imgStudy = resources.findLastIndex((img) => 
       img.type==="personal-history"
     );
-    // console.log(imgStudy);
+    let imageId=resources.findLastIndex(typeImg)
+    let img=resources[imageId]
     return {
       title: `${tuNgay} - ${denNgay}`,
       description,
       id: history.id,
-      imgStudy,
+      // imgStudy,
+      imageId,
     };
   });
 
@@ -79,7 +79,6 @@ export default function Step2() {
       <div className="Step2__content">
         <p>Quá trình học tập và làm việc:</p>
         {quaTrinh.map((item, index) => {
-          console.log(item);
           return (
             <div className="process">
               <div className="point"></div>
@@ -115,12 +114,11 @@ export default function Step2() {
                   onChange={async (e) => {
                     const form = new FormData();
                     // let imgIdExsisted = item?.imgStudy?.id;
-                    let imgIdExsisted = item?.id;
+                    let imgIdExsisted = item?.imageId;
                     form.append("file", e.target.files[0]);
                     form.append("user_id", user_profile_id.user_id);
                     form.append("type", `history_${item.id}`);
                     form.append("imgIdExsisted", imgIdExsisted);
-                    form.append("img", item?.imageFiles);
                     const uploadFile = await axios({
                       url: `${local}/api/upload/step5`,
                       method: "POST",
@@ -134,8 +132,8 @@ export default function Step2() {
                 />
               </div>
               <div className="image__files">
-                <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đính kèm" />
-                {/* <Image src={`https://dev-resource.tuoitre.vn${JSON.parse(item.imageFiles).toString()}`} alt="ảnh đính kèm" /> */}
+                {/* <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đính kèm" /> */}
+                <Image src={`https://dev-resource.tuoitre.vn${JSON.parse(resources[item?.imageId].path).toString()}`} alt="ảnh đính kèm" />
               </div>
             </div>
           );

@@ -130,6 +130,7 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor, workObject, work_object_id} = req.body;
         // console.log(jourCard)
         let {headers: {authorization}} = req;
+        console.log("Line 133",authorization)
         let promiseArr = [];
         // console.log(depPos)
         for(let i = 0; i < depPos.length; i++){
@@ -170,39 +171,98 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             },
             data: restJourCard
         });
-        const updateUserInfor = axios({
-            url: `${process.env.apiUser}/users/${user_id}`,
-            method: "PUT",
-            headers: {
-                Authorization: authorization
-            },
-            data: {...userInfor, service_management_id: 2}
-        });
+        console.log(user_id)
+        if(user_id==1){
+            const updateUserInfor = axios({
+                url: `${process.env.apiUser}/users/users/me/${user_id}`,
+                // url: `${process.env.apiUser}/users/users/me`,
+                method: "PUT",
+                headers: {
+                    Authorization: authorization
+                },
+                data: {...userInfor, service_management_id: 2}
+            });
+            const updateWorkObject = axios({
+                url: `${local}/work-object/${work_object_id}`,
+                method: "PUT",
+                headers: {
+                    Authorization: authorization
+                },
+                data: workObject
+            })
+            Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor, updateWorkObject])
+            .then((resolve)=>{
+                let result = [];
+                for(let i = 0; i < resolve.length; i++){
+                    // console.log(resolve[i].data)
+                    result.push(resolve[i].data)
+                }
+                result.unshift({msg: "Thành công"})
+                res.send(result)
+            })
+            .catch((err)=>{
+                console.log("Line 204 Lỗi ở update_dep_pos_degress_jourCard")
+                res.send(err)
+            })
+        }else{
+            const updateUserInfor = axios({
+                // url: `${process.env.apiUser}/users/users/me/${user_id}`,
+                url: `${process.env.apiUser}/users/users/me`,
+                method: "PUT",
+                headers: {
+                    Authorization: authorization
+                },
+                data: {...userInfor, service_management_id: 2}
+            });
+            const updateWorkObject = axios({
+                url: `${local}/work-object/${work_object_id}`,
+                method: "PUT",
+                headers: {
+                    Authorization: authorization
+                },
+                data: workObject
+            })
+            Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor, updateWorkObject])
+            .then((resolve)=>{
+                let result = [];
+                for(let i = 0; i < resolve.length; i++){
+                    // console.log(resolve[i].data)
+                    result.push(resolve[i].data)
+                }
+                result.unshift({msg: "Thành công"})
+                res.send(result)
+            })
+            .catch((err)=>{
+                console.log("Line 236 Lỗi ở update_dep_pos_degress_jourCard")
+                res.send(err)
+            })
+        }
+      
         
-        const updateWorkObject = axios({
-            url: `${local}/work-object/${work_object_id}`,
-            method: "PUT",
-            headers: {
-                Authorization: authorization
-            },
-            data: workObject
-        })
-        Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor, updateWorkObject])
-        .then((resolve)=>{
-            let result = [];
-            for(let i = 0; i < resolve.length; i++){
-                // console.log(resolve[i].data)
-                result.push(resolve[i].data)
-            }
-            result.unshift({msg: "Thành công"})
-            res.send(result)
-        })
-        .catch((err)=>{
-            console.log("Line 198 Lỗi ở update_dep_pos_degress_jourCard")
-            res.send(err)
-        })
+        // const updateWorkObject = axios({
+        //     url: `${local}/work-object/${work_object_id}`,
+        //     method: "PUT",
+        //     headers: {
+        //         Authorization: authorization
+        //     },
+        //     data: workObject
+        // })
+        // Promise.all([ ...promiseArr,updateDegree, updateJourCard, updateUserInfor, updateWorkObject])
+        // .then((resolve)=>{
+        //     let result = [];
+        //     for(let i = 0; i < resolve.length; i++){
+        //         // console.log(resolve[i].data)
+        //         result.push(resolve[i].data)
+        //     }
+        //     result.unshift({msg: "Thành công"})
+        //     res.send(result)
+        // })
+        // .catch((err)=>{
+        //     console.log("Line 198 Lỗi ở update_dep_pos_degress_jourCard")
+        //     res.send(err)
+        // })
     } catch (error) {
-        console.log("Lỗi ở update_dep_pos_degress_jourCard 123")
+        console.log("Lỗi ở update_dep_pos_degress_jourCard 265")
         res.send(error)
     }
 }
@@ -283,7 +343,7 @@ const update_dep_pos_degress_jourCard2 = (req,res)=>{
             res.send(err)
         })
     } catch (error) {
-        console.log("Lỗi ở update_dep_pos_degress_jourCard 123")
+        console.log("Lỗi ở update_dep_pos_degress_jourCard 346")
         res.send(error)
     }
 }

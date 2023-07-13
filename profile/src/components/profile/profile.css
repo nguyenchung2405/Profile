@@ -115,14 +115,19 @@
 .SYLL__left__field .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
     font-weight: 400;
-    color: rgba(102, 102, 102, 0.5);
+    /* color: rgba(102, 102, 102, 0.5); */
+    color: #333;
+    font-family: 'Trocchi', serif;
+
     justify-content: center;
 }
 
 .SYLL__right__field .ant-select .ant-select-selector .ant-select-selection-item {
     font-size: 16px;
-    font-weight: 600;
-    color: rgba(102, 102, 102, 0.5);
+    font-weight: 400;
+    /* color: rgba(102, 102, 102, 0.5); */
+    color: #7c795d;
+    font-family: 'Trocchi', serif;
 }
 
 .SYLL__left__field .ant-radio-group .ant-radio {

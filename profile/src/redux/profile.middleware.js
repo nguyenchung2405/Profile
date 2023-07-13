@@ -231,10 +231,11 @@ function* updateProfile(payload) {
         if (+decoded.id === 1) {
           console.log("1");
           yield put(setPathUrl("/profile-service/hr/profile"));
+          yield put(setIsLoading(false))
           // yield history.push("/profile-service/hr/profile");
         } else {
-          console.log("11");
           yield put(setPathUrl("/"));
+          yield put(setIsLoading(false))
         }
       }
       yield put(setIsSubmit(false));
