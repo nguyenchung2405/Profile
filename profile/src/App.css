@@ -272,7 +272,7 @@ div.App_Profile_service div div section .ant-steps .ant-steps-item:not(.ant-step
 .App_Profile_service > div:nth-child(2){
     position: relative;
     left: 265px;
-    width: calc(100% - 265px);
+    width: calc(100% - 350px);
     height: auto;
     padding: 30px;
     min-height: 100vh;

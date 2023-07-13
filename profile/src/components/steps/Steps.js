@@ -190,10 +190,8 @@ export default function StepsAntd() {
                     if(status.state === "SENDING" || status.state === "SAVED" || status.state === "NEW"){
                         return <>
                           <button className="SoYeuLyLich__btn btn__update" onClick={(e)=>{
-                            dispatch(setIsLoading(true))
                               dispatch(setIsSubmit(true))
                               dispatch(setAction("save"))
-                              dispatch(setIsLoading(false))
                     }}>Lưu</button>
                           <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                               dispatch(setIsSubmit(true))
@@ -226,12 +224,10 @@ export default function StepsAntd() {
                   <button className="SoYeuLyLich__btn btn__update" onClick={()=>{
                     dispatch(setAction("save"))
                     dispatch(setIsSubmit(true))
-                  dispatch(setIsLoading(false))
                   }}>Lưu</button>
                   <button className="SoYeuLyLich__btn btn__send" onClick={()=>{
                     dispatch(setIsSubmit(true))
                     dispatch(setAction("send"))
-                    dispatch(setIsLoading(true))
                     }}>Gửi</button>
                 </>
               }

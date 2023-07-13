@@ -221,6 +221,7 @@ function* updateProfile(payload) {
     yield put(setValues(rest));
     let profileUpdated = yield call(updateProfile_API, dataToUpdate, action);
     let msg = profileUpdated?.data[0]?.msg;
+    console.log(action)
     if (msg === "Thành công") {
       console.log(action);
       yield put(
@@ -233,7 +234,11 @@ function* updateProfile(payload) {
           yield put(setPathUrl("/profile-service/hr/profile"));
           yield put(setIsLoading(false))
           // yield history.push("/profile-service/hr/profile");
-        } else {
+        }else if(action==="save"){
+          yield put(setPathUrl("/profile-service/hr/profile"));
+          // yield put(setIsLoading(false))
+        } 
+        else {
           yield put(setPathUrl("/"));
           yield put(setIsLoading(false))
         }
@@ -330,9 +335,10 @@ function* createProfile(payload) {
   if (msg === "Thành công") {
     yield put(setMessageAlert({ type: "success", msg: "Thao tác thành công" }));
     setTimeout(() => {
-      // navigate("/profile-service/hr/profile");
-      history.push("/profile-service/hr/profile");
+      // history.push("/profile-service/hr/profile");
+      
     }, 1000);
+      yield put(setPathUrl("/profile-service/hr/profile"));
   } else {
     yield put(setMessageAlert({ type: "error", msg }));
     // navigate("/profile-service/hr/profile")

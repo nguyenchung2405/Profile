@@ -124,7 +124,7 @@ export default function ThongTinCoBan(props) {
             }} />
         </div>
         <div className="SYLL__left__field birthday">
-            <label>Ngày tháng năm sinh:<span className="required__field"> *</span></label>
+            <label>Ngày tháng năm sinh(DD-MM-YYYY):<span className="required__field"> *</span></label>
             <DatePicker 
                 disabled={disabledInput()}
                 value={

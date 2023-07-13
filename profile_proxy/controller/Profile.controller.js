@@ -171,10 +171,10 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             },
             data: restJourCard
         });
-        console.log(user_id)
+        console.log(user_id===1)
         if(user_id==1){
             const updateUserInfor = axios({
-                url: `${process.env.apiUser}/users/users/me/${user_id}`,
+                url: `${process.env.apiUser}/users/${user_id}`,
                 // url: `${process.env.apiUser}/users/users/me`,
                 method: "PUT",
                 headers: {
