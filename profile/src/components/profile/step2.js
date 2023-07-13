@@ -41,13 +41,13 @@ export default function Step2() {
     );
     let description = history.work_place;
     // let imgType = `history_${history.id}`;
-    let imgType = `history_${history.id}`;
+    let imgType = `personal-history_${history.id}`;
     // console.log(imgType);
     // console.log(resources)
     // let imgStudy = resources.find(img => img.type === imgType);
     let typeImg=(element)=>element.type==="personal-history"
-    let imgStudy = resources.findLastIndex((img) => 
-      img.type==="personal-history"
+    let imgStudy = resources.find((img) => 
+    img.type===imgType
     );
     let imageId=resources.findLastIndex(typeImg)
     let img=resources[imageId]
@@ -55,8 +55,8 @@ export default function Step2() {
       title: `${tuNgay} - ${denNgay}`,
       description,
       id: history.id,
-      // imgStudy,
-      imageId,
+      imgStudy,
+      // imageId,
     };
   });
 
@@ -79,6 +79,7 @@ export default function Step2() {
       <div className="Step2__content">
         <p>Quá trình học tập và làm việc:</p>
         {quaTrinh.map((item, index) => {
+          console.log(item)
           return (
             <div className="process">
               <div className="point"></div>
@@ -104,20 +105,20 @@ export default function Step2() {
                 }}
               />
               <div className="upload__section">
-                <label className="upload__label" htmlFor={`history_${item.id}`}>
+                <label className="upload__label" htmlFor={`personal-history_${item.id}`}>
                   <FcAddImage />
                 </label>
                 <input
-                  id={`history_${item.id}`}
+                  id={`personal-history_${item.id}`}
                   type="file"
                   className="upload__input"
                   onChange={async (e) => {
                     const form = new FormData();
-                    // let imgIdExsisted = item?.imgStudy?.id;
-                    let imgIdExsisted = item?.imageId;
+                    let imgIdExsisted = item?.imgStudy?.id;
+                    // let imgIdExsisted = item?.imageId;
                     form.append("file", e.target.files[0]);
                     form.append("user_id", user_profile_id.user_id);
-                    form.append("type", `history_${item.id}`);
+                    form.append("type", `personal-history_${item.id}`);
                     form.append("imgIdExsisted", imgIdExsisted);
                     const uploadFile = await axios({
                       url: `${local}/api/upload/step5`,
@@ -133,7 +134,7 @@ export default function Step2() {
               </div>
               <div className="image__files">
                 {/* <Image src={`data:image/png;base64,${item.imgStudy?.resource?.content}`} alt="ảnh đính kèm" /> */}
-                <Image src={`https://dev-resource.tuoitre.vn${JSON.parse(resources[item?.imageId].path).toString()}`} alt="ảnh đính kèm" />
+                <Image src={item?.imgStudy?.path.length>0?`https://dev-resource.tuoitre.vn${JSON.parse(item?.imgStudy?.path).toString()}`:""} alt="ảnh đính kèm" />
               </div>
             </div>
           );

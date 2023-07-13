@@ -137,9 +137,9 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
         // console.log("update_dep_pos_degress_jourCard")
         let {depPos, userDegree, jourCard, jour_card_id, user_degree_id,user_id, pro_id, userInfor, workObject, work_object_id} = req.body;
         // console.log(jourCard)
-        console.log("Line 132",req)
+        // console.log("Line 132",req)
         let {headers: {authorization}} = req;
-        console.log("Line 133",authorization)
+        // console.log("Line 133",authorization)
         let promiseArr = [];
         // console.log(depPos)
         for(let i = 0; i < depPos.length; i++){
@@ -180,8 +180,6 @@ const update_dep_pos_degress_jourCard = (req,res)=>{
             },
             data: restJourCard
         });
-        console.log(user_id===1)
-        console.log(user_id)
         if(get_cookies(req)['emails']==='erpmanager%40tuoitre.com.vn'){
             const updateUserInfor = axios({
                 url: `${process.env.apiUser}/users/${user_id}`,

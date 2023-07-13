@@ -7,7 +7,7 @@ export default function DisplayPDF(props) {
     const handleCancel = () => {
         setIsShowModal(false);
     };
-
+console.log(resource)
   return (
     <div className="display__pdf">
         <Modal
