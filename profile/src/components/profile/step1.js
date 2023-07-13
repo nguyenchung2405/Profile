@@ -45,6 +45,7 @@ import ThongTinCoBan from "./ThongTinCoBan";
 import DiaChiLienHe from "./DiaChiLienHe";
 import ThongTinCaNhan from "./ThongTinCaNhan";
 import { handleDateTime } from "../../ultils/helper";
+import { setIsLoading } from "../../redux/Slice/loading";
 export default function SoYeuLyLich(props) {
   const { Option } = Select;
   const dispatch = useDispatch();
@@ -244,6 +245,8 @@ export default function SoYeuLyLich(props) {
               work_object_id,
             },
           });
+          dispatch(setIsLoading(true))
+
         } else if (isCreateProfile) {
           dispatch({
             type: CREATE_PROFILE,
@@ -281,8 +284,10 @@ export default function SoYeuLyLich(props) {
           });
         }
         setTimeout(() => {
+          // dispatch(setIsLoading(true))
           dispatch(setMessageAlert({ type: "", msg: "" }));
-        }, 1000);
+          dispatch(setIsLoading(false))
+        }, 3500);
       }
     }
   }, [isSubmit]);
